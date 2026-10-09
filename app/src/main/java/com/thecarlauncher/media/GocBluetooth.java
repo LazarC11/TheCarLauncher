@@ -308,10 +308,16 @@ public final class GocBluetooth {
                 changed = true;
             }
         } else if (("MT".equals(code) || "ML".equals(code)) && first.length() > 2) {
-            // Some firmwares send the song length on its own line.
-            long l = songLength(toMs(number(first.substring(2))));
-            if (l > 0) {
-                lenMs = l;
+            // This unit: "MT" + 8-digit position + 8-digit length, both decimal ms,
+            // e.g. MT0001146900214000 = 0:11 of 3:34.
+            long[] pl = parsePosition(first.substring(2), f);
+            if (pl != null) {
+                if (pl[0] >= 0 && pl[1] > 0) {
+                    posMs = pl[0];
+                    posAt = System.currentTimeMillis();
+                }
+                long l = songLength(pl[1]);
+                if (l > 0) lenMs = l;
                 changed = true;
             }
         } else if ("PS".equals(code) && first.length() >= 6) {
@@ -368,6 +374,9 @@ public final class GocBluetooth {
             if (a != null) return new long[]{toMs(number(a)), toMs(number(b))};
             if (head.matches("[0-9A-Fa-f]{8}")) {
                 return new long[]{Long.parseLong(head.substring(0, 4), 16) * 1000L, Long.parseLong(head.substring(4, 8), 16) * 1000L};
+            }
+            if (head.matches("\\d{16}")) {
+                return new long[]{Long.parseLong(head.substring(0, 8)), Long.parseLong(head.substring(8, 16))};
             }
             if (head.matches("[0-9A-Fa-f]{16}")) {
                 return new long[]{Long.parseLong(head.substring(0, 8), 16), Long.parseLong(head.substring(8, 16), 16)};
