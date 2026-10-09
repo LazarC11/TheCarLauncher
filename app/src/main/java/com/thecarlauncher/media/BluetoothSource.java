@@ -83,6 +83,10 @@ public final class BluetoothSource {
         String p = Prefs.str(app, Prefs.BT_PKG, null);
         if (p != null && p.contains("/")) p = p.substring(0, p.indexOf('/'));
         if (p != null && installed(p)) return p;
+        // The package whose media session looked like Bluetooth music (works even when the
+        // app has no launcher icon and its screens are not exported).
+        String s = Prefs.str(app, Prefs.BT_SESSION_PKG, null);
+        if (s != null && installed(s)) return s;
         AppRepository.App hidden = AppRepository.get(app).bluetoothMusic();
         if (hidden != null) return hidden.pkg;
         List<String> c = candidates(app);
@@ -108,7 +112,7 @@ public final class BluetoothSource {
         // Hidden factory screens first (keys "package/class"), e.g. the unit's "Bluetooth Music".
         for (AppRepository.App a : AppRepository.get(c).all()) if (a.hidden) music.add(a.key());
         for (AppRepository.App a : AppRepository.get(c).all()) {
-            if (a.hidden) continue;
+            if (a.hidden || a.pkg.startsWith("@")) continue;
             String hay = a.pkg + " " + a.label;
             if (!BT_APP.matcher(hay).matches() || NOT_BT.matcher(hay).matches()) continue;
             if (music.contains(a.pkg) || other.contains(a.pkg)) continue;
@@ -118,6 +122,20 @@ public final class BluetoothSource {
         }
         music.addAll(other);
         return music;
+    }
+
+    /** Heuristic for a media session that belongs to the unit's Bluetooth music. */
+    public boolean looksLikeBluetooth(String pkg) {
+        if (pkg == null || pkg.equals(app.getPackageName())) return false;
+        String l = pkg.toLowerCase(Locale.ROOT);
+        if (l.contains("bluetooth") || l.matches(".*\\.bt(\\.|music|audio|$).*") || l.contains("btmusic") || l.contains("a2dp")) return true;
+        try {
+            PackageManager pm = app.getPackageManager();
+            String label = pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString().toLowerCase(Locale.ROOT);
+            return label.contains("bluetooth") || label.matches("(?i).*\\bbt\\b.*") || label.contains("蓝牙");
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isBluetoothPackage(String pkg) {

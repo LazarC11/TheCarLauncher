@@ -167,6 +167,9 @@ public final class MediaHub {
 
     private void add(final String pkg, final MediaController mc) {
         if (controllers.containsKey(pkg)) remove(pkg);
+        if (!pkg.equals(app.getPackageName()) && bt.looksLikeBluetooth(pkg)) {
+            Prefs.put(app, Prefs.BT_SESSION_PKG, pkg);
+        }
         MediaController.Callback cb = new MediaController.Callback() {
             @Override
             public void onPlaybackStateChanged(PlaybackState state) {
@@ -222,6 +225,8 @@ public final class MediaHub {
     }
 
     private MediaController btController() {
+        String sp = Prefs.str(app, Prefs.BT_SESSION_PKG, null);
+        if (sp != null && controllers.containsKey(sp)) return controllers.get(sp);
         MediaController mc = controllers.get(BluetoothSource.SYSTEM_PKG);
         if (mc == null) {
             String pkg = bt.appPackage();
@@ -283,8 +288,29 @@ public final class MediaHub {
      * Some units only route Bluetooth audio to the speakers while their BT app has been opened.
      * Open it briefly, then come back to the launcher.
      */
+    /**
+     * Opens the Bluetooth music screen: through its media session first (works even for
+     * screens the launcher may not start directly), then by package / hidden screen.
+     */
+    public boolean openBluetoothUi() {
+        MediaController mc = btController();
+        if (mc != null && mc.getSessionActivity() != null) {
+            try {
+                mc.getSessionActivity().send();
+                return true;
+            } catch (Exception ignored) {
+            }
+        }
+        return bt.openApp();
+    }
+
+    /** Package names of all media sessions currently visible (diagnostics). */
+    public List<String> sessionPackages() {
+        return new ArrayList<>(controllers.keySet());
+    }
+
     private void wakeBluetoothApp() {
-        if (!bt.openApp()) return;
+        if (!openBluetoothUi()) return;
         main.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -525,7 +551,7 @@ public final class MediaHub {
     /** Opens the app behind the current source. */
     public void openCurrentApp() {
         if (isRadio()) return;
-        if (btSelected) bt.openApp();
+        if (btSelected) openBluetoothUi();
         else AppRepository.launchPackage(app, packageName());
     }
 

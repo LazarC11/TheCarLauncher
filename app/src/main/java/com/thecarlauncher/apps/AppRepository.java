@@ -42,6 +42,9 @@ public final class AppRepository {
         public ComponentName component() { return new ComponentName(pkg, cls); }
     }
 
+    /** Pseudo app: the Bluetooth audio source of the launcher's own media screen. */
+    public static final String BT_AUDIO = "@bluetooth";
+
     private static final String[] DEFAULT_FAVOURITES = {
             "com.google.android.apps.maps", "com.waze", "com.spotify.music",
             "com.google.android.apps.youtube.music", "com.google.android.youtube", "com.android.chrome",
@@ -105,6 +108,8 @@ public final class AppRepository {
                     String.valueOf(ri.loadLabel(pm)), icon));
         }
         addHidden(pm, out);
+        // The unit's Bluetooth audio app often has no icon at all: always offer a tile for it.
+        out.add(new App(BT_AUDIO, "", "Bluetooth audio", app.getDrawable(com.thecarlauncher.R.drawable.vw_key_bt)));
         final Collator col = Collator.getInstance();
         Collections.sort(out, new Comparator<App>() {
             @Override
@@ -244,6 +249,12 @@ public final class AppRepository {
     }
 
     public static boolean launch(Context c, App a) {
+        if (BT_AUDIO.equals(a.pkg)) {
+            com.thecarlauncher.media.MediaHub.get(c).select(com.thecarlauncher.media.MediaHub.BLUETOOTH);
+            return Ui.start(c, new Intent(c, com.thecarlauncher.LauncherActivity.class)
+                    .putExtra(com.thecarlauncher.LauncherActivity.EXTRA_SCREEN, "media")
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        }
         Intent i = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
                 .setComponent(a.component())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
