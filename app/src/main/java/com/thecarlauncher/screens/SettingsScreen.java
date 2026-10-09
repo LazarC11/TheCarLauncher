@@ -24,6 +24,7 @@ import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.nav.NavHelper;
+import com.thecarlauncher.radio.RadioController;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.Ui;
 
@@ -32,7 +33,7 @@ import java.util.List;
 
 /** MIB "Podešavanje sistema": title, blue rule, light bars, nested pages. */
 public class SettingsScreen extends Screen {
-    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2;
+    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3;
 
     private interface Page { void build(); }
 
@@ -176,6 +177,9 @@ public class SettingsScreen extends Screen {
         else if (page == PAGE_MEDIA) push(s("Mediji", "Media"), new Page() {
             public void build() { buildMedia(); }
         });
+        else if (page == PAGE_RADIO) push("Radio", new Page() {
+            public void build() { buildRadio(); }
+        });
         else render();
     }
 
@@ -207,6 +211,7 @@ public class SettingsScreen extends Screen {
         sub(s("Jedinice", "Units"), new Page() { public void build() { buildUnits(); } });
         sub(s("Navigacija", "Navigation"), new Page() { public void build() { buildNav(); } });
         sub(s("Mediji", "Media"), new Page() { public void build() { buildMedia(); } });
+        sub("Radio", new Page() { public void build() { buildRadio(); } });
         sub("Bluetooth audio", new Page() { public void build() { buildBluetooth(); } });
         sub("App-Connect", new Page() { public void build() { buildAppConnect(); } });
         sub(s("Telefon i radio", "Phone and radio"), new Page() { public void build() { buildPhoneRadio(); } });
@@ -374,6 +379,43 @@ public class SettingsScreen extends Screen {
                 });
         String radio = LauncherActivity.radioPackage(act);
         action(s("Aplikacija za radio", "Radio app"), radio == null ? s("Nije pronađena", "Not found") : appLabel(radio),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
+                    }
+                });
+    }
+
+    private void buildRadio() {
+        final RadioController radio = RadioController.get(act);
+        boolean ok = radio.available();
+        info(s("FM tjuner", "FM tuner"), ok ? "K706 / QuickFish MCU" : radio.error());
+        toggle(s("Ugrađeni radio u launcheru", "Built-in launcher radio"), Prefs.RADIO_INTERNAL, true, new Runnable() {
+            public void run() {
+                if (!Prefs.bool(act, Prefs.RADIO_INTERNAL, true)) radio.stop();
+                refresh();
+            }
+        });
+        toggle(s("Samo jake stanice (LOC)", "Strong stations only (LOC)"), Prefs.RADIO_LOC, false, new Runnable() {
+            public void run() { radio.setLocal(Prefs.bool(act, Prefs.RADIO_LOC, false)); }
+        });
+        toggle("RDS", Prefs.RADIO_RDS, true, new Runnable() {
+            public void run() { radio.setRds(Prefs.bool(act, Prefs.RADIO_RDS, true)); }
+        });
+        action(s("Obriši memorisane stanice", "Clear presets"), null, new Runnable() {
+            public void run() {
+                radio.clearPresets();
+                Ui.toast(act, s("Memorisane stanice obrisane", "Presets cleared"));
+            }
+        });
+        if (radio.isActive()) action(s("Isključi radio", "Turn radio off"), null, new Runnable() {
+            public void run() {
+                radio.stop();
+                refresh();
+            }
+        });
+        String app = LauncherActivity.radioPackage(act);
+        action(s("Fabrička radio aplikacija", "Factory radio app"), app == null ? s("Nije pronađena", "Not found") : appLabel(app),
                 new Runnable() {
                     public void run() {
                         appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
@@ -559,6 +601,20 @@ public class SettingsScreen extends Screen {
             }
         });
         return row;
+    }
+
+    private void toggle(String text, final String key, final boolean def, final Runnable after) {
+        LinearLayout row = bar(text, null);
+        final View box = checkbox(row, Prefs.bool(act, key, def));
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean on = !Prefs.bool(act, key, def);
+                Prefs.put(act, key, on);
+                setChecked(box, on);
+                after.run();
+            }
+        });
     }
 
     private void toggle(String text, final String key, final boolean def, final boolean restart) {

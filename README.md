@@ -15,6 +15,7 @@ be picked under *Podešavanja → Jezik/Language*.
 | --- | --- |
 | **MENU** | 4×2 tiles: Radio, Mediji, Aplikacije, App-Connect, Telefon, Vozilo, Navigacija, Podešavanja. Swipe for a second page of pinned apps. Android's Home button (or the compass icon in the status bar) always returns here. |
 | **Mediji** | Soft keys *Izvor · Izbor · Prethodni · Reproduk./Pauza · Naredni · Setup*. *Izvor* opens the source popup (USB / SD, BT-audio, Spotify and other players, App-Connect, Radio); *Izbor* browses songs, albums, artists and folders. |
+| **Radio** | Built-in FM radio: big frequency with the *<* *>* seek boxes, three pages of six presets with RDS station names (tap to tune, long-press to store, an empty slot says *Prazno*), soft keys *Lista stan. · Ručno · Setup*. *Lista stan.* scans the band into a station list; *Ručno* shows the factory FM dial for drag-tuning, and the arrows then step 0.1 MHz. |
 | **Navigacija** | Beige day map with the red arrow-and-ring position marker, square map buttons, and soft keys *Novo odr. · Moja odred. · Pogled · Mediji · Aplikacija · Setup*. Routes are handed to Google Maps, Waze or another navigation app. |
 | **Vozilo** | Driving data since start from GPS: driving time, distance, average speed, current speed, heading and altitude. |
 | **Aplikacije** | All installed apps as tiles. Long-press to add to MENU or use as the phone/radio app. |
@@ -25,7 +26,13 @@ be picked under *Podešavanja → Jezik/Language*.
 Picking a source pauses the previous one and starts the new one, like the factory unit.
 
 Steering-wheel media keys work with the built-in player because it uses a standard Android
-`MediaSession`.
+`MediaSession`. While the radio is the source, next/previous seek to the next station.
+
+**Radio:** the launcher drives the FM tuner of QuickFish (QF) units such as the **Roco K706
+(UIS7862S)** directly through the MCU service (`mcu_service`), using the protocol documented by
+[OpenRadioFM](https://github.com/kapi21/OpenRadioFM) (Apache-2.0, see `NOTICE`). On a unit without
+that service, the Radio tile opens the factory radio app instead (*Podešavanja → Radio* shows
+the tuner status and lets you pick that app). The radio has not been tested on real hardware yet.
 
 ## Install on the head unit
 

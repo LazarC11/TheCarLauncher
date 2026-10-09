@@ -20,6 +20,7 @@ import android.view.KeyEvent;
 
 import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.apps.AppRepository;
+import com.thecarlauncher.radio.RadioController;
 import com.thecarlauncher.util.Ui;
 
 import com.thecarlauncher.util.Prefs;
@@ -39,6 +40,8 @@ public final class MediaHub {
 
     /** Pseudo source key for the head unit's Bluetooth music. */
     public static final String BLUETOOTH = "bluetooth";
+    /** Pseudo source key for the launcher's built-in FM radio. */
+    public static final String RADIO = "radio";
     private static MediaHub sInstance;
 
     private final Context app;
@@ -82,6 +85,24 @@ public final class MediaHub {
     }
 
     public BluetoothSource bluetooth() { return bt; }
+
+    // ---- Built-in radio -----------------------------------------------------------------
+
+    private RadioController radio() { return RadioController.get(app); }
+
+    /** True while the FM tuner is the audio source. */
+    public boolean isRadio() { return radio().isActive(); }
+
+    /** Called by the radio when it changes state. */
+    public void radioChanged() { notifyChanged(); }
+
+    /** The radio is taking over the speakers: pause whatever was playing. */
+    public void onRadioStarting() {
+        MusicService own = MusicService.get();
+        if (own != null && own.isPlaying()) own.pause();
+        if (btSelected) pauseBluetooth();
+        else if (active != null && !isOwn() && isPlaying(active)) active.getTransportControls().pause();
+    }
 
     public void addListener(Listener l) {
         listeners.addIfAbsent(l);
@@ -211,6 +232,11 @@ public final class MediaHub {
 
     /** Switches source like the factory unit: the old source pauses, the new one plays. */
     public void select(String key) {
+        if (RADIO.equals(key)) {
+            radio().start();
+            return;
+        }
+        if (isRadio()) radio().stop();
         if (BLUETOOTH.equals(key)) {
             selectBluetooth();
             return;
@@ -295,6 +321,7 @@ public final class MediaHub {
 
     /** Key of the current source: our package, {@link #BLUETOOTH}, or another app's package. */
     public String packageName() {
+        if (isRadio()) return RADIO;
         if (btSelected) return BLUETOOTH;
         return active == null ? app.getPackageName() : packageOf(active);
     }
@@ -306,6 +333,7 @@ public final class MediaHub {
     }
 
     public boolean isPlaying() {
+        if (isRadio()) return true;
         if (btFallback()) return btPlaying;
         return active != null && isPlaying(active);
     }
@@ -322,6 +350,7 @@ public final class MediaHub {
 
     /** True when the current source reports a real track title (not our placeholder). */
     public boolean hasTrackInfo() {
+        if (isRadio()) return true;
         MediaMetadata m = meta();
         if (m == null) return false;
         String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
@@ -330,6 +359,7 @@ public final class MediaHub {
     }
 
     public String title() {
+        if (isRadio()) return radio().label();
         MediaMetadata m = meta();
         String t = null;
         if (m != null) {
@@ -341,6 +371,7 @@ public final class MediaHub {
     }
 
     public String artist() {
+        if (isRadio()) return radio().rt().length() > 0 ? radio().rt() : "FM " + RadioController.format(radio().freq()) + " MHz";
         MediaMetadata m = meta();
         String a = null;
         if (m != null) {
@@ -353,11 +384,13 @@ public final class MediaHub {
     }
 
     public String album() {
+        if (isRadio()) return null;
         MediaMetadata m = meta();
         return m == null ? null : m.getString(MediaMetadata.METADATA_KEY_ALBUM);
     }
 
     public Bitmap art() {
+        if (isRadio()) return null;
         MediaMetadata m = meta();
         if (m == null) return null;
         Bitmap b = m.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART);
@@ -367,6 +400,7 @@ public final class MediaHub {
     }
 
     public long duration() {
+        if (isRadio()) return 0;
         MediaMetadata m = meta();
         return m == null ? 0 : Math.max(0, m.getLong(MediaMetadata.METADATA_KEY_DURATION));
     }
@@ -409,6 +443,7 @@ public final class MediaHub {
     public String sourceLabel(String pkg) {
         if (pkg == null || pkg.equals(app.getPackageName())) return "USB / Music";
         if (BLUETOOTH.equals(pkg)) return "Bluetooth";
+        if (RADIO.equals(pkg)) return "Radio FM";
         try {
             PackageManager pm = app.getPackageManager();
             return pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString();
@@ -428,6 +463,10 @@ public final class MediaHub {
     // ---- Controls -----------------------------------------------------------------------
 
     public void playPause() {
+        if (isRadio()) {
+            radio().stop();
+            return;
+        }
         if (btFallback()) {
             bt.sendKey(btPlaying ? KeyEvent.KEYCODE_MEDIA_PAUSE : KeyEvent.KEYCODE_MEDIA_PLAY);
             btPlaying = !btPlaying;
@@ -445,7 +484,9 @@ public final class MediaHub {
     }
 
     public void next() {
-        if (btFallback()) {
+        if (isRadio()) {
+            radio().seekUp();
+        } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT);
         } else if (isOwn()) {
             MusicService s = MusicService.get();
@@ -456,7 +497,9 @@ public final class MediaHub {
     }
 
     public void previous() {
-        if (btFallback()) {
+        if (isRadio()) {
+            radio().seekDown();
+        } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
         } else if (isOwn()) {
             MusicService s = MusicService.get();
@@ -468,6 +511,7 @@ public final class MediaHub {
 
     /** Opens the app behind the current source. */
     public void openCurrentApp() {
+        if (isRadio()) return;
         if (btSelected) bt.openApp();
         else AppRepository.launchPackage(app, packageName());
     }

@@ -308,7 +308,9 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         MediaHub hub = MediaHub.get(act);
         boolean bt = hub.isBluetooth();
         String key = hub.packageName();
-        if (bt) sourceKey.setIcon(R.drawable.vw_key_bt);
+        boolean fm = hub.isRadio();
+        if (fm) sourceKey.setIcon(R.drawable.vw_key_radio);
+        else if (bt) sourceKey.setIcon(R.drawable.vw_key_bt);
         else if (hub.isOwn()) sourceKey.setIcon(R.drawable.vw_key_usb);
         else {
             Drawable d = hub.sourceIcon(key);
@@ -319,7 +321,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         playKey.setLabel(playing ? s("Pauza", "Pause") : s("Reproduk.", "Play"));
         playKey.setIcon(playing ? R.drawable.vw_key_pause : R.drawable.vw_key_play);
 
-        art.setCover(bt ? R.drawable.vw_cover_bt : hub.isOwn() ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
+        art.setCover(fm ? R.drawable.vw_cover_radio : bt ? R.drawable.vw_cover_bt : hub.isOwn() ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
         art.setBitmap(hub.art());
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
@@ -388,7 +390,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 }
             });
         }
-        p.add("Radio", R.drawable.vw_ic_radio, false, new Runnable() {
+        p.add("Radio", R.drawable.vw_ic_radio, hub.isRadio(), new Runnable() {
             @Override
             public void run() {
                 act.openRadio();

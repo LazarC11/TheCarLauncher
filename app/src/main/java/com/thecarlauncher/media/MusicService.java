@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 
 import com.thecarlauncher.LauncherActivity;
+import com.thecarlauncher.radio.RadioController;
 import com.thecarlauncher.R;
 import com.thecarlauncher.util.Prefs;
 
@@ -102,11 +103,12 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         session = new MediaSession(this, "CarLauncher");
         session.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
         session.setCallback(new MediaSession.Callback() {
-            @Override public void onPlay() { play(); }
-            @Override public void onPause() { pause(); }
-            @Override public void onStop() { pause(); }
-            @Override public void onSkipToNext() { next(); }
-            @Override public void onSkipToPrevious() { previous(); }
+            // While the built-in FM radio is the source, steering-wheel keys drive the tuner.
+            @Override public void onPlay() { if (!radio()) play(); }
+            @Override public void onPause() { if (radio()) RadioController.get(MusicService.this).stop(); else pause(); }
+            @Override public void onStop() { if (radio()) RadioController.get(MusicService.this).stop(); else pause(); }
+            @Override public void onSkipToNext() { if (radio()) RadioController.get(MusicService.this).seekUp(); else next(); }
+            @Override public void onSkipToPrevious() { if (radio()) RadioController.get(MusicService.this).seekDown(); else previous(); }
             @Override public void onSeekTo(long pos) { seekTo((int) pos); }
         });
         Intent open = new Intent(this, LauncherActivity.class).putExtra(LauncherActivity.EXTRA_SCREEN, "media");
@@ -349,6 +351,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             updateState();
         }
         return true;
+    }
+
+    private boolean radio() {
+        return RadioController.get(this).isActive();
     }
 
     // ---- Audio focus -------------------------------------------------------------------

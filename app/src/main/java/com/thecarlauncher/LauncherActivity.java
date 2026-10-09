@@ -32,6 +32,8 @@ import com.thecarlauncher.mib.MibBackground;
 import com.thecarlauncher.nav.LocationTracker;
 import com.thecarlauncher.nav.StreetName;
 import com.thecarlauncher.nav.TripComputer;
+import com.thecarlauncher.radio.RadioController;
+import com.thecarlauncher.screens.RadioScreen;
 import com.thecarlauncher.screens.AppsScreen;
 import com.thecarlauncher.screens.Dialogs;
 import com.thecarlauncher.screens.MediaScreen;
@@ -54,13 +56,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6;
 
     private static final int REQ_PERMS = 41;
-    private static final Pattern RADIO = Pattern.compile("(?i).*(radio|\\bfm\\b|tuner|dab).*");
+    private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|tuner|dab).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[6];
+    private final Screen[] screens = new Screen[7];
     private int current = -1;
 
     private FrameLayout content;
@@ -120,6 +122,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[APPS] = new AppsScreen(this);
         screens[SETTINGS] = new SettingsScreen(this);
         screens[VEHICLE] = new VehicleScreen(this);
+        screens[RADIO] = new RadioScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
@@ -221,6 +224,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         String s = i == null ? null : i.getStringExtra(EXTRA_SCREEN);
         if ("media".equals(s)) return MEDIA;
         if ("nav".equals(s)) return NAV;
+        if ("radio".equals(s)) return RADIO;
         return def;
     }
 
@@ -324,7 +328,16 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
     }
 
+    /** MENU → Radio: the built-in FM tuner when this unit has one, else the factory radio app. */
     public void openRadio() {
+        if (RadioController.get(this).available()) {
+            show(RADIO, true);
+            return;
+        }
+        openRadioApp();
+    }
+
+    public void openRadioApp() {
         String pkg = radioPackage(this);
         if (pkg != null && AppRepository.launchPackage(this, pkg)) return;
         Ui.toast(this, Mib.t(this, "Izaberite aplikaciju za radio (dugi pritisak u Aplikacijama)",
@@ -357,7 +370,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public static List<String> radioCandidates(Context c) {
         List<String> out = new ArrayList<>();
         for (AppRepository.App a : AppRepository.get(c).all()) {
-            if (RADIO.matcher(a.pkg + " " + a.label).matches() && !out.contains(a.pkg)) out.add(a.pkg);
+            if (RADIO_APP.matcher(a.pkg + " " + a.label).matches() && !out.contains(a.pkg)) out.add(a.pkg);
         }
         return out;
     }
@@ -417,7 +430,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     public void onMediaChanged() {
-        tagView.setText(MediaHub.get(this).isBluetooth() ? "BT" : "");
+        MediaHub hub = MediaHub.get(this);
+        tagView.setText(hub.isRadio() ? "FM" : hub.isBluetooth() ? "BT" : "");
     }
 
     // ---- Permissions ------------------------------------------------------------------------

@@ -27,6 +27,9 @@ public final class Prefs {
     public static final String LANGUAGE = "language";
     public static final String AMBIENT = "ambient_color";
     public static final String RADIO_PKG = "radio_pkg";
+    public static final String RADIO_INTERNAL = "radio_internal";
+    public static final String RADIO_LOC = "radio_loc";
+    public static final String RADIO_RDS = "radio_rds";
     public static final String BT_PKG = "bt_pkg";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";

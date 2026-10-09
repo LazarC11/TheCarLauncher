@@ -1,0 +1,9 @@
+TheCarLauncher
+
+The built-in FM radio (app/src/main/java/com/thecarlauncher/radio/K706Tuner.java and
+RadioController.java) implements the QuickFish / Roco K706 MCU tuner protocol as documented
+by OpenRadioFM:
+
+  OpenRadioFM — https://github.com/kapi21/OpenRadioFM
+  Licensed under the Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
