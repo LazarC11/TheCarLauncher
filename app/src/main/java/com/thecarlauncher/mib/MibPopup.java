@@ -182,7 +182,7 @@ public class MibPopup {
         Notch(Context c, int x) {
             super(c);
             this.x = x;
-            fill.setColor(0xFF141419);
+            fill.setColor(0xFF000000);
             stroke.setColor(0xFFE8E8EC);
             stroke.setStyle(Paint.Style.STROKE);
             stroke.setStrokeWidth(Math.max(1, Mib.px(c, 1.6f)));

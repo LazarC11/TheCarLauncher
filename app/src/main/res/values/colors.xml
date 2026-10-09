@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_deep">#FF131318</color>
+    <color name="bg_deep">#FF000000</color>
     <color name="bg_top">#FF0B1119</color>
-    <color name="tile_top">#FF18181E</color>
+    <color name="tile_top">#FF000000</color>
     <color name="tile_bottom">#FF0B1016</color>
     <color name="tile_pressed">#FF1A2430</color>
     <color name="stroke">#FF1F2833</color>

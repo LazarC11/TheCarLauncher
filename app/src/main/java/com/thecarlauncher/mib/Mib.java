@@ -137,7 +137,7 @@ public final class Mib {
 
     /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
     public static Drawable bar(Context c) {
-        GradientDrawable body = grad(0xFF1B1B23, 0xFF0E2443);
+        GradientDrawable body = grad(0xFF000000, 0xFF0C2140);
         GradientDrawable rule = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{0xFF1E6FC4, BLUE, BLUE, 0xFF1E6FC4});
         LayerDrawable l = new LayerDrawable(new Drawable[]{body, rule});
@@ -157,7 +157,7 @@ public final class Mib {
     /** Popup panel: near-black with a crisp white frame. */
     public static GradientDrawable panel(Context c) {
         GradientDrawable d = new GradientDrawable();
-        d.setColor(0xF2141419);
+        d.setColor(0xFF000000);
         d.setStroke(Math.max(1, px(c, 1.6f)), 0xFFE8E8EC);
         return d;
     }
@@ -165,7 +165,7 @@ public final class Mib {
     /** Square map/utility button: black box, light frame. */
     public static Drawable box(Context c) {
         GradientDrawable n = new GradientDrawable();
-        n.setColor(0xF0101014);
+        n.setColor(0xFF000000);
         n.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
         GradientDrawable p = new GradientDrawable();
         p.setColor(0xFF1F5FA6);

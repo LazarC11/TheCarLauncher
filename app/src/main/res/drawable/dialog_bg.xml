@@ -2,7 +2,7 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="16dp">
     <shape android:shape="rectangle">
         <corners android:radius="2dp" />
-        <solid android:color="#FF18181E" />
+        <solid android:color="#FF000000" />
         <stroke android:width="1.5dp" android:color="#FFE8E8EC" />
     </shape>
 </inset>

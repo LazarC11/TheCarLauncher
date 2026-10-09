@@ -91,8 +91,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(0xFF111116);
-        getWindow().setNavigationBarColor(0xFF111116);
+        getWindow().setStatusBarColor(0xFF000000);
+        getWindow().setNavigationBarColor(0xFF000000);
 
         FrameLayout root = new FrameLayout(this);
         root.setBackground(new MibBackground());
