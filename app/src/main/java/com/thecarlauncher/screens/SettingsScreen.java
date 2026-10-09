@@ -507,7 +507,15 @@ public class SettingsScreen extends Screen {
             for (String line : last.split("\n")) info(line.trim(), null);
         }
         MediaHub hub = MediaHub.get(act);
-        info(s("Pristup obaveštenjima", "Notification access"), hub.hasNotificationAccess() ? "✓" : s("✗ (uključi u Mediji)", "✗ (enable in Media)"));
+        if (hub.hasNotificationAccess()) {
+            info(s("Pristup obaveštenjima", "Notification access"), "✓");
+        } else {
+            final MediaHub h = hub;
+            action(s("Pristup obaveštenjima", "Notification access"), s("✗ — dodirni da uključiš", "✗ — tap to enable"),
+                    new Runnable() {
+                        public void run() { h.openNotificationAccess(); }
+                    });
+        }
         info(s("BT paket (iz media sesije)", "BT package (from media session)"), Prefs.str(act, Prefs.BT_SESSION_PKG, "—"));
         for (String p : hub.sessionPackages()) info(s("Media sesija", "Media session"), p);
         String ni = hub.notificationInfo();

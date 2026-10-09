@@ -82,6 +82,8 @@ public final class MediaHub {
         listenerComponent = new ComponentName(c, MediaListenerService.class);
         bt = new BluetoothSource(c);
         btSelected = BLUETOOTH.equals(Prefs.str(c, Prefs.LAST_SOURCE, null));
+        // Older builds learned the (empty) system Bluetooth session as the BT player; forget it.
+        if (BluetoothSource.SYSTEM_PKG.equals(Prefs.str(c, Prefs.BT_SESSION_PKG, null))) Prefs.put(c, Prefs.BT_SESSION_PKG, (String) null);
     }
 
     public BluetoothSource bluetooth() { return bt; }
@@ -122,6 +124,19 @@ public final class MediaHub {
         add(app.getPackageName(), new MediaController(app, token));
         if (active == null) active = controllers.get(app.getPackageName());
         notifyChanged();
+    }
+
+    /** Opens Android's notification-access page (for our listener, where supported). */
+    public void openNotificationAccess() {
+        Intent i;
+        if (android.os.Build.VERSION.SDK_INT >= 30) {
+            i = new Intent("android.settings.NOTIFICATION_LISTENER_DETAIL_SETTINGS")
+                    .putExtra("android.provider.extra.NOTIFICATION_LISTENER_COMPONENT_NAME", listenerComponent.flattenToString());
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (Ui.start(app, i)) return;
+        }
+        i = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!Ui.start(app, i)) Ui.toast(app, "Notification access settings not found");
     }
 
     public boolean hasNotificationAccess() {
@@ -167,7 +182,7 @@ public final class MediaHub {
 
     private void add(final String pkg, final MediaController mc) {
         if (controllers.containsKey(pkg)) remove(pkg);
-        if (!pkg.equals(app.getPackageName()) && bt.looksLikeBluetooth(pkg)) {
+        if (!pkg.equals(app.getPackageName()) && !pkg.equals(BluetoothSource.SYSTEM_PKG) && bt.looksLikeBluetooth(pkg)) {
             Prefs.put(app, Prefs.BT_SESSION_PKG, pkg);
         }
         MediaController.Callback cb = new MediaController.Callback() {
@@ -179,6 +194,10 @@ public final class MediaHub {
 
             @Override
             public void onMetadataChanged(MediaMetadata metadata) {
+                if (btSelected) {
+                    MediaController best = btController();
+                    if (best != null) active = best;
+                }
                 notifyChanged();
             }
 
@@ -219,7 +238,8 @@ public final class MediaHub {
 
     private void setActive(MediaController mc) {
         String pkg = packageOf(mc);
-        if (btSelected && !pkg.equals(app.getPackageName()) && !bt.isBluetoothPackage(pkg)) {
+        if (btSelected && !pkg.equals(app.getPackageName()) && !pkg.equals(BluetoothSource.SYSTEM_PKG)
+                && !bt.isBluetoothPackage(pkg)) {
             // Something started playing while BT-audio is the source: that is the BT player.
             Prefs.put(app, Prefs.BT_SESSION_PKG, pkg);
         }
@@ -242,32 +262,47 @@ public final class MediaHub {
         notifyChanged();
     }
 
+    /**
+     * The Bluetooth player to show. Candidates in order: the user's choice, the learned
+     * package, the system AVRCP browser, the BT app, then (while BT-audio is the source)
+     * anything playing. A candidate that is playing or has a title wins over an empty one,
+     * so the empty system session on units with their own Bluetooth module is skipped.
+     */
     private MediaController btController() {
-        // The user's explicit choice wins over what was detected.
+        List<String> order = new ArrayList<>();
         String chosen = Prefs.str(app, Prefs.BT_PKG, null);
-        if (chosen != null) {
-            String cp = chosen.contains("/") ? chosen.substring(0, chosen.indexOf('/')) : chosen;
-            if (controllers.containsKey(cp)) return controllers.get(cp);
-        }
+        if (chosen != null) order.add(chosen.contains("/") ? chosen.substring(0, chosen.indexOf('/')) : chosen);
         String sp = Prefs.str(app, Prefs.BT_SESSION_PKG, null);
-        if (sp != null && controllers.containsKey(sp)) return controllers.get(sp);
-        MediaController mc = controllers.get(BluetoothSource.SYSTEM_PKG);
-        if (mc == null) {
-            String pkg = bt.appPackage();
-            if (pkg != null) mc = controllers.get(pkg);
+        if (sp != null) order.add(sp);
+        String ap = bt.appPackage();
+        if (ap != null) order.add(ap);
+        order.add(BluetoothSource.SYSTEM_PKG);
+        MediaController firstFound = null;
+        for (String pkg : order) {
+            MediaController mc = controllers.get(pkg);
+            if (mc == null) continue;
+            if (firstFound == null) firstFound = mc;
+            if (isPlaying(mc) || hasTitle(mc)) return mc;
         }
-        if (mc == null && btSelected) {
+        if (btSelected) {
             // BT-audio is the source but its player is published under another package
             // (e.g. a Bluetooth service instead of the screen): take whatever is playing.
             for (Map.Entry<String, MediaController> e : controllers.entrySet()) {
-                if (e.getKey().equals(app.getPackageName())) continue;
-                if (isPlaying(e.getValue())) {
+                if (e.getKey().equals(app.getPackageName()) || e.getKey().equals(BluetoothSource.SYSTEM_PKG)) continue;
+                if (isPlaying(e.getValue()) || hasTitle(e.getValue())) {
                     Prefs.put(app, Prefs.BT_SESSION_PKG, e.getKey());
                     return e.getValue();
                 }
             }
         }
-        return mc;
+        return firstFound;
+    }
+
+    private static boolean hasTitle(MediaController mc) {
+        MediaMetadata m = mc.getMetadata();
+        if (m == null) return false;
+        String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
+        return t != null && t.length() > 0;
     }
 
     /**

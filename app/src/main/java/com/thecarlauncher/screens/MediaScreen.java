@@ -332,7 +332,17 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         if (t == null) {
             info.setVisibility(View.INVISIBLE);
             message.setVisibility(View.VISIBLE);
-            message.setText(bt
+            boolean noAccess = bt && !hub.hasNotificationAccess();
+            message.setOnClickListener(noAccess ? new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MediaHub.get(act).openNotificationAccess();
+                }
+            } : null);
+            message.setText(noAccess
+                    ? s("Za naziv pesme i cover uključite\npristup obaveštenjima — dodirnite ovde.",
+                        "To show the song and cover, enable\nnotification access — tap here.")
+                    : bt
                     ? s("Pustite muziku na telefonu.", "Start music on your phone.")
                     : hub.isOwn()
                     ? s("Nema izabranog medija.\nDodirnite Izbor ili Reproduk.", "No media selected.\nTap Browse or Play.")
