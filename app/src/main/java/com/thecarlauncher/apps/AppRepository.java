@@ -28,6 +28,8 @@ public final class AppRepository {
     public static final class App {
         public final String pkg, cls, label;
         public final Drawable icon;
+        /** A screen without a launcher icon (e.g. the unit's Bluetooth music), found by scanning. */
+        public boolean hidden;
 
         App(String pkg, String cls, String label, Drawable icon) {
             this.pkg = pkg;
@@ -102,6 +104,7 @@ public final class AppRepository {
             out.add(new App(ri.activityInfo.packageName, ri.activityInfo.name,
                     String.valueOf(ri.loadLabel(pm)), icon));
         }
+        addHidden(pm, out);
         final Collator col = Collator.getInstance();
         Collections.sort(out, new Comparator<App>() {
             @Override
@@ -112,12 +115,78 @@ public final class AppRepository {
         return out;
     }
 
+    /**
+     * Head units keep some of their own screens (Bluetooth music, Bluetooth phone) inside system
+     * packages without a launcher icon; their factory launcher opens them directly. Find those
+     * exported screens by name so they can be listed and opened here too.
+     */
+    private static final java.util.regex.Pattern HIDDEN = java.util.regex.Pattern.compile(
+            "(?i).*((bt|bluetooth|a2dp|blue)[ ._]*(music|audio|player|media|phone|dial|call)"
+                    + "|(music|audio|player|media)[ ._]*(bt|bluetooth|a2dp)|蓝牙).*");
+
+    private void addHidden(PackageManager pm, List<App> out) {
+        java.util.Set<String> have = new java.util.HashSet<>();
+        for (App a : out) have.add(a.key());
+        List<android.content.pm.ApplicationInfo> apps;
+        try {
+            apps = pm.getInstalledApplications(0);
+        } catch (Exception e) {
+            return;
+        }
+        for (android.content.pm.ApplicationInfo ai : apps) {
+            if (ai.packageName.equals(app.getPackageName())) continue;
+            android.content.pm.PackageInfo pi;
+            try {
+                pi = pm.getPackageInfo(ai.packageName, PackageManager.GET_ACTIVITIES);
+            } catch (Throwable t) {
+                continue;
+            }
+            if (pi.activities == null) continue;
+            for (android.content.pm.ActivityInfo a : pi.activities) {
+                if (!a.exported || !a.enabled || a.permission != null) continue;
+                String simple = a.name.substring(a.name.lastIndexOf('.') + 1);
+                String label;
+                try {
+                    label = String.valueOf(a.loadLabel(pm));
+                } catch (Exception e) {
+                    label = simple;
+                }
+                if (!HIDDEN.matcher(simple + " " + label + " " + a.name).matches()) continue;
+                if (have.contains(ai.packageName + "/" + a.name)) continue;
+                if (simple.toLowerCase(java.util.Locale.ROOT).contains("setting")) continue;
+                // Use a readable name when the label is just the package's or the class name.
+                if (label.equals(simple) || label.length() == 0) label = simple.replaceAll("(?i)activity", "")
+                        .replaceAll("([a-z])([A-Z])", "$1 $2");
+                Drawable icon;
+                try {
+                    icon = a.loadIcon(pm);
+                } catch (Exception e) {
+                    icon = pm.getDefaultActivityIcon();
+                }
+                App h = new App(ai.packageName, a.name, label, icon);
+                h.hidden = true;
+                out.add(h);
+                have.add(h.key());
+            }
+        }
+    }
+
+    /** The unit's Bluetooth music screen, if a hidden one was found. */
+    public App bluetoothMusic() {
+        for (App a : apps) {
+            String l = (a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
+            if (a.hidden && (l.contains("music") || l.contains("audio") || l.contains("a2dp") || l.contains("player"))) return a;
+        }
+        return null;
+    }
+
     public App find(String key) {
         for (App a : apps) if (a.key().equals(key)) return a;
         return null;
     }
 
     public App findPackage(String pkg) {
+        for (App a : apps) if (a.pkg.equals(pkg) && !a.hidden) return a;
         for (App a : apps) if (a.pkg.equals(pkg)) return a;
         return null;
     }

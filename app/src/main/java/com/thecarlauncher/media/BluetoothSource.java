@@ -81,15 +81,34 @@ public final class BluetoothSource {
     /** The vendor Bluetooth music app: user's choice, else best guess. May be null. */
     public String appPackage() {
         String p = Prefs.str(app, Prefs.BT_PKG, null);
+        if (p != null && p.contains("/")) p = p.substring(0, p.indexOf('/'));
         if (p != null && installed(p)) return p;
+        AppRepository.App hidden = AppRepository.get(app).bluetoothMusic();
+        if (hidden != null) return hidden.pkg;
         List<String> c = candidates(app);
         return c.isEmpty() ? null : c.get(0);
+    }
+
+    /** The exact screen to open: the user's choice, else the unit's hidden BT music screen. */
+    public AppRepository.App appScreen() {
+        AppRepository repo = AppRepository.get(app);
+        String p = Prefs.str(app, Prefs.BT_PKG, null);
+        if (p != null && p.contains("/")) {
+            AppRepository.App a = repo.find(p);
+            if (a != null) return a;
+        }
+        AppRepository.App hidden = repo.bluetoothMusic();
+        if (hidden != null && (p == null || hidden.pkg.equals(p))) return hidden;
+        return p == null ? null : repo.findPackage(p);
     }
 
     /** Launchable apps that look like a Bluetooth music app, best matches first. */
     public static List<String> candidates(Context c) {
         List<String> music = new ArrayList<>(), other = new ArrayList<>();
+        // Hidden factory screens first (keys "package/class"), e.g. the unit's "Bluetooth Music".
+        for (AppRepository.App a : AppRepository.get(c).all()) if (a.hidden) music.add(a.key());
         for (AppRepository.App a : AppRepository.get(c).all()) {
+            if (a.hidden) continue;
             String hay = a.pkg + " " + a.label;
             if (!BT_APP.matcher(hay).matches() || NOT_BT.matcher(hay).matches()) continue;
             if (music.contains(a.pkg) || other.contains(a.pkg)) continue;
@@ -129,6 +148,8 @@ public final class BluetoothSource {
     }
 
     public boolean openApp() {
+        AppRepository.App screen = appScreen();
+        if (screen != null && AppRepository.launch(app, screen)) return true;
         String pkg = appPackage();
         if (pkg != null && AppRepository.launchPackage(app, pkg)) return true;
         Ui.toast(app, "Choose your Bluetooth music app in Settings → Media");

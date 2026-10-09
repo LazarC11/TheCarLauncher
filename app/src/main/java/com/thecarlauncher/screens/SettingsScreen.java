@@ -376,8 +376,10 @@ public class SettingsScreen extends Screen {
     private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
+        AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
         String pkg = MediaHub.get(act).bluetooth().appPackage();
-        action(s("Aplikacija za BT audio", "BT audio app"), pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
+        action(s("Aplikacija za BT audio", "BT audio app"), screen != null ? screen.label
+                        : pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
                 new Runnable() {
                     public void run() {
                         appChoice(s("Aplikacija za BT audio", "BT audio app"), BluetoothSource.candidates(act), Prefs.BT_PKG, true);
@@ -516,7 +518,9 @@ public class SettingsScreen extends Screen {
             public void build() {
                 List<String> pkgs = new ArrayList<>(preferred);
                 if (allApps || pkgs.isEmpty()) {
-                    for (AppRepository.App a : AppRepository.get(act).all()) if (!pkgs.contains(a.pkg)) pkgs.add(a.pkg);
+                    for (AppRepository.App a : AppRepository.get(act).all()) {
+                        if (!a.hidden && !pkgs.contains(a.pkg)) pkgs.add(a.pkg);
+                    }
                 }
                 String cur = Prefs.str(act, prefKey, null);
                 if (Prefs.PHONE_PKG.equals(prefKey)) {
@@ -528,13 +532,17 @@ public class SettingsScreen extends Screen {
                     });
                 }
                 for (final String p : pkgs) {
-                    LinearLayout row = choice(appLabel(p), p.equals(cur), new Runnable() {
+                    // Entries are packages, or "package/class" for hidden factory screens.
+                    AppRepository.App screen = p.contains("/") ? AppRepository.get(act).find(p) : null;
+                    if (p.contains("/") && screen == null) continue;
+                    LinearLayout row = choice(screen != null ? screen.label + "  (" + appLabel(screen.pkg) + ")" : appLabel(p),
+                            p.equals(cur), new Runnable() {
                         public void run() {
                             Prefs.put(act, prefKey, p);
                             onBack();
                         }
                     });
-                    AppRepository.App a = AppRepository.get(act).findPackage(p);
+                    AppRepository.App a = screen != null ? screen : AppRepository.get(act).findPackage(p);
                     Drawable d = a != null ? a.icon : null;
                     if (d == null) {
                         try {
