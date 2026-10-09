@@ -2,6 +2,7 @@ package com.thecarlauncher.media;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.view.KeyEvent;
+
+import com.thecarlauncher.LauncherActivity;
+import com.thecarlauncher.apps.AppRepository;
+import com.thecarlauncher.util.Ui;
 
 import com.thecarlauncher.util.Prefs;
 
@@ -31,6 +37,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public final class MediaHub {
     public interface Listener { void onMediaChanged(); }
 
+    /** Pseudo source key for the head unit's Bluetooth music. */
+    public static final String BLUETOOTH = "bluetooth";
     private static MediaHub sInstance;
 
     private final Context app;
@@ -42,6 +50,8 @@ public final class MediaHub {
     private final Map<String, MediaController.Callback> callbacks = new LinkedHashMap<>();
     private MediaController active;
     private boolean externalConnected;
+    private final BluetoothSource bt;
+    private boolean btSelected, btPlaying;
 
     private final MediaSessionManager.OnActiveSessionsChangedListener sessionsListener =
             new MediaSessionManager.OnActiveSessionsChangedListener() {
@@ -67,7 +77,11 @@ public final class MediaHub {
         app = c;
         msm = (MediaSessionManager) c.getSystemService(Context.MEDIA_SESSION_SERVICE);
         listenerComponent = new ComponentName(c, MediaListenerService.class);
+        bt = new BluetoothSource(c);
+        btSelected = BLUETOOTH.equals(Prefs.str(c, Prefs.LAST_SOURCE, null));
     }
+
+    public BluetoothSource bluetooth() { return bt; }
 
     public void addListener(Listener l) {
         listeners.addIfAbsent(l);
@@ -96,6 +110,7 @@ public final class MediaHub {
 
     /** Starts tracking other apps' sessions. Needs notification access. */
     public void connectExternal() {
+        bt.connect(this);
         if (externalConnected || !hasNotificationAccess()) return;
         try {
             msm.addOnActiveSessionsChangedListener(sessionsListener, listenerComponent, main);
@@ -115,7 +130,10 @@ public final class MediaHub {
             if (!controllers.containsKey(pkg)) add(pkg, mc);
         }
         for (String pkg : new ArrayList<>(controllers.keySet())) {
-            if (!seen.contains(pkg) && !pkg.equals(app.getPackageName())) remove(pkg);
+            if (!seen.contains(pkg) && !pkg.equals(app.getPackageName())
+                    && !pkg.equals(BluetoothSource.SYSTEM_PKG)) {
+                remove(pkg);
+            }
         }
         for (MediaController mc : controllers.values()) {
             if (isPlaying(mc)) {
@@ -158,29 +176,107 @@ public final class MediaHub {
         MediaController.Callback cb = callbacks.remove(pkg);
         if (mc != null && cb != null) mc.unregisterCallback(cb);
         if (mc != null && mc == active) {
-            active = controllers.get(app.getPackageName());
-            for (MediaController other : controllers.values()) if (isPlaying(other)) active = other;
+            if (btSelected) {
+                active = btController();
+            } else {
+                active = controllers.get(app.getPackageName());
+                for (MediaController other : controllers.values()) if (isPlaying(other)) active = other;
+            }
         }
     }
 
     private void setActive(MediaController mc) {
+        String pkg = packageOf(mc);
+        btSelected = bt.isBluetoothPackage(pkg);
         if (active == mc) return;
         active = mc;
-        Prefs.put(app, Prefs.LAST_SOURCE, packageOf(mc));
+        Prefs.put(app, Prefs.LAST_SOURCE, btSelected ? BLUETOOTH : pkg);
     }
 
-    /** Lets the driver switch the dashboard to another app's player. */
-    public void select(String pkg) {
-        MediaController mc = controllers.get(pkg);
-        if (mc != null) {
-            setActive(mc);
-            notifyChanged();
+    /** Called once the system Bluetooth media browser is connected. */
+    void onBluetoothController(MediaController mc) {
+        add(BluetoothSource.SYSTEM_PKG, mc);
+        if (btSelected) active = mc;
+        notifyChanged();
+    }
+
+    private MediaController btController() {
+        MediaController mc = controllers.get(BluetoothSource.SYSTEM_PKG);
+        if (mc == null) {
+            String pkg = bt.appPackage();
+            if (pkg != null) mc = controllers.get(pkg);
         }
+        return mc;
     }
 
-    public List<String> sources() {
-        return new ArrayList<>(controllers.keySet());
+    /** Switches source like the factory unit: the old source pauses, the new one plays. */
+    public void select(String key) {
+        if (BLUETOOTH.equals(key)) {
+            selectBluetooth();
+            return;
+        }
+        MediaController mc = controllers.get(key);
+        if (mc == null) return;
+        if (btSelected && !bt.isBluetoothPackage(key)) pauseBluetooth();
+        setActive(mc);
+        notifyChanged();
     }
+
+    private void selectBluetooth() {
+        MusicService own = MusicService.get();
+        if (own != null && own.isPlaying()) own.pause();
+        btSelected = true;
+        active = btController();
+        Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
+        if (Prefs.bool(app, Prefs.BT_WAKE, false)) wakeBluetoothApp();
+        if (active != null) {
+            active.getTransportControls().play();
+        } else {
+            bt.sendKey(KeyEvent.KEYCODE_MEDIA_PLAY);
+            btPlaying = true;
+        }
+        notifyChanged();
+    }
+
+    private void pauseBluetooth() {
+        MediaController mc = btController();
+        if (mc != null) mc.getTransportControls().pause();
+        else bt.sendKey(KeyEvent.KEYCODE_MEDIA_PAUSE);
+        btPlaying = false;
+    }
+
+    /**
+     * Some units only route Bluetooth audio to the speakers while their BT app has been opened.
+     * Open it briefly, then come back to the launcher.
+     */
+    private void wakeBluetoothApp() {
+        if (!bt.openApp()) return;
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent back = new Intent(app, LauncherActivity.class)
+                        .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                Ui.start(app, back);
+            }
+        }, 1500);
+    }
+
+    /** Source keys for the selector: our player, Bluetooth, then other media apps. */
+    public List<String> sources() {
+        List<String> out = new ArrayList<>();
+        out.add(app.getPackageName());
+        out.add(BLUETOOTH);
+        for (String k : controllers.keySet()) {
+            if (!k.equals(app.getPackageName()) && !bt.isBluetoothPackage(k)) out.add(k);
+        }
+        return out;
+    }
+
+    public boolean isBluetooth() { return btSelected; }
+
+    /** Bluetooth selected but no session to read: controls go out as media keys. */
+    private boolean btFallback() { return btSelected && active == null; }
 
     // ---- State --------------------------------------------------------------------------
 
@@ -194,10 +290,12 @@ public final class MediaHub {
     }
 
     public boolean isOwn() {
-        return active == null || app.getPackageName().equals(packageOf(active));
+        return !btSelected && (active == null || app.getPackageName().equals(packageOf(active)));
     }
 
+    /** Key of the current source: our package, {@link #BLUETOOTH}, or another app's package. */
     public String packageName() {
+        if (btSelected) return BLUETOOTH;
         return active == null ? app.getPackageName() : packageOf(active);
     }
 
@@ -208,6 +306,7 @@ public final class MediaHub {
     }
 
     public boolean isPlaying() {
+        if (btFallback()) return btPlaying;
         return active != null && isPlaying(active);
     }
 
@@ -216,24 +315,31 @@ public final class MediaHub {
     }
 
     public boolean hasContent() {
+        if (btSelected) return true;
         MediaMetadata m = meta();
         return m != null && title() != null;
     }
 
     public String title() {
         MediaMetadata m = meta();
-        if (m == null) return null;
-        String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
-        if (t == null) t = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
+        String t = null;
+        if (m != null) {
+            t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
+            if (t == null) t = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
+        }
+        if (btSelected && (t == null || t.length() == 0)) t = "Bluetooth audio";
         return t;
     }
 
     public String artist() {
         MediaMetadata m = meta();
-        if (m == null) return null;
-        String a = m.getString(MediaMetadata.METADATA_KEY_ARTIST);
-        if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST);
-        if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE);
+        String a = null;
+        if (m != null) {
+            a = m.getString(MediaMetadata.METADATA_KEY_ARTIST);
+            if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST);
+            if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE);
+        }
+        if (btSelected && (a == null || a.length() == 0)) a = "Music from your phone";
         return a;
     }
 
@@ -292,7 +398,8 @@ public final class MediaHub {
     }
 
     public String sourceLabel(String pkg) {
-        if (pkg == null || pkg.equals(app.getPackageName())) return "Music";
+        if (pkg == null || pkg.equals(app.getPackageName())) return "USB / Music";
+        if (BLUETOOTH.equals(pkg)) return "Bluetooth";
         try {
             PackageManager pm = app.getPackageManager();
             return pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString();
@@ -312,6 +419,12 @@ public final class MediaHub {
     // ---- Controls -----------------------------------------------------------------------
 
     public void playPause() {
+        if (btFallback()) {
+            bt.sendKey(btPlaying ? KeyEvent.KEYCODE_MEDIA_PAUSE : KeyEvent.KEYCODE_MEDIA_PLAY);
+            btPlaying = !btPlaying;
+            notifyChanged();
+            return;
+        }
         if (isOwn()) {
             MusicService s = MusicService.get();
             if (s != null) s.toggle();
@@ -323,7 +436,9 @@ public final class MediaHub {
     }
 
     public void next() {
-        if (isOwn()) {
+        if (btFallback()) {
+            bt.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT);
+        } else if (isOwn()) {
             MusicService s = MusicService.get();
             if (s != null) s.next();
         } else {
@@ -332,12 +447,20 @@ public final class MediaHub {
     }
 
     public void previous() {
-        if (isOwn()) {
+        if (btFallback()) {
+            bt.sendKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+        } else if (isOwn()) {
             MusicService s = MusicService.get();
             if (s != null) s.previous();
         } else {
             active.getTransportControls().skipToPrevious();
         }
+    }
+
+    /** Opens the app behind the current source. */
+    public void openCurrentApp() {
+        if (btSelected) bt.openApp();
+        else AppRepository.launchPackage(app, packageName());
     }
 
     public void seekTo(long ms) {

@@ -169,7 +169,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         openApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View x) {
-                AppRepository.launchPackage(act, MediaHub.get(act).packageName());
+                MediaHub.get(act).openCurrentApp();
             }
         });
         v.findViewById(R.id.browser_back).setOnClickListener(new View.OnClickListener() {
@@ -250,7 +250,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         Theme.tint(repeat, r == MusicService.REPEAT_OFF ? Theme.TEXT_DIM : accent);
         seek.setEnabled(hub.canSeek());
         openApp.setVisibility(own ? View.GONE : View.VISIBLE);
-        if (!own) openApp.setText(hub.sourceLabel(hub.packageName()));
+        if (!own) openApp.setText(hub.isBluetooth() ? "Bluetooth app" : hub.sourceLabel(hub.packageName()));
         buildSources();
         updateProgress();
     }
@@ -276,12 +276,16 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         String current = hub.packageName();
         for (final String pkg : pkgs) {
             TextView chip = chip(hub.sourceLabel(pkg), pkg.equals(current));
-            Drawable icon = pkg.equals(act.getPackageName()) ? act.getDrawable(R.drawable.ic_music) : hub.sourceIcon(pkg);
+            boolean builtIn = pkg.equals(act.getPackageName()) || pkg.equals(MediaHub.BLUETOOTH);
+            Drawable icon;
+            if (pkg.equals(MediaHub.BLUETOOTH)) icon = act.getDrawable(R.drawable.ic_bluetooth);
+            else if (builtIn) icon = act.getDrawable(R.drawable.ic_music);
+            else icon = hub.sourceIcon(pkg);
             if (icon != null) {
                 icon = icon.mutate();
                 int s = Ui.dp(act, 18);
                 icon.setBounds(0, 0, s, s);
-                if (pkg.equals(act.getPackageName())) icon.setTint(accent);
+                if (builtIn) icon.setTint(pkg.equals(current) ? accent : Theme.TEXT_SECONDARY);
                 chip.setCompoundDrawables(icon, null, null, null);
             }
             chip.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +295,24 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 }
             });
             sources.addView(chip);
+        }
+        final String projection = Projection.find(act);
+        if (projection != null) {
+            TextView cp = chip(Projection.label(act, projection), false);
+            Drawable icon = hub.sourceIcon(projection);
+            if (icon != null) {
+                icon = icon.mutate();
+                int s = Ui.dp(act, 18);
+                icon.setBounds(0, 0, s, s);
+                cp.setCompoundDrawables(icon, null, null, null);
+            }
+            cp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppRepository.launchPackage(act, projection);
+                }
+            });
+            sources.addView(cp);
         }
         if (!hub.hasNotificationAccess()) {
             TextView add = chip("+ Connect apps", false);

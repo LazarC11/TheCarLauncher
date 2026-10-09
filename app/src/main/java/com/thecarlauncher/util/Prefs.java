@@ -24,6 +24,10 @@ public final class Prefs {
     public static final String LAST_TRACK = "last_track";
     public static final String LAST_POS = "last_pos";
     public static final String LAST_SOURCE = "last_source";
+    public static final String BT_PKG = "bt_pkg";
+    public static final String BT_WAKE = "bt_wake";
+    public static final String BT_SYSTEM_KEYS = "bt_system_keys";
+    public static final String PROJECTION_PKG = "projection_pkg";
     public static final String SHUFFLE = "shuffle";
     public static final String REPEAT = "repeat";
     public static final String EQ_LEVELS = "eq_levels";

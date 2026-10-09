@@ -15,6 +15,14 @@ a glowing accent line. The layout and details are its own.
 | **Apps** | All installed apps with search. Long-press an app to pin it to Home, set it as the phone app, open its info, or uninstall it. |
 | **Settings** | Accent colour (7 choices), background style, 24h clock, full-screen mode, vehicle name, km/h or mph, navigation app, saved places, map style, music resume, permissions and Android settings shortcuts. |
 
+**Sources:** the media player switches between **USB / Music** (built-in player), **Bluetooth**
+(music streamed from your phone through the head unit's own Bluetooth app) and any other media app.
+Picking a source pauses the previous one and starts the new one, like the factory unit. The
+launcher connects to the system Bluetooth media service when the unit has one (full song info).
+Otherwise it drives the vendor Bluetooth app with media keys. If a CarPlay/Android Auto app such
+as ZLink is installed, it gets a chip there too. *Settings → About → Diagnostics* shows which
+method your unit supports.
+
 Steering-wheel media keys work with the built-in player because it uses a standard Android
 `MediaSession`. With *Resume music on start* on, the last song carries on when the car is started.
 

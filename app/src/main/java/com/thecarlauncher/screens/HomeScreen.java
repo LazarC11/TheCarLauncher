@@ -184,6 +184,7 @@ public class HomeScreen extends Screen implements MediaHub.Listener, LocationTra
         MediaHub hub = MediaHub.get(act);
         String pkg = hub.packageName();
         source.setText(hub.sourceLabel(pkg));
+        sourceIcon.setImageResource(hub.isBluetooth() ? R.drawable.ic_bluetooth : R.drawable.ic_music);
         if (hub.hasContent()) {
             title.setText(hub.title());
             String a = hub.artist();

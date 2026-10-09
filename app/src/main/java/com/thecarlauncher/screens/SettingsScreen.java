@@ -263,6 +263,58 @@ public class SettingsScreen extends Screen {
                 Dialogs.equalizer(act, accent);
             }
         });
+        header("Bluetooth music");
+        final com.thecarlauncher.media.BluetoothSource bt = MediaHub.get(act).bluetooth();
+        String btPkg = bt.appPackage();
+        action("Bluetooth music app", btPkg == null ? "Not found — tap to choose" : appLabel(btPkg),
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        List<String> pkgs = new java.util.ArrayList<>(
+                                com.thecarlauncher.media.BluetoothSource.candidates(act));
+                        for (com.thecarlauncher.apps.AppRepository.App a
+                                : com.thecarlauncher.apps.AppRepository.get(act).all()) {
+                            if (!pkgs.contains(a.pkg)) pkgs.add(a.pkg);
+                        }
+                        Dialogs.pickPackage(act, "Bluetooth music app", null, pkgs, new Dialogs.AppPicked() {
+                            @Override
+                            public void onPicked(String p) {
+                                Prefs.put(act, Prefs.BT_PKG, p);
+                                select(selected);
+                            }
+                        });
+                    }
+                });
+        toggle("Wake Bluetooth app on switch", "Briefly opens it when you pick Bluetooth. Turn on if Bluetooth "
+                        + "stays silent until the factory app is opened.",
+                Prefs.bool(act, Prefs.BT_WAKE, false), new Toggle() {
+                    @Override
+                    public void set(boolean on) {
+                        Prefs.put(act, Prefs.BT_WAKE, on);
+                    }
+                });
+        toggle("Send controls system-wide", "Turn on if next/previous don't reach your phone",
+                Prefs.bool(act, Prefs.BT_SYSTEM_KEYS, false), new Toggle() {
+                    @Override
+                    public void set(boolean on) {
+                        Prefs.put(act, Prefs.BT_SYSTEM_KEYS, on);
+                    }
+                });
+        header("CarPlay / Android Auto");
+        String proj = Projection.find(act);
+        action("Projection app", proj == null ? "None found — tap to choose (e.g. ZLink)" : Projection.label(act, proj),
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Dialogs.pickApp(act, "CarPlay / Android Auto app", "None", new Dialogs.AppPicked() {
+                            @Override
+                            public void onPicked(String p) {
+                                Prefs.put(act, Prefs.PROJECTION_PKG, p);
+                                select(selected);
+                            }
+                        });
+                    }
+                });
         header("Access");
         boolean lib = MusicLibrary.hasPermission(act);
         action("Music library", lib ? "Allowed" : "Not allowed — tap to allow", new Runnable() {
@@ -326,6 +378,23 @@ public class SettingsScreen extends Screen {
         info("Screen", act.getResources().getDisplayMetrics().widthPixels + " × "
                 + act.getResources().getDisplayMetrics().heightPixels + " px · "
                 + act.getResources().getDisplayMetrics().densityDpi + " dpi");
+        header("Diagnostics");
+        MediaHub hub = MediaHub.get(act);
+        com.thecarlauncher.media.BluetoothSource bt = hub.bluetooth();
+        info("Bluetooth media service", bt.systemServiceFound()
+                ? (bt.systemConnected() ? "Found and connected — full song info available" : "Found, connecting…")
+                : "Not on this unit — using the Bluetooth app instead");
+        String btPkg = bt.appPackage();
+        info("Bluetooth music app", btPkg == null ? "Not detected" : appLabel(btPkg) + "  (" + btPkg + ")");
+        info("Media access", hub.hasNotificationAccess() ? "Connected" : "Not allowed (Media → + Connect apps)");
+        StringBuilder sessions = new StringBuilder();
+        for (String k : hub.sources()) {
+            if (sessions.length() > 0) sessions.append(", ");
+            sessions.append(k.equals(MediaHub.BLUETOOTH) ? "Bluetooth" : k);
+        }
+        info("Media sources", sessions.toString());
+        String proj = Projection.find(act);
+        info("CarPlay / Android Auto", proj == null ? "Not detected" : Projection.label(act, proj) + "  (" + proj + ")");
         note("Map data © OpenStreetMap contributors (openstreetmap.org/copyright). Night map style © CARTO.");
     }
 
@@ -487,6 +556,11 @@ public class SettingsScreen extends Screen {
                 if (!Ui.start(act, new Intent(action))) Ui.start(act, new Intent(Settings.ACTION_SETTINGS));
             }
         };
+    }
+
+    private String appLabel(String pkg) {
+        com.thecarlauncher.apps.AppRepository.App a = com.thecarlauncher.apps.AppRepository.get(act).findPackage(pkg);
+        return a != null ? a.label : NavHelper.label(act, pkg);
     }
 
     private static int indexOf(String[] arr, String v) {

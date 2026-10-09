@@ -44,6 +44,7 @@
         <intent>
             <action android:name="android.media.browse.MediaBrowserService" />
         </intent>
+        <package android:name="com.android.bluetooth" />
     </queries>
 
     <application
