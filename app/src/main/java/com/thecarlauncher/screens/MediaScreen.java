@@ -74,38 +74,52 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout content = new FrameLayout(act);
         r.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
-        // ---- Now playing ----
-        LinearLayout np = new LinearLayout(act);
-        np.setOrientation(LinearLayout.HORIZONTAL);
-        np.setGravity(Gravity.CENTER_VERTICAL);
+        // ---- Now playing (measured from the factory media screen) ----
+        // Cover box: top-right, ~30% of the width; text block centred beside it;
+        // progress line along the bottom of the left area.
+        FrameLayout np = new FrameLayout(act);
         nowPlaying = np;
         content.addView(np, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+        int box = Mib.px(act, 312), boxTop = Mib.px(act, 36), boxRight = Mib.px(act, 74);
+
+        art = new MibArtBox(act);
+        FrameLayout.LayoutParams al = new FrameLayout.LayoutParams(box, box, Gravity.TOP | Gravity.RIGHT);
+        al.topMargin = boxTop;
+        al.rightMargin = boxRight;
+        np.addView(art, al);
 
         FrameLayout left = new FrameLayout(act);
-        np.addView(left, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+        FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        ll.rightMargin = box + boxRight + Mib.px(act, 30);
+        np.addView(left, ll);
 
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER_VERTICAL);
-        col.setPadding(Mib.px(act, 64), 0, Mib.px(act, 36), 0);
+        col.setPadding(Mib.px(act, 60), 0, 0, 0);
         info = col;
-        left.addView(col, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        title = Mib.text(act, "", 36, Mib.semibold(act), Mib.WHITE);
-        col.addView(title);
-        artistRow = metaRow(R.drawable.mib_person);
+        FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box);
+        cl.topMargin = boxTop;
+        left.addView(col, cl);
+        View titleRow = metaRow(R.drawable.mib_note, 36, Mib.semibold(act));
+        title = (TextView) ((ViewGroup) titleRow).getChildAt(1);
+        titleRow.setPadding(0, 0, 0, 0);
+        col.addView(titleRow);
+        artistRow = metaRow(R.drawable.mib_person, 29, Mib.regular(act));
         artist = (TextView) ((ViewGroup) artistRow).getChildAt(1);
         col.addView(artistRow);
-        albumRow = metaRow(R.drawable.mib_disc);
+        albumRow = metaRow(R.drawable.mib_disc, 29, Mib.regular(act));
         album = (TextView) ((ViewGroup) albumRow).getChildAt(1);
         col.addView(albumRow);
 
         LinearLayout pr = new LinearLayout(act);
         pr.setGravity(Gravity.CENTER_VERTICAL);
+        pr.setPadding(Mib.px(act, 60), 0, 0, 0);
         progressRow = pr;
-        pos = Mib.text(act, "0:00", 23, Mib.regular(act), Mib.GREY);
-        remain = Mib.text(act, "0:00", 23, Mib.regular(act), Mib.GREY);
+        pos = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
+        remain = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
         progress = new MibProgress(act);
         progress.setSeekListener(new MibProgress.SeekListener() {
             @Override
@@ -114,27 +128,24 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 if (hub.canSeek()) hub.seekTo((long) (hub.duration() * f));
             }
         });
-        pr.addView(pos, new LinearLayout.LayoutParams(Mib.px(act, 72), ViewGroup.LayoutParams.WRAP_CONTENT));
+        pr.addView(pos, new LinearLayout.LayoutParams(Mib.px(act, 76), ViewGroup.LayoutParams.WRAP_CONTENT));
         pr.addView(progress, new LinearLayout.LayoutParams(0, Mib.px(act, 30), 1f));
         remain.setGravity(Gravity.RIGHT);
-        pr.addView(remain, new LinearLayout.LayoutParams(Mib.px(act, 84), ViewGroup.LayoutParams.WRAP_CONTENT));
-        LinearLayout.LayoutParams pl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        pl.topMargin = Mib.px(act, 34);
-        col.addView(pr, pl);
+        pr.addView(remain, new LinearLayout.LayoutParams(Mib.px(act, 88), ViewGroup.LayoutParams.WRAP_CONTENT));
+        FrameLayout.LayoutParams pl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
+        pl.bottomMargin = Mib.px(act, 30);
+        left.addView(pr, pl);
 
-        message = Mib.text(act, "", 36, Mib.regular(act), Mib.WHITE);
+        // "Uređaj nije povezan."-style centred message when there is nothing to show.
+        message = Mib.text(act, "", 38, Mib.regular(act), Mib.WHITE);
         message.setGravity(Gravity.CENTER);
         message.setSingleLine(false);
-        left.addView(message, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        art = new MibArtBox(act);
-        LinearLayout.LayoutParams al = new LinearLayout.LayoutParams(Mib.px(act, 292), Mib.px(act, 292));
-        al.rightMargin = Mib.px(act, 70);
-        al.gravity = Gravity.TOP;
-        al.topMargin = Mib.px(act, 38);
-        np.addView(art, al);
+        message.setLineSpacing(Mib.px(act, 6), 1f);
+        FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        ml.leftMargin = Mib.px(act, 30);
+        left.addView(message, ml);
 
         // ---- Browser ----
         LinearLayout br = new LinearLayout(act);
@@ -246,16 +257,16 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         return r;
     }
 
-    private View metaRow(int icon) {
+    private View metaRow(int icon, float size, android.graphics.Typeface tf) {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        ImageView iv = Mib.icon(act, icon, Mib.GREY);
-        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 30), Mib.px(act, 30)));
-        TextView t = Mib.text(act, "", 28, Mib.regular(act), Mib.WHITE);
+        ImageView iv = Mib.icon(act, icon, Mib.WHITE);
+        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 32), Mib.px(act, 32)));
+        TextView t = Mib.text(act, "", size, tf, Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        tl.leftMargin = Mib.px(act, 14);
+        tl.leftMargin = Mib.px(act, 18);
         row.addView(t, tl);
-        row.setPadding(0, Mib.px(act, 16), 0, 0);
+        row.setPadding(0, Mib.px(act, 22), 0, 0);
         return row;
     }
 
@@ -297,7 +308,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         MediaHub hub = MediaHub.get(act);
         boolean bt = hub.isBluetooth();
         String key = hub.packageName();
-        if (bt) sourceKey.setIcon(R.drawable.mib_bt);
+        if (bt) sourceKey.setIcon(R.drawable.mib_bt_badge);
         else if (hub.isOwn()) sourceKey.setIcon(R.drawable.mib_usb);
         else {
             Drawable d = hub.sourceIcon(key);
@@ -308,7 +319,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         playKey.setLabel(playing ? s("Pauza", "Pause") : s("Reproduk.", "Play"));
         playKey.setIcon(playing ? R.drawable.mib_pause : R.drawable.mib_play);
 
-        art.setPlaceholder(bt ? R.drawable.mib_bt_logo : R.drawable.mib_note);
+        art.setPlaceholder(bt ? R.drawable.mib_bt_logo : hub.isOwn() ? R.drawable.mib_usb : R.drawable.mib_media);
         art.setBitmap(hub.art());
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
@@ -316,7 +327,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             info.setVisibility(View.INVISIBLE);
             message.setVisibility(View.VISIBLE);
             message.setText(bt
-                    ? s("BT-audio\nPustite muziku na telefonu.", "BT audio\nStart music on your phone.")
+                    ? s("Pustite muziku na telefonu.", "Start music on your phone.")
                     : hub.isOwn()
                     ? s("Nema izabranog medija.\nDodirnite Izbor ili Reproduk.", "No media selected.\nTap Browse or Play.")
                     : s("Nema podataka o numeri.", "No track information."));

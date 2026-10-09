@@ -63,10 +63,10 @@ public class MibPopup {
 
     /** Shows the popup above {@code key}, inside {@code root}, with its pointer on the key. */
     public void show(View root, View key) {
-        int rowH = Mib.px(c, 78);
+        int rowH = Mib.px(c, 80);
         int rows = (items.size() + columns - 1) / columns;
         int notch = Mib.px(c, 18);
-        int width = Math.min(root.getWidth() - Mib.px(c, 24), Mib.px(c, columns == 1 ? 470 : 700));
+        int width = Math.min(root.getWidth() - Mib.px(c, 24), Mib.px(c, columns == 1 ? 480 : 760));
         int maxRows = Math.max(1, (root.getHeight() - MibBar.height(c) - notch - Mib.px(c, 60)) / rowH);
 
         final PopupWindow pw = new PopupWindow(c);
@@ -159,7 +159,7 @@ public class MibPopup {
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
         if (it.tint) iv.setImageTintList(android.content.res.ColorStateList.valueOf(it.selected ? Mib.BLUE : Mib.WHITE));
         cell.addView(iv, new LinearLayout.LayoutParams(Mib.px(c, 38), Mib.px(c, 38)));
-        TextView t = Mib.text(c, it.label, 32, Mib.semibold(c), it.selected ? Mib.BLUE : Mib.WHITE);
+        TextView t = Mib.text(c, it.label, 35, Mib.semibold(c), it.selected ? Mib.BLUE : Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         tl.leftMargin = Mib.px(c, 22);
         cell.addView(t, tl);
