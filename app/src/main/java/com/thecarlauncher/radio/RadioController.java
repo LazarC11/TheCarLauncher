@@ -407,6 +407,7 @@ public final class RadioController implements K706Tuner.Listener {
 
     @Override
     public void onPacket(byte[] d) {
+        McuSniffer.get().record(d);
         int type = d[0] & 0xFF;
         switch (type) {
             case 0xB0: // tuner flags

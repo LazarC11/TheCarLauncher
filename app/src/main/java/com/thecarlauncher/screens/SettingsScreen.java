@@ -524,6 +524,43 @@ public class SettingsScreen extends Screen {
         for (AppRepository.App a : AppRepository.get(act).all()) {
             if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
         }
+        // ---- Direct sources: MCU packets, system services, BT app components ----
+        info(s("— MCU poruke (ne-radio) —", "— MCU packets (non-radio) —"), null);
+        java.util.List<String> sum = com.thecarlauncher.radio.McuSniffer.get().summary();
+        if (sum.isEmpty()) info(s("nijedna još", "none yet"), null);
+        for (String l : sum) info(l, null);
+        for (String t : com.thecarlauncher.radio.McuSniffer.get().texts()) info(s("Tekst ", "Text ") + t, null);
+        info(s("— Sistemski servisi (BT / QF) —", "— System services (BT / QF) —"), null);
+        try {
+            String[] services = (String[]) Class.forName("android.os.ServiceManager").getMethod("listServices").invoke(null);
+            if (services != null) {
+                for (String sv : services) {
+                    String l = sv.toLowerCase(java.util.Locale.ROOT);
+                    if (l.contains("bt") || l.contains("blue") || l.contains("qf") || l.contains("music") || l.contains("avrcp")
+                            || l.contains("a2dp") || l.contains("mcu") || l.contains("car")) info(sv, null);
+                }
+            }
+        } catch (Throwable t) {
+            info(s("lista servisa nedostupna", "service list unavailable"), t.getClass().getSimpleName());
+        }
+        String btPkg = Prefs.str(act, Prefs.BT_PKG, null);
+        if (btPkg != null && btPkg.contains("/")) btPkg = btPkg.substring(0, btPkg.indexOf('/'));
+        if (btPkg != null) {
+            info(s("— Delovi BT aplikacije —", "— BT app components —"), btPkg);
+            try {
+                android.content.pm.PackageInfo pi = act.getPackageManager().getPackageInfo(btPkg,
+                        android.content.pm.PackageManager.GET_SERVICES | android.content.pm.PackageManager.GET_PROVIDERS
+                                | android.content.pm.PackageManager.GET_RECEIVERS);
+                if (pi.services != null) for (android.content.pm.ServiceInfo si : pi.services)
+                    info("S " + si.name.replace(btPkg, ""), si.exported ? "exported" : "—");
+                if (pi.providers != null) for (android.content.pm.ProviderInfo pr : pi.providers)
+                    info("P " + pr.authority, pr.exported ? "exported" : "—");
+                if (pi.receivers != null) for (android.content.pm.ActivityInfo ri : pi.receivers)
+                    info("R " + ri.name.replace(btPkg, ""), ri.exported ? "exported" : "—");
+            } catch (Exception e) {
+                info(s("nedostupno", "unavailable"), e.getClass().getSimpleName());
+            }
+        }
         java.util.List<String> qfPkgs = new ArrayList<>();
         try {
             for (android.content.pm.ApplicationInfo ai : act.getPackageManager().getInstalledApplications(0)) {

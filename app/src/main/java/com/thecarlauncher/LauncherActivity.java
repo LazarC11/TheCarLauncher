@@ -106,6 +106,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         Mib.loadAmbient(this);
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
+        RadioController.get(this).mcuChannel(); // connects the MCU listener (also feeds the sniffer)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0xFF000000);
         getWindow().setNavigationBarColor(0xFF000000);
