@@ -525,6 +525,29 @@ public class SettingsScreen extends Screen {
             if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
         }
         // ---- Direct sources: MCU packets, system services, BT app components ----
+        action(s("Proba BT servisa (pusti muziku)", "Probe BT daemon (play music)"), s("traje ~10 s", "takes ~10 s"), new Runnable() {
+            public void run() {
+                Ui.toast(act, s("Proba traje desetak sekundi…", "Probing for about ten seconds…"));
+                new Thread(new Runnable() {
+                    public void run() {
+                        final java.util.List<String> res = com.thecarlauncher.media.BtProbe.run();
+                        act.runOnUiThread(new Runnable() {
+                            public void run() {
+                                push(s("Proba BT servisa", "BT daemon probe"), new Page() {
+                                    public void build() {
+                                        if (res.isEmpty()) info(s("Ništa nije pronađeno", "Nothing found"), null);
+                                        for (String l : res) {
+                                            // Long results are split over several rows.
+                                            for (int i = 0; i < l.length(); i += 56) info(l.substring(i, Math.min(l.length(), i + 56)), null);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }, "bt-probe").start();
+            }
+        });
         info(s("— MCU poruke (ne-radio) —", "— MCU packets (non-radio) —"), null);
         java.util.List<String> sum = com.thecarlauncher.radio.McuSniffer.get().summary();
         if (sum.isEmpty()) info(s("nijedna još", "none yet"), null);
