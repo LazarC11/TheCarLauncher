@@ -141,7 +141,8 @@ public final class RadioController implements K706Tuner.Listener {
 
     /** The channel to use for Bluetooth music, or 0 to leave the switch alone. */
     public int bluetoothChannel() {
-        int pref = Prefs.integer(app, Prefs.BT_CHANNEL, -1);
+        // Off unless a channel was chosen by hand in Setup ("Automatic" uses the learned one).
+        int pref = Prefs.integer(app, Prefs.BT_CHANNEL, 0);
         if (pref >= 0) return pref;
         return Prefs.integer(app, Prefs.BT_CHANNEL_LEARNED, 0);
     }

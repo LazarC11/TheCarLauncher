@@ -281,24 +281,17 @@ public final class MediaHub {
     private void selectBluetooth() {
         MusicService own = MusicService.get();
         if (own != null && own.isPlaying()) own.pause();
-        // QF / K706: the Bluetooth module has its own input on the MCU audio switch.
+        // Optional: only if a channel was set by hand in Setup (default off).
         int ch = radio().bluetoothChannel();
         if (ch > 0) btRouted = radio().routeChannel(ch);
         btSelected = true;
         active = btController();
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
-        if (active != null) {
-            // Its session is already known: control it in the background, no screen needed.
-            active.getTransportControls().play();
-        } else if (bt.connectApp(this, bt.appPackage())) {
-            // Binding to its media service starts the app in the background; play once bound.
-            playWhenConnected = true;
-        } else {
-            bt.sendKey(KeyEvent.KEYCODE_MEDIA_PLAY);
-            btPlaying = true;
-            // Last resort: units whose BT app only wakes up from its screen. Flash it, come back.
-            if (Prefs.bool(app, Prefs.BT_WAKE, true)) wakeBluetoothApp();
-        }
+        // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
+        // background, start playback, and show what it is playing.
+        bt.connectApp(this, bt.appPackage());
+        playWhenConnected = true;
+        wakeBluetoothApp();
         notifyChanged();
     }
 
@@ -336,6 +329,10 @@ public final class MediaHub {
         return new ArrayList<>(controllers.keySet());
     }
 
+    /**
+     * Starts the Bluetooth audio app (it only connects the phone's music when started), brings
+     * the launcher back so the app keeps running behind it, then starts playback.
+     */
     private void wakeBluetoothApp() {
         AppRepository.App screen = bt.appScreen();
         boolean started = false;
@@ -343,18 +340,51 @@ public final class MediaHub {
             started = Ui.start(app, new Intent(Intent.ACTION_MAIN).setComponent(screen.component())
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
-        if (!started && !openBluetoothUi()) return;
-        main.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent back = new Intent(app, LauncherActivity.class)
-                        .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                                | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                Ui.start(app, back);
-            }
-        }, 700);
+        if (!started) started = openBluetoothUi();
+        int stay = Prefs.integer(app, Prefs.BT_WAKE_MS, 1200);
+        if (started && Prefs.bool(app, Prefs.BT_WAKE, true)) {
+            main.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent back = new Intent(app, LauncherActivity.class)
+                            .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                                    | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Ui.start(app, back);
+                }
+            }, stay);
+        }
+        // Start playback once the app is up, and nudge it once more if it is still silent.
+        main.postDelayed(playBluetooth, stay + 300);
+        main.postDelayed(playBluetoothRetry, stay + 2500);
     }
+
+    private final Runnable playBluetooth = new Runnable() {
+        @Override
+        public void run() {
+            if (!btSelected) return;
+            MediaController mc = btController();
+            if (mc != null) {
+                active = mc;
+                playWhenConnected = false;
+                if (!isPlaying(mc)) mc.getTransportControls().play();
+            } else {
+                bt.sendKey(KeyEvent.KEYCODE_MEDIA_PLAY);
+                btPlaying = true;
+            }
+            notifyChanged();
+        }
+    };
+
+    private final Runnable playBluetoothRetry = new Runnable() {
+        @Override
+        public void run() {
+            if (!btSelected) return;
+            MediaController mc = btController();
+            boolean silent = mc != null ? !isPlaying(mc) : qf().playing() != 1;
+            if (silent) playBluetooth.run();
+        }
+    };
 
     /** Source keys for the selector: our player, Bluetooth, then other media apps. */
     public List<String> sources() {

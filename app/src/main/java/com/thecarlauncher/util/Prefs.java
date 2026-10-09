@@ -35,6 +35,7 @@ public final class Prefs {
     /** MCU audio channel for Bluetooth music on QF units: -1 auto (learned), 0 off, n fixed. */
     public static final String BT_CHANNEL = "bt_channel";
     public static final String BT_SESSION_PKG = "bt_session_pkg";
+    public static final String BT_WAKE_MS = "bt_wake_ms";
     public static final String BT_CHANNEL_LEARNED = "bt_channel_learned";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";

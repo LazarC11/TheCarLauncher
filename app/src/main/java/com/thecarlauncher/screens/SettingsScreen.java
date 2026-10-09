@@ -387,9 +387,26 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
-        toggle(s("Kratko otvori BT aplikaciju ako se ne javi u pozadini", "Briefly open the BT app if it does not answer in the background"),
+        toggle(s("Vrati se u launcher posle pokretanja BT aplikacije", "Return to the launcher after starting the BT app"),
                 Prefs.BT_WAKE, true, false);
-        int bc = Prefs.integer(act, Prefs.BT_CHANNEL, -1), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
+        final int[] waits = {800, 1200, 2000, 3000};
+        int w = Prefs.integer(act, Prefs.BT_WAKE_MS, 1200);
+        action(s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), String.format(java.util.Locale.US, "%.1f s", w / 1000f),
+                new Runnable() {
+                    public void run() {
+                        String[] o = {"0.8 s", "1.2 s", "2 s", "3 s"};
+                        int c = 1;
+                        for (int i = 0; i < waits.length; i++) if (waits[i] == Prefs.integer(act, Prefs.BT_WAKE_MS, 1200)) c = i;
+                        Dialogs.choose(act, s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), o, c,
+                                new Dialogs.Chosen() {
+                                    public void onChosen(int i) {
+                                        Prefs.put(act, Prefs.BT_WAKE_MS, waits[i]);
+                                        refresh();
+                                    }
+                                });
+                    }
+                });
+        int bc = Prefs.integer(act, Prefs.BT_CHANNEL, 0), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
         String bcText = bc == 0 ? s("Isključeno", "Off") : bc > 0 ? s("Kanal ", "Channel ") + bc
                 : s("Automatski", "Automatic") + (learned > 0 ? " (" + learned + ")" : s(" (još nije naučen)", " (not learned yet)"));
         action(s("MCU kanal za BT zvuk", "MCU channel for BT audio"), bcText, new Runnable() {
@@ -399,7 +416,7 @@ public class SettingsScreen extends Screen {
                         "1", "3", "5", "6", "7", "8"};
                 final int[] vals = {-1, 0, 1, 3, 5, 6, 7, 8};
                 int cur = 0;
-                for (int i = 0; i < vals.length; i++) if (vals[i] == Prefs.integer(act, Prefs.BT_CHANNEL, -1)) cur = i;
+                for (int i = 0; i < vals.length; i++) if (vals[i] == Prefs.integer(act, Prefs.BT_CHANNEL, 0)) cur = i;
                 Dialogs.choose(act, s("MCU kanal za BT zvuk", "MCU channel for BT audio"), opts, cur, new Dialogs.Chosen() {
                     public void onChosen(int i) {
                         Prefs.put(act, Prefs.BT_CHANNEL, vals[i]);
