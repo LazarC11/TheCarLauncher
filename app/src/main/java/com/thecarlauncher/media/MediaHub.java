@@ -334,7 +334,7 @@ public final class MediaHub {
 
     public boolean isPlaying() {
         if (isRadio()) return true;
-        if (btFallback()) return btPlaying;
+        if (btFallback()) return qf().playing() >= 0 ? qf().playing() == 1 : btPlaying;
         return active != null && isPlaying(active);
     }
 
@@ -349,8 +349,11 @@ public final class MediaHub {
     }
 
     /** True when the current source reports a real track title (not our placeholder). */
+    private QfMediaBridge qf() { return QfMediaBridge.get(app); }
+
     public boolean hasTrackInfo() {
         if (isRadio()) return true;
+        if (btSelected && qf().title() != null) return true;
         MediaMetadata m = meta();
         if (m == null) return false;
         String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
@@ -366,6 +369,7 @@ public final class MediaHub {
             t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
             if (t == null) t = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
         }
+        if (btSelected && (t == null || t.length() == 0)) t = qf().title();
         if (btSelected && (t == null || t.length() == 0)) t = "Bluetooth audio";
         return t;
     }
@@ -379,6 +383,7 @@ public final class MediaHub {
             if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST);
             if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE);
         }
+        if (btSelected && (a == null || a.length() == 0)) a = qf().artist();
         if (btSelected && (a == null || a.length() == 0)) a = "Music from your phone";
         return a;
     }

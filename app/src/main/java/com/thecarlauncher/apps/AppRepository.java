@@ -151,7 +151,12 @@ public final class AppRepository {
                 } catch (Exception e) {
                     label = simple;
                 }
-                if (!HIDDEN.matcher(simple + " " + label + " " + a.name).matches()) continue;
+                boolean match = HIDDEN.matcher(simple + " " + label + " " + a.name).matches();
+                // e.g. com.qf.bluetooth/.ui.MusicActivity: Bluetooth package, music screen.
+                String lp = ai.packageName.toLowerCase(java.util.Locale.ROOT), ls = simple.toLowerCase(java.util.Locale.ROOT);
+                if (!match && (lp.contains("bluetooth") || lp.matches(".*\\bbt\\b.*|.*\\.bt.*"))
+                        && (ls.contains("music") || ls.contains("audio") || ls.contains("a2dp") || ls.contains("player"))) match = true;
+                if (!match) continue;
                 if (have.contains(ai.packageName + "/" + a.name)) continue;
                 if (simple.toLowerCase(java.util.Locale.ROOT).contains("setting")) continue;
                 // Use a readable name when the label is just the package's or the class name.
@@ -173,6 +178,12 @@ public final class AppRepository {
 
     /** The unit's Bluetooth music screen, if a hidden one was found. */
     public App bluetoothMusic() {
+        // QuickFish firmware packages (com.qf.*) first: that is the unit's own Bluetooth app.
+        for (App a : apps) {
+            String l = (a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
+            if (a.hidden && a.pkg.startsWith("com.qf") && (l.contains("music") || l.contains("audio") || l.contains("a2dp")
+                    || l.contains("player"))) return a;
+        }
         for (App a : apps) {
             String l = (a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
             if (a.hidden && (l.contains("music") || l.contains("audio") || l.contains("a2dp") || l.contains("player"))) return a;

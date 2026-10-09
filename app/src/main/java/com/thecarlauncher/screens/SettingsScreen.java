@@ -386,7 +386,43 @@ public class SettingsScreen extends Screen {
                     }
                 });
         toggle(s("Probudi BT aplikaciju pri izboru izvora", "Wake BT app when selecting the source"), Prefs.BT_WAKE, false, false);
+        action(s("Dijagnostika (QF / Bluetooth)", "Diagnostics (QF / Bluetooth)"), null, new Runnable() {
+            public void run() {
+                push(s("Dijagnostika", "Diagnostics"), new Page() {
+                    public void build() { buildBtDiagnostics(); }
+                });
+            }
+        });
         toggle(s("Šalji komande sistemski", "Send controls system-wide"), Prefs.BT_SYSTEM_KEYS, false, false);
+    }
+
+    /** What this unit exposes for Bluetooth music: QF packages, hidden screens, QF broadcasts. */
+    private void buildBtDiagnostics() {
+        com.thecarlauncher.media.QfMediaBridge qf = com.thecarlauncher.media.QfMediaBridge.get(act);
+        AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
+        info(s("BT ekran", "BT screen"), screen == null ? "—" : screen.key());
+        info(s("BT_STATE", "BT_STATE"), qf.btState() < 0 ? "—" : String.valueOf(qf.btState()));
+        com.thecarlauncher.media.PhoneStatus ps = com.thecarlauncher.media.PhoneStatus.get(act);
+        info(s("Telefon (baterija / signal)", "Phone (battery / signal)"), (ps.connected() ? "BT ✓  " : "BT ✗  ")
+                + ps.battery() + " / " + ps.signal());
+        String last = qf.lastBroadcast();
+        if (last == null) {
+            info(s("Poslednja QF poruka", "Last QF broadcast"), s("još nijedna — pusti BT muziku", "none yet — play BT music"));
+        } else {
+            for (String line : last.split("\n")) info(line.trim(), null);
+        }
+        for (AppRepository.App a : AppRepository.get(act).all()) {
+            if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
+        }
+        java.util.List<String> qfPkgs = new ArrayList<>();
+        try {
+            for (android.content.pm.ApplicationInfo ai : act.getPackageManager().getInstalledApplications(0)) {
+                if (ai.packageName.startsWith("com.qf") || ai.packageName.contains("bluetooth")) qfPkgs.add(ai.packageName);
+            }
+        } catch (Exception ignored) {
+        }
+        java.util.Collections.sort(qfPkgs);
+        for (String p : qfPkgs) info(p, appLabel(p));
     }
 
     private void buildAppConnect() {
