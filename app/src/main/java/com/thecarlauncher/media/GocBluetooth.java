@@ -44,6 +44,9 @@ public final class GocBluetooth {
     private long posMs = -1, lenMs = -1, posAt;
     private int signal = -1, battery = -1;
     private long updated;
+    private volatile long received;
+    private final StringBuilder rawHead = new StringBuilder();
+    private volatile String lastError = "—";
 
     public static synchronized GocBluetooth get(Context c) {
         if (sInstance == null) sInstance = new GocBluetooth(c.getApplicationContext());
@@ -88,8 +91,25 @@ public final class GocBluetooth {
             long lastAsk = System.currentTimeMillis();
             try {
                 while (running) {
-                    int r = c.in.read(buf);
-                    if (r < 0) break;
+                    int r;
+                    try {
+                        r = c.in.read(buf);
+                    } catch (java.net.SocketTimeoutException quiet) {
+                        // The daemon only talks when something happens: silence is normal.
+                        if (System.currentTimeMillis() - lastAsk > 5000) {
+                            send("MK");
+                            lastAsk = System.currentTimeMillis();
+                        }
+                        continue;
+                    }
+                    if (r < 0) {
+                        lastError = "zatvorio servis (EOF)";
+                        break;
+                    }
+                    received += r;
+                    if (rawHead.length() < 120) {
+                        for (int i = 0; i < r && rawHead.length() < 120; i++) rawHead.append(String.format(Locale.US, "%02X ", buf[i] & 0xFF));
+                    }
                     for (int i = 0; i < r; i++) {
                         byte b = buf[i];
                         if (b == '\n') continue;
@@ -106,11 +126,12 @@ public final class GocBluetooth {
                         lastAsk = System.currentTimeMillis();
                     }
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                lastError = e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
             }
             out = null;
             c.close();
-            status = "veza prekinuta, ponovo…";
+            status = "veza prekinuta, ponovo… (" + endpoint + ")";
             sleep(3000);
         }
     }
@@ -292,9 +313,18 @@ public final class GocBluetooth {
         return lenMs > 0 ? Math.min(p, lenMs) : p;
     }
 
-    public String status() {
+    /** Diagnostics: bytes received, first raw bytes, last error. */
+    public String traffic() {
+        return received + " B" + (rawHead.length() > 0 ? "  " + rawHead.toString().trim() : "") + "  · " + lastError;
+    }
+
+    public String serialInfo() {
         File serial = new File("/dev/goc_serial");
-        return status + (serial.exists() ? "  (/dev/goc_serial " + (serial.canRead() ? "r" : "-") + (serial.canWrite() ? "w" : "-") + ")" : "");
+        return serial.exists() ? (serial.canRead() ? "r" : "-") + (serial.canWrite() ? "w" : "-") : "ne postoji";
+    }
+
+    public String status() {
+        return status;
     }
 
     public List<String> lastLines() {

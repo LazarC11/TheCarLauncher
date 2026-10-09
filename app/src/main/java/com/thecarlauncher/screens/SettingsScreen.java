@@ -527,12 +527,16 @@ public class SettingsScreen extends Screen {
         // ---- Direct sources: MCU packets, system services, BT app components ----
         final com.thecarlauncher.media.GocBluetooth goc = com.thecarlauncher.media.GocBluetooth.get(act);
         info(s("GOC Bluetooth servis", "GOC Bluetooth daemon"), goc.status());
+        info("/dev/goc_serial", goc.serialInfo());
+        String tr = goc.traffic();
+        for (int i = 0; i < tr.length(); i += 56) info((i == 0 ? s("GOC primljeno: ", "GOC received: ") : "") + tr.substring(i, Math.min(tr.length(), i + 56)), null);
         info(s("GOC pesma", "GOC song"), goc.hasSong() ? goc.title() + " — " + goc.artist() : "—");
         action(s("GOC: zatraži podatke o pesmi", "GOC: ask for song info"), "AT#MK", new Runnable() {
             public void run() {
                 goc.start();
                 boolean ok = goc.send("MK") & goc.send("VI");
-                Ui.toast(act, ok ? s("Poslato — osveži za 2 s", "Sent — refresh in 2 s") : s("GOC nije povezan", "GOC not connected"));
+                Ui.toast(act, ok ? s("Poslato — osveži za 2 s", "Sent — refresh in 2 s")
+                        : s("GOC nije povezan: ", "GOC not connected: ") + goc.status());
             }
         });
         for (String l : goc.lastLines()) info("GOC ← " + l, null);
