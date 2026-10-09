@@ -284,10 +284,12 @@ public class RadioScreen extends Screen implements RadioController.Listener {
             radio.start();
         } else {
             message.setVisibility(View.VISIBLE);
-            message.setText(s("FM tjuner nije dostupan na ovom uređaju.\n(" + radio.error()
-                            + ")\n\nDodirnite za fabričku radio aplikaciju.",
-                    "FM tuner is not available on this unit.\n(" + radio.error()
-                            + ")\n\nTap to open the factory radio app."));
+            String app = LauncherActivity.radioPackage(act);
+            String why = radio.error() == null ? s("isključen u Podešavanjima", "switched off in Setup") : radio.error();
+            message.setText(s("FM tjuner nije dostupan na ovom uređaju.\n(" + why + ")\n\n"
+                            + (app != null ? "Dodirnite za radio aplikaciju." : "Radio aplikacija nije pronađena."),
+                    "FM tuner is not available on this unit.\n(" + why + ")\n\n"
+                            + (app != null ? "Tap to open the radio app." : "No radio app found.")));
         }
         radio.addListener(this);
     }

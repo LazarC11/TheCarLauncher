@@ -59,7 +59,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6;
 
     private static final int REQ_PERMS = 41;
-    private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|tuner|dab).*");
+    private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
     private final Screen[] screens = new Screen[7];
@@ -328,9 +328,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
     }
 
-    /** MENU → Radio: the built-in FM tuner when this unit has one, else the factory radio app. */
+    /**
+     * MENU → Radio: the built-in radio screen (it explains itself when this unit has no
+     * reachable tuner). Only when the built-in radio is switched off in Setup does this go
+     * straight to the factory radio app.
+     */
     public void openRadio() {
-        if (RadioController.get(this).available()) {
+        if (Prefs.bool(this, Prefs.RADIO_INTERNAL, true)) {
             show(RADIO, true);
             return;
         }
@@ -370,7 +374,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public static List<String> radioCandidates(Context c) {
         List<String> out = new ArrayList<>();
         for (AppRepository.App a : AppRepository.get(c).all()) {
-            if (RADIO_APP.matcher(a.pkg + " " + a.label).matches() && !out.contains(a.pkg)) out.add(a.pkg);
+            if (a.pkg.equals(c.getPackageName()) || a.pkg.startsWith("com.android.systemui")
+                    || a.pkg.startsWith("com.android.settings") || out.contains(a.pkg)) continue;
+            if (RADIO_APP.matcher(a.pkg + " " + a.label).matches()) out.add(a.pkg);
         }
         return out;
     }
