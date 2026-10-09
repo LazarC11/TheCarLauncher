@@ -257,25 +257,35 @@ public final class GocBluetooth {
             List<String> v = new ArrayList<>(f);
             v.set(0, first.substring(2));
             if (v.size() >= 2) {
-                title = v.get(0).trim();
+                String newTitle = v.get(0).trim();
+                if (!newTitle.equals(title)) {
+                    // New song: our own clock starts at 0:00 until the daemon reports a position.
+                    posMs = 0;
+                    posAt = System.currentTimeMillis();
+                    lenMs = -1;
+                }
+                title = newTitle;
                 artist = v.get(1).trim();
                 album = v.size() >= 6 ? v.get(2).trim() : null;
-                // Numeric tail: the first number is usually the length in ms.
-                try {
-                    int idx = v.size() >= 6 ? 3 : 2;
-                    if (v.size() > idx) {
-                        long l = Long.parseLong(v.get(idx).trim());
-                        if (l > 0) lenMs = l < 36000 ? l * 1000 : l;
+                // Numeric tail (length, track no., total…): the largest number is the length,
+                // in milliseconds, or in seconds when small.
+                long best = -1;
+                for (int i = 2; i < v.size(); i++) {
+                    try {
+                        best = Math.max(best, Long.parseLong(v.get(i).trim()));
+                    } catch (Exception ignored) {
                     }
-                } catch (Exception ignored) {
                 }
+                if (best > 0) lenMs = best < 36000 ? best * 1000 : best;
                 updated = System.currentTimeMillis();
                 changed = true;
             }
         } else if ("MB".equals(code) && first.length() == 2) {
+            freezePosition();
             playing = 1;
             changed = true;
         } else if ("MA".equals(code) && first.length() == 2) {
+            freezePosition();
             playing = 0;
             changed = true;
         } else if ("MP".equals(code) && first.length() >= 10) {
@@ -323,10 +333,18 @@ public final class GocBluetooth {
     public int playing() { return playing; }
     public long lengthMs() { return lenMs; }
 
+    /** Song position: last reported (or song start) plus the time played since. */
     public long positionMs() {
         if (posMs < 0) return -1;
-        long p = posMs + (playing == 1 ? System.currentTimeMillis() - posAt : 0);
+        long p = posMs + (playing != 0 ? System.currentTimeMillis() - posAt : 0);
         return lenMs > 0 ? Math.min(p, lenMs) : p;
+    }
+
+    /** Keeps the clock right across play / pause changes. */
+    private void freezePosition() {
+        if (posMs < 0) return;
+        posMs = positionMs();
+        posAt = System.currentTimeMillis();
     }
 
     /** Diagnostics: bytes received, first raw bytes, last error. */
