@@ -40,6 +40,7 @@ public final class GocBluetooth {
     private String title, artist, album;
     private int playing = -1;
     private long posMs = -1, lenMs = -1, posAt;
+    private volatile String lastMi, lastMp;
     private int signal = -1, battery = -1;
     private long updated;
     private volatile long received;
@@ -248,6 +249,14 @@ public final class GocBluetooth {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < f.size(); i++) sb.append(i == 0 ? "" : " | ").append(f.get(i));
             lines.add(0, sb.length() > 70 ? sb.substring(0, 70) + "…" : sb.toString());
+            // Full song lines for the diagnostics: the numeric tail decides the length.
+            if (first.startsWith("MI")) {
+                StringBuilder t = new StringBuilder();
+                for (int i = 2; i < f.size(); i++) t.append(i == 2 ? "" : " | ").append(f.get(i));
+                lastMi = t.toString();
+            } else if (first.startsWith("MP") || first.startsWith("MT") || first.startsWith("ML")) {
+                lastMp = sb.toString();
+            }
             while (lines.size() > 10) lines.remove(lines.size() - 1);
         }
         if (first.length() < 2) return;
@@ -267,16 +276,15 @@ public final class GocBluetooth {
                 title = newTitle;
                 artist = v.get(1).trim();
                 album = v.size() >= 6 ? v.get(2).trim() : null;
-                // Numeric tail (length, track no., total…): the largest number is the length,
-                // in milliseconds, or in seconds when small.
+                // Numeric tail (length, track no., total…): the largest value that reads as a
+                // believable song length. Track numbers and odd values are skipped.
                 long best = -1;
+                // Only millisecond values count here: small numbers are track no. / total.
                 for (int i = 2; i < v.size(); i++) {
-                    try {
-                        best = Math.max(best, Long.parseLong(v.get(i).trim()));
-                    } catch (Exception ignored) {
-                    }
+                    long ms = number(v.get(i));
+                    if (ms >= 10_000 && ms <= MAX_SONG) best = Math.max(best, ms);
                 }
-                if (best > 0) lenMs = best < 36000 ? best * 1000 : best;
+                if (best > 0) lenMs = best;
                 updated = System.currentTimeMillis();
                 changed = true;
             }
@@ -295,14 +303,15 @@ public final class GocBluetooth {
                     posMs = pl[0];
                     posAt = System.currentTimeMillis();
                 }
-                if (pl[1] > 0) lenMs = pl[1];
+                long l = songLength(pl[1]);
+                if (l > 0) lenMs = l;
                 changed = true;
             }
         } else if (("MT".equals(code) || "ML".equals(code)) && first.length() > 2) {
             // Some firmwares send the song length on its own line.
-            long l = number(first.substring(2));
+            long l = songLength(toMs(number(first.substring(2))));
             if (l > 0) {
-                lenMs = toMs(l);
+                lenMs = l;
                 changed = true;
             }
         } else if ("PS".equals(code) && first.length() >= 6) {
@@ -368,6 +377,22 @@ public final class GocBluetooth {
         }
         return null;
     }
+
+    private static final long MAX_SONG = 3 * 3600_000L;
+
+    /**
+     * A song length in ms, or -1 when the value cannot be one. Small values are seconds,
+     * larger ones ms; anything over three hours is not a song length.
+     */
+    static long songLength(long v) {
+        if (v <= 0) return -1;
+        if (v < 36000) return v >= 10 ? v * 1000 : -1;
+        if (v <= MAX_SONG) return v;
+        return -1;
+    }
+
+    public String lastMi() { return lastMi; }
+    public String lastMp() { return lastMp; }
 
     private static long number(String s) {
         try {

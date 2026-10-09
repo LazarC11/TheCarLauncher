@@ -555,6 +555,9 @@ public class SettingsScreen extends Screen {
                         : s("GOC nije povezan: ", "GOC not connected: ") + goc.status());
             }
         });
+        info(s("GOC brojevi uz pesmu (MI)", "GOC song numbers (MI)"), goc.lastMi() != null ? goc.lastMi() : "—");
+        info(s("GOC pozicija (MP)", "GOC position (MP)"), goc.lastMp() != null ? goc.lastMp() : "—");
+        info(s("GOC trajanje / pozicija", "GOC length / position"), Ui.time(Math.max(0, goc.lengthMs())) + " / " + Ui.time(Math.max(0, goc.positionMs())));
         for (String l : goc.lastLines()) info("GOC ← " + l, null);
         action(s("Proba BT servisa (pusti muziku)", "Probe BT daemon (play music)"), s("traje ~10 s", "takes ~10 s"), new Runnable() {
             public void run() {
