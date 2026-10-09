@@ -318,6 +318,13 @@ public class SettingsScreen extends Screen {
         });
         address(s("Kuća", "Home"), Prefs.HOME_ADDR);
         address(s("Posao", "Work"), Prefs.WORK_ADDR);
+        toggle(s("Glasovne poruke navigacije", "Voice guidance"), com.thecarlauncher.nav.Guidance.P_VOICE, true, false);
+        action(s("Obriši poslednja odredišta", "Clear recent destinations"), null, new Runnable() {
+            public void run() {
+                Prefs.put(act, com.thecarlauncher.nav.Guidance.P_RECENT, "");
+                Ui.toast(act, s("Obrisano", "Cleared"));
+            }
+        });
         final String[] names = {s("Dan (MIB)", "Day (MIB)"), s("Noć", "Night"), s("OpenStreetMap (zatamnjena)", "OpenStreetMap (dimmed)"),
                 s("Isključena (bez interneta)", "Off (no internet)")};
         final String[] keys = {Prefs.TILES_DAY, Prefs.TILES_DARK, Prefs.TILES_OSM, Prefs.TILES_OFF};
@@ -547,9 +554,11 @@ public class SettingsScreen extends Screen {
 
     private void address(final String name, final String key) {
         String addr = Prefs.str(act, key, null);
-        action(name, Ui.isEmpty(addr) ? s("Nije podešeno", "Not set") : addr, new Runnable() {
+        // Stored as "name|lat|lon" once picked from a search; show just the name.
+        final String shown = addr == null ? null : addr.split("\\|")[0];
+        action(name, Ui.isEmpty(shown) ? s("Nije podešeno", "Not set") : shown, new Runnable() {
             public void run() {
-                Dialogs.text(act, name, s("Ulica, grad", "Street, city"), Prefs.str(act, key, ""), new Dialogs.TextEntered() {
+                Dialogs.text(act, name, s("Ulica, grad", "Street, city"), shown == null ? "" : shown, new Dialogs.TextEntered() {
                     public void onText(String text) {
                         Prefs.put(act, key, Ui.isEmpty(text) ? null : text);
                         refresh();

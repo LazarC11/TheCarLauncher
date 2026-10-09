@@ -26,6 +26,7 @@ import com.thecarlauncher.util.Theme;
  */
 public class MapTileView extends View implements TileCache.Listener {
     public interface Listener { void onFollowChanged(boolean follow); }
+    public interface LongPressListener { void onLongPress(double lat, double lon); }
 
     private static final int MIN_ZOOM = 3, MAX_ZOOM = 19;
 
@@ -56,6 +57,15 @@ public class MapTileView extends View implements TileCache.Listener {
     private float scaleAccum = 1f;
     private int background = 0xFFD8CEBD;
     private final RectF ring = new RectF();
+    // Route overlay
+    private double[] routeLat, routeLon;
+    private int routeFrom;
+    private boolean hasDest;
+    private double destLat, destLon;
+    private final Paint routeCase = new Paint(Paint.ANTI_ALIAS_FLAG), routeLine = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint flagPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Path routePath = new Path();
+    private LongPressListener longPress;
 
     public MapTileView(Context c, AttributeSet a) {
         super(c, a);
@@ -69,6 +79,16 @@ public class MapTileView extends View implements TileCache.Listener {
         markerStroke.setColor(0xFFFFFFFF);
         markerStroke.setStrokeJoin(Paint.Join.ROUND);
         if (!isInEditMode()) cache = TileCache.get(c);
+        routeCase.setStyle(Paint.Style.STROKE);
+        routeCase.setStrokeJoin(Paint.Join.ROUND);
+        routeCase.setStrokeCap(Paint.Cap.ROUND);
+        routeCase.setStrokeWidth(10f * density);
+        routeCase.setColor(0xFF0B3D7A);
+        routeLine.setStyle(Paint.Style.STROKE);
+        routeLine.setStrokeJoin(Paint.Join.ROUND);
+        routeLine.setStrokeCap(Paint.Cap.ROUND);
+        routeLine.setStrokeWidth(6.5f * density);
+        routeLine.setColor(0xFF3C9BFF);
     }
 
     public void setSource(String s) {
@@ -123,6 +143,15 @@ public class MapTileView extends View implements TileCache.Listener {
                 }
 
                 @Override
+                public void onLongPress(MotionEvent e) {
+                    if (longPress == null) return;
+                    double world = tileSize * Math.pow(2, zoom);
+                    double x = lonToX(centerLon) * world + (e.getX() - getWidth() / 2.0);
+                    double y = latToY(centerLat) * world + (e.getY() - getHeight() / 2.0);
+                    longPress.onLongPress(yToLat(y / world), xToLon(x / world));
+                }
+
+                @Override
                 public boolean onDoubleTap(MotionEvent e) {
                     setZoom(zoom + 1);
                     return true;
@@ -146,6 +175,45 @@ public class MapTileView extends View implements TileCache.Listener {
     }
 
     public void setListener(Listener l) { listener = l; }
+
+    public void setLongPressListener(LongPressListener l) { longPress = l; }
+
+    /** Route line to draw (null clears), plus the destination flag. */
+    public void setRoute(double[] lat, double[] lon) {
+        routeLat = lat;
+        routeLon = lon;
+        routeFrom = 0;
+        invalidate();
+    }
+
+    /** Hides the part of the route already driven. */
+    public void setRouteProgress(int fromIndex) {
+        routeFrom = Math.max(0, fromIndex);
+        invalidate();
+    }
+
+    public void setDestination(boolean show, double lat, double lon) {
+        hasDest = show;
+        destLat = lat;
+        destLon = lon;
+        invalidate();
+    }
+
+    /** Centres and zooms so the box fits with a margin; stops following. */
+    public void fit(double minLat, double minLon, double maxLat, double maxLon) {
+        int w = Math.max(1, getWidth()), h = Math.max(1, getHeight());
+        int z = MAX_ZOOM - 2;
+        for (; z > MIN_ZOOM; z--) {
+            double world = tileSize * Math.pow(2, z);
+            double dx = (lonToX(maxLon) - lonToX(minLon)) * world, dy = (latToY(minLat) - latToY(maxLat)) * world;
+            if (dx < w * 0.75 && dy < h * 0.75) break;
+        }
+        centerLat = yToLat((latToY(minLat) + latToY(maxLat)) / 2);
+        centerLon = (minLon + maxLon) / 2;
+        zoom = z;
+        setFollow(false);
+        invalidate();
+    }
 
     public int getZoom() { return zoom; }
 
@@ -262,7 +330,51 @@ public class MapTileView extends View implements TileCache.Listener {
             }
         }
 
+        drawRoute(c, left, top, world);
         if (hasPosition) drawMarker(c, left, top, world);
+    }
+
+    private void drawRoute(Canvas c, double left, double top, double world) {
+        if (routeLat != null && routeLat.length > 1) {
+            routePath.reset();
+            boolean started = false;
+            float lx = 0, ly = 0;
+            for (int i = Math.min(routeFrom, routeLat.length - 2); i < routeLat.length; i++) {
+                float x = (float) (lonToX(routeLon[i]) * world - left), y = (float) (latToY(routeLat[i]) * world - top);
+                if (!started) {
+                    routePath.moveTo(x, y);
+                    started = true;
+                } else if (Math.abs(x - lx) + Math.abs(y - ly) < 1.5f && i < routeLat.length - 1) {
+                    continue; // skip sub-pixel points
+                } else {
+                    routePath.lineTo(x, y);
+                }
+                lx = x;
+                ly = y;
+            }
+            c.drawPath(routePath, routeCase);
+            c.drawPath(routePath, routeLine);
+        }
+        if (hasDest) {
+            float x = (float) (lonToX(destLon) * world - left), y = (float) (latToY(destLat) * world - top);
+            float s = 14f * density;
+            flagPaint.setStyle(Paint.Style.FILL);
+            flagPaint.setColor(0xFF1C1C22);
+            c.drawRect(x - 1.2f * density, y - 2.6f * s, x + 1.2f * density, y, flagPaint);
+            // Chequered finish flag
+            float fw = s * 1.5f, fh = s, cell = fw / 4f;
+            for (int r = 0; r < 3; r++) {
+                for (int k = 0; k < 4; k++) {
+                    flagPaint.setColor(((r + k) % 2 == 0) ? 0xFF1C1C22 : 0xFFFFFFFF);
+                    float fx = x + k * cell, fy = y - 2.6f * s + r * fh / 3f;
+                    c.drawRect(fx, fy, fx + cell, fy + fh / 3f, flagPaint);
+                }
+            }
+            flagPaint.setStyle(Paint.Style.STROKE);
+            flagPaint.setStrokeWidth(density);
+            flagPaint.setColor(0xFF1C1C22);
+            c.drawRect(x, y - 2.6f * s, x + fw, y - 2.6f * s + fh, flagPaint);
+        }
     }
 
     /** While a tile loads, stretch the matching quarter of a cached lower-zoom tile. */
