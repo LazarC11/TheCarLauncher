@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.thecarlauncher'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.thecarlauncher'
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    signingConfigs {
+        // A fixed key so every build (local or CI) installs as an update over the last one.
+        release {
+            storeFile rootProject.file('keystore/release.jks')
+            storePassword 'carlauncher'
+            keyAlias 'carlauncher'
+            keyPassword 'carlauncher'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}

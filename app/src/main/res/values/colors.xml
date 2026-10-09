@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_deep">#FF04060A</color>
+    <color name="bg_top">#FF0B1119</color>
+    <color name="tile_top">#FF131A23</color>
+    <color name="tile_bottom">#FF0B1016</color>
+    <color name="tile_pressed">#FF1A2430</color>
+    <color name="stroke">#FF1F2833</color>
+    <color name="stroke_strong">#FF2C3846</color>
+    <color name="divider">#FF18202A</color>
+    <color name="text_primary">#FFF3F6F9</color>
+    <color name="text_secondary">#FF9AA6B4</color>
+    <color name="text_dim">#FF5C6876</color>
+    <color name="accent_default">#FF2FA4FF</color>
+    <color name="danger">#FFFF4D5E</color>
+    <color name="icon_bg">#FF0A1017</color>
+    <color name="scrim">#CC05080C</color>
+</resources>

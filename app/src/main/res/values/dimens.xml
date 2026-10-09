@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compact defaults: 800x480 units and high-density 1024x600 panels. -->
+    <dimen name="gap">8dp</dimen>
+    <dimen name="screen_pad">10dp</dimen>
+    <dimen name="tile_radius">14dp</dimen>
+    <dimen name="status_height">36dp</dimen>
+    <dimen name="dock_height">56dp</dimen>
+    <dimen name="tile_pad">12dp</dimen>
+    <dimen name="play_button">60dp</dimen>
+    <dimen name="media_title">24sp</dimen>
+    <dimen name="home_title">18sp</dimen>
+    <dimen name="home_play">44dp</dimen>
+    <dimen name="home_icon_button">40dp</dimen>
+    <bool name="compact">true</bool>
+</resources>
