@@ -67,6 +67,10 @@ public final class TileCache {
             return String.format(Locale.US, "https://tile.openstreetmap.org/%d/%d/%d.png", z, x, y);
         }
         char sub = "abcd".charAt(Math.abs(x + y) % 4);
+        if ("mib_day".equals(source)) {
+            return String.format(Locale.US, "https://%c.basemaps.cartocdn.com/rastertiles/voyager/%d/%d/%d%s.png",
+                    sub, z, x, y, hiDpi ? "@2x" : "");
+        }
         return String.format(Locale.US, "https://%c.basemaps.cartocdn.com/dark_all/%d/%d/%d%s.png",
                 sub, z, x, y, hiDpi ? "@2x" : "");
     }

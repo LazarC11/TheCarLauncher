@@ -26,7 +26,7 @@ echo "> Compiling resources"
 "$BT/aapt2" compile --dir "$SRC/res" -o "$OUT/compiled/res.zip"
 sed "s|<manifest |<manifest package=\"$PKG\" |" "$SRC/AndroidManifest.xml" > "$OUT/AndroidManifest.xml"
 "$BT/aapt2" link -o "$OUT/app.unsigned.apk" -I "$FRAMEWORK_RES" \
-    --manifest "$OUT/AndroidManifest.xml" --java "$OUT/gen" \
+    --manifest "$OUT/AndroidManifest.xml" --java "$OUT/gen" -A "$SRC/assets" \
     --min-sdk-version 21 --target-sdk-version 34 \
     --version-code "$VERSION_CODE" --version-name "$VERSION_NAME" \
     "$OUT/compiled/res.zip"

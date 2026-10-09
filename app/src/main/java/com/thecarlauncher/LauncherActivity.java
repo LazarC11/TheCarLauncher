@@ -2,7 +2,6 @@ package com.thecarlauncher;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -29,45 +27,43 @@ import com.thecarlauncher.apps.AppRepository;
 import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.media.MusicService;
+import com.thecarlauncher.mib.Mib;
+import com.thecarlauncher.mib.MibBackground;
 import com.thecarlauncher.nav.LocationTracker;
+import com.thecarlauncher.nav.TripComputer;
 import com.thecarlauncher.screens.AppsScreen;
 import com.thecarlauncher.screens.Dialogs;
-import com.thecarlauncher.screens.HomeScreen;
 import com.thecarlauncher.screens.MediaScreen;
+import com.thecarlauncher.screens.MenuScreen;
 import com.thecarlauncher.screens.NavScreen;
 import com.thecarlauncher.screens.Screen;
 import com.thecarlauncher.screens.SettingsScreen;
+import com.thecarlauncher.screens.VehicleScreen;
 import com.thecarlauncher.util.Prefs;
-import com.thecarlauncher.util.Theme;
 import com.thecarlauncher.util.Ui;
-import com.thecarlauncher.views.ScreenBackground;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
-public class LauncherActivity extends Activity implements LocationTracker.Listener {
+/** Home activity: MIB status bar on top, one screen at a time below, MENU as the root. */
+public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int HOME = 0, NAV = 1, MEDIA = 2, PHONE = 3, APPS = 4, SETTINGS = 5;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5;
 
     private static final int REQ_PERMS = 41;
-    private static final int[] DOCK_ICONS = {
-            R.drawable.ic_home, R.drawable.ic_navigation, R.drawable.ic_music,
-            R.drawable.ic_phone, R.drawable.ic_apps, R.drawable.ic_settings
-    };
-    private static final String[] DOCK_LABELS = {"Home", "Navigation", "Media", "Phone", "Apps", "Settings"};
+    private static final Pattern RADIO = Pattern.compile("(?i).*(radio|\\bfm\\b|tuner|dab).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
     private final Screen[] screens = new Screen[6];
-    private final View[] dockItems = new View[6];
     private int current = -1;
-    private int accent;
 
     private FrameLayout content;
-    private TextView timeView, dateView, titleView, vehicleView;
-    private ImageView gpsIcon, btIcon, wifiIcon;
+    private TextView timeView, tagView, rightView;
+    private ImageView globe;
 
     private final Runnable clock = new Runnable() {
         @Override
@@ -94,38 +90,42 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        accent = Theme.accent(this);
-        Window w = getWindow();
-        w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        setContentView(R.layout.activity_launcher);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(0xFF111116);
+        getWindow().setNavigationBarColor(0xFF111116);
 
-        View root = findViewById(R.id.root);
-        root.setBackground(new ScreenBackground(Prefs.str(this, Prefs.WALLPAPER, Prefs.WALL_AURORA), accent));
-        content = findViewById(R.id.content);
-        timeView = findViewById(R.id.status_time);
-        dateView = findViewById(R.id.status_date);
-        titleView = findViewById(R.id.status_title);
-        vehicleView = findViewById(R.id.status_vehicle);
-        gpsIcon = findViewById(R.id.status_gps);
-        btIcon = findViewById(R.id.status_bt);
-        wifiIcon = findViewById(R.id.status_wifi);
-        findViewById(R.id.status_glow).setBackground(Theme.glowLine(accent));
-        vehicleView.setText(Prefs.vehicle(this));
-        buildDock();
+        FrameLayout root = new FrameLayout(this);
+        root.setBackground(new MibBackground());
+        LinearLayout col = new LinearLayout(this);
+        col.setOrientation(LinearLayout.VERTICAL);
+        root.addView(col);
+        col.addView(buildStatusBar(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 58)));
+        View rule = new View(this);
+        rule.setBackgroundColor(0xFF7D7F89);
+        LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                Math.max(1, Mib.px(this, 1.3f)));
+        rl.leftMargin = Mib.px(this, 14);
+        rl.rightMargin = Mib.px(this, 14);
+        col.addView(rule, rl);
+        content = new FrameLayout(this);
+        col.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        setContentView(root);
 
-        screens[HOME] = new HomeScreen(this);
+        screens[MENU] = new MenuScreen(this);
         screens[NAV] = new NavScreen(this);
         screens[MEDIA] = new MediaScreen(this);
         screens[APPS] = new AppsScreen(this);
         screens[SETTINGS] = new SettingsScreen(this);
+        screens[VEHICLE] = new VehicleScreen(this);
 
-        int start = HOME;
-        if (savedInstanceState != null) start = savedInstanceState.getInt("screen", HOME);
+        int start = MENU;
+        if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
         show(screenFromIntent(getIntent(), start), false);
 
         MediaHub.get(this).connectExternal();
         if (MusicLibrary.hasPermission(this)) MusicService.start(this);
         AppRepository.get(this);
+        TripComputer.get(this);
 
         IntentFilter pf = new IntentFilter();
         pf.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -133,13 +133,54 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         pf.addAction(Intent.ACTION_PACKAGE_CHANGED);
         pf.addDataScheme("package");
         registerReceiver(packageReceiver, pf);
-
         IntentFilter sf = new IntentFilter();
-        sf.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         sf.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(statusReceiver, sf);
 
         requestMissingPermissions(false);
+    }
+
+    private View buildStatusBar() {
+        FrameLayout bar = new FrameLayout(this);
+        ImageView compass = Mib.icon(this, R.drawable.mib_compass, Mib.WHITE);
+        int pad = Mib.px(this, 8);
+        compass.setPadding(pad, pad, pad, pad);
+        compass.setBackground(Mib.keyPressed());
+        compass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show(MENU, true);
+            }
+        });
+        FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(Mib.px(this, 54), Mib.px(this, 54),
+                Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        cl.leftMargin = Mib.px(this, 20);
+        bar.addView(compass, cl);
+
+        LinearLayout center = new LinearLayout(this);
+        center.setGravity(Gravity.CENTER_VERTICAL);
+        globe = Mib.icon(this, R.drawable.mib_globe, Mib.WHITE);
+        center.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 32), Mib.px(this, 32)));
+        timeView = Mib.text(this, "", 41, Mib.semibold(this), Mib.WHITE);
+        LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        tl.leftMargin = Mib.px(this, 54);
+        tl.rightMargin = Mib.px(this, 40);
+        center.addView(timeView, tl);
+        tagView = Mib.text(this, "", 27, Mib.semibold(this), Mib.WHITE);
+        tagView.setMinWidth(Mib.px(this, 40));
+        center.addView(tagView);
+        FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+        ml.leftMargin = Mib.px(this, 40); // the factory clock sits slightly right of centre
+        bar.addView(center, ml);
+
+        rightView = Mib.text(this, "", 32, Mib.semibold(this), Mib.WHITE);
+        FrameLayout.LayoutParams rl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        rl.rightMargin = Mib.px(this, 36);
+        bar.addView(rightView, rl);
+        return bar;
     }
 
     @Override
@@ -156,9 +197,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (target >= 0) {
             show(target, true);
         } else if (Intent.ACTION_MAIN.equals(intent.getAction()) && intent.hasCategory(Intent.CATEGORY_HOME)) {
-            // Home key pressed while already home: reset to the dashboard.
-            if (current >= 0 && screens[current] != null) screens[current].onBack();
-            show(HOME, true);
+            // Home key: back to MENU, like the factory MENU button.
+            if (current >= 0) while (screens[current].onBack()) { /* unwind sub-pages */ }
+            show(MENU, true);
         }
     }
 
@@ -175,6 +216,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LocationTracker t = LocationTracker.get(this);
         t.start();
         t.addListener(this);
+        MediaHub.get(this).addListener(this);
         main.post(clock);
         updateIndicators();
     }
@@ -184,12 +226,12 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         super.onResume();
         applyImmersive();
         MediaHub.get(this).connectExternal();
-        if (current >= 0 && screens[current] != null) screens[current].onShow();
+        if (current >= 0) screens[current].onShow();
     }
 
     @Override
     protected void onPause() {
-        if (current >= 0 && screens[current] != null) screens[current].onHide();
+        if (current >= 0) screens[current].onHide();
         super.onPause();
     }
 
@@ -199,6 +241,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LocationTracker t = LocationTracker.get(this);
         t.removeListener(this);
         t.stop();
+        MediaHub.get(this).removeListener(this);
         super.onStop();
     }
 
@@ -218,94 +261,92 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     public void onBackPressed() {
-        if (current >= 0 && screens[current] != null && screens[current].onBack()) return;
-        if (current != HOME) show(HOME, true);
-        // A launcher never finishes on back.
+        if (current >= 0 && screens[current].onBack()) return;
+        if (current != MENU) show(MENU, true);
     }
 
-    public int accent() { return accent; }
+    /** Kept for screens that still ask for an accent colour. */
+    public int accent() { return Mib.BLUE; }
 
-    // ---- Screens & dock --------------------------------------------------------------------
-
-    private void buildDock() {
-        LinearLayout dock = findViewById(R.id.dock);
-        LayoutInflater inf = LayoutInflater.from(this);
-        for (int i = 0; i < DOCK_ICONS.length; i++) {
-            View item = inf.inflate(R.layout.dock_item, dock, false);
-            ((ImageView) item.findViewById(R.id.dock_icon)).setImageResource(DOCK_ICONS[i]);
-            ((TextView) item.findViewById(R.id.dock_label)).setText(DOCK_LABELS[i]);
-            final int idx = i;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (idx == PHONE) openPhone();
-                    else show(idx, true);
-                }
-            });
-            dockItems[i] = item;
-            dock.addView(item);
-        }
-    }
+    // ---- Screens ----------------------------------------------------------------------------
 
     public void show(int idx, boolean animate) {
-        if (idx == PHONE || screens[idx] == null) return;
+        if (idx < 0 || idx >= screens.length || screens[idx] == null) return;
         hideKeyboard();
         if (idx == current) return;
         if (current >= 0) {
-            Screen old = screens[current];
-            old.onHide();
-            old.view(content).setVisibility(View.GONE);
+            screens[current].onHide();
+            screens[current].view(content).setVisibility(View.GONE);
         }
         current = idx;
         Screen s = screens[idx];
         View v = s.view(content);
         if (v.getParent() == null) {
-            Theme.apply(v, accent);
             content.addView(v, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
         v.setVisibility(View.VISIBLE);
         if (animate) {
             v.setAlpha(0f);
-            v.setTranslationY(Ui.dp(this, 14));
-            v.animate().alpha(1f).translationY(0f).setDuration(220).start();
+            v.animate().alpha(1f).setDuration(180).start();
         }
-        titleView.setText(s.title());
         s.onShow();
-        for (int i = 0; i < dockItems.length; i++) styleDockItem(i, i == idx);
     }
 
-    private void styleDockItem(int i, boolean selected) {
-        View item = dockItems[i];
-        ImageView icon = item.findViewById(R.id.dock_icon);
-        TextView label = item.findViewById(R.id.dock_label);
-        View ind = item.findViewById(R.id.dock_indicator);
-        Theme.tint(icon, selected ? accent : Theme.TEXT_SECONDARY);
-        label.setTextColor(selected ? Theme.TEXT_PRIMARY : Theme.TEXT_DIM);
-        ind.setBackground(selected ? Theme.indicator(this, accent) : null);
+    public void showSettings(int page) {
+        show(SETTINGS, true);
+        ((SettingsScreen) screens[SETTINGS]).open(page);
     }
 
-    /** Opens the chosen phone app, asking once which one to use. */
     public void openPhone() {
         String pkg = Prefs.str(this, Prefs.PHONE_PKG, null);
         if (pkg != null && AppRepository.launchPackage(this, pkg)) return;
-        Dialogs.pickApp(this, "Choose your phone app", "System dialer", new Dialogs.AppPicked() {
-            @Override
-            public void onPicked(String p) {
-                if (p == null) {
-                    Prefs.put(LauncherActivity.this, Prefs.PHONE_PKG, (String) null);
-                    if (!Ui.start(LauncherActivity.this, new Intent(Intent.ACTION_DIAL))) {
-                        Ui.toast(LauncherActivity.this, "No dialer available");
-                    }
-                } else {
-                    Prefs.put(LauncherActivity.this, Prefs.PHONE_PKG, p);
-                    AppRepository.launchPackage(LauncherActivity.this, p);
-                }
-            }
-        });
+        if (!Ui.start(this, new Intent(Intent.ACTION_DIAL))) {
+            Ui.toast(this, Mib.t(this, "Izaberite aplikaciju za telefon u Podešavanjima",
+                    "Choose a phone app in Setup"));
+            show(SETTINGS, true);
+        }
     }
 
-    /** Rebuilds the whole UI after theme-level settings change. */
+    public void openRadio() {
+        String pkg = radioPackage(this);
+        if (pkg != null && AppRepository.launchPackage(this, pkg)) return;
+        Ui.toast(this, Mib.t(this, "Izaberite aplikaciju za radio (dugi pritisak u Aplikacijama)",
+                "Choose a radio app (long-press it in Apps)"));
+        show(APPS, true);
+    }
+
+    public void openProjection() {
+        List<String> found = new ArrayList<>();
+        String pkg = Prefs.str(this, Prefs.PROJECTION_PKG, null);
+        if (pkg == null) {
+            for (AppRepository.App a : AppRepository.get(this).all()) {
+                String h = (a.pkg + " " + a.label).toLowerCase(Locale.ROOT);
+                if (h.contains("zlink") || h.contains("carplay") || h.contains("carlink") || h.contains("android auto")
+                        || h.contains("autokit") || h.contains("zjinnova")) found.add(a.pkg);
+            }
+            if (!found.isEmpty()) pkg = found.get(0);
+        }
+        if (pkg != null && AppRepository.launchPackage(this, pkg)) return;
+        Ui.toast(this, Mib.t(this, "ZLink / CarPlay aplikacija nije pronađena", "No ZLink / CarPlay app found"));
+    }
+
+    public static String radioPackage(Context c) {
+        String p = Prefs.str(c, Prefs.RADIO_PKG, null);
+        if (p != null) return p;
+        List<String> r = radioCandidates(c);
+        return r.isEmpty() ? null : r.get(0);
+    }
+
+    public static List<String> radioCandidates(Context c) {
+        List<String> out = new ArrayList<>();
+        for (AppRepository.App a : AppRepository.get(c).all()) {
+            if (RADIO.matcher(a.pkg + " " + a.label).matches() && !out.contains(a.pkg)) out.add(a.pkg);
+        }
+        return out;
+    }
+
+    /** Rebuilds the UI after language / map / full-screen changes. */
     public void restartUi() {
         recreate();
     }
@@ -313,8 +354,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private void hideKeyboard() {
         View f = getCurrentFocus();
         if (f != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(f.getWindowToken(), 0);
+            ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(f.getWindowToken(), 0);
             f.clearFocus();
         }
     }
@@ -323,9 +363,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private void applyImmersive() {
         View decor = getWindow().getDecorView();
         if (Prefs.bool(this, Prefs.IMMERSIVE, false)) {
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         } else {
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
@@ -334,44 +373,34 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     // ---- Status bar -------------------------------------------------------------------------
 
     private void updateClock() {
-        Date now = new Date();
         String pattern = Prefs.use24h(this) ? "HH:mm" : "h:mm";
-        timeView.setText(new SimpleDateFormat(pattern, Locale.getDefault()).format(now));
-        dateView.setText(new SimpleDateFormat("EEE d MMM", Locale.getDefault()).format(now));
+        timeView.setText(new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date()));
     }
 
-    @SuppressWarnings({"deprecation", "MissingPermission"})
+    @SuppressWarnings("deprecation")
     private void updateIndicators() {
-        boolean bt = false;
-        try {
-            BluetoothAdapter a = BluetoothAdapter.getDefaultAdapter();
-            bt = a != null && a.isEnabled();
-        } catch (Exception ignored) {
-        }
-        Theme.tint(btIcon, bt ? Theme.TEXT_PRIMARY : Theme.TEXT_DIM);
-        btIcon.setAlpha(bt ? 1f : 0.5f);
-
         boolean net = false;
         try {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo ni = cm.getActiveNetworkInfo();
+            NetworkInfo ni = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
             net = ni != null && ni.isConnected();
         } catch (Exception ignored) {
         }
-        Theme.tint(wifiIcon, net ? Theme.TEXT_PRIMARY : Theme.TEXT_DIM);
-        wifiIcon.setAlpha(net ? 1f : 0.5f);
+        globe.setAlpha(net ? 1f : 0.35f);
     }
 
     @Override
     public void onLocationUpdate(LocationTracker t) {
-        boolean fix = t.hasFix();
-        Theme.tint(gpsIcon, fix ? accent : Theme.TEXT_DIM);
-        gpsIcon.setAlpha(fix ? 1f : 0.5f);
+        float sp = t.speed(this);
+        rightView.setText(t.hasFix() && sp >= 3 ? Math.round(sp) + " " + LocationTracker.unit(this) : "");
+    }
+
+    @Override
+    public void onMediaChanged() {
+        tagView.setText(MediaHub.get(this).isBluetooth() ? "BT" : "");
     }
 
     // ---- Permissions ------------------------------------------------------------------------
 
-    /** Asks for location, music and notification permissions that are still missing. */
     public void requestMissingPermissions(boolean force) {
         if (!force && Prefs.bool(this, Prefs.ASKED_PERMS, false)) return;
         List<String> need = new ArrayList<>();

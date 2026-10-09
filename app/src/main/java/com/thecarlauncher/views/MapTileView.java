@@ -54,6 +54,8 @@ public class MapTileView extends View implements TileCache.Listener {
     private GestureDetector gestures;
     private ScaleGestureDetector scaler;
     private float scaleAccum = 1f;
+    private int background = 0xFFD8CEBD;
+    private final RectF ring = new RectF();
 
     public MapTileView(Context c, AttributeSet a) {
         super(c, a);
@@ -82,9 +84,20 @@ public class MapTileView extends View implements TileCache.Listener {
             dim.setScale(0.75f, 0.8f, 0.9f, 1f);
             invert.postConcat(dim);
             tilePaint.setColorFilter(new ColorMatrixColorFilter(invert));
+        } else if (Prefs.TILES_DAY.equals(s)) {
+            // Warm, slightly muted day palette: beige land, cream roads, like a factory map.
+            ColorMatrix warm = new ColorMatrix();
+            warm.setSaturation(0.7f);
+            ColorMatrix tint = new ColorMatrix();
+            tint.setScale(0.97f, 0.93f, 0.85f, 1f);
+            warm.postConcat(tint);
+            tilePaint.setColorFilter(new ColorMatrixColorFilter(warm));
         } else {
             tilePaint.setColorFilter(null);
         }
+        boolean day = Prefs.TILES_DAY.equals(s) || Prefs.TILES_OFF.equals(s);
+        background = day ? 0xFFD8CEBD : 0xFF0A0E13;
+        gridPaint.setColor(day ? 0xFFCDC2AF : 0xFF141B24);
         invalidate();
     }
 
@@ -221,7 +234,7 @@ public class MapTileView extends View implements TileCache.Listener {
     @Override
     protected void onDraw(Canvas c) {
         int w = getWidth(), h = getHeight();
-        c.drawColor(0xFF0A0E13);
+        c.drawColor(background);
         double world = tileSize * Math.pow(2, zoom);
         double cx = lonToX(centerLon) * world;
         double cy = latToY(centerLat) * world;
@@ -275,36 +288,42 @@ public class MapTileView extends View implements TileCache.Listener {
         for (float y = oy; y < h; y += step) c.drawLine(0, y, w, y, gridPaint);
     }
 
+    /** Factory-style position marker: red arrowhead inside a red ellipse ring. */
     private void drawMarker(Canvas c, double left, double top, double world) {
         float mx = (float) (lonToX(myLon) * world - left);
         float my = (float) (latToY(myLat) * world - top);
-        float r = 26f * density;
-        if (hasFix && accuracyM > 0) {
-            double metersPerPx = 156543.03392 * Math.cos(Math.toRadians(myLat)) / Math.pow(2, zoom) * 256.0 / tileSize;
-            float ar = (float) (accuracyM / metersPerPx);
-            if (ar > r) {
-                accuracyPaint.setColor(Theme.alpha(accent, 0x1E));
-                c.drawCircle(mx, my, ar, accuracyPaint);
-            }
-        }
-        glowPaint.setShader(new RadialGradient(mx, my, r * 1.6f,
-                new int[]{Theme.alpha(accent, hasFix ? 0x88 : 0x33), Theme.alpha(accent, 0)}, null,
-                Shader.TileMode.CLAMP));
-        c.drawCircle(mx, my, r * 1.6f, glowPaint);
+        float rx = 30f * density, ry = 20f * density;
+        int red = hasFix ? 0xFFD3202B : 0xFF8A8A8A;
+        accuracyPaint.setStyle(Paint.Style.STROKE);
+        accuracyPaint.setStrokeWidth(2.6f * density);
+        accuracyPaint.setColor(red);
+        ring.set(mx - rx, my - ry, mx + rx, my + ry);
+        c.drawOval(ring, accuracyPaint);
 
         float s = 13f * density;
         arrow.reset();
         arrow.moveTo(0, -s);
-        arrow.lineTo(s * 0.78f, s * 0.85f);
-        arrow.lineTo(0, s * 0.4f);
-        arrow.lineTo(-s * 0.78f, s * 0.85f);
+        arrow.lineTo(s * 0.7f, s * 0.75f);
+        arrow.lineTo(0, s * 0.42f);
+        arrow.lineTo(-s * 0.7f, s * 0.75f);
         arrow.close();
         c.save();
         c.translate(mx, my);
         c.rotate(bearing);
-        markerFill.setColor(hasFix ? accent : 0xFF6B7785);
+        markerFill.setColor(red);
         c.drawPath(arrow, markerFill);
+        markerStroke.setColor(hasFix ? 0xFF7A0E14 : 0xFF555555);
+        markerStroke.setStrokeWidth(1.2f * density);
         c.drawPath(arrow, markerStroke);
+        // Lighter right half gives the arrow its 3-D facet.
+        arrow.reset();
+        arrow.moveTo(0, -s);
+        arrow.lineTo(s * 0.7f, s * 0.75f);
+        arrow.lineTo(0, s * 0.42f);
+        arrow.close();
+        glowPaint.setShader(null);
+        glowPaint.setColor(0x40FFFFFF);
+        c.drawPath(arrow, glowPaint);
         c.restore();
     }
 

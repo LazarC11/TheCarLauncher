@@ -24,6 +24,8 @@ public final class Prefs {
     public static final String LAST_TRACK = "last_track";
     public static final String LAST_POS = "last_pos";
     public static final String LAST_SOURCE = "last_source";
+    public static final String LANGUAGE = "language";
+    public static final String RADIO_PKG = "radio_pkg";
     public static final String BT_PKG = "bt_pkg";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";
@@ -40,6 +42,7 @@ public final class Prefs {
     public static final String WALL_BLACK = "black";
     public static final String WALL_CARBON = "carbon";
 
+    public static final String TILES_DAY = "mib_day";
     public static final String TILES_DARK = "carto_dark";
     public static final String TILES_OSM = "osm_dark";
     public static final String TILES_OFF = "off";
@@ -87,6 +90,6 @@ public final class Prefs {
     }
 
     public static String tiles(Context c) {
-        return str(c, MAP_TILES, TILES_DARK);
+        return str(c, MAP_TILES, TILES_DAY);
     }
 }

@@ -320,6 +320,15 @@ public final class MediaHub {
         return m != null && title() != null;
     }
 
+    /** True when the current source reports a real track title (not our placeholder). */
+    public boolean hasTrackInfo() {
+        MediaMetadata m = meta();
+        if (m == null) return false;
+        String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
+        if (t == null) t = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
+        return t != null && t.length() > 0;
+    }
+
     public String title() {
         MediaMetadata m = meta();
         String t = null;

@@ -1,30 +1,31 @@
 # TheCarLauncher
 
 A home-screen launcher for Android head units, built for an **Opel Corsa C** double-DIN
-multimedia unit. The look takes after Volkswagen's MIB infotainment: dark tiles, thin type,
-a glowing accent line. The layout and details are its own.
+multimedia unit. Since v2.0 its interface recreates the look of Volkswagen's MIB 2.5
+(Discover Media) infotainment: MENU tiles with blue underlines, soft-key bars, bordered
+source popups and light settings bars. Text is in Serbian (Latin) by default; English can
+be picked under *Podešavanja → Jezik/Language*.
+
+> The previous dashboard-style UI (v1.1.0) is preserved as release
+> [build-3](../../releases/tag/build-3) (commit `b14af91`).
 
 ## Screens
 
 | Screen | What it does |
 | --- | --- |
-| **Home** | Live map tile with your position, Home/Work quick navigation, now-playing tile with album art and controls, a GPS speed gauge, and 4 favourite apps. |
-| **Navigation** | Full map (pan, pinch/double-tap zoom, re-centre), destination search, saved Home/Work, heading/altitude/satellites/accuracy, and hand-off to Google Maps, Waze or any other navigation app. |
-| **Media** | Built-in music player for files on the unit, SD card or USB stick (songs/albums/artists/folders browser, shuffle, repeat, equalizer). Also controls Spotify, YouTube Music, Bluetooth audio and other players once *Connect apps* is allowed. |
-| **Phone** | Opens your phone/Bluetooth app (you choose which one the first time). |
-| **Apps** | All installed apps with search. Long-press an app to pin it to Home, set it as the phone app, open its info, or uninstall it. |
-| **Settings** | Accent colour (7 choices), background style, 24h clock, full-screen mode, vehicle name, km/h or mph, navigation app, saved places, map style, music resume, permissions and Android settings shortcuts. |
+| **MENU** | 4×2 tiles: Radio, Mediji, Aplikacije, App-Connect, Telefon, Vozilo, Navigacija, Podešavanja. Swipe for a second page of pinned apps. Android's Home button (or the compass icon in the status bar) always returns here. |
+| **Mediji** | Soft keys *Izvor · Izbor · Prethodni · Reproduk./Pauza · Naredni · Setup*. *Izvor* opens the source popup (USB / SD, BT-audio, Spotify and other players, App-Connect, Radio); *Izbor* browses songs, albums, artists and folders. |
+| **Navigacija** | Beige day map with the red arrow-and-ring position marker, square map buttons, and soft keys *Novo odr. · Moja odred. · Pogled · Mediji · Aplikacija · Setup*. Routes are handed to Google Maps, Waze or another navigation app. |
+| **Vozilo** | Driving data since start from GPS: driving time, distance, average speed, current speed, heading and altitude. |
+| **Aplikacije** | All installed apps as tiles. Long-press to add to MENU or use as the phone/radio app. |
+| **Podešavanja** | *Podešavanje sistema* list: screen, time, language, units, navigation, media, Bluetooth audio, App-Connect, phone and radio, vehicle, Android settings and system information. |
 
-**Sources:** the media player switches between **USB / Music** (built-in player), **Bluetooth**
+**Sources:** the media player switches between **USB / SD** (built-in player), **BT-audio**
 (music streamed from your phone through the head unit's own Bluetooth app) and any other media app.
-Picking a source pauses the previous one and starts the new one, like the factory unit. The
-launcher connects to the system Bluetooth media service when the unit has one (full song info).
-Otherwise it drives the vendor Bluetooth app with media keys. If a CarPlay/Android Auto app such
-as ZLink is installed, it gets a chip there too. *Settings → About → Diagnostics* shows which
-method your unit supports.
+Picking a source pauses the previous one and starts the new one, like the factory unit.
 
 Steering-wheel media keys work with the built-in player because it uses a standard Android
-`MediaSession`. With *Resume music on start* on, the last song carries on when the car is started.
+`MediaSession`.
 
 ## Install on the head unit
 
@@ -33,10 +34,10 @@ Steering-wheel media keys work with the built-in player because it uses a standa
 2. Copy it to a USB stick, or download it on the unit, and open it. Allow
    *Install unknown apps* if Android asks.
 3. Press the unit's Home button and pick **Car Launcher** → *Always*.
-   (Or go to *Settings → System → Set as default launcher*.)
+   (Or *Podešavanja → Android sistem → Podrazumevani pokretač*.)
 4. On first start, allow **Location** (map and speed) and **Music** (local files).
-   To control Spotify and other apps from the dashboard, tap **+ Connect apps** on the
-   Media screen and enable *Car Launcher*.
+   To control Spotify and other apps, open *Mediji → Izvor → Poveži aplikacije* and enable
+   *Car Launcher*.
 
 Requires Android 5.0 or newer. Tested layouts: 800×480, 1024×600 (mdpi and hdpi) and 1280×720
 in landscape.
@@ -64,6 +65,12 @@ ANDROID_JAR=/path/to/android-all-14.jar FRAMEWORK_RES=/path/to/framework-res-34.
 Both builds sign with `keystore/release.jks`, so either APK installs as an update over the
 other. That key is committed on purpose so builds stay update-compatible. It is fine for a
 personal head unit, but don't reuse it for anything published.
+
+## Fonts and artwork
+
+The UI uses **Source Sans 3** (SIL Open Font License, `app/src/main/assets/fonts/OFL.txt`) as an
+open stand-in for VW's own typeface, which can't be redistributed. All icons are original vector
+drawings in the MIB line style. No Volkswagen logos or assets are included.
 
 ## Map data
 

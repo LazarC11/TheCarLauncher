@@ -2,452 +2,517 @@ package com.thecarlauncher.screens;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.R;
+import com.thecarlauncher.apps.AppRepository;
+import com.thecarlauncher.media.BluetoothSource;
 import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.media.MusicLibrary;
+import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.nav.NavHelper;
 import com.thecarlauncher.util.Prefs;
-import com.thecarlauncher.util.Theme;
 import com.thecarlauncher.util.Ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/** Two-pane settings: categories on the left, options on the right. */
+/** MIB "Podešavanje sistema": title, blue rule, light bars, nested pages. */
 public class SettingsScreen extends Screen {
-    private static final String[] CATEGORIES = {"Display", "Vehicle", "Navigation", "Media", "System", "About"};
-    private static final int[] CATEGORY_ICONS = {
-            R.drawable.ic_palette, R.drawable.ic_car, R.drawable.ic_navigation,
-            R.drawable.ic_music, R.drawable.ic_settings, R.drawable.ic_info
-    };
+    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2;
 
-    private LinearLayout categories, content;
+    private interface Page { void build(); }
+
+    private static final class Entry {
+        final String title;
+        final Page page;
+
+        Entry(String title, Page page) {
+            this.title = title;
+            this.page = page;
+        }
+    }
+
+    private final List<Entry> stack = new ArrayList<>();
+    private TextView title;
+    private View back, thumb;
+    private LinearLayout content;
     private ScrollView scroll;
-    private static int selected; // survives recreate() after theme changes
 
     public SettingsScreen(LauncherActivity act) {
         super(act);
     }
 
     @Override
-    public String title() { return "Settings"; }
+    public String title() { return s("Podešavanje sistema", "System settings"); }
+
+    private String s(String sr, String en) { return Mib.t(act, sr, en); }
 
     @Override
     protected View create(ViewGroup parent) {
-        View v = LayoutInflater.from(act).inflate(R.layout.screen_settings, parent, false);
-        categories = v.findViewById(R.id.settings_categories);
-        content = v.findViewById(R.id.settings_content);
-        scroll = v.findViewById(R.id.settings_scroll);
-        for (int i = 0; i < CATEGORIES.length; i++) {
-            final int idx = i;
-            View row = categoryRow(CATEGORY_ICONS[i], CATEGORIES[i]);
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View x) {
-                    select(idx);
-                }
-            });
-            categories.addView(row);
-        }
-        select(selected);
-        return v;
+        LinearLayout r = new LinearLayout(act);
+        r.setOrientation(LinearLayout.VERTICAL);
+        r.setPadding(0, Mib.px(act, 14), 0, 0);
+
+        LinearLayout head = new LinearLayout(act);
+        head.setGravity(Gravity.CENTER_VERTICAL);
+        head.setPadding(Mib.px(act, 30), 0, Mib.px(act, 30), Mib.px(act, 10));
+        FrameLayout backBox = new FrameLayout(act);
+        backBox.setBackground(Mib.box(act));
+        backBox.addView(Mib.icon(act, R.drawable.mib_back, Mib.WHITE),
+                new FrameLayout.LayoutParams(Mib.px(act, 30), Mib.px(act, 30), Gravity.CENTER));
+        backBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBack();
+            }
+        });
+        back = backBox;
+        LinearLayout.LayoutParams bl = new LinearLayout.LayoutParams(Mib.px(act, 62), Mib.px(act, 54));
+        bl.rightMargin = Mib.px(act, 18);
+        head.addView(backBox, bl);
+        title = Mib.text(act, "", 40, Mib.semibold(act), Mib.WHITE);
+        head.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        r.addView(head);
+
+        View rule = new View(act);
+        rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{0xFF1E6FC4, Mib.BLUE, Mib.BLUE, 0x801E6FC4}));
+        LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                Math.max(2, Mib.px(act, 2.4f)));
+        rl.leftMargin = Mib.px(act, 12);
+        rl.rightMargin = Mib.px(act, 12);
+        r.addView(rule, rl);
+
+        FrameLayout body = new FrameLayout(act);
+        scroll = new ScrollView(act);
+        scroll.setVerticalScrollBarEnabled(false);
+        scroll.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        content = new LinearLayout(act);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(0, Mib.px(act, 12), 0, Mib.px(act, 12));
+        scroll.addView(content);
+        body.addView(scroll);
+        thumb = new View(act);
+        thumb.setBackgroundColor(Mib.BLUE);
+        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(Math.max(2, Mib.px(act, 5)), 0, Gravity.RIGHT);
+        tl.rightMargin = Mib.px(act, 30);
+        body.addView(thumb, tl);
+        scroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                updateThumb();
+            }
+        });
+        r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+
+        if (stack.isEmpty()) push(title(), new Page() {
+            public void build() { buildRoot(); }
+        });
+        else render();
+        return r;
+    }
+
+    // ---- Navigation between pages ------------------------------------------------------------
+
+    private void push(String t, Page p) {
+        stack.add(new Entry(t, p));
+        render();
+    }
+
+    private void render() {
+        if (content == null || stack.isEmpty()) return;
+        Entry e = stack.get(stack.size() - 1);
+        title.setText(e.title);
+        back.setVisibility(stack.size() > 1 ? View.VISIBLE : View.GONE);
+        content.removeAllViews();
+        e.page.build();
+        scroll.scrollTo(0, 0);
+        scroll.post(new Runnable() {
+            @Override
+            public void run() {
+                updateThumb();
+            }
+        });
+    }
+
+    private void refresh() { render(); }
+
+    @Override
+    public boolean onBack() {
+        if (stack.size() <= 1) return false;
+        stack.remove(stack.size() - 1);
+        render();
+        return true;
     }
 
     @Override
     public void onShow() {
-        // Permission states may have changed while away.
-        if (content != null) select(selected);
+        render();
     }
 
-    private View categoryRow(int icon, String label) {
-        LinearLayout row = new LinearLayout(act);
-        row.setGravity(Gravity.CENTER_VERTICAL);
-        int p = Ui.dp(act, 16);
-        row.setPadding(p, 0, p, 0);
-        ImageView iv = new ImageView(act);
-        iv.setImageResource(icon);
-        row.addView(iv, new LinearLayout.LayoutParams(Ui.dp(act, 22), Ui.dp(act, 22)));
-        TextView tv = new TextView(act);
-        tv.setText(label);
-        tv.setTextSize(16);
-        tv.setSingleLine(true);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        lp.leftMargin = Ui.dp(act, 14);
-        row.addView(tv, lp);
-        LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Ui.dp(act, 54));
-        int m = Ui.dp(act, 6);
-        rl.setMargins(m, Ui.dp(act, 2), m, Ui.dp(act, 2));
-        row.setLayoutParams(rl);
-        return row;
+    /** Jumps straight to a page (used by the Setup soft keys). */
+    public void open(int page) {
+        while (stack.size() > 1) stack.remove(stack.size() - 1);
+        if (stack.isEmpty()) stack.add(new Entry(title(), new Page() {
+            public void build() { buildRoot(); }
+        }));
+        if (page == PAGE_NAV) push(s("Navigacija", "Navigation"), new Page() {
+            public void build() { buildNav(); }
+        });
+        else if (page == PAGE_MEDIA) push(s("Mediji", "Media"), new Page() {
+            public void build() { buildMedia(); }
+        });
+        else render();
     }
 
-    private void select(int idx) {
-        selected = idx;
-        for (int i = 0; i < categories.getChildCount(); i++) {
-            LinearLayout row = (LinearLayout) categories.getChildAt(i);
-            boolean on = i == idx;
-            Theme.tint((ImageView) row.getChildAt(0), on ? accent : Theme.TEXT_SECONDARY);
-            ((TextView) row.getChildAt(1)).setTextColor(on ? Theme.TEXT_PRIMARY : Theme.TEXT_SECONDARY);
-            if (on) {
-                GradientDrawable d = Theme.round(Theme.alpha(accent, 0x22), Ui.dp(act, 10));
-                d.setStroke(Ui.dp(act, 1), Theme.alpha(accent, 0x66));
-                row.setBackground(d);
-            } else {
-                row.setBackgroundResource(R.drawable.ripple_rect);
-            }
+    private void updateThumb() {
+        int h = scroll.getHeight(), ch = content.getHeight();
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) thumb.getLayoutParams();
+        if (ch <= h || h == 0) {
+            thumb.setVisibility(View.INVISIBLE);
+            return;
         }
-        content.removeAllViews();
-        switch (idx) {
-            case 0: buildDisplay(); break;
-            case 1: buildVehicle(); break;
-            case 2: buildNavigation(); break;
-            case 3: buildMedia(); break;
-            case 4: buildSystem(); break;
-            default: buildAbout(); break;
+        thumb.setVisibility(View.VISIBLE);
+        int th = Math.max(Mib.px(act, 40), h * h / ch);
+        int top = (int) ((h - th) * (scroll.getScrollY() / (float) (ch - h)));
+        if (lp.height != th) {
+            lp.height = th;
+            thumb.setLayoutParams(lp);
         }
-        scroll.scrollTo(0, 0);
+        thumb.setTranslationY(top);
     }
 
-    // ---- Sections -------------------------------------------------------------------------
+    // ---- Pages -------------------------------------------------------------------------------
+
+    private void buildRoot() {
+        sub(s("Ekran", "Screen"), new Page() { public void build() { buildDisplay(); } });
+        sub(s("Vreme i datum", "Time and date"), new Page() { public void build() { buildTime(); } });
+        LinearLayout lang = sub("Jezik/Language", new Page() { public void build() { buildLanguage(); } });
+        addLeading(lang, flag());
+        sub(s("Jedinice", "Units"), new Page() { public void build() { buildUnits(); } });
+        sub(s("Navigacija", "Navigation"), new Page() { public void build() { buildNav(); } });
+        sub(s("Mediji", "Media"), new Page() { public void build() { buildMedia(); } });
+        sub("Bluetooth audio", new Page() { public void build() { buildBluetooth(); } });
+        sub("App-Connect", new Page() { public void build() { buildAppConnect(); } });
+        sub(s("Telefon i radio", "Phone and radio"), new Page() { public void build() { buildPhoneRadio(); } });
+        sub(s("Vozilo", "Vehicle"), new Page() { public void build() { buildVehicle(); } });
+        sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
+        sub(s("Informacije o sistemu", "System information"), new Page() { public void build() { buildAbout(); } });
+    }
 
     private void buildDisplay() {
-        header("Accent colour");
-        swatches();
-        header("Appearance");
-        final String[] wallNames = {"Aurora", "Pure black", "Carbon"};
-        final String[] wallKeys = {Prefs.WALL_AURORA, Prefs.WALL_BLACK, Prefs.WALL_CARBON};
-        String wall = Prefs.str(act, Prefs.WALLPAPER, Prefs.WALL_AURORA);
-        action("Background", wallNames[indexOf(wallKeys, wall)], new Runnable() {
+        toggle(s("Pun ekran (sakrij Android trake)", "Full screen (hide Android bars)"), Prefs.IMMERSIVE, false, true);
+        action(s("Osvetljenost", "Brightness"), null, intent(Settings.ACTION_DISPLAY_SETTINGS));
+    }
+
+    private void buildTime() {
+        boolean h24 = Prefs.use24h(act);
+        LinearLayout row = bar(s("Format 24 časa", "24-hour format"), null);
+        final View box = checkbox(row, h24);
+        row.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Dialogs.choose(act, "Background", wallNames,
-                        indexOf(wallKeys, Prefs.str(act, Prefs.WALLPAPER, Prefs.WALL_AURORA)), new Dialogs.Chosen() {
-                            @Override
-                            public void onChosen(int i) {
-                                Prefs.put(act, Prefs.WALLPAPER, wallKeys[i]);
-                                act.restartUi();
-                            }
-                        });
-            }
-        });
-        toggle("24-hour clock", null, Prefs.use24h(act), new Toggle() {
-            @Override
-            public void set(boolean on) {
+            public void onClick(View v) {
+                boolean on = !Prefs.use24h(act);
                 Prefs.put(act, Prefs.CLOCK_24, on);
+                setChecked(box, on);
             }
         });
-        toggle("Full screen", "Hide Android's status and navigation bars", Prefs.bool(act, Prefs.IMMERSIVE, false),
-                new Toggle() {
-                    @Override
-                    public void set(boolean on) {
-                        Prefs.put(act, Prefs.IMMERSIVE, on);
-                        act.restartUi();
-                    }
-                });
-        action("Screen brightness", "Android display settings", intent(Settings.ACTION_DISPLAY_SETTINGS));
+        action(s("Datum i vreme (Android)", "Date and time (Android)"), null, intent(Settings.ACTION_DATE_SETTINGS));
     }
 
-    private void buildVehicle() {
-        header("Vehicle");
-        action("Vehicle name", Prefs.vehicle(act), new Runnable() {
-            @Override
-            public void run() {
-                Dialogs.text(act, "Vehicle name", "e.g. Opel Corsa C", Prefs.vehicle(act), new Dialogs.TextEntered() {
-                    @Override
-                    public void onText(String text) {
-                        Prefs.put(act, Prefs.VEHICLE, text);
-                        act.restartUi();
-                    }
-                });
-            }
+    private void buildLanguage() {
+        String cur = Prefs.str(act, Prefs.LANGUAGE, "sr");
+        choice("Srpski (latinica)", "sr".equals(cur), new Runnable() {
+            public void run() { setLanguage("sr"); }
         });
-        final String[] units = {"Kilometres (km/h)", "Miles (mph)"};
-        action("Speed units", units[Prefs.metric(act) ? 0 : 1], new Runnable() {
-            @Override
-            public void run() {
-                Dialogs.choose(act, "Speed units", units, Prefs.metric(act) ? 0 : 1, new Dialogs.Chosen() {
-                    @Override
-                    public void onChosen(int i) {
-                        Prefs.put(act, Prefs.UNITS, i == 0 ? "kmh" : "mph");
-                        act.restartUi();
-                    }
-                });
-            }
+        choice("English", "en".equals(cur), new Runnable() {
+            public void run() { setLanguage("en"); }
         });
-        String phone = Prefs.str(act, Prefs.PHONE_PKG, null);
-        action("Phone app", phone == null ? "Ask / system dialer" : NavHelper.label(act, phone), new Runnable() {
-            @Override
-            public void run() {
-                Dialogs.pickApp(act, "Phone app", "System dialer", new Dialogs.AppPicked() {
-                    @Override
-                    public void onPicked(String pkg) {
-                        Prefs.put(act, Prefs.PHONE_PKG, pkg);
-                        select(selected);
-                    }
-                });
-            }
-        });
-        note("Speed and heading come from the head unit's GPS antenna. Speed is shown from 2 km/h upwards "
-                + "to hide GPS drift while parked.");
     }
 
-    private void buildNavigation() {
-        header("Navigation app");
+    private void setLanguage(String l) {
+        Prefs.put(act, Prefs.LANGUAGE, l);
+        stack.clear();
+        act.restartUi();
+    }
+
+    private void buildUnits() {
+        final boolean metric = Prefs.metric(act);
+        choice(s("Kilometri (km/h)", "Kilometres (km/h)"), metric, new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.UNITS, "kmh");
+                refresh();
+            }
+        });
+        choice(s("Milje (mph)", "Miles (mph)"), !metric, new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.UNITS, "mph");
+                refresh();
+            }
+        });
+    }
+
+    private void buildNav() {
         String pkg = NavHelper.preferred(act);
-        action("Preferred app", pkg == null ? "None installed" : NavHelper.label(act, pkg), new Runnable() {
-            @Override
+        action(s("Aplikacija za navigaciju", "Navigation app"), pkg == null ? s("Nije pronađena", "None found")
+                : appLabel(pkg), new Runnable() {
             public void run() {
-                List<String> apps = NavHelper.navApps(act);
-                if (apps.isEmpty()) {
-                    Ui.toast(act, "Install Google Maps, Waze or another navigation app first");
-                    return;
-                }
-                Dialogs.pickPackage(act, "Navigation app", null, apps, new Dialogs.AppPicked() {
-                    @Override
-                    public void onPicked(String p) {
-                        Prefs.put(act, Prefs.NAV_PKG, p);
-                        select(selected);
+                appChoice(s("Aplikacija za navigaciju", "Navigation app"), NavHelper.navApps(act), Prefs.NAV_PKG, false);
+            }
+        });
+        address(s("Kuća", "Home"), Prefs.HOME_ADDR);
+        address(s("Posao", "Work"), Prefs.WORK_ADDR);
+        final String[] names = {s("Dan (MIB)", "Day (MIB)"), s("Noć", "Night"), s("OpenStreetMap (zatamnjena)", "OpenStreetMap (dimmed)"),
+                s("Isključena (bez interneta)", "Off (no internet)")};
+        final String[] keys = {Prefs.TILES_DAY, Prefs.TILES_DARK, Prefs.TILES_OSM, Prefs.TILES_OFF};
+        action(s("Izgled mape", "Map style"), names[indexOf(keys, Prefs.tiles(act))], new Runnable() {
+            public void run() {
+                push(s("Izgled mape", "Map style"), new Page() {
+                    public void build() {
+                        for (int i = 0; i < keys.length; i++) {
+                            final int idx = i;
+                            choice(names[i], keys[i].equals(Prefs.tiles(act)), new Runnable() {
+                                public void run() {
+                                    Prefs.put(act, Prefs.MAP_TILES, keys[idx]);
+                                    act.restartUi();
+                                }
+                            });
+                        }
                     }
                 });
             }
         });
-        header("Saved places");
-        address("Home", Prefs.HOME_ADDR);
-        address("Work", Prefs.WORK_ADDR);
-        header("Map");
-        final String[] names = {"Night (CARTO dark)", "OpenStreetMap, dimmed", "Off (offline grid)"};
-        final String[] keys = {Prefs.TILES_DARK, Prefs.TILES_OSM, Prefs.TILES_OFF};
-        action("Map style", names[indexOf(keys, Prefs.tiles(act))], new Runnable() {
-            @Override
-            public void run() {
-                Dialogs.choose(act, "Map style", names, indexOf(keys, Prefs.tiles(act)), new Dialogs.Chosen() {
-                    @Override
-                    public void onChosen(int i) {
-                        Prefs.put(act, Prefs.MAP_TILES, keys[i]);
-                        act.restartUi();
-                    }
-                });
-            }
-        });
-        note("Map tiles are downloaded over the head unit's internet connection (Wi-Fi hotspot or SIM) and "
-                + "cached for 30 days, so places you drive often keep working offline.");
     }
 
     private void buildMedia() {
-        header("Playback");
-        toggle("Resume music on start", "Continues the last song when the car is switched on",
-                Prefs.bool(act, Prefs.RESUME_MEDIA, true), new Toggle() {
-                    @Override
-                    public void set(boolean on) {
-                        Prefs.put(act, Prefs.RESUME_MEDIA, on);
-                    }
-                });
-        action("Equalizer", "Bass, mid and treble for the built-in player", new Runnable() {
-            @Override
-            public void run() {
-                Dialogs.equalizer(act, accent);
-            }
+        toggle(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, false);
+        action(s("Ekvilajzer", "Equalizer"), null, new Runnable() {
+            public void run() { Dialogs.equalizer(act, Mib.BLUE); }
         });
-        header("Bluetooth music");
-        final com.thecarlauncher.media.BluetoothSource bt = MediaHub.get(act).bluetooth();
-        String btPkg = bt.appPackage();
-        action("Bluetooth music app", btPkg == null ? "Not found — tap to choose" : appLabel(btPkg),
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        List<String> pkgs = new java.util.ArrayList<>(
-                                com.thecarlauncher.media.BluetoothSource.candidates(act));
-                        for (com.thecarlauncher.apps.AppRepository.App a
-                                : com.thecarlauncher.apps.AppRepository.get(act).all()) {
-                            if (!pkgs.contains(a.pkg)) pkgs.add(a.pkg);
-                        }
-                        Dialogs.pickPackage(act, "Bluetooth music app", null, pkgs, new Dialogs.AppPicked() {
-                            @Override
-                            public void onPicked(String p) {
-                                Prefs.put(act, Prefs.BT_PKG, p);
-                                select(selected);
-                            }
-                        });
-                    }
-                });
-        toggle("Wake Bluetooth app on switch", "Briefly opens it when you pick Bluetooth. Turn on if Bluetooth "
-                        + "stays silent until the factory app is opened.",
-                Prefs.bool(act, Prefs.BT_WAKE, false), new Toggle() {
-                    @Override
-                    public void set(boolean on) {
-                        Prefs.put(act, Prefs.BT_WAKE, on);
-                    }
-                });
-        toggle("Send controls system-wide", "Turn on if next/previous don't reach your phone",
-                Prefs.bool(act, Prefs.BT_SYSTEM_KEYS, false), new Toggle() {
-                    @Override
-                    public void set(boolean on) {
-                        Prefs.put(act, Prefs.BT_SYSTEM_KEYS, on);
-                    }
-                });
-        header("CarPlay / Android Auto");
-        String proj = Projection.find(act);
-        action("Projection app", proj == null ? "None found — tap to choose (e.g. ZLink)" : Projection.label(act, proj),
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        Dialogs.pickApp(act, "CarPlay / Android Auto app", "None", new Dialogs.AppPicked() {
-                            @Override
-                            public void onPicked(String p) {
-                                Prefs.put(act, Prefs.PROJECTION_PKG, p);
-                                select(selected);
-                            }
-                        });
-                    }
-                });
-        header("Access");
-        boolean lib = MusicLibrary.hasPermission(act);
-        action("Music library", lib ? "Allowed" : "Not allowed — tap to allow", new Runnable() {
-            @Override
+        action(s("Muzička biblioteka", "Music library"), MusicLibrary.hasPermission(act)
+                ? s("Ponovo skeniraj", "Rescan") : s("Dozvoli pristup", "Allow access"), new Runnable() {
             public void run() {
                 if (MusicLibrary.hasPermission(act)) {
                     MusicLibrary.invalidate();
-                    Ui.toast(act, "Library will be re-scanned");
+                    Ui.toast(act, s("Biblioteka će biti ponovo skenirana", "Library will be rescanned"));
                 } else {
                     act.requestMissingPermissions(true);
                 }
             }
         });
-        boolean ext = MediaHub.get(act).hasNotificationAccess();
-        action("Other media apps", ext ? "Connected (Spotify, YouTube Music, Bluetooth…)"
-                : "Not connected — tap to allow notification access", intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-        action("Rescan library", "Pick up music just copied to USB or SD card", new Runnable() {
-            @Override
+        action(s("Druge aplikacije za medije", "Other media apps"), MediaHub.get(act).hasNotificationAccess()
+                        ? s("Povezano", "Connected") : s("Nije povezano", "Not connected"),
+                intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+    }
+
+    private void buildBluetooth() {
+        String pkg = MediaHub.get(act).bluetooth().appPackage();
+        action(s("Aplikacija za BT audio", "BT audio app"), pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za BT audio", "BT audio app"), BluetoothSource.candidates(act), Prefs.BT_PKG, true);
+                    }
+                });
+        toggle(s("Probudi BT aplikaciju pri izboru izvora", "Wake BT app when selecting the source"), Prefs.BT_WAKE, false, false);
+        toggle(s("Šalji komande sistemski", "Send controls system-wide"), Prefs.BT_SYSTEM_KEYS, false, false);
+    }
+
+    private void buildAppConnect() {
+        String pkg = Projection.find(act);
+        action(s("Aplikacija (ZLink, CarPlay…)", "App (ZLink, CarPlay…)"), pkg == null ? s("Nije pronađena", "Not found")
+                : appLabel(pkg), new Runnable() {
             public void run() {
-                MusicLibrary.invalidate();
-                Ui.toast(act, "Library will be re-scanned");
+                appChoice("App-Connect", Projection.candidates(act), Prefs.PROJECTION_PKG, true);
             }
         });
     }
 
-    private void buildSystem() {
-        header("Launcher");
-        action("Set as default launcher", "Make this the home screen", new Runnable() {
-            @Override
+    private void buildPhoneRadio() {
+        String phone = Prefs.str(act, Prefs.PHONE_PKG, null);
+        action(s("Aplikacija za telefon", "Phone app"), phone == null ? s("Sistemski telefon", "System dialer") : appLabel(phone),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za telefon", "Phone app"), new ArrayList<String>(), Prefs.PHONE_PKG, true);
+                    }
+                });
+        String radio = LauncherActivity.radioPackage(act);
+        action(s("Aplikacija za radio", "Radio app"), radio == null ? s("Nije pronađena", "Not found") : appLabel(radio),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
+                    }
+                });
+    }
+
+    private void buildVehicle() {
+        action(s("Naziv vozila", "Vehicle name"), Prefs.vehicle(act), new Runnable() {
             public void run() {
-                if (!Ui.start(act, new Intent(Settings.ACTION_HOME_SETTINGS))) {
-                    Ui.start(act, new Intent(Settings.ACTION_SETTINGS));
-                }
+                Dialogs.text(act, s("Naziv vozila", "Vehicle name"), "Opel Corsa C", Prefs.vehicle(act), new Dialogs.TextEntered() {
+                    public void onText(String text) {
+                        Prefs.put(act, Prefs.VEHICLE, text);
+                        refresh();
+                    }
+                });
             }
         });
-        action("Permissions", "Location, music and notifications", new Runnable() {
-            @Override
-            public void run() {
-                act.requestMissingPermissions(true);
-            }
-        });
-        header("Android");
+    }
+
+    private void buildAndroid() {
         action("Wi-Fi", null, intent(Settings.ACTION_WIFI_SETTINGS));
         action("Bluetooth", null, intent(Settings.ACTION_BLUETOOTH_SETTINGS));
-        action("Sound", null, intent(Settings.ACTION_SOUND_SETTINGS));
-        action("Date & time", null, intent(Settings.ACTION_DATE_SETTINGS));
-        action("Language", null, intent(Settings.ACTION_LOCALE_SETTINGS));
-        action("All Android settings", null, intent(Settings.ACTION_SETTINGS));
+        action(s("Zvuk", "Sound"), null, intent(Settings.ACTION_SOUND_SETTINGS));
+        action(s("Podrazumevani pokretač", "Default launcher"), null, new Runnable() {
+            public void run() {
+                if (!Ui.start(act, new Intent(Settings.ACTION_HOME_SETTINGS))) Ui.start(act, new Intent(Settings.ACTION_SETTINGS));
+            }
+        });
+        action(s("Dozvole", "Permissions"), null, new Runnable() {
+            public void run() { act.requestMissingPermissions(true); }
+        });
+        action(s("Sva Android podešavanja", "All Android settings"), null, intent(Settings.ACTION_SETTINGS));
     }
 
     private void buildAbout() {
-        header("About");
-        String version = "1.0";
+        String version = "";
         try {
             PackageInfo pi = act.getPackageManager().getPackageInfo(act.getPackageName(), 0);
             version = pi.versionName;
         } catch (Exception ignored) {
         }
-        info("Car Launcher", "Version " + version);
-        info("Head unit", Build.MANUFACTURER + " " + Build.MODEL + " · Android " + Build.VERSION.RELEASE);
-        info("Screen", act.getResources().getDisplayMetrics().widthPixels + " × "
-                + act.getResources().getDisplayMetrics().heightPixels + " px · "
-                + act.getResources().getDisplayMetrics().densityDpi + " dpi");
-        header("Diagnostics");
+        info("Car Launcher", version);
+        info(s("Uređaj", "Head unit"), Build.MANUFACTURER + " " + Build.MODEL + " · Android " + Build.VERSION.RELEASE);
+        info(s("Ekran", "Screen"), act.getResources().getDisplayMetrics().widthPixels + "×"
+                + act.getResources().getDisplayMetrics().heightPixels + " · " + act.getResources().getDisplayMetrics().densityDpi + " dpi");
         MediaHub hub = MediaHub.get(act);
-        com.thecarlauncher.media.BluetoothSource bt = hub.bluetooth();
-        info("Bluetooth media service", bt.systemServiceFound()
-                ? (bt.systemConnected() ? "Found and connected — full song info available" : "Found, connecting…")
-                : "Not on this unit — using the Bluetooth app instead");
+        BluetoothSource bt = hub.bluetooth();
+        info(s("BT servis za medije", "BT media service"), bt.systemServiceFound()
+                ? (bt.systemConnected() ? s("Povezan", "Connected") : s("Povezivanje…", "Connecting…"))
+                : s("Nije dostupan", "Not available"));
         String btPkg = bt.appPackage();
-        info("Bluetooth music app", btPkg == null ? "Not detected" : appLabel(btPkg) + "  (" + btPkg + ")");
-        info("Media access", hub.hasNotificationAccess() ? "Connected" : "Not allowed (Media → + Connect apps)");
-        StringBuilder sessions = new StringBuilder();
+        info(s("BT audio aplikacija", "BT audio app"), btPkg == null ? "—" : btPkg);
+        info(s("Pristup medijima", "Media access"), hub.hasNotificationAccess() ? s("Da", "Yes") : s("Ne", "No"));
+        StringBuilder sb = new StringBuilder();
         for (String k : hub.sources()) {
-            if (sessions.length() > 0) sessions.append(", ");
-            sessions.append(k.equals(MediaHub.BLUETOOTH) ? "Bluetooth" : k);
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(k.equals(MediaHub.BLUETOOTH) ? "BT" : k);
         }
-        info("Media sources", sessions.toString());
+        info(s("Izvori", "Sources"), sb.toString());
         String proj = Projection.find(act);
-        info("CarPlay / Android Auto", proj == null ? "Not detected" : Projection.label(act, proj) + "  (" + proj + ")");
-        note("Map data © OpenStreetMap contributors (openstreetmap.org/copyright). Night map style © CARTO.");
+        info("App-Connect", proj == null ? "—" : proj);
+        info(s("Podaci mape", "Map data"), "© OpenStreetMap, © CARTO");
     }
 
-    // ---- Row builders ---------------------------------------------------------------------
+    // ---- Choice helpers ----------------------------------------------------------------------
 
-    private interface Toggle { void set(boolean on); }
-
-    private void header(String text) {
-        TextView t = new TextView(act);
-        t.setText(text.toUpperCase());
-        t.setTextSize(12);
-        t.setLetterSpacing(0.14f);
-        t.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
-        t.setTextColor(accent);
-        int p = Ui.dp(act, 14);
-        t.setPadding(p, Ui.dp(act, content.getChildCount() == 0 ? 10 : 22), p, Ui.dp(act, 6));
-        content.addView(t);
+    private void appChoice(String t, final List<String> preferred, final String prefKey, final boolean allApps) {
+        push(t, new Page() {
+            public void build() {
+                List<String> pkgs = new ArrayList<>(preferred);
+                if (allApps || pkgs.isEmpty()) {
+                    for (AppRepository.App a : AppRepository.get(act).all()) if (!pkgs.contains(a.pkg)) pkgs.add(a.pkg);
+                }
+                String cur = Prefs.str(act, prefKey, null);
+                if (Prefs.PHONE_PKG.equals(prefKey)) {
+                    choice(s("Sistemski telefon", "System dialer"), cur == null, new Runnable() {
+                        public void run() {
+                            Prefs.put(act, prefKey, (String) null);
+                            onBack();
+                        }
+                    });
+                }
+                for (final String p : pkgs) {
+                    LinearLayout row = choice(appLabel(p), p.equals(cur), new Runnable() {
+                        public void run() {
+                            Prefs.put(act, prefKey, p);
+                            onBack();
+                        }
+                    });
+                    AppRepository.App a = AppRepository.get(act).findPackage(p);
+                    Drawable d = a != null ? a.icon : null;
+                    if (d == null) {
+                        try {
+                            d = act.getPackageManager().getApplicationIcon(p);
+                        } catch (Exception ignored) {
+                        }
+                    }
+                    if (d != null) {
+                        ImageView iv = new ImageView(act);
+                        iv.setImageDrawable(d);
+                        addLeading(row, iv);
+                    }
+                }
+            }
+        });
     }
 
-    private LinearLayout baseRow(String title, String subtitle) {
+    private void address(final String name, final String key) {
+        String addr = Prefs.str(act, key, null);
+        action(name, Ui.isEmpty(addr) ? s("Nije podešeno", "Not set") : addr, new Runnable() {
+            public void run() {
+                Dialogs.text(act, name, s("Ulica, grad", "Street, city"), Prefs.str(act, key, ""), new Dialogs.TextEntered() {
+                    public void onText(String text) {
+                        Prefs.put(act, key, Ui.isEmpty(text) ? null : text);
+                        refresh();
+                    }
+                });
+            }
+        });
+    }
+
+    // ---- Bar builders ------------------------------------------------------------------------
+
+    private LinearLayout bar(String text, String value) {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setMinimumHeight(Ui.dp(act, 60));
-        int p = Ui.dp(act, 14);
-        row.setPadding(p, Ui.dp(act, 8), p, Ui.dp(act, 8));
-        row.setBackgroundResource(R.drawable.ripple_rect);
-        LinearLayout texts = new LinearLayout(act);
-        texts.setOrientation(LinearLayout.VERTICAL);
-        TextView t = new TextView(act);
-        t.setText(title);
-        t.setTextSize(17);
-        t.setTextColor(Theme.TEXT_PRIMARY);
-        texts.addView(t);
-        if (subtitle != null) {
-            TextView s = new TextView(act);
-            s.setText(subtitle);
-            s.setTextSize(13);
-            s.setTextColor(Theme.TEXT_SECONDARY);
-            s.setPadding(0, Ui.dp(act, 2), 0, 0);
-            texts.addView(s);
+        row.setBackground(Mib.settingsBar(act));
+        row.setPadding(Mib.px(act, 26), 0, Mib.px(act, 22), 0);
+        TextView t = Mib.text(act, text, 30, Mib.regular(act), Mib.BAR_TEXT);
+        row.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        if (value != null) {
+            TextView v = Mib.text(act, value, 24, Mib.regular(act), Mib.BAR_VALUE);
+            v.setGravity(Gravity.RIGHT);
+            LinearLayout.LayoutParams vl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            vl.leftMargin = Mib.px(act, 16);
+            v.setMaxWidth(Mib.px(act, 380));
+            row.addView(v, vl);
         }
-        row.addView(texts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-        content.addView(row, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 78));
+        lp.leftMargin = Mib.px(act, 26);
+        lp.rightMargin = Mib.px(act, 58);
+        lp.bottomMargin = Mib.px(act, 8);
+        content.addView(row, lp);
         return row;
     }
 
-    private void action(String title, String subtitle, final Runnable r) {
-        LinearLayout row = baseRow(title, subtitle);
-        ImageView chev = new ImageView(act);
-        chev.setImageResource(R.drawable.ic_chevron_right);
-        Theme.tint(chev, Theme.TEXT_DIM);
-        row.addView(chev, new LinearLayout.LayoutParams(Ui.dp(act, 22), Ui.dp(act, 22)));
+    private LinearLayout sub(String text, final Page p) {
+        final String t = text;
+        LinearLayout row = bar(text, null);
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                push(t, p);
+            }
+        });
+        return row;
+    }
+
+    private void action(String text, String value, final Runnable r) {
+        LinearLayout row = bar(text, value);
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,111 +521,84 @@ public class SettingsScreen extends Screen {
         });
     }
 
-    private void info(String title, String subtitle) {
-        baseRow(title, subtitle).setBackground(null);
+    private void info(String text, String value) {
+        LinearLayout row = bar(text, value == null || value.length() == 0 ? "—" : value);
+        row.setClickable(false);
     }
 
-    private void toggle(String title, String subtitle, boolean value, final Toggle t) {
-        LinearLayout row = baseRow(title, subtitle);
-        final Switch sw = new Switch(act);
-        sw.setChecked(value);
-        sw.setThumbTintList(new android.content.res.ColorStateList(
-                new int[][]{{android.R.attr.state_checked}, {}}, new int[]{accent, 0xFFB0BAC5}));
-        sw.setTrackTintList(new android.content.res.ColorStateList(
-                new int[][]{{android.R.attr.state_checked}, {}}, new int[]{Theme.alpha(accent, 0x88), 0xFF3A4654}));
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton b, boolean on) {
-                t.set(on);
-            }
-        });
-        row.addView(sw);
+    private LinearLayout choice(String text, boolean selected, final Runnable r) {
+        LinearLayout row = bar(text, null);
+        checkbox(row, selected);
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sw.toggle();
+                r.run();
             }
         });
+        return row;
     }
 
-    private void address(final String name, final String key) {
-        String addr = Prefs.str(act, key, null);
-        action(name, Ui.isEmpty(addr) ? "Not set" : addr, new Runnable() {
+    private void toggle(String text, final String key, final boolean def, final boolean restart) {
+        LinearLayout row = bar(text, null);
+        final View box = checkbox(row, Prefs.bool(act, key, def));
+        row.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Dialogs.text(act, name + " address", "Street, city", Prefs.str(act, key, ""), new Dialogs.TextEntered() {
-                    @Override
-                    public void onText(String text) {
-                        Prefs.put(act, key, Ui.isEmpty(text) ? null : text);
-                        select(selected);
-                    }
-                });
+            public void onClick(View v) {
+                boolean on = !Prefs.bool(act, key, def);
+                Prefs.put(act, key, on);
+                setChecked(box, on);
+                if (restart) act.restartUi();
             }
         });
     }
 
-    private void note(String text) {
-        TextView t = new TextView(act);
-        t.setText(text);
-        t.setTextSize(13);
-        t.setTextColor(Theme.TEXT_DIM);
-        t.setLineSpacing(0, 1.15f);
-        int p = Ui.dp(act, 14);
-        t.setPadding(p, Ui.dp(act, 14), p, Ui.dp(act, 4));
-        content.addView(t);
+    private View checkbox(LinearLayout row, boolean on) {
+        FrameLayout box = new FrameLayout(act);
+        box.setBackground(Mib.checkbox(act));
+        ImageView tick = Mib.icon(act, R.drawable.mib_check, 0xFF1C1C22);
+        box.addView(tick, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        int p = Mib.px(act, 4);
+        box.setPadding(p, p, p, p);
+        row.addView(box, new LinearLayout.LayoutParams(Mib.px(act, 40), Mib.px(act, 40)));
+        setChecked(box, on);
+        return box;
     }
 
-    private void swatches() {
-        LinearLayout row = new LinearLayout(act);
-        row.setGravity(Gravity.CENTER_VERTICAL);
-        int p = Ui.dp(act, 14);
-        row.setPadding(p, Ui.dp(act, 6), p, Ui.dp(act, 4));
-        int size = Ui.dp(act, 40);
-        for (int i = 0; i < Theme.ACCENTS.length; i++) {
-            final int color = Theme.ACCENTS[i];
-            View dot = new View(act);
-            GradientDrawable d = new GradientDrawable();
-            d.setShape(GradientDrawable.OVAL);
-            d.setColor(color);
-            if (color == accent) d.setStroke(Ui.dp(act, 3), 0xFFFFFFFF);
-            else d.setStroke(Ui.dp(act, 1), 0x33FFFFFF);
-            dot.setBackground(d);
-            dot.setContentDescription(Theme.ACCENT_NAMES[i]);
-            dot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (color == accent) return;
-                    Prefs.put(act, Prefs.ACCENT, color);
-                    act.restartUi();
-                }
-            });
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
-            lp.rightMargin = Ui.dp(act, 12);
-            row.addView(dot, lp);
+    private static void setChecked(View box, boolean on) {
+        ((ViewGroup) box).getChildAt(0).setVisibility(on ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void addLeading(LinearLayout row, View v) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 30));
+        lp.rightMargin = Mib.px(act, 18);
+        row.addView(v, 0, lp);
+    }
+
+    /** Serbian tricolour, as the factory language bar shows the country flag. */
+    private View flag() {
+        LinearLayout f = new LinearLayout(act);
+        f.setOrientation(LinearLayout.VERTICAL);
+        int[] colors = {0xFFC6363C, 0xFF0C4076, 0xFFFFFFFF};
+        for (int c : colors) {
+            View band = new View(act);
+            band.setBackgroundColor(c);
+            f.addView(band, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
         }
-        content.addView(row);
-        TextView name = new TextView(act);
-        int idx = 0;
-        for (int i = 0; i < Theme.ACCENTS.length; i++) if (Theme.ACCENTS[i] == accent) idx = i;
-        name.setText(Theme.ACCENT_NAMES[idx]);
-        name.setTextColor(Theme.TEXT_SECONDARY);
-        name.setTextSize(13);
-        name.setPadding(p, Ui.dp(act, 4), p, 0);
-        content.addView(name);
+        return f;
+    }
+
+    private String appLabel(String pkg) {
+        AppRepository.App a = AppRepository.get(act).findPackage(pkg);
+        return a != null ? a.label : NavHelper.label(act, pkg);
     }
 
     private Runnable intent(final String action) {
         return new Runnable() {
-            @Override
             public void run() {
                 if (!Ui.start(act, new Intent(action))) Ui.start(act, new Intent(Settings.ACTION_SETTINGS));
             }
         };
-    }
-
-    private String appLabel(String pkg) {
-        com.thecarlauncher.apps.AppRepository.App a = com.thecarlauncher.apps.AppRepository.get(act).findPackage(pkg);
-        return a != null ? a.label : NavHelper.label(act, pkg);
     }
 
     private static int indexOf(String[] arr, String v) {
