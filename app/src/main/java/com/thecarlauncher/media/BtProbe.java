@@ -19,7 +19,7 @@ import java.util.Locale;
  * song title travels there. Read-only: nothing is sent to the daemon.
  */
 public final class BtProbe {
-    private static final int[] PORTS = {3152, 3153, 3150, 8888, 9999};
+    private static final int[] PORTS = {3153, 3150, 8888, 9999}; // 3152 is ZLink's, left alone
     private static final String[] SOCKETS = {"zj_bt_socket", "gocsdk", "goc_bt", "gocsdk_socket", "bt_socket", "qf_bt",
             "qfbt", "btservice", "bluetooth"};
 
@@ -54,7 +54,7 @@ public final class BtProbe {
         // 3. Connect and listen.
         List<Integer> ports = new ArrayList<>();
         for (int p : PORTS) ports.add(p);
-        for (int p : listening) if (!ports.contains(p) && p > 1024 && p < 20000) ports.add(p);
+        for (int p : listening) if (!ports.contains(p) && p > 1024 && p < 20000 && p != 3152) ports.add(p);
         for (int port : ports) {
             Socket s = new Socket();
             try {

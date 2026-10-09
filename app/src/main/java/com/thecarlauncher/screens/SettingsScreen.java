@@ -425,6 +425,22 @@ public class SettingsScreen extends Screen {
                 });
             }
         });
+        final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
+        checkRowWithAction(s("Pesma direktno sa BT modula (eksperimentalno)", "Song straight from the BT module (experimental)"),
+                gocBt.enabled(), new Runnable() {
+                    public void run() {
+                        boolean on = !gocBt.enabled();
+                        Prefs.put(act, com.thecarlauncher.media.GocBluetooth.PREF, on);
+                        if (on) {
+                            gocBt.start();
+                            Ui.toast(act, s("Uključeno. Ako fabrička BT aplikacija prestane da prima pozive ili pesme, isključi.",
+                                    "On. If the factory BT app stops getting calls or songs, switch it off."));
+                        } else {
+                            gocBt.stop();
+                        }
+                        refresh();
+                    }
+                });
         action(s("Dijagnostika (QF / Bluetooth)", "Diagnostics (QF / Bluetooth)"), null, new Runnable() {
             public void run() {
                 push(s("Dijagnostika", "Diagnostics"), new Page() {
@@ -860,6 +876,17 @@ public class SettingsScreen extends Screen {
             }
         });
         return row;
+    }
+
+    private void checkRowWithAction(String text, boolean on, final Runnable r) {
+        LinearLayout row = bar(text, null);
+        checkbox(row, on);
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                r.run();
+            }
+        });
     }
 
     private void toggle(String text, final String key, final boolean def, final Runnable after) {

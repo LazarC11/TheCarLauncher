@@ -11,8 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,7 +34,7 @@ public final class GocBluetooth {
     private final Handler main = new Handler(Looper.getMainLooper());
     private volatile OutputStream out;
     private volatile boolean running;
-    private String endpoint, status = "—";
+    private String endpoint, status = "isključeno";
     private final List<String> lines = new ArrayList<>();
     // Song state
     private String title, artist, album;
@@ -57,7 +55,10 @@ public final class GocBluetooth {
 
     /** Starts the background connection (no-op on units without the daemon). */
     public synchronized void start() {
-        if (running) return;
+        if (running || !enabled()) {
+            if (!enabled()) status = "isključeno (Podešavanja → Bluetooth audio)";
+            return;
+        }
         running = true;
         new Thread(new Runnable() {
             @Override
@@ -85,6 +86,16 @@ public final class GocBluetooth {
             status = "povezan: " + endpoint;
             send("MK");
             send("VI");
+            final Conn cur = c;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (running && out == cur.out) {
+                        sleep(5000);
+                        if (out == cur.out) send("MK");
+                    }
+                }
+            }, "goc-ask").start();
             byte[] buf = new byte[1024];
             byte[] line = new byte[2048];
             int n = 0;
@@ -139,7 +150,7 @@ public final class GocBluetooth {
     private static final class Conn {
         InputStream in;
         OutputStream out;
-        Socket tcp;
+        java.net.Socket tcp;
         LocalSocket local;
 
         void close() {
@@ -153,20 +164,12 @@ public final class GocBluetooth {
         }
     }
 
-    /** Endpoints seen on Goodocom firmwares, most common first. */
+    /**
+     * The Goodocom command channel: the virtual serial port /dev/goc_serial (or a goc_serial
+     * socket). Port 3152 is NOT used: on this unit it speaks ZLink's binary protocol.
+     */
     private Conn open() {
         Conn c = new Conn();
-        try {
-            Socket s = new Socket();
-            s.connect(new InetSocketAddress("127.0.0.1", 3152), 4000);
-            s.setSoTimeout(6000);
-            c.tcp = s;
-            c.in = s.getInputStream();
-            c.out = s.getOutputStream();
-            endpoint = "tcp 3152";
-            return c;
-        } catch (Exception ignored) {
-        }
         File serial = new File("/dev/goc_serial");
         if (serial.canRead() && serial.canWrite()) {
             try {
@@ -174,28 +177,41 @@ public final class GocBluetooth {
                 c.out = new FileOutputStream(serial);
                 endpoint = "/dev/goc_serial";
                 return c;
+            } catch (Exception e) {
+                lastError = e.getClass().getSimpleName();
+            }
+        }
+        for (LocalSocketAddress.Namespace ns : new LocalSocketAddress.Namespace[]{
+                LocalSocketAddress.Namespace.RESERVED, LocalSocketAddress.Namespace.FILESYSTEM}) {
+            try {
+                LocalSocket ls = new LocalSocket();
+                ls.connect(new LocalSocketAddress(ns == LocalSocketAddress.Namespace.FILESYSTEM ? "/dev/socket/goc_serial" : "goc_serial", ns));
+                ls.setSoTimeout(6000);
+                c.local = ls;
+                c.in = ls.getInputStream();
+                c.out = ls.getOutputStream();
+                endpoint = "goc_serial";
+                return c;
             } catch (Exception ignored) {
             }
         }
-        // Only the command channel. goc_control / goc_data carry the factory player's audio
-        // stream; reading them could take data away from it.
-        for (String name : new String[]{"goc_serial"}) {
-            for (LocalSocketAddress.Namespace ns : new LocalSocketAddress.Namespace[]{
-                    LocalSocketAddress.Namespace.RESERVED, LocalSocketAddress.Namespace.FILESYSTEM}) {
-                try {
-                    LocalSocket ls = new LocalSocket();
-                    ls.connect(new LocalSocketAddress(ns == LocalSocketAddress.Namespace.FILESYSTEM ? "/dev/socket/" + name : name, ns));
-                    ls.setSoTimeout(6000);
-                    c.local = ls;
-                    c.in = ls.getInputStream();
-                    c.out = ls.getOutputStream();
-                    endpoint = name;
-                    return c;
-                } catch (Exception ignored) {
-                }
-            }
-        }
         return null;
+    }
+
+    /** Opt-in: reading the shared serial port may take messages away from the factory BT app. */
+    public static final String PREF = "goc_direct";
+
+    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, false); }
+
+    public synchronized void stop() {
+        running = false;
+        status = "isključeno";
+        OutputStream o = out;
+        out = null;
+        try {
+            if (o != null) o.close();
+        } catch (Exception ignored) {
+        }
     }
 
     /** Sends one command, e.g. "MK" → "AT#MK\r\n". */
