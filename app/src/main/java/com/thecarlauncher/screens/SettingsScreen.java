@@ -382,7 +382,9 @@ public class SettingsScreen extends Screen {
                         : pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
                 new Runnable() {
                     public void run() {
-                        appChoice(s("Aplikacija za BT audio", "BT audio app"), BluetoothSource.candidates(act), Prefs.BT_PKG, true);
+                        push(s("Aplikacija za BT audio", "BT audio app"), new Page() {
+                            public void build() { buildBtAppChoice(); }
+                        });
                     }
                 });
         toggle(s("Probudi BT aplikaciju pri izboru izvora", "Wake BT app when selecting the source"), Prefs.BT_WAKE, false, false);
@@ -413,6 +415,45 @@ public class SettingsScreen extends Screen {
             }
         });
         toggle(s("Šalji komande sistemski", "Send controls system-wide"), Prefs.BT_SYSTEM_KEYS, false, false);
+    }
+
+    /**
+     * BT audio app: exactly the entries shown in Aplikacije (same names and icons, hidden
+     * factory screens included), Bluetooth-looking ones first. Stored as "package/class".
+     */
+    private void buildBtAppChoice() {
+        final String cur = Prefs.str(act, Prefs.BT_PKG, null);
+        choice(s("Automatski (prepoznaj iz media sesije)", "Automatic (detect from media session)"), cur == null,
+                new Runnable() {
+                    public void run() {
+                        Prefs.put(act, Prefs.BT_PKG, (String) null);
+                        onBack();
+                    }
+                });
+        BluetoothSource bt = MediaHub.get(act).bluetooth();
+        List<AppRepository.App> first = new ArrayList<>(), rest = new ArrayList<>();
+        for (AppRepository.App a : AppRepository.get(act).all()) {
+            if (a.pkg.startsWith("@")) continue;
+            String hay = (a.pkg + " " + a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
+            boolean btLike = a.hidden || bt.looksLikeBluetooth(a.pkg) || hay.contains("bluetooth") || hay.contains("btmusic")
+                    || hay.matches(".*\\bbt\\b.*") || hay.contains("a2dp");
+            (btLike ? first : rest).add(a);
+        }
+        first.addAll(rest);
+        for (final AppRepository.App a : first) {
+            boolean sel = cur != null && (cur.equals(a.key()) || (!cur.contains("/") && cur.equals(a.pkg) && !a.hidden));
+            LinearLayout row = choice(a.label, sel, new Runnable() {
+                public void run() {
+                    Prefs.put(act, Prefs.BT_PKG, a.key());
+                    onBack();
+                }
+            });
+            if (a.icon != null) {
+                ImageView iv = new ImageView(act);
+                iv.setImageDrawable(a.icon);
+                addLeading(row, iv);
+            }
+        }
     }
 
     /** What this unit exposes for Bluetooth music: QF packages, hidden screens, QF broadcasts. */

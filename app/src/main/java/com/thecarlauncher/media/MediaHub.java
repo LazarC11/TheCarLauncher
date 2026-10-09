@@ -225,6 +225,12 @@ public final class MediaHub {
     }
 
     private MediaController btController() {
+        // The user's explicit choice wins over what was detected.
+        String chosen = Prefs.str(app, Prefs.BT_PKG, null);
+        if (chosen != null) {
+            String cp = chosen.contains("/") ? chosen.substring(0, chosen.indexOf('/')) : chosen;
+            if (controllers.containsKey(cp)) return controllers.get(cp);
+        }
         String sp = Prefs.str(app, Prefs.BT_SESSION_PKG, null);
         if (sp != null && controllers.containsKey(sp)) return controllers.get(sp);
         MediaController mc = controllers.get(BluetoothSource.SYSTEM_PKG);
@@ -293,6 +299,8 @@ public final class MediaHub {
      * screens the launcher may not start directly), then by package / hidden screen.
      */
     public boolean openBluetoothUi() {
+        // A screen the user picked in Setup is opened as chosen.
+        if (Prefs.str(app, Prefs.BT_PKG, null) != null && bt.openApp()) return true;
         MediaController mc = btController();
         if (mc != null && mc.getSessionActivity() != null) {
             try {
