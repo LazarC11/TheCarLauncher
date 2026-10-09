@@ -526,6 +526,8 @@ public final class MediaHub {
     public boolean isPlaying() {
         if (isRadio()) return true;
         if (btSelected && goc().connected() && goc().playing() >= 0) return goc().playing() == 1;
+        // Song info is arriving from the BT module but no play state: it is playing.
+        if (gocSong() && goc().playing() < 0) return true;
         if (btFallback()) return qf().playing() >= 0 ? qf().playing() == 1 : btPlaying;
         return active != null && isPlaying(active);
     }

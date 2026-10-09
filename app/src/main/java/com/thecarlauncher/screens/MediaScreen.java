@@ -364,9 +364,11 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     private void updateProgress() {
         MediaHub hub = MediaHub.get(act);
         long d = hub.duration(), p = hub.position();
-        progressRow.setVisibility(d > 0 ? View.VISIBLE : View.INVISIBLE);
+        // Bluetooth songs may come without a length: still show the elapsed time.
+        boolean show = d > 0 || (hub.isBluetooth() && hub.hasTrackInfo() && p > 0);
+        progressRow.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
         pos.setText(Ui.time(p));
-        remain.setText("-" + Ui.time(Math.max(0, d - p)));
+        remain.setText(d > 0 ? "-" + Ui.time(Math.max(0, d - p)) : "--:--");
         progress.setFraction(d > 0 ? p / (float) d : 0);
     }
 
