@@ -6,7 +6,11 @@ import android.os.SystemClock;
 
 import com.thecarlauncher.util.Prefs;
 
-/** "Od početka" trip data (time, distance, average speed) accumulated from GPS fixes. */
+/**
+ * Trip data accumulated from GPS fixes, like the factory MIB driving-data pages:
+ * "Od starta" (this drive), "Dugoročno" (long term, until reset) and the lifetime total that
+ * feeds the odometer and the since-refuel figures.
+ */
 public final class TripComputer implements LocationTracker.Listener {
     private static TripComputer sInstance;
 
@@ -16,6 +20,13 @@ public final class TripComputer implements LocationTracker.Listener {
     private double meters;
     private Location last;
     private long lastElapsed;
+    // Persisted totals (metres / moving milliseconds).
+    private double lifeMeters, longMeters;
+    private long longMs, lastSaved, lastMoveWall;
+    private static final String P_LIFE = "trip_life_m", P_LONG = "trip_long_m", P_LONG_MS = "trip_long_ms",
+            P_LAST_MOVE = "trip_last_move";
+    /** A new drive starts after the car has been parked this long. */
+    private static final long NEW_DRIVE_MS = 2 * 3600 * 1000L;
 
     public static synchronized TripComputer get(Context c) {
         if (sInstance == null) {
@@ -27,7 +38,33 @@ public final class TripComputer implements LocationTracker.Listener {
 
     private TripComputer(Context c) {
         app = c;
+        lifeMeters = Double.longBitsToDouble(Prefs.of(c).getLong(P_LIFE, 0));
+        longMeters = Double.longBitsToDouble(Prefs.of(c).getLong(P_LONG, 0));
+        longMs = Prefs.of(c).getLong(P_LONG_MS, 0);
+        lastMoveWall = Prefs.of(c).getLong(P_LAST_MOVE, 0);
     }
+
+    private void save() {
+        lastSaved = SystemClock.elapsedRealtime();
+        Prefs.of(app).edit().putLong(P_LIFE, Double.doubleToLongBits(lifeMeters))
+                .putLong(P_LONG, Double.doubleToLongBits(longMeters))
+                .putLong(P_LONG_MS, longMs).putLong(P_LAST_MOVE, lastMoveWall).apply();
+    }
+
+    public void resetLongTerm() {
+        longMeters = 0;
+        longMs = 0;
+        save();
+    }
+
+    /** Total GPS distance ever driven with the launcher running, in kilometres. */
+    public double lifetimeKm() { return lifeMeters / 1000.0; }
+
+    public double longTermKm() { return longMeters / 1000.0; }
+
+    public long longTermMs() { return longMs; }
+
+    public double movingKm() { return meters / 1000.0; }
 
     public void reset() {
         startElapsed = SystemClock.elapsedRealtime();
@@ -49,8 +86,15 @@ public final class TripComputer implements LocationTracker.Listener {
             long dt = now - lastElapsed;
             // Ignore GPS jitter while parked and implausible jumps.
             if (d > 3 && dt > 0 && d / (dt / 1000f) < 70) {
+                long wall = System.currentTimeMillis();
+                if (lastMoveWall > 0 && wall - lastMoveWall > NEW_DRIVE_MS) reset();
+                lastMoveWall = wall;
                 meters += d;
                 movingMs += dt;
+                lifeMeters += d;
+                longMeters += d;
+                longMs += dt;
+                if (now - lastSaved > 20000) save();
             }
         }
         last = l;

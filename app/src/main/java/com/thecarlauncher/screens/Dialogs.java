@@ -126,6 +126,95 @@ public final class Dialogs {
                 .show();
     }
 
+    public interface NumberEntered { void onNumber(double value); }
+    public interface DatePicked { void onDate(long millis); }
+    public interface RefuelEntered { void onRefuel(double litres, double price, boolean full); }
+
+    private static EditText numberField(Context c, String hint, String value) {
+        EditText f = new EditText(c);
+        f.setSingleLine(true);
+        f.setHint(hint);
+        if (value != null) f.setText(value);
+        f.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        f.setTextColor(Theme.TEXT_PRIMARY);
+        f.setHintTextColor(Theme.TEXT_DIM);
+        if (value != null) f.setSelection(value.length());
+        return f;
+    }
+
+    private static double parse(EditText f) {
+        try {
+            return Double.parseDouble(f.getText().toString().trim().replace(',', '.'));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public static void number(Context c, String title, String hint, String value, final NumberEntered cb) {
+        final EditText field = numberField(c, hint, value);
+        LinearLayout wrap = new LinearLayout(c);
+        int p = Ui.dp(c, 20);
+        wrap.setPadding(p, Ui.dp(c, 8), p, 0);
+        wrap.addView(field, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        new AlertDialog.Builder(c)
+                .setTitle(title)
+                .setView(wrap)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface d, int w) {
+                        double v = parse(field);
+                        if (v >= 0) cb.onNumber(v);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    public static void date(Context c, long initial, final DatePicked cb) {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        if (initial > 0) cal.setTimeInMillis(initial);
+        new android.app.DatePickerDialog(c, new android.app.DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(android.widget.DatePicker v, int y, int m, int d) {
+                java.util.Calendar out = java.util.Calendar.getInstance();
+                out.set(y, m, d, 12, 0, 0);
+                cb.onDate(out.getTimeInMillis());
+            }
+        }, cal.get(java.util.Calendar.YEAR), cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH)).show();
+    }
+
+    /** Fill-up entry: litres, price per litre, and whether the tank was filled to the brim. */
+    public static void refuel(Context c, String title, String litresHint, String priceHint, String fullLabel,
+                              String lastPrice, final RefuelEntered cb) {
+        final EditText litres = numberField(c, litresHint, null);
+        final EditText price = numberField(c, priceHint, lastPrice);
+        final android.widget.CheckBox full = new android.widget.CheckBox(c);
+        full.setText(fullLabel);
+        full.setChecked(true);
+        full.setTextColor(Theme.TEXT_PRIMARY);
+        LinearLayout wrap = new LinearLayout(c);
+        wrap.setOrientation(LinearLayout.VERTICAL);
+        int p = Ui.dp(c, 20);
+        wrap.setPadding(p, Ui.dp(c, 8), p, 0);
+        wrap.addView(litres);
+        wrap.addView(price);
+        wrap.addView(full);
+        new AlertDialog.Builder(c)
+                .setTitle(title)
+                .setView(wrap)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface d, int w) {
+                        double l = parse(litres);
+                        if (l > 0) cb.onRefuel(l, Math.max(0, parse(price)), full.isChecked());
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
     public static void choose(Context c, String title, String[] options, int checked, final Chosen cb) {
         new AlertDialog.Builder(c)
                 .setTitle(title)
