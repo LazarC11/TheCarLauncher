@@ -32,6 +32,9 @@ public final class Prefs {
     public static final String RADIO_LOC = "radio_loc";
     public static final String RADIO_RDS = "radio_rds";
     public static final String BT_PKG = "bt_pkg";
+    /** MCU audio channel for Bluetooth music on QF units: -1 auto (learned), 0 off, n fixed. */
+    public static final String BT_CHANNEL = "bt_channel";
+    public static final String BT_CHANNEL_LEARNED = "bt_channel_learned";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";
     public static final String PROJECTION_PKG = "projection_pkg";

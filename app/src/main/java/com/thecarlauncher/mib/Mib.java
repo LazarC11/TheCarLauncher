@@ -88,9 +88,21 @@ public final class Mib {
     // ---- Sizing -----------------------------------------------------------------------------
 
     /** Scale relative to the 600 px-tall reference layout. */
+    /** Re-measure on the next layout (full screen toggled). */
+    public static void resetScale() { sScale = -1; }
+
     public static float scale(Context c) {
         if (sScale < 0) {
             DisplayMetrics dm = c.getResources().getDisplayMetrics();
+            if (Prefs.bool(c, Prefs.IMMERSIVE, false)) {
+                // Full screen: size the UI for the whole panel, not the area left by the bars.
+                try {
+                    DisplayMetrics real = new DisplayMetrics();
+                    ((android.view.WindowManager) c.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRealMetrics(real);
+                    dm = real;
+                } catch (Exception ignored) {
+                }
+            }
             float hDp = Math.min(dm.heightPixels, dm.widthPixels) / dm.density;
             sScale = Math.max(0.68f, Math.min(1.25f, hDp / 600f));
         }

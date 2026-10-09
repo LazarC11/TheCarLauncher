@@ -386,6 +386,25 @@ public class SettingsScreen extends Screen {
                     }
                 });
         toggle(s("Probudi BT aplikaciju pri izboru izvora", "Wake BT app when selecting the source"), Prefs.BT_WAKE, false, false);
+        int bc = Prefs.integer(act, Prefs.BT_CHANNEL, -1), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
+        String bcText = bc == 0 ? s("Isključeno", "Off") : bc > 0 ? s("Kanal ", "Channel ") + bc
+                : s("Automatski", "Automatic") + (learned > 0 ? " (" + learned + ")" : s(" (još nije naučen)", " (not learned yet)"));
+        action(s("MCU kanal za BT zvuk", "MCU channel for BT audio"), bcText, new Runnable() {
+            public void run() {
+                final String[] opts = {s("Automatski (uči iz fabričke BT aplikacije)", "Automatic (learn from the factory BT app)"),
+                        s("Isključeno (ne menjaj kanal)", "Off (leave the channel alone)"),
+                        "1", "3", "5", "6", "7", "8"};
+                final int[] vals = {-1, 0, 1, 3, 5, 6, 7, 8};
+                int cur = 0;
+                for (int i = 0; i < vals.length; i++) if (vals[i] == Prefs.integer(act, Prefs.BT_CHANNEL, -1)) cur = i;
+                Dialogs.choose(act, s("MCU kanal za BT zvuk", "MCU channel for BT audio"), opts, cur, new Dialogs.Chosen() {
+                    public void onChosen(int i) {
+                        Prefs.put(act, Prefs.BT_CHANNEL, vals[i]);
+                        refresh();
+                    }
+                });
+            }
+        });
         action(s("Dijagnostika (QF / Bluetooth)", "Diagnostics (QF / Bluetooth)"), null, new Runnable() {
             public void run() {
                 push(s("Dijagnostika", "Diagnostics"), new Page() {
@@ -402,6 +421,23 @@ public class SettingsScreen extends Screen {
         AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
         info(s("BT ekran", "BT screen"), screen == null ? "—" : screen.key());
         info(s("BT_STATE", "BT_STATE"), qf.btState() < 0 ? "—" : String.valueOf(qf.btState()));
+        final RadioController rc = RadioController.get(act);
+        int ch = rc.mcuChannel();
+        info(s("MCU audio kanal sada", "MCU audio channel now"), ch < 0 ? s("nedostupan", "unavailable") + " (" + rc.error() + ")"
+                : ch + (ch == 2 ? " (FM)" : ch == 4 ? " (Android)" : ""));
+        info(s("Naučen BT kanal", "Learned BT channel"), String.valueOf(Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0)));
+        // Try each input of the audio switch while the phone plays music; the one with sound is BT.
+        for (final int n : new int[]{1, 3, 5, 6, 7, 8, 4}) {
+            action(s("Testiraj kanal ", "Test channel ") + n + (n == 4 ? s(" (vrati Android)", " (back to Android)") : ""),
+                    s("dodirni i slušaj", "tap and listen"), new Runnable() {
+                        public void run() {
+                            boolean ok = rc.routeChannel(n);
+                            Ui.toast(act, ok ? s("MCU kanal → ", "MCU channel → ") + n
+                                    : s("MCU nije dostupan", "MCU not available"));
+                            refresh();
+                        }
+                    });
+        }
         com.thecarlauncher.media.PhoneStatus ps = com.thecarlauncher.media.PhoneStatus.get(act);
         info(s("Telefon (baterija / signal)", "Phone (battery / signal)"), (ps.connected() ? "BT ✓  " : "BT ✗  ")
                 + ps.battery() + " / " + ps.signal());

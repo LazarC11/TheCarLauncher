@@ -58,6 +58,7 @@ public final class QfMediaBridge {
             if (b == null) return;
             if ("com.qf.action.BT_STATE".equals(i.getAction())) {
                 btState = b.getInt("state", -1);
+                com.thecarlauncher.radio.RadioController.get(app).learnBluetoothChannel();
                 MediaHub.get(app).radioChanged();
                 return;
             }
@@ -74,6 +75,10 @@ public final class QfMediaBridge {
             if (p >= 0) playing = p;
             if (pkg != null) source = pkg;
             updated = System.currentTimeMillis();
+            // The factory Bluetooth app is playing: note which MCU channel it uses.
+            if (playing == 1 && (pkg == null || pkg.contains("bluetooth") || pkg.contains(".bt"))) {
+                com.thecarlauncher.radio.RadioController.get(app).learnBluetoothChannel();
+            }
             MediaHub.get(app).radioChanged(); // generic "media changed" notification
         }
     };

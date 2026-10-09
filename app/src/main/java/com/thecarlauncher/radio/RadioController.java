@@ -111,6 +111,41 @@ public final class RadioController implements K706Tuner.Listener {
 
     public String error() { return tuner.error(); }
 
+    // ---- MCU audio switch (shared with Bluetooth music) ----------------------------------------
+
+    /** Current MCU audio channel (2 = FM, 4 = Android media, others = e.g. Bluetooth), -1 unknown. */
+    public int mcuChannel() {
+        return tuner.connect(this) ? tuner.channel() : -1;
+    }
+
+    /** Switches the MCU audio channel (used to put the Bluetooth module on the speakers). */
+    public boolean routeChannel(int ch) {
+        if (!tuner.connect(this)) return false;
+        if (active && ch != K706Tuner.CHANNEL_FM) stop();
+        tuner.mute(true);
+        tuner.route((byte) ch);
+        tuner.mute(false);
+        return true;
+    }
+
+    /**
+     * Remembers the channel the MCU is on while the factory Bluetooth app plays, so the
+     * launcher can switch to it later on its own.
+     */
+    public void learnBluetoothChannel() {
+        int ch = mcuChannel();
+        if (ch > 0 && ch != K706Tuner.CHANNEL_FM && ch != K706Tuner.CHANNEL_ANDROID) {
+            Prefs.put(app, Prefs.BT_CHANNEL_LEARNED, ch);
+        }
+    }
+
+    /** The channel to use for Bluetooth music, or 0 to leave the switch alone. */
+    public int bluetoothChannel() {
+        int pref = Prefs.integer(app, Prefs.BT_CHANNEL, -1);
+        if (pref >= 0) return pref;
+        return Prefs.integer(app, Prefs.BT_CHANNEL_LEARNED, 0);
+    }
+
     public boolean isActive() { return active; }
 
     /** Makes FM the audio source (like pressing Radio on the factory unit) and tunes the last station. */

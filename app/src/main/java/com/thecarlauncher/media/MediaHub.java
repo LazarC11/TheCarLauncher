@@ -54,7 +54,7 @@ public final class MediaHub {
     private MediaController active;
     private boolean externalConnected;
     private final BluetoothSource bt;
-    private boolean btSelected, btPlaying;
+    private boolean btSelected, btPlaying, btRouted;
 
     private final MediaSessionManager.OnActiveSessionsChangedListener sessionsListener =
             new MediaSessionManager.OnActiveSessionsChangedListener() {
@@ -237,6 +237,11 @@ public final class MediaHub {
             return;
         }
         if (isRadio()) radio().stop();
+        // Leaving Bluetooth: give the MCU audio switch back to Android media.
+        if (btSelected && !BLUETOOTH.equals(key) && btRouted) {
+            radio().routeChannel(4);
+            btRouted = false;
+        }
         if (BLUETOOTH.equals(key)) {
             selectBluetooth();
             return;
@@ -251,6 +256,9 @@ public final class MediaHub {
     private void selectBluetooth() {
         MusicService own = MusicService.get();
         if (own != null && own.isPlaying()) own.pause();
+        // QF / K706: the Bluetooth module has its own input on the MCU audio switch.
+        int ch = radio().bluetoothChannel();
+        if (ch > 0) btRouted = radio().routeChannel(ch);
         btSelected = true;
         active = btController();
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);

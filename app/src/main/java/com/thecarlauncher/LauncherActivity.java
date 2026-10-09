@@ -415,6 +415,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     /** Rebuilds the UI after language / map / full-screen changes. */
     public void restartUi() {
+        Mib.resetScale();
         recreate();
     }
 
@@ -426,13 +427,42 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
     }
 
+    /**
+     * Full screen: hide the unit's status and navigation bars AND lay the launcher out over the
+     * space they used, so the MIB UI really fills the whole display.
+     */
     @SuppressWarnings("deprecation")
     private void applyImmersive() {
-        View decor = getWindow().getDecorView();
-        if (Prefs.bool(this, Prefs.IMMERSIVE, false)) {
+        android.view.Window w = getWindow();
+        View decor = w.getDecorView();
+        boolean on = Prefs.bool(this, Prefs.IMMERSIVE, false);
+        if (on) {
+            w.addFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+                    | android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            if (Build.VERSION.SDK_INT >= 28) {
+                android.view.WindowManager.LayoutParams lp = w.getAttributes();
+                lp.layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                w.setAttributes(lp);
+            }
+            if (Build.VERSION.SDK_INT >= 30) {
+                w.setDecorFitsSystemWindows(false);
+                android.view.WindowInsetsController c = w.getInsetsController();
+                if (c != null) {
+                    c.hide(android.view.WindowInsets.Type.statusBars() | android.view.WindowInsets.Type.navigationBars());
+                    c.setSystemBarsBehavior(android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                }
+            }
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         } else {
+            w.clearFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+                    | android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            if (Build.VERSION.SDK_INT >= 30) {
+                w.setDecorFitsSystemWindows(true);
+                android.view.WindowInsetsController c = w.getInsetsController();
+                if (c != null) c.show(android.view.WindowInsets.Type.statusBars() | android.view.WindowInsets.Type.navigationBars());
+            }
             decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
