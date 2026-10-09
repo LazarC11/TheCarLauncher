@@ -31,7 +31,7 @@ public class MibBar extends LinearLayout {
             label.setGravity(Gravity.CENTER);
             addView(label, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             icon = Mib.icon(c, iconRes, Mib.WHITE);
-            LayoutParams ip = new LayoutParams(Mib.px(c, 46), Mib.px(c, 46));
+            LayoutParams ip = new LayoutParams(Mib.px(c, 66), Mib.px(c, 44));
             ip.topMargin = Mib.px(c, 4);
             addView(icon, ip);
         }

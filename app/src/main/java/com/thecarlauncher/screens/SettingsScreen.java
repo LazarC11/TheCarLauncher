@@ -72,7 +72,7 @@ public class SettingsScreen extends Screen {
         head.setPadding(Mib.px(act, 30), 0, Mib.px(act, 30), Mib.px(act, 10));
         FrameLayout backBox = new FrameLayout(act);
         backBox.setBackground(Mib.box(act));
-        backBox.addView(Mib.icon(act, R.drawable.mib_back, Mib.WHITE),
+        backBox.addView(Mib.icon(act, R.drawable.vw_ic_back, Mib.WHITE),
                 new FrameLayout.LayoutParams(Mib.px(act, 30), Mib.px(act, 30), Gravity.CENTER));
         backBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +90,7 @@ public class SettingsScreen extends Screen {
 
         View rule = new View(act);
         rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{0xFF1E6FC4, Mib.BLUE, Mib.BLUE, 0x801E6FC4}));
+                new int[]{Mib.shade(Mib.BLUE, 0.8f, 0xFF), Mib.BLUE, Mib.BLUE, Mib.shade(Mib.BLUE, 0.8f, 0x80)}));
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(2, Mib.px(act, 2.4f)));
         rl.leftMargin = Mib.px(act, 12);
@@ -200,6 +200,7 @@ public class SettingsScreen extends Screen {
 
     private void buildRoot() {
         sub(s("Ekran", "Screen"), new Page() { public void build() { buildDisplay(); } });
+        sub(s("Ambijentalno osvetljenje", "Ambient lighting"), new Page() { public void build() { buildAmbient(); } });
         sub(s("Vreme i datum", "Time and date"), new Page() { public void build() { buildTime(); } });
         LinearLayout lang = sub("Jezik/Language", new Page() { public void build() { buildLanguage(); } });
         addLeading(lang, flag());
@@ -217,6 +218,28 @@ public class SettingsScreen extends Screen {
     private void buildDisplay() {
         toggle(s("Pun ekran (sakrij Android trake)", "Full screen (hide Android bars)"), Prefs.IMMERSIVE, false, true);
         action(s("Osvetljenost", "Brightness"), null, intent(Settings.ACTION_DISPLAY_SETTINGS));
+    }
+
+    /** 30 colours for the UI accent ("ambient lighting"); the whole UI follows the choice. */
+    private void buildAmbient() {
+        int cur = Prefs.integer(act, Prefs.AMBIENT, Mib.DEFAULT_AMBIENT);
+        boolean en = "en".equals(Prefs.str(act, Prefs.LANGUAGE, "sr"));
+        for (Object[] a : Mib.AMBIENT) {
+            final int color = (Integer) a[2];
+            LinearLayout row = choice((String) (en ? a[1] : a[0]), color == cur, new Runnable() {
+                public void run() {
+                    Prefs.put(act, Prefs.AMBIENT, color);
+                    act.restartUi();
+                }
+            });
+            View sw = new View(act);
+            GradientDrawable d = new GradientDrawable();
+            d.setColor(color);
+            d.setCornerRadius(Mib.px(act, 3));
+            d.setStroke(Math.max(1, Mib.px(act, 1)), 0xFF3A3B44);
+            sw.setBackground(d);
+            addLeading(row, sw);
+        }
     }
 
     private void buildTime() {
@@ -552,21 +575,16 @@ public class SettingsScreen extends Screen {
         });
     }
 
+    /** Factory checkbox glyph, drawn dark on the light bars. */
     private View checkbox(LinearLayout row, boolean on) {
-        FrameLayout box = new FrameLayout(act);
-        box.setBackground(Mib.checkbox(act));
-        ImageView tick = Mib.icon(act, R.drawable.mib_check, 0xFF1C1C22);
-        box.addView(tick, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        int p = Mib.px(act, 4);
-        box.setPadding(p, p, p, p);
-        row.addView(box, new LinearLayout.LayoutParams(Mib.px(act, 40), Mib.px(act, 40)));
+        ImageView box = Mib.icon(act, R.drawable.vw_ic_check_off, 0xFF1C1C22);
+        row.addView(box, new LinearLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46)));
         setChecked(box, on);
         return box;
     }
 
     private static void setChecked(View box, boolean on) {
-        ((ViewGroup) box).getChildAt(0).setVisibility(on ? View.VISIBLE : View.INVISIBLE);
+        ((ImageView) box).setImageResource(on ? R.drawable.vw_ic_check_on : R.drawable.vw_ic_check_off);
     }
 
     private void addLeading(LinearLayout row, View v) {
@@ -577,14 +595,9 @@ public class SettingsScreen extends Screen {
 
     /** Serbian tricolour, as the factory language bar shows the country flag. */
     private View flag() {
-        LinearLayout f = new LinearLayout(act);
-        f.setOrientation(LinearLayout.VERTICAL);
-        int[] colors = {0xFFC6363C, 0xFF0C4076, 0xFFFFFFFF};
-        for (int c : colors) {
-            View band = new View(act);
-            band.setBackgroundColor(c);
-            f.addView(band, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
-        }
+        ImageView f = new ImageView(act);
+        f.setImageResource(R.drawable.vw_ic_flag_rs);
+        f.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return f;
     }
 

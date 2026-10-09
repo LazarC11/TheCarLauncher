@@ -64,8 +64,8 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
 
         FrameLayout followBox = new FrameLayout(act);
         followBox.setBackground(Mib.box(act));
-        follow = Mib.icon(act, R.drawable.mib_recenter, Mib.WHITE);
-        followBox.addView(follow, new FrameLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46), Gravity.CENTER));
+        follow = Mib.icon(act, R.drawable.vw_ic_compass, Mib.WHITE);
+        followBox.addView(follow, new FrameLayout.LayoutParams(Mib.px(act, 60), Mib.px(act, 60), Gravity.CENTER));
         followBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,14 +80,14 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
         LinearLayout zoom = new LinearLayout(act);
         zoom.setOrientation(LinearLayout.VERTICAL);
         zoom.setBackground(Mib.box(act));
-        zoom.addView(zoomCell(R.drawable.mib_zoom_in, 1), new LinearLayout.LayoutParams(box, box));
+        zoom.addView(zoomCell(R.drawable.vw_map_zoom_in, 1), new LinearLayout.LayoutParams(box, box));
         View div = new View(act);
         div.setBackgroundColor(0xFFD6D6DC);
         LinearLayout.LayoutParams dl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(1, Mib.px(act, 1.4f)));
         dl.leftMargin = dl.rightMargin = Mib.px(act, 10);
         zoom.addView(div, dl);
-        zoom.addView(zoomCell(R.drawable.mib_zoom_out, -1), new LinearLayout.LayoutParams(box, box));
+        zoom.addView(zoomCell(R.drawable.vw_map_zoom_out, -1), new LinearLayout.LayoutParams(box, box));
         side.addView(zoom);
 
         map.setListener(new MapTileView.Listener() {
@@ -111,7 +111,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
 
         // Soft keys.
         MibBar bar = new MibBar(act);
-        bar.add(s("Novo odr.", "New dest."), R.drawable.mib_flag, new View.OnClickListener() {
+        bar.add(s("Novo odr.", "New dest."), R.drawable.vw_key_newdest, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialogs.text(act, s("Novo odredište", "New destination"), s("Ulica, grad", "Street, city"), "",
@@ -123,13 +123,13 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
                         });
             }
         });
-        bar.add(s("Moja odred.", "My dest."), R.drawable.mib_myplaces, new View.OnClickListener() {
+        bar.add(s("Moja odred.", "My dest."), R.drawable.vw_key_mydest, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPlaces(v);
             }
         });
-        bar.add(s("Pogled", "View"), R.drawable.mib_view, new View.OnClickListener() {
+        bar.add(s("Pogled", "View"), R.drawable.vw_key_view, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int z = map.getZoom(), next = VIEW_ZOOMS[0];
@@ -143,20 +143,20 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
                 map.setFollow(true);
             }
         });
-        bar.add(s("Mediji", "Media"), R.drawable.mib_media, new View.OnClickListener() {
+        bar.add(s("Mediji", "Media"), R.drawable.vw_key_music, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.MEDIA, true);
             }
         });
-        bar.add(s("Aplikacija", "Nav app"), R.drawable.mib_nav, new View.OnClickListener() {
+        bar.add(s("Aplikacija", "Nav app"), R.drawable.vw_ic_nav, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavHelper.openApp(act, LocationTracker.get(act).location());
             }
         });
         bar.gap(1);
-        bar.add("Setup", R.drawable.mib_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.showSettings(SettingsScreen.PAGE_NAV);
@@ -169,7 +169,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
     private View zoomCell(int icon, final int delta) {
         FrameLayout f = new FrameLayout(act);
         f.setBackground(Mib.keyPressed());
-        f.addView(Mib.icon(act, icon, Mib.WHITE), new FrameLayout.LayoutParams(Mib.px(act, 40), Mib.px(act, 40),
+        f.addView(Mib.icon(act, icon, Mib.WHITE), new FrameLayout.LayoutParams(Mib.px(act, 80), Mib.px(act, 60),
                 Gravity.CENTER));
         f.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,8 +182,8 @@ public class NavScreen extends Screen implements LocationTracker.Listener {
 
     private void showPlaces(View key) {
         MibPopup p = new MibPopup(act).columns(1);
-        place(p, R.drawable.mib_myplaces, s("Kuća", "Home"), Prefs.HOME_ADDR);
-        place(p, R.drawable.mib_flag, s("Posao", "Work"), Prefs.WORK_ADDR);
+        place(p, R.drawable.vw_ic_home, s("Kuća", "Home"), Prefs.HOME_ADDR);
+        place(p, R.drawable.vw_ic_flag, s("Posao", "Work"), Prefs.WORK_ADDR);
         p.show(root, key);
     }
 

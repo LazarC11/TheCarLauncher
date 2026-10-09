@@ -67,7 +67,7 @@ public class AppsScreen extends Screen implements AppRepository.Listener {
         r.addView(grid, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
         MibBar bar = new MibBar(act);
-        searchKey = bar.add(s("Pretraga", "Search"), R.drawable.mib_search, new View.OnClickListener() {
+        searchKey = bar.add(s("Pretraga", "Search"), R.drawable.vw_ic_search, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Dialogs.text(act, s("Pretraga aplikacija", "Search apps"), s("Naziv aplikacije", "App name"), query,
@@ -80,21 +80,21 @@ public class AppsScreen extends Screen implements AppRepository.Listener {
                         });
             }
         });
-        bar.add(s("Sve", "All"), R.drawable.mib_apps, new View.OnClickListener() {
+        bar.add(s("Sve", "All"), R.drawable.vw_ic_apps, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 query = "";
                 filter();
             }
         });
-        bar.add("MENU", R.drawable.mib_media, new View.OnClickListener() {
+        bar.add("MENU", R.drawable.vw_ic_home, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.MENU, true);
             }
         });
         bar.gap(3);
-        bar.add("Setup", R.drawable.mib_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.SETTINGS, true);

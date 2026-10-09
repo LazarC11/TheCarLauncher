@@ -23,8 +23,44 @@ import com.thecarlauncher.util.Prefs;
  * so 800×480, 1024×600 and 1280×720 units all keep the same proportions.
  */
 public final class Mib {
-    public static final int BLUE = 0xFF2D8CEB;
-    public static final int BLUE_DEEP = 0xFF1A5DAA;
+    public static final int DEFAULT_AMBIENT = 0xFF2D8CEB;
+
+    /**
+     * The "ambient lighting" colour used wherever the factory UI is blue.
+     * Loaded from settings when the activity is (re)created.
+     */
+    public static int BLUE = DEFAULT_AMBIENT;
+
+    /** 30 ambient-lighting colours: {Serbian name, English name, ARGB}. */
+    public static final Object[][] AMBIENT = {
+            {"Plava (MIB)", "Blue (MIB)", 0xFF2D8CEB}, {"Ledeno plava", "Ice blue", 0xFF5EC8FF},
+            {"Svetlo plava", "Light blue", 0xFF7FB2FF}, {"Kraljevsko plava", "Royal blue", 0xFF2F5BFF},
+            {"Tamno plava", "Deep blue", 0xFF2442E0}, {"Indigo", "Indigo", 0xFF5B4BFF},
+            {"Ljubičasta", "Violet", 0xFF8A5CFF}, {"Lavanda", "Lavender", 0xFFB39DFF},
+            {"Purpurna", "Purple", 0xFFB33DFF}, {"Magenta", "Magenta", 0xFFE040FB},
+            {"Ružičasta", "Pink", 0xFFFF4FA3}, {"Roze", "Rose", 0xFFFF86B6},
+            {"Crvena", "Red", 0xFFE8202A}, {"Rubin", "Ruby", 0xFFD0105A},
+            {"Koral", "Coral", 0xFFFF6F61}, {"Narandžasta", "Orange", 0xFFFF7A1A},
+            {"Ćilibar", "Amber", 0xFFFFA000}, {"Zlatna", "Gold", 0xFFFFC72C},
+            {"Žuta", "Yellow", 0xFFFFE600}, {"Limeta", "Lime", 0xFFB8F02A},
+            {"Zelena", "Green", 0xFF2ECC40}, {"Smaragdna", "Emerald", 0xFF00C27A},
+            {"Menta", "Mint", 0xFF3DFFC2}, {"Tirkizna", "Turquoise", 0xFF1DE9D0},
+            {"Cijan", "Cyan", 0xFF00D8FF}, {"Petrolej", "Teal", 0xFF00A3AD},
+            {"Bela", "White", 0xFFF0F0F0}, {"Srebrna", "Silver", 0xFFB8BEC8},
+            {"Toplo bela", "Warm white", 0xFFFFE2B8}, {"Hladno bela", "Cool white", 0xFFD8ECFF},
+    };
+
+    public static void loadAmbient(Context c) {
+        BLUE = Prefs.integer(c, Prefs.AMBIENT, DEFAULT_AMBIENT);
+    }
+
+    /** The ambient colour darkened (f < 1) or lightened (f > 1), alpha optionally replaced. */
+    public static int shade(int color, float f, int alpha) {
+        int r = Math.min(255, Math.round(((color >> 16) & 0xFF) * f));
+        int g = Math.min(255, Math.round(((color >> 8) & 0xFF) * f));
+        int b = Math.min(255, Math.round((color & 0xFF) * f));
+        return (alpha << 24) | (r << 16) | (g << 8) | b;
+    }
     public static final int WHITE = 0xFFF3F3F5;
     public static final int GREY = 0xFFB9BBC3;
     public static final int DIM = 0xFF7E808A;
@@ -120,15 +156,18 @@ public final class Mib {
         return new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{top, bottom});
     }
 
-    /** Menu tile: soft grey-violet gradient with a faint top highlight; turns blue when pressed. */
+    /** Menu tile: black with a soft grey haze from the top so it lifts off the black screen. */
     public static Drawable tile(Context c) {
-        GradientDrawable base = grad(TILE_TOP, TILE_BOTTOM);
-        base.setStroke(Math.max(1, px(c, 1)), 0xFF3C3D48);
-        GradientDrawable sheen = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
-                new int[]{0x22FFFFFF, 0x00FFFFFF, 0x00FFFFFF});
-        LayerDrawable normal = new LayerDrawable(new Drawable[]{base, sheen});
-        GradientDrawable pressed = grad(0xFF3D8FE0, 0xFF1D4E8C);
-        pressed.setStroke(Math.max(1, px(c, 1)), 0xFF5AA6F0);
+        GradientDrawable base = grad(0xFF1E1E22, 0xFF050506);
+        base.setStroke(Math.max(1, px(c, 1)), 0xFF26262B);
+        GradientDrawable haze = new GradientDrawable();
+        haze.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        haze.setGradientCenter(0.35f, 0.0f);
+        haze.setGradientRadius(px(c, 170));
+        haze.setColors(new int[]{0x2EC8C8D2, 0x00000000});
+        LayerDrawable normal = new LayerDrawable(new Drawable[]{base, haze});
+        GradientDrawable pressed = grad(shade(BLUE, 1.0f, 0xFF), shade(BLUE, 0.55f, 0xFF));
+        pressed.setStroke(Math.max(1, px(c, 1)), shade(BLUE, 1.25f, 0xFF));
         StateListDrawable s = new StateListDrawable();
         s.addState(new int[]{android.R.attr.state_pressed}, pressed);
         s.addState(new int[]{}, normal);
@@ -137,9 +176,9 @@ public final class Mib {
 
     /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
     public static Drawable bar(Context c) {
-        GradientDrawable body = grad(0xFF000000, 0xFF0C2140);
+        GradientDrawable body = grad(0xFF0E0E10, 0xFF040405);
         GradientDrawable rule = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{0xFF1E6FC4, BLUE, BLUE, 0xFF1E6FC4});
+                new int[]{shade(BLUE, 0.8f, 0xFF), BLUE, BLUE, shade(BLUE, 0.8f, 0xFF)});
         LayerDrawable l = new LayerDrawable(new Drawable[]{body, rule});
         l.setLayerInset(1, 0, 0, 0, 0);
         // The rule is drawn as a 2px band at the top.
@@ -149,7 +188,7 @@ public final class Mib {
 
     public static Drawable keyPressed() {
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, grad(0xAA2D7FD6, 0x661A4A86));
+        s.addState(new int[]{android.R.attr.state_pressed}, grad(shade(BLUE, 1f, 0xAA), shade(BLUE, 0.6f, 0x66)));
         s.addState(new int[]{}, new GradientDrawable());
         return s;
     }
@@ -168,7 +207,7 @@ public final class Mib {
         n.setColor(0xFF000000);
         n.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
         GradientDrawable p = new GradientDrawable();
-        p.setColor(0xFF1F5FA6);
+        p.setColor(shade(BLUE, 0.7f, 0xFF));
         p.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
         StateListDrawable s = new StateListDrawable();
         s.addState(new int[]{android.R.attr.state_pressed}, p);
@@ -182,7 +221,7 @@ public final class Mib {
         GradientDrawable n = grad(0xFFE9E9EC, 0xFFC5C6CC);
         n.setCornerRadius(r);
         n.setStroke(Math.max(1, px(c, 1)), 0xFFF4F4F6);
-        GradientDrawable p = grad(0xFF4A9DF0, 0xFF1F67B8);
+        GradientDrawable p = grad(shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.7f, 0xFF));
         p.setCornerRadius(r);
         StateListDrawable s = new StateListDrawable();
         s.addState(new int[]{android.R.attr.state_pressed}, p);

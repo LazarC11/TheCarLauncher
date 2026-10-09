@@ -25,6 +25,7 @@ public final class Prefs {
     public static final String LAST_POS = "last_pos";
     public static final String LAST_SOURCE = "last_source";
     public static final String LANGUAGE = "language";
+    public static final String AMBIENT = "ambient_color";
     public static final String RADIO_PKG = "radio_pkg";
     public static final String BT_PKG = "bt_pkg";
     public static final String BT_WAKE = "bt_wake";

@@ -17,6 +17,7 @@ public class MibArtBox extends View {
     private final Paint art = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
     private Bitmap bitmap;
     private Drawable placeholder;
+    private Drawable cover;
     private float alpha = 1f;
 
     public MibArtBox(Context c) {
@@ -30,6 +31,12 @@ public class MibArtBox extends View {
     public void setPlaceholder(int res) {
         placeholder = getContext().getDrawable(res).mutate();
         placeholder.setTint(0xFF9496A0);
+        invalidate();
+    }
+
+    /** Factory "no cover" artwork (already framed) shown edge to edge. */
+    public void setCover(int res) {
+        cover = getContext().getDrawable(res);
         invalidate();
     }
 
@@ -63,6 +70,11 @@ public class MibArtBox extends View {
     protected void onDraw(Canvas c) {
         int w = getWidth(), h = getHeight();
         float sw = border.getStrokeWidth();
+        if ((bitmap == null || bitmap.isRecycled()) && cover != null) {
+            cover.setBounds(0, 0, w, h);
+            cover.draw(c);
+            return;
+        }
         c.drawRect(0, 0, w, h, fill);
         if (bitmap != null && !bitmap.isRecycled()) {
             float scale = Math.max(w / (float) bitmap.getWidth(), h / (float) bitmap.getHeight());

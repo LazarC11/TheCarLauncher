@@ -61,35 +61,35 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         body.addView(rule, rl);
 
         LinearLayout row1 = row(body);
-        time = cell(row1, R.drawable.mib_trip, s("Vreme vožnje", "Driving time"));
-        dist = cell(row1, R.drawable.mib_nav, s("Pređeni put", "Distance"));
-        avg = cell(row1, R.drawable.mib_car, s("Prosečna brzina", "Average speed"));
+        time = cell(row1, R.drawable.vw_ic_clock, s("Vreme vožnje", "Driving time"));
+        dist = cell(row1, R.drawable.vw_ic_route, s("Pređeni put", "Distance"));
+        avg = cell(row1, R.drawable.vw_ic_speedo, s("Prosečna brzina", "Average speed"));
         View mid = new View(act);
         mid.setBackgroundColor(0xFF4C4D57);
         body.addView(mid, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(1, Mib.px(act, 1))));
         LinearLayout row2 = row(body);
-        speed = cell(row2, R.drawable.mib_car, s("Trenutna brzina", "Current speed"));
-        heading = cell(row2, R.drawable.mib_compass, s("Smer", "Heading"));
-        alt = cell(row2, R.drawable.mib_globe, s("Nadmorska visina", "Altitude"));
+        speed = cell(row2, R.drawable.vw_ic_car_s, s("Trenutna brzina", "Current speed"));
+        heading = cell(row2, R.drawable.vw_ic_compass, s("Smer", "Heading"));
+        alt = cell(row2, R.drawable.vw_ic_mountain, s("Nadmorska visina", "Altitude"));
         r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
         MibBar bar = new MibBar(act);
-        bar.add(s("Od početka", "Since start"), R.drawable.mib_trip, null).setActive(true);
-        bar.add(s("Resetuj", "Reset"), R.drawable.mib_back, new View.OnClickListener() {
+        bar.add(s("Od početka", "Since start"), R.drawable.vw_ic_clock, null).setActive(true);
+        bar.add(s("Resetuj", "Reset"), R.drawable.vw_ic_refresh, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TripComputer.get(act).reset();
                 update();
             }
         });
-        bar.add(s("Navigacija", "Navigation"), R.drawable.mib_nav, new View.OnClickListener() {
+        bar.add(s("Navigacija", "Navigation"), R.drawable.vw_ic_nav, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.NAV, true);
             }
         });
         bar.gap(3);
-        bar.add("Setup", R.drawable.mib_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.SETTINGS, true);
@@ -112,7 +112,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         c.setGravity(Gravity.CENTER);
         LinearLayout cap = new LinearLayout(act);
         cap.setGravity(Gravity.CENTER);
-        cap.addView(Mib.icon(act, icon, Mib.GREY), new LinearLayout.LayoutParams(Mib.px(act, 28), Mib.px(act, 28)));
+        cap.addView(Mib.icon(act, icon, Mib.GREY), new LinearLayout.LayoutParams(Mib.px(act, 34), Mib.px(act, 34)));
         TextView l = Mib.text(act, label, 25, Mib.regular(act), Mib.GREY);
         l.setPadding(Mib.px(act, 8), 0, 0, 0);
         cap.addView(l);

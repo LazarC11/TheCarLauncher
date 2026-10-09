@@ -103,14 +103,14 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box);
         cl.topMargin = boxTop;
         left.addView(col, cl);
-        View titleRow = metaRow(R.drawable.mib_note, 36, Mib.semibold(act));
+        View titleRow = metaRow(R.drawable.vw_ic_note, 36, Mib.semibold(act));
         title = (TextView) ((ViewGroup) titleRow).getChildAt(1);
         titleRow.setPadding(0, 0, 0, 0);
         col.addView(titleRow);
-        artistRow = metaRow(R.drawable.mib_person, 29, Mib.regular(act));
+        artistRow = metaRow(R.drawable.vw_ic_person, 29, Mib.regular(act));
         artist = (TextView) ((ViewGroup) artistRow).getChildAt(1);
         col.addView(artistRow);
-        albumRow = metaRow(R.drawable.mib_disc, 29, Mib.regular(act));
+        albumRow = metaRow(R.drawable.vw_ic_cd, 29, Mib.regular(act));
         album = (TextView) ((ViewGroup) albumRow).getChildAt(1);
         col.addView(albumRow);
 
@@ -186,38 +186,38 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout bars = new FrameLayout(act);
         r.addView(bars, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MibBar.height(act)));
         bar = new MibBar(act);
-        sourceKey = bar.add(s("Izvor", "Source"), R.drawable.mib_usb, new View.OnClickListener() {
+        sourceKey = bar.add(s("Izvor", "Source"), R.drawable.vw_key_usb, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSources(v);
             }
         });
-        bar.add(s("Izbor", "Browse"), R.drawable.mib_list, new View.OnClickListener() {
+        bar.add(s("Izbor", "Browse"), R.drawable.vw_key_browse, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openBrowser();
             }
         });
-        bar.add(s("Prethodni", "Previous"), R.drawable.mib_prev, new View.OnClickListener() {
+        bar.add(s("Prethodni", "Previous"), R.drawable.vw_key_prev, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaHub.get(act).previous();
             }
         });
-        playKey = bar.add(s("Reproduk.", "Play"), R.drawable.mib_play, new View.OnClickListener() {
+        playKey = bar.add(s("Reproduk.", "Play"), R.drawable.vw_key_play, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaHub.get(act).playPause();
             }
         });
-        bar.add(s("Naredni", "Next"), R.drawable.mib_next, new View.OnClickListener() {
+        bar.add(s("Naredni", "Next"), R.drawable.vw_key_next, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MediaHub.get(act).next();
             }
         });
         bar.gap(1);
-        bar.add("Setup", R.drawable.mib_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.showSettings(SettingsScreen.PAGE_MEDIA);
@@ -226,14 +226,14 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         bars.addView(bar);
 
         browseBar = new MibBar(act);
-        browseBar.add(s("Nazad", "Back"), R.drawable.mib_back, new View.OnClickListener() {
+        browseBar.add(s("Nazad", "Back"), R.drawable.vw_ic_back, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBack();
             }
         });
         String[][] tabs = {{"Pesme", "Songs"}, {"Albumi", "Albums"}, {"Izvođači", "Artists"}, {"Fascikle", "Folders"}};
-        int[] icons = {R.drawable.mib_note, R.drawable.mib_disc, R.drawable.mib_person, R.drawable.mib_folder};
+        int[] icons = {R.drawable.vw_key_music, R.drawable.vw_key_cd, R.drawable.vw_ic_person, R.drawable.vw_ic_folder};
         for (int i = 0; i < 4; i++) {
             final int idx = i;
             tabKeys[i] = browseBar.add(s(tabs[i][0], tabs[i][1]), icons[i], new View.OnClickListener() {
@@ -246,7 +246,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             });
         }
         browseBar.gap(1);
-        browseBar.add("Setup", R.drawable.mib_setup, new View.OnClickListener() {
+        browseBar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.showSettings(SettingsScreen.PAGE_MEDIA);
@@ -261,7 +261,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
         ImageView iv = Mib.icon(act, icon, Mib.WHITE);
-        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 32), Mib.px(act, 32)));
+        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 36), Mib.px(act, 36)));
         TextView t = Mib.text(act, "", size, tf, Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         tl.leftMargin = Mib.px(act, 18);
@@ -308,18 +308,18 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         MediaHub hub = MediaHub.get(act);
         boolean bt = hub.isBluetooth();
         String key = hub.packageName();
-        if (bt) sourceKey.setIcon(R.drawable.mib_bt_badge);
-        else if (hub.isOwn()) sourceKey.setIcon(R.drawable.mib_usb);
+        if (bt) sourceKey.setIcon(R.drawable.vw_key_bt);
+        else if (hub.isOwn()) sourceKey.setIcon(R.drawable.vw_key_usb);
         else {
             Drawable d = hub.sourceIcon(key);
             if (d != null) sourceKey.setIcon(d);
-            else sourceKey.setIcon(R.drawable.mib_media);
+            else sourceKey.setIcon(R.drawable.vw_key_music);
         }
         boolean playing = hub.isPlaying();
         playKey.setLabel(playing ? s("Pauza", "Pause") : s("Reproduk.", "Play"));
-        playKey.setIcon(playing ? R.drawable.mib_pause : R.drawable.mib_play);
+        playKey.setIcon(playing ? R.drawable.vw_key_pause : R.drawable.vw_key_play);
 
-        art.setPlaceholder(bt ? R.drawable.mib_bt_logo : hub.isOwn() ? R.drawable.mib_usb : R.drawable.mib_media);
+        art.setCover(bt ? R.drawable.vw_cover_bt : hub.isOwn() ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
         art.setBitmap(hub.art());
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
@@ -358,14 +358,14 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         final MediaHub hub = MediaHub.get(act);
         String cur = hub.packageName();
         MibPopup p = new MibPopup(act);
-        p.add("USB / SD", R.drawable.mib_usb, hub.isOwn(), new Runnable() {
+        p.add("USB / SD", R.drawable.vw_ic_usb, hub.isOwn(), new Runnable() {
             @Override
             public void run() {
                 hub.select(act.getPackageName());
                 MusicService.start(act);
             }
         });
-        p.add("BT-audio", R.drawable.mib_bt, hub.isBluetooth(), new Runnable() {
+        p.add("BT-audio", R.drawable.vw_ic_bt, hub.isBluetooth(), new Runnable() {
             @Override
             public void run() {
                 hub.select(MediaHub.BLUETOOTH);
@@ -381,21 +381,21 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             });
         }
         if (Projection.find(act) != null) {
-            p.add("App-Connect", R.drawable.mib_appconnect, false, new Runnable() {
+            p.add("App-Connect", R.drawable.vw_ic_appconnect_s, false, new Runnable() {
                 @Override
                 public void run() {
                     act.openProjection();
                 }
             });
         }
-        p.add("Radio", R.drawable.mib_radio, false, new Runnable() {
+        p.add("Radio", R.drawable.vw_ic_radio, false, new Runnable() {
             @Override
             public void run() {
                 act.openRadio();
             }
         });
         if (!hub.hasNotificationAccess()) {
-            p.add(s("Poveži aplikacije", "Connect apps"), R.drawable.mib_plus, false, new Runnable() {
+            p.add(s("Poveži aplikacije", "Connect apps"), R.drawable.vw_ic_plus, false, new Runnable() {
                 @Override
                 public void run() {
                     Ui.toast(act, s("Uključite \"Car Launcher\" da bi se Spotify i druge aplikacije pojavile ovde",
@@ -523,14 +523,14 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 h.title.setTextColor(cur != null && cur.id == t.id ? Mib.BLUE : Mib.WHITE);
                 h.sub.setText(t.artist + "  ·  " + t.album);
                 h.meta.setText(Ui.time(t.duration));
-                ArtLoader.into(act, h.icon, t.albumId, R.drawable.mib_note);
+                ArtLoader.into(act, h.icon, t.albumId, R.drawable.vw_ic_note);
             } else {
                 MusicLibrary.Group g = (MusicLibrary.Group) o;
                 h.title.setText(g.title);
                 h.title.setTextColor(Mib.WHITE);
                 h.sub.setText(g.subtitle);
                 h.meta.setText(String.valueOf(g.count));
-                int fb = tab == 2 ? R.drawable.mib_person : tab == 3 ? R.drawable.mib_folder : R.drawable.mib_disc;
+                int fb = tab == 2 ? R.drawable.vw_ic_person : tab == 3 ? R.drawable.vw_ic_folder : R.drawable.vw_ic_cd;
                 if (tab == 1) {
                     ArtLoader.into(act, h.icon, g.artAlbumId, fb);
                 } else {

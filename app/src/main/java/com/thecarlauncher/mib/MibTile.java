@@ -16,6 +16,7 @@ public class MibTile extends ViewGroup {
     final View line;
     final TextView label;
     private final boolean appIcon;
+    private boolean artwork;
 
     public MibTile(Context c, String text, int iconRes) {
         this(c, text, c.getDrawable(iconRes), false);
@@ -43,6 +44,17 @@ public class MibTile extends ViewGroup {
         setClickable(true);
     }
 
+    /** MENU tile using the factory 235×154 tile artwork (drawn edge to edge, untinted). */
+    public static MibTile artwork(Context c, String text, int res) {
+        MibTile t = new MibTile(c, text, c.getDrawable(res), true);
+        t.artwork = true;
+        t.icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // The artwork carries generous padding; the factory tiles show the glyph a little larger.
+        t.icon.setScaleX(1.15f);
+        t.icon.setScaleY(1.15f);
+        return t;
+    }
+
     public void setText(String s) { label.setText(s); }
 
     public void setLabelSize(float refSize) { Mib.size(label, refSize); }
@@ -59,10 +71,11 @@ public class MibTile extends ViewGroup {
         int boxH = H - captionHeight(getContext()) - lineH;
         box.measure(MeasureSpec.makeMeasureSpec(W, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(boxH, MeasureSpec.EXACTLY));
         int is = (int) (Math.min(W, boxH) * (appIcon ? 0.5f : 0.66f));
+        int iw = artwork ? W : is, ih = artwork ? boxH : is;
         FrameLayout.LayoutParams ip = (FrameLayout.LayoutParams) icon.getLayoutParams();
-        if (ip.width != is) {
-            ip.width = is;
-            ip.height = is;
+        if (ip.width != iw || ip.height != ih) {
+            ip.width = iw;
+            ip.height = ih;
             box.measure(MeasureSpec.makeMeasureSpec(W, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(boxH, MeasureSpec.EXACTLY));
         }
         line.measure(MeasureSpec.makeMeasureSpec(W, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(lineH, MeasureSpec.EXACTLY));

@@ -30,6 +30,7 @@ import com.thecarlauncher.media.MusicService;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.mib.MibBackground;
 import com.thecarlauncher.nav.LocationTracker;
+import com.thecarlauncher.nav.StreetName;
 import com.thecarlauncher.nav.TripComputer;
 import com.thecarlauncher.screens.AppsScreen;
 import com.thecarlauncher.screens.Dialogs;
@@ -50,7 +51,8 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /** Home activity: MIB status bar on top, one screen at a time below, MENU as the root. */
-public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener {
+public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
+        StreetName.Listener {
     public static final String EXTRA_SCREEN = "screen";
     public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5;
 
@@ -62,7 +64,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private int current = -1;
 
     private FrameLayout content;
-    private TextView timeView, tagView, rightView;
+    private TextView timeView, tagView, rightView, streetView;
     private ImageView globe;
 
     private final Runnable clock = new Runnable() {
@@ -90,6 +92,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mib.loadAmbient(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0xFF000000);
         getWindow().setNavigationBarColor(0xFF000000);
@@ -99,7 +102,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         root.addView(col);
-        col.addView(buildStatusBar(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 58)));
+        col.addView(buildStatusBar(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 52)));
         View rule = new View(this);
         rule.setBackgroundColor(0xFF7D7F89);
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -140,45 +143,56 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         requestMissingPermissions(false);
     }
 
+    /** Status bar: [compass street] ... [globe clock tag] ... [speed], all on one centre line. */
     private View buildStatusBar() {
         FrameLayout bar = new FrameLayout(this);
-        ImageView compass = Mib.icon(this, R.drawable.mib_compass, Mib.WHITE);
-        int pad = Mib.px(this, 8);
-        compass.setPadding(pad, pad, pad, pad);
-        compass.setBackground(Mib.keyPressed());
-        compass.setOnClickListener(new View.OnClickListener() {
+        int pad = Mib.px(this, 22);
+
+        LinearLayout left = new LinearLayout(this);
+        left.setGravity(Gravity.CENTER_VERTICAL);
+        left.setBackground(Mib.keyPressed());
+        left.setPadding(pad, 0, Mib.px(this, 10), 0);
+        left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 show(MENU, true);
             }
         });
-        FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(Mib.px(this, 54), Mib.px(this, 54),
-                Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        cl.leftMargin = Mib.px(this, 20);
-        bar.addView(compass, cl);
+        ImageView compass = Mib.icon(this, R.drawable.vw_sb_compass, Mib.WHITE);
+        left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 28), Mib.px(this, 28)));
+        streetView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
+        streetView.setMaxWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.30f));
+        LinearLayout.LayoutParams stl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        stl.leftMargin = Mib.px(this, 14);
+        left.addView(streetView, stl);
+        bar.addView(left, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT));
 
         LinearLayout center = new LinearLayout(this);
         center.setGravity(Gravity.CENTER_VERTICAL);
-        globe = Mib.icon(this, R.drawable.mib_globe, Mib.WHITE);
-        center.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 32), Mib.px(this, 32)));
-        timeView = Mib.text(this, "", 41, Mib.semibold(this), Mib.WHITE);
+        globe = Mib.icon(this, R.drawable.vw_ic_globe, Mib.WHITE);
+        center.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 26), Mib.px(this, 26)));
+        timeView = Mib.text(this, "", 32, Mib.semibold(this), Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        tl.leftMargin = Mib.px(this, 54);
-        tl.rightMargin = Mib.px(this, 40);
+        tl.leftMargin = Mib.px(this, 30);
+        tl.rightMargin = Mib.px(this, 24);
         center.addView(timeView, tl);
-        tagView = Mib.text(this, "", 27, Mib.semibold(this), Mib.WHITE);
-        tagView.setMinWidth(Mib.px(this, 40));
+        tagView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
+        tagView.setMinWidth(Mib.px(this, 34));
         center.addView(tagView);
         FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        ml.leftMargin = Mib.px(this, 40); // the factory clock sits slightly right of centre
+                ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_HORIZONTAL);
+        // Balance the globe on the left with the tag on the right so the clock sits at the centre.
+        ml.leftMargin = Mib.px(this, 4);
         bar.addView(center, ml);
 
-        rightView = Mib.text(this, "", 32, Mib.semibold(this), Mib.WHITE);
+        rightView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
+        rightView.setGravity(Gravity.CENTER_VERTICAL);
         FrameLayout.LayoutParams rl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        rl.rightMargin = Mib.px(this, 36);
+                ViewGroup.LayoutParams.MATCH_PARENT, Gravity.RIGHT);
+        rl.rightMargin = pad;
         bar.addView(rightView, rl);
         return bar;
     }
@@ -217,6 +231,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         t.start();
         t.addListener(this);
         MediaHub.get(this).addListener(this);
+        StreetName.get(this).addListener(this);
         main.post(clock);
         updateIndicators();
     }
@@ -242,6 +257,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         t.removeListener(this);
         t.stop();
         MediaHub.get(this).removeListener(this);
+        StreetName.get(this).removeListener(this);
         super.onStop();
     }
 
@@ -392,6 +408,11 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public void onLocationUpdate(LocationTracker t) {
         float sp = t.speed(this);
         rightView.setText(t.hasFix() && sp >= 3 ? Math.round(sp) + " " + LocationTracker.unit(this) : "");
+    }
+
+    @Override
+    public void onStreet(String street) {
+        streetView.setText(street);
     }
 
     @Override
