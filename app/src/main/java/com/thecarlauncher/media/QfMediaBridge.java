@@ -33,6 +33,42 @@ public final class QfMediaBridge {
     private int playing = -1; // -1 unknown, 0 paused, 1 playing
     private int btState = -1;
     private long updated;
+    private String artPath;
+    private android.graphics.Bitmap artBitmap;
+
+    private void loadArt(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                android.graphics.Bitmap bm = null;
+                try {
+                    if (path.startsWith("content:") || path.startsWith("file:")) {
+                        java.io.InputStream in = app.getContentResolver().openInputStream(android.net.Uri.parse(path));
+                        bm = android.graphics.BitmapFactory.decodeStream(in);
+                        if (in != null) in.close();
+                    } else {
+                        android.graphics.BitmapFactory.Options o = new android.graphics.BitmapFactory.Options();
+                        o.inSampleSize = 2;
+                        bm = android.graphics.BitmapFactory.decodeFile(path, o);
+                    }
+                } catch (Throwable ignored) {
+                }
+                final android.graphics.Bitmap fb = bm;
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (fb != null && path.equals(artPath)) {
+                            artBitmap = fb;
+                            MediaHub.get(app).radioChanged();
+                        }
+                    }
+                });
+            }
+        }, "qf-art").start();
+    }
+
+    /** Cover sent along with the unit's own media broadcast, if any. */
+    public android.graphics.Bitmap art() { return fresh() ? artBitmap : null; }
 
     public static synchronized QfMediaBridge get(Context c) {
         if (sInstance == null) sInstance = new QfMediaBridge(c.getApplicationContext());
@@ -74,6 +110,22 @@ public final class QfMediaBridge {
             if (al != null) album = al;
             if (p >= 0) playing = p;
             if (pkg != null) source = pkg;
+            Object bmp = null;
+            for (String k : new String[]{"bitmap", "cover", "albumArt", "album_art", "art", "pic"}) {
+                if (b.get(k) instanceof android.graphics.Bitmap) bmp = b.get(k);
+            }
+            if (bmp != null) {
+                artBitmap = (android.graphics.Bitmap) bmp;
+                artPath = null;
+            } else {
+                String path = str(b, "coverPath", "artPath", "picPath", "imagePath", "albumArtPath", "coverUri", "artUri",
+                        "picUri", "imageUri");
+                if (path != null && !path.equals(artPath)) {
+                    artPath = path;
+                    artBitmap = null;
+                    loadArt(path);
+                }
+            }
             updated = System.currentTimeMillis();
             // The factory Bluetooth app is playing: note which MCU channel it uses.
             if (playing == 1 && (pkg == null || pkg.contains("bluetooth") || pkg.contains(".bt"))) {

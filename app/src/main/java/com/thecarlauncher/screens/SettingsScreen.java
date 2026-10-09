@@ -387,7 +387,8 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
-        toggle(s("Probudi BT aplikaciju pri izboru izvora", "Wake BT app when selecting the source"), Prefs.BT_WAKE, false, false);
+        toggle(s("Kratko otvori BT aplikaciju ako se ne javi u pozadini", "Briefly open the BT app if it does not answer in the background"),
+                Prefs.BT_WAKE, true, false);
         int bc = Prefs.integer(act, Prefs.BT_CHANNEL, -1), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
         String bcText = bc == 0 ? s("Isključeno", "Off") : bc > 0 ? s("Kanal ", "Channel ") + bc
                 : s("Automatski", "Automatic") + (learned > 0 ? " (" + learned + ")" : s(" (još nije naučen)", " (not learned yet)"));

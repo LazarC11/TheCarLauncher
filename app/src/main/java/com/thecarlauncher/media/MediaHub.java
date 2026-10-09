@@ -54,7 +54,7 @@ public final class MediaHub {
     private MediaController active;
     private boolean externalConnected;
     private final BluetoothSource bt;
-    private boolean btSelected, btPlaying, btRouted;
+    private boolean btSelected, btPlaying, btRouted, playWhenConnected;
 
     private final MediaSessionManager.OnActiveSessionsChangedListener sessionsListener =
             new MediaSessionManager.OnActiveSessionsChangedListener() {
@@ -193,6 +193,14 @@ public final class MediaHub {
         controllers.put(pkg, mc);
         callbacks.put(pkg, cb);
         mc.registerCallback(cb, main);
+        // The Bluetooth app's session appeared while BT is the source: follow it.
+        if (btSelected && bt.isBluetoothPackage(pkg)) {
+            active = mc;
+            if (playWhenConnected) {
+                playWhenConnected = false;
+                mc.getTransportControls().play();
+            }
+        }
     }
 
     private void remove(String pkg) {
@@ -218,9 +226,15 @@ public final class MediaHub {
     }
 
     /** Called once the system Bluetooth media browser is connected. */
-    void onBluetoothController(MediaController mc) {
-        add(BluetoothSource.SYSTEM_PKG, mc);
-        if (btSelected) active = mc;
+    void onBluetoothController(String pkg, MediaController mc) {
+        add(pkg, mc);
+        if (btSelected) {
+            active = mc;
+            if (playWhenConnected) {
+                playWhenConnected = false;
+                mc.getTransportControls().play();
+            }
+        }
         notifyChanged();
     }
 
@@ -273,12 +287,17 @@ public final class MediaHub {
         btSelected = true;
         active = btController();
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
-        if (Prefs.bool(app, Prefs.BT_WAKE, false)) wakeBluetoothApp();
         if (active != null) {
+            // Its session is already known: control it in the background, no screen needed.
             active.getTransportControls().play();
+        } else if (bt.connectApp(this, bt.appPackage())) {
+            // Binding to its media service starts the app in the background; play once bound.
+            playWhenConnected = true;
         } else {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_PLAY);
             btPlaying = true;
+            // Last resort: units whose BT app only wakes up from its screen. Flash it, come back.
+            if (Prefs.bool(app, Prefs.BT_WAKE, true)) wakeBluetoothApp();
         }
         notifyChanged();
     }
@@ -318,16 +337,23 @@ public final class MediaHub {
     }
 
     private void wakeBluetoothApp() {
-        if (!openBluetoothUi()) return;
+        AppRepository.App screen = bt.appScreen();
+        boolean started = false;
+        if (screen != null) {
+            started = Ui.start(app, new Intent(Intent.ACTION_MAIN).setComponent(screen.component())
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        }
+        if (!started && !openBluetoothUi()) return;
         main.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent back = new Intent(app, LauncherActivity.class)
                         .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                                | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 Ui.start(app, back);
             }
-        }, 1500);
+        }, 700);
     }
 
     /** Source keys for the selector: our player, Bluetooth, then other media apps. */
@@ -439,11 +465,59 @@ public final class MediaHub {
     public Bitmap art() {
         if (isRadio()) return null;
         MediaMetadata m = meta();
-        if (m == null) return null;
-        Bitmap b = m.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART);
-        if (b == null) b = m.getBitmap(MediaMetadata.METADATA_KEY_ART);
-        if (b == null) b = m.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON);
+        Bitmap b = null;
+        if (m != null) {
+            b = m.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART);
+            if (b == null) b = m.getBitmap(MediaMetadata.METADATA_KEY_ART);
+            if (b == null) b = m.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON);
+            // Bluetooth (AVRCP) cover art often arrives as a content:// link instead of a bitmap.
+            if (b == null) {
+                for (String k : new String[]{MediaMetadata.METADATA_KEY_ALBUM_ART_URI, MediaMetadata.METADATA_KEY_ART_URI,
+                        MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI}) {
+                    String u = m.getString(k);
+                    if (u != null && u.length() > 0) {
+                        b = artFromUri(u);
+                        if (b != null) break;
+                    }
+                }
+            }
+        }
+        if (b == null && btSelected) b = qf().art();
         return b;
+    }
+
+    private final Map<String, Bitmap> uriArt = new LinkedHashMap<>();
+    private final java.util.Set<String> uriLoading = new java.util.HashSet<>();
+
+    /** Loads a cover from a content:// or file link once, in the background. */
+    private Bitmap artFromUri(final String uri) {
+        Bitmap b = uriArt.get(uri);
+        if (b != null || uriLoading.contains(uri)) return b;
+        uriLoading.add(uri);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap loaded = null;
+                try {
+                    java.io.InputStream in = app.getContentResolver().openInputStream(android.net.Uri.parse(uri));
+                    loaded = android.graphics.BitmapFactory.decodeStream(in);
+                    if (in != null) in.close();
+                } catch (Throwable ignored) {
+                }
+                final Bitmap fb = loaded;
+                main.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        uriLoading.remove(uri);
+                        if (fb == null) return;
+                        if (uriArt.size() > 6) uriArt.remove(uriArt.keySet().iterator().next());
+                        uriArt.put(uri, fb);
+                        notifyChanged();
+                    }
+                });
+            }
+        }, "art-uri").start();
+        return null;
     }
 
     public long duration() {

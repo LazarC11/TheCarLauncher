@@ -54,7 +54,7 @@ public final class BluetoothSource {
             public void onConnected() {
                 try {
                     systemController = new MediaController(app, browser.getSessionToken());
-                    hub.onBluetoothController(systemController);
+                    hub.onBluetoothController(SYSTEM_PKG, systemController);
                 } catch (Exception ignored) {
                 }
             }
@@ -72,6 +72,50 @@ public final class BluetoothSource {
         try {
             browser.connect();
         } catch (Exception ignored) {
+        }
+    }
+
+    private final java.util.Map<String, MediaBrowser> appBrowsers = new java.util.HashMap<>();
+
+    /**
+     * Binds to the Bluetooth app's own media service, if it has one. Binding starts the app
+     * in the background (no screen) and hands us its session: song, cover art, controls.
+     * Returns false when the app offers no such service.
+     */
+    boolean connectApp(final MediaHub hub, final String pkg) {
+        if (pkg == null || pkg.equals(SYSTEM_PKG)) return false;
+        if (appBrowsers.containsKey(pkg)) return true;
+        Intent probe = new Intent("android.media.browse.MediaBrowserService").setPackage(pkg);
+        List<android.content.pm.ResolveInfo> found = app.getPackageManager().queryIntentServices(probe, 0);
+        if (found == null || found.isEmpty()) return false;
+        ComponentName cn = new ComponentName(pkg, found.get(0).serviceInfo.name);
+        final MediaBrowser[] holder = new MediaBrowser[1];
+        holder[0] = new MediaBrowser(app, cn, new MediaBrowser.ConnectionCallback() {
+            @Override
+            public void onConnected() {
+                try {
+                    hub.onBluetoothController(pkg, new MediaController(app, holder[0].getSessionToken()));
+                } catch (Exception ignored) {
+                }
+            }
+
+            @Override
+            public void onConnectionFailed() {
+                appBrowsers.remove(pkg);
+            }
+
+            @Override
+            public void onConnectionSuspended() {
+                appBrowsers.remove(pkg);
+            }
+        }, null);
+        appBrowsers.put(pkg, holder[0]);
+        try {
+            holder[0].connect();
+            return true;
+        } catch (Exception e) {
+            appBrowsers.remove(pkg);
+            return false;
         }
     }
 
