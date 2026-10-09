@@ -288,14 +288,22 @@ public final class GocBluetooth {
             freezePosition();
             playing = 0;
             changed = true;
-        } else if ("MP".equals(code) && first.length() >= 10) {
-            try {
-                posMs = Integer.parseInt(first.substring(2, 6), 16) * 1000L;
-                long l = Integer.parseInt(first.substring(6, 10), 16) * 1000L;
-                if (l > 0) lenMs = l;
-                posAt = System.currentTimeMillis();
+        } else if ("MP".equals(code)) {
+            long[] pl = parsePosition(first.substring(2), f);
+            if (pl != null) {
+                if (pl[0] >= 0) {
+                    posMs = pl[0];
+                    posAt = System.currentTimeMillis();
+                }
+                if (pl[1] > 0) lenMs = pl[1];
                 changed = true;
-            } catch (Exception ignored) {
+            }
+        } else if (("MT".equals(code) || "ML".equals(code)) && first.length() > 2) {
+            // Some firmwares send the song length on its own line.
+            long l = number(first.substring(2));
+            if (l > 0) {
+                lenMs = toMs(l);
+                changed = true;
             }
         } else if ("PS".equals(code) && first.length() >= 6) {
             try {
@@ -332,6 +340,47 @@ public final class GocBluetooth {
     /** 1 playing, 0 paused, -1 unknown. */
     public int playing() { return playing; }
     public long lengthMs() { return lenMs; }
+
+    /**
+     * Position / length in the formats seen on Goodocom firmwares:
+     * "pppp" + "llll" (hex seconds), "pppppppp" + "llllllll" (hex ms), or two decimal fields
+     * separated by 0xFF or a comma (ms, or seconds when small).
+     */
+    private static long[] parsePosition(String head, List<String> f) {
+        try {
+            String a = null, b = null;
+            if (f.size() >= 2) {
+                a = head;
+                b = f.get(1);
+            } else if (head.contains(",")) {
+                a = head.substring(0, head.indexOf(','));
+                b = head.substring(head.indexOf(',') + 1);
+            }
+            if (a != null) return new long[]{toMs(number(a)), toMs(number(b))};
+            if (head.matches("[0-9A-Fa-f]{8}")) {
+                return new long[]{Long.parseLong(head.substring(0, 4), 16) * 1000L, Long.parseLong(head.substring(4, 8), 16) * 1000L};
+            }
+            if (head.matches("[0-9A-Fa-f]{16}")) {
+                return new long[]{Long.parseLong(head.substring(0, 8), 16), Long.parseLong(head.substring(8, 16), 16)};
+            }
+            if (head.matches("\\d+")) return new long[]{toMs(Long.parseLong(head)), -1};
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    private static long number(String s) {
+        try {
+            return Long.parseLong(s.trim());
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    private static long toMs(long v) {
+        if (v < 0) return -1;
+        return v < 36000 ? v * 1000 : v;
+    }
 
     /** Song position: last reported (or song start) plus the time played since. */
     public long positionMs() {
