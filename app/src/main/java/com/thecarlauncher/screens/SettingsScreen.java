@@ -510,6 +510,9 @@ public class SettingsScreen extends Screen {
         info(s("Pristup obaveštenjima", "Notification access"), hub.hasNotificationAccess() ? "✓" : s("✗ (uključi u Mediji)", "✗ (enable in Media)"));
         info(s("BT paket (iz media sesije)", "BT package (from media session)"), Prefs.str(act, Prefs.BT_SESSION_PKG, "—"));
         for (String p : hub.sessionPackages()) info(s("Media sesija", "Media session"), p);
+        String ni = hub.notificationInfo();
+        info(s("Media obaveštenje", "Media notification"), ni == null ? "—" : (ni.length() > 60 ? ni.substring(0, 60) + "…" : ni));
+        info(s("Trenutni izvor / naslov", "Current source / title"), hub.packageName() + " / " + hub.title());
         for (AppRepository.App a : AppRepository.get(act).all()) {
             if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
         }

@@ -183,7 +183,8 @@ public final class BluetoothSource {
     }
 
     public boolean isBluetoothPackage(String pkg) {
-        return pkg != null && (pkg.equals(SYSTEM_PKG) || pkg.equals(appPackage()));
+        return pkg != null && (pkg.equals(SYSTEM_PKG) || pkg.equals(appPackage())
+                || pkg.equals(Prefs.str(app, Prefs.BT_SESSION_PKG, null)));
     }
 
     /** Sends a media key to the Bluetooth app, which forwards it to the phone over AVRCP. */

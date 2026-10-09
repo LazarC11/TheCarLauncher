@@ -219,7 +219,11 @@ public final class MediaHub {
 
     private void setActive(MediaController mc) {
         String pkg = packageOf(mc);
-        btSelected = bt.isBluetoothPackage(pkg);
+        if (btSelected && !pkg.equals(app.getPackageName()) && !bt.isBluetoothPackage(pkg)) {
+            // Something started playing while BT-audio is the source: that is the BT player.
+            Prefs.put(app, Prefs.BT_SESSION_PKG, pkg);
+        }
+        btSelected = bt.isBluetoothPackage(pkg) || pkg.equals(Prefs.str(app, Prefs.BT_SESSION_PKG, null));
         if (active == mc) return;
         active = mc;
         Prefs.put(app, Prefs.LAST_SOURCE, btSelected ? BLUETOOTH : pkg);
@@ -252,7 +256,59 @@ public final class MediaHub {
             String pkg = bt.appPackage();
             if (pkg != null) mc = controllers.get(pkg);
         }
+        if (mc == null && btSelected) {
+            // BT-audio is the source but its player is published under another package
+            // (e.g. a Bluetooth service instead of the screen): take whatever is playing.
+            for (Map.Entry<String, MediaController> e : controllers.entrySet()) {
+                if (e.getKey().equals(app.getPackageName())) continue;
+                if (isPlaying(e.getValue())) {
+                    Prefs.put(app, Prefs.BT_SESSION_PKG, e.getKey());
+                    return e.getValue();
+                }
+            }
+        }
         return mc;
+    }
+
+    /**
+     * A "now playing" notification carries its media session token: use it, so the Bluetooth
+     * app's player is found even when it is missing from the active-session list.
+     */
+    public void onMediaNotification(String pkg, MediaSession.Token token) {
+        if (pkg == null || token == null || pkg.equals(app.getPackageName())) return;
+        MediaController known = controllers.get(pkg);
+        if (known != null && known.getSessionToken().equals(token)) return;
+        try {
+            add(pkg, new MediaController(app, token));
+        } catch (Exception ignored) {
+            return;
+        }
+        if (btSelected) active = btController();
+        notifyChanged();
+    }
+
+    /** Text and picture of the Bluetooth app's notification, when it has no usable session. */
+    private String notifTitle, notifText, notifPkg;
+    private Bitmap notifArt;
+
+    public void onPlayingNotification(String pkg, String title, String text, Bitmap art) {
+        if (pkg == null || pkg.equals(app.getPackageName())) return;
+        notifPkg = pkg;
+        notifTitle = title;
+        notifText = text;
+        notifArt = art;
+        if (btSelected) notifyChanged();
+    }
+
+    /** Diagnostics: what the last media notification said. */
+    public String notificationInfo() {
+        return notifPkg == null ? null : notifPkg + ": " + notifTitle + " / " + notifText + (notifArt != null ? " [cover]" : "");
+    }
+
+    private boolean notifUsable() {
+        return btSelected && notifTitle != null && notifPkg != null
+                && (bt.isBluetoothPackage(notifPkg) || notifPkg.equals(Prefs.str(app, Prefs.BT_SESSION_PKG, null))
+                || bt.looksLikeBluetooth(notifPkg));
     }
 
     /** Switches source like the factory unit: the old source pauses, the new one plays. */
@@ -452,6 +508,7 @@ public final class MediaHub {
     public boolean hasTrackInfo() {
         if (isRadio()) return true;
         if (btSelected && qf().title() != null) return true;
+        if (notifUsable()) return true;
         MediaMetadata m = meta();
         if (m == null) return false;
         String t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
@@ -467,6 +524,7 @@ public final class MediaHub {
             t = m.getString(MediaMetadata.METADATA_KEY_TITLE);
             if (t == null) t = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE);
         }
+        if (btSelected && (t == null || t.length() == 0) && notifUsable()) t = notifTitle;
         if (btSelected && (t == null || t.length() == 0)) t = qf().title();
         if (btSelected && (t == null || t.length() == 0)) t = "Bluetooth audio";
         return t;
@@ -481,6 +539,7 @@ public final class MediaHub {
             if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_ALBUM_ARTIST);
             if (a == null) a = m.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE);
         }
+        if (btSelected && (a == null || a.length() == 0) && notifUsable()) a = notifText;
         if (btSelected && (a == null || a.length() == 0)) a = qf().artist();
         if (btSelected && (a == null || a.length() == 0)) a = "Music from your phone";
         return a;
@@ -512,6 +571,7 @@ public final class MediaHub {
                 }
             }
         }
+        if (b == null && notifUsable()) b = notifArt;
         if (b == null && btSelected) b = qf().art();
         return b;
     }
