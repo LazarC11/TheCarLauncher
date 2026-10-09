@@ -217,6 +217,13 @@ public class SettingsScreen extends Screen {
         addLeading(lang, flag());
         sub(s("Jedinice", "Units"), new Page() { public void build() { buildUnits(); } });
         sub(s("Navigacija", "Navigation"), new Page() { public void build() { buildNav(); } });
+        LinearLayout sound = sub(s("Zvuk", "Sound"), new Page() { public void build() { buildMedia(); } });
+        sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.show(LauncherActivity.SOUND, true);
+            }
+        });
         sub(s("Mediji", "Media"), new Page() { public void build() { buildMedia(); } });
         sub("Radio", new Page() { public void build() { buildRadio(); } });
         sub("Bluetooth audio", new Page() { public void build() { buildBluetooth(); } });
@@ -335,8 +342,8 @@ public class SettingsScreen extends Screen {
 
     private void buildMedia() {
         toggle(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, false);
-        action(s("Ekvilajzer", "Equalizer"), null, new Runnable() {
-            public void run() { Dialogs.equalizer(act, Mib.BLUE); }
+        action(s("Duboki - Srednji - Visoki", "Bass - Mid - Treble"), toneSummary(), new Runnable() {
+            public void run() { act.show(LauncherActivity.SOUND, true); }
         });
         action(s("Muzička biblioteka", "Music library"), MusicLibrary.hasPermission(act)
                 ? s("Ponovo skeniraj", "Rescan") : s("Dozvoli pristup", "Allow access"), new Runnable() {
@@ -353,6 +360,13 @@ public class SettingsScreen extends Screen {
                         ? s("Povezano", "Connected") : s("Nije povezano", "Not connected"),
                 intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
     }
+
+    private String toneSummary() {
+        com.thecarlauncher.media.Tone t = com.thecarlauncher.media.Tone.get(act);
+        return sign(t.bass()) + " / " + sign(t.mid()) + " / " + sign(t.treble());
+    }
+
+    private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
         String pkg = MediaHub.get(act).bluetooth().appPackage();

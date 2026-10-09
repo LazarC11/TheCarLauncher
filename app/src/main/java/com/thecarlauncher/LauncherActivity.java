@@ -35,6 +35,7 @@ import com.thecarlauncher.nav.TripComputer;
 import com.thecarlauncher.radio.RadioController;
 import com.thecarlauncher.screens.RadioScreen;
 import com.thecarlauncher.screens.AmbientScreen;
+import com.thecarlauncher.screens.SoundScreen;
 import com.thecarlauncher.screens.AppsScreen;
 import com.thecarlauncher.screens.Dialogs;
 import com.thecarlauncher.screens.MediaScreen;
@@ -57,13 +58,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[8];
+    private final Screen[] screens = new Screen[9];
     private int current = -1;
 
     private FrameLayout content;
@@ -96,6 +97,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mib.loadAmbient(this);
+        com.thecarlauncher.media.Tone.get(this).attachGlobal();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0xFF000000);
         getWindow().setNavigationBarColor(0xFF000000);
@@ -125,6 +127,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[VEHICLE] = new VehicleScreen(this);
         screens[RADIO] = new RadioScreen(this);
         screens[AMBIENT] = new AmbientScreen(this);
+        screens[SOUND] = new SoundScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);

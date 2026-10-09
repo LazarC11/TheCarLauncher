@@ -13,7 +13,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaMetadata;
 import android.media.MediaPlayer;
-import android.media.audiofx.Equalizer;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Build;
@@ -54,7 +53,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private MediaSession session;
     private MediaPlayer player;
     private AudioManager audio;
-    private Equalizer equalizer;
 
     private List<Track> queue = new ArrayList<>();
     private String queueCtx = MusicLibrary.CTX_ALL;
@@ -114,6 +112,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         Intent open = new Intent(this, LauncherActivity.class).putExtra(LauncherActivity.EXTRA_SCREEN, "media");
         session.setSessionActivity(PendingIntent.getActivity(this, 1, open, pendingFlags()));
         MediaHub.get(this).setOwnSession(session.getSessionToken());
+        Tone.get(this).attach(player.getAudioSessionId());
         updateState();
 
         restoreState();
@@ -137,7 +136,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         saveState();
         main.removeCallbacksAndMessages(null);
         audio.abandonAudioFocus(this);
-        if (equalizer != null) equalizer.release();
+        Tone.get(this).detach(player.getAudioSessionId());
         player.release();
         session.release();
         sInstance = null;
@@ -499,38 +498,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= 23 ? PendingIntent.FLAG_IMMUTABLE : 0);
     }
 
-    // ---- Equalizer ---------------------------------------------------------------------
-
-    /** Equalizer bound to our player, or null if the head unit's audio HAL has none. */
-    public Equalizer equalizer() {
-        if (equalizer == null) {
-            try {
-                equalizer = new Equalizer(0, player.getAudioSessionId());
-                String saved = Prefs.str(this, Prefs.EQ_LEVELS, null);
-                if (saved != null) {
-                    String[] parts = saved.split(",");
-                    for (short i = 0; i < parts.length && i < equalizer.getNumberOfBands(); i++) {
-                        equalizer.setBandLevel(i, Short.parseShort(parts[i]));
-                    }
-                }
-                equalizer.setEnabled(Prefs.bool(this, Prefs.EQ_ENABLED, true));
-            } catch (Throwable e) {
-                equalizer = null;
-            }
-        }
-        return equalizer;
-    }
-
-    public void saveEqualizer() {
-        if (equalizer == null) return;
-        StringBuilder sb = new StringBuilder();
-        for (short i = 0; i < equalizer.getNumberOfBands(); i++) {
-            if (i > 0) sb.append(',');
-            sb.append(equalizer.getBandLevel(i));
-        }
-        Prefs.put(this, Prefs.EQ_LEVELS, sb.toString());
-        Prefs.put(this, Prefs.EQ_ENABLED, equalizer.getEnabled());
-    }
+    // ---- Tone (bass / mid / treble) ------------------------------------------------------
 
     // ---- Persistence -------------------------------------------------------------------
 

@@ -4,25 +4,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.media.audiofx.Equalizer;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.R;
 import com.thecarlauncher.apps.AppRepository;
-import com.thecarlauncher.media.MusicService;
 import com.thecarlauncher.util.Theme;
 import com.thecarlauncher.util.Ui;
 
@@ -229,84 +224,4 @@ public final class Dialogs {
                 .show();
     }
 
-    /** Graphic equalizer for the built-in player. */
-    public static void equalizer(final Context c, int accent) {
-        final MusicService svc = MusicService.get();
-        final Equalizer eq = svc == null ? null : svc.equalizer();
-        if (eq == null) {
-            Ui.toast(c, "This head unit doesn't offer an equalizer for apps. Use the unit's own sound settings.");
-            return;
-        }
-        LinearLayout box = new LinearLayout(c);
-        box.setOrientation(LinearLayout.VERTICAL);
-        int p = Ui.dp(c, 20);
-        box.setPadding(p, Ui.dp(c, 4), p, 0);
-
-        Switch enable = new Switch(c);
-        enable.setText("Equalizer");
-        enable.setTextColor(Theme.TEXT_PRIMARY);
-        enable.setChecked(eq.getEnabled());
-        enable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton b, boolean on) {
-                eq.setEnabled(on);
-            }
-        });
-        box.addView(enable);
-
-        final short[] range = eq.getBandLevelRange();
-        final List<SeekBar> bars = new ArrayList<>();
-        for (short i = 0; i < eq.getNumberOfBands(); i++) {
-            final short band = i;
-            LinearLayout row = new LinearLayout(c);
-            row.setGravity(Gravity.CENTER_VERTICAL);
-            TextView label = new TextView(c);
-            int hz = eq.getCenterFreq(band) / 1000;
-            label.setText(hz >= 1000 ? String.format(Locale.US, "%.1f kHz", hz / 1000f) : hz + " Hz");
-            label.setTextColor(Theme.TEXT_SECONDARY);
-            label.setWidth(Ui.dp(c, 72));
-            SeekBar bar = new SeekBar(c);
-            bar.setMax(range[1] - range[0]);
-            bar.setProgress(eq.getBandLevel(band) - range[0]);
-            bar.setProgressTintList(android.content.res.ColorStateList.valueOf(accent));
-            bar.setThumbTintList(android.content.res.ColorStateList.valueOf(accent));
-            bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar s, int v, boolean user) {
-                    if (user) eq.setBandLevel(band, (short) (v + range[0]));
-                }
-                @Override public void onStartTrackingTouch(SeekBar s) {}
-                @Override public void onStopTrackingTouch(SeekBar s) {}
-            });
-            bars.add(bar);
-            row.addView(label);
-            row.addView(bar, new LinearLayout.LayoutParams(0, Ui.dp(c, 44), 1f));
-            box.addView(row);
-        }
-
-        final AlertDialog dlg = new AlertDialog.Builder(c)
-                .setTitle("Sound")
-                .setView(box)
-                .setPositiveButton("Done", null)
-                .setNeutralButton("Flat", null)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface d) {
-                        svc.saveEqualizer();
-                    }
-                })
-                .create();
-        dlg.show();
-        // Override the neutral button so it doesn't close the dialog.
-        dlg.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                short mid = (short) ((range[0] + range[1]) / 2);
-                for (short i = 0; i < bars.size(); i++) {
-                    eq.setBandLevel(i, mid);
-                    bars.get(i).setProgress(mid - range[0]);
-                }
-            }
-        });
-    }
 }
