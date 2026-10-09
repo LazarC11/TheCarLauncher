@@ -51,7 +51,8 @@ public final class Mib {
     };
 
     public static void loadAmbient(Context c) {
-        BLUE = Prefs.integer(c, Prefs.AMBIENT, DEFAULT_AMBIENT);
+        BLUE = shade(Prefs.integer(c, Prefs.AMBIENT, DEFAULT_AMBIENT),
+                Prefs.integer(c, Prefs.AMBIENT_LEVEL, 100) / 100f, 0xFF);
     }
 
     /** The ambient colour darkened (f < 1) or lightened (f > 1), alpha optionally replaced. */

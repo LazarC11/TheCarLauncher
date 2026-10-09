@@ -204,7 +204,14 @@ public class SettingsScreen extends Screen {
 
     private void buildRoot() {
         sub(s("Ekran", "Screen"), new Page() { public void build() { buildDisplay(); } });
-        sub(s("Ambijentalno osvetljenje", "Ambient lighting"), new Page() { public void build() { buildAmbient(); } });
+        LinearLayout amb = sub(s("Ambijentalno osvetljenje", "Ambient lighting"), new Page() { public void build() { buildAmbient(); } });
+        // The factory-style page with the interior picture and colour slider replaces the list.
+        amb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.show(LauncherActivity.AMBIENT, true);
+            }
+        });
         sub(s("Vreme i datum", "Time and date"), new Page() { public void build() { buildTime(); } });
         LinearLayout lang = sub("Jezik/Language", new Page() { public void build() { buildLanguage(); } });
         addLeading(lang, flag());
