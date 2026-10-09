@@ -38,6 +38,8 @@ public final class Prefs {
     public static final String BT_WAKE_MS = "bt_wake_ms";
     public static final String BT_CHANNEL_LEARNED = "bt_channel_learned";
     public static final String BT_WAKE = "bt_wake";
+    public static final String BT_OPEN_APP = "bt_open_app";
+    public static final String ONLINE_COVER = "online_cover";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";
     public static final String PROJECTION_PKG = "projection_pkg";
     public static final String SHUFFLE = "shuffle";

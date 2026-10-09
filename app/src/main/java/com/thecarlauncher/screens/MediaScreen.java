@@ -324,8 +324,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         // Own player: the USB placeholder only while nothing is loaded; a playing song without
         // cover art gets the music-note placeholder.
         boolean usbIdle = hub.isOwn() && !hub.hasTrackInfo();
-        art.setCover(fm ? R.drawable.vw_cover_radio : bt ? R.drawable.vw_cover_bt
-                : usbIdle ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
+        art.setCover(fm ? R.drawable.vw_cover_radio : usbIdle ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
         art.setBitmap(hub.art());
 
         String t = hub.hasTrackInfo() ? hub.title() : null;

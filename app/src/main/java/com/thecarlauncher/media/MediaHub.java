@@ -380,9 +380,15 @@ public final class MediaHub {
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
         // background, start playback, and show what it is playing.
-        bt.connectApp(this, bt.appPackage());
-        playWhenConnected = true;
-        wakeBluetoothApp();
+        if (goc().enabled() && !Prefs.bool(app, Prefs.BT_OPEN_APP, false)) {
+            // Song info comes straight from the BT module: no need to open the BT app,
+            // just tell the phone to play.
+            goc().send("MS");
+        } else {
+            bt.connectApp(this, bt.appPackage());
+            playWhenConnected = true;
+            wakeBluetoothApp();
+        }
         goc().send("MK");
         goc().send("VI");
         notifyChanged();
@@ -600,13 +606,27 @@ public final class MediaHub {
         return m == null ? null : m.getString(MediaMetadata.METADATA_KEY_ALBUM);
     }
 
+    /** Cover looked up online by artist + title (Setup can switch it off). */
+    private Bitmap onlineCover(String artist, String title) {
+        if (!Prefs.bool(app, Prefs.ONLINE_COVER, true)) return null;
+        CoverArt ca = CoverArt.get(app);
+        ca.setListener(new CoverArt.Listener() {
+            @Override
+            public void onCover() { notifyChanged(); }
+        });
+        return ca.find(artist, title);
+    }
+
     public Bitmap art() {
         if (isRadio()) return null;
         // Song from the Bluetooth daemon: only a cover that belongs to that same song.
         if (gocSong()) {
             MediaMetadata gm = meta();
             String t = gm == null ? null : gm.getString(MediaMetadata.METADATA_KEY_TITLE);
-            if (t == null || !t.equals(goc().title())) return notifUsable() ? notifArt : null;
+            if (t == null || !t.equals(goc().title())) {
+                if (notifUsable() && notifArt != null) return notifArt;
+                return onlineCover(goc().artist(), goc().title());
+            }
         }
         MediaMetadata m = meta();
         Bitmap b = null;

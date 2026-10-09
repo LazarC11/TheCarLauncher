@@ -387,6 +387,11 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
+        toggle(s("Pokreni BT aplikaciju pri izboru BT audio (ako nema zvuka)", "Start the BT app when choosing BT audio (if there is no sound)"),
+                Prefs.BT_OPEN_APP, false, false);
+        toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
+            public void run() { MediaHub.get(act).radioChanged(); }
+        });
         toggle(s("Vrati se u launcher posle pokretanja BT aplikacije", "Return to the launcher after starting the BT app"),
                 Prefs.BT_WAKE, true, false);
         final int[] waits = {800, 1200, 2000, 3000};
