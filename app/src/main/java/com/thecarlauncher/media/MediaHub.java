@@ -383,6 +383,8 @@ public final class MediaHub {
         bt.connectApp(this, bt.appPackage());
         playWhenConnected = true;
         wakeBluetoothApp();
+        goc().send("MK");
+        goc().send("VI");
         notifyChanged();
     }
 
@@ -523,6 +525,7 @@ public final class MediaHub {
 
     public boolean isPlaying() {
         if (isRadio()) return true;
+        if (btSelected && goc().connected() && goc().playing() >= 0) return goc().playing() == 1;
         if (btFallback()) return qf().playing() >= 0 ? qf().playing() == 1 : btPlaying;
         return active != null && isPlaying(active);
     }
@@ -540,8 +543,14 @@ public final class MediaHub {
     /** True when the current source reports a real track title (not our placeholder). */
     private QfMediaBridge qf() { return QfMediaBridge.get(app); }
 
+    private GocBluetooth goc() { return GocBluetooth.get(app); }
+
+    /** BT-audio with the song coming straight from the Goodocom Bluetooth daemon. */
+    private boolean gocSong() { return btSelected && goc().hasSong(); }
+
     public boolean hasTrackInfo() {
         if (isRadio()) return true;
+        if (gocSong()) return true;
         if (btSelected && qf().title() != null) return true;
         if (notifUsable()) return true;
         MediaMetadata m = meta();
@@ -553,6 +562,7 @@ public final class MediaHub {
 
     public String title() {
         if (isRadio()) return radio().label();
+        if (gocSong()) return goc().title();
         MediaMetadata m = meta();
         String t = null;
         if (m != null) {
@@ -566,6 +576,7 @@ public final class MediaHub {
     }
 
     public String artist() {
+        if (gocSong() && goc().artist() != null && goc().artist().length() > 0) return goc().artist();
         if (isRadio()) return radio().rt().length() > 0 ? radio().rt() : "FM " + RadioController.format(radio().freq()) + " MHz";
         MediaMetadata m = meta();
         String a = null;
@@ -582,12 +593,19 @@ public final class MediaHub {
 
     public String album() {
         if (isRadio()) return null;
+        if (gocSong()) return goc().album();
         MediaMetadata m = meta();
         return m == null ? null : m.getString(MediaMetadata.METADATA_KEY_ALBUM);
     }
 
     public Bitmap art() {
         if (isRadio()) return null;
+        // Song from the Bluetooth daemon: only a cover that belongs to that same song.
+        if (gocSong()) {
+            MediaMetadata gm = meta();
+            String t = gm == null ? null : gm.getString(MediaMetadata.METADATA_KEY_TITLE);
+            if (t == null || !t.equals(goc().title())) return notifUsable() ? notifArt : null;
+        }
         MediaMetadata m = meta();
         Bitmap b = null;
         if (m != null) {
@@ -647,12 +665,14 @@ public final class MediaHub {
 
     public long duration() {
         if (isRadio()) return 0;
+        if (gocSong()) return Math.max(0, goc().lengthMs());
         MediaMetadata m = meta();
         return m == null ? 0 : Math.max(0, m.getLong(MediaMetadata.METADATA_KEY_DURATION));
     }
 
     /** Current position, extrapolated from the last state update while playing. */
     public long position() {
+        if (gocSong()) return Math.max(0, goc().positionMs());
         if (active == null) return 0;
         PlaybackState s = active.getPlaybackState();
         if (s == null) return 0;
@@ -713,6 +733,10 @@ public final class MediaHub {
             radio().stop();
             return;
         }
+        if (btSelected && goc().send("MA")) {
+            goc().send("VI");
+            return;
+        }
         if (btFallback()) {
             bt.sendKey(btPlaying ? KeyEvent.KEYCODE_MEDIA_PAUSE : KeyEvent.KEYCODE_MEDIA_PLAY);
             btPlaying = !btPlaying;
@@ -732,6 +756,8 @@ public final class MediaHub {
     public void next() {
         if (isRadio()) {
             radio().seekUp();
+        } else if (btSelected && goc().send("MD")) {
+            goc().send("MK");
         } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT);
         } else if (isOwn()) {
@@ -745,6 +771,8 @@ public final class MediaHub {
     public void previous() {
         if (isRadio()) {
             radio().seekDown();
+        } else if (btSelected && goc().send("ME")) {
+            goc().send("MK");
         } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
         } else if (isOwn()) {

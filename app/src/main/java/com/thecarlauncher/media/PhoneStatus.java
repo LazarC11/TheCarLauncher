@@ -78,7 +78,18 @@ public final class PhoneStatus {
         for (Listener l : listeners) l.onPhoneStatusChanged();
     }
 
-    public boolean connected() { return !connected.isEmpty(); }
+    public boolean connected() { return !connected.isEmpty() || gocPhone; }
+
+    private boolean gocPhone;
+
+    /** Phone signal / battery reported by the Goodocom Bluetooth daemon (0–5 scales). */
+    void onGoc(int sig, int batt) {
+        if (sig < 0 && batt < 0) return;
+        gocPhone = true;
+        if (sig >= 0) signal = Math.min(5, sig);
+        if (batt >= 0) battery = batt <= 5 ? batt * 20 : Math.min(100, batt);
+        changed();
+    }
 
     /** Phone battery 0–100, or -1 when the phone does not report it. */
     public int battery() { return connected() ? battery : -1; }

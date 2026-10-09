@@ -525,6 +525,17 @@ public class SettingsScreen extends Screen {
             if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
         }
         // ---- Direct sources: MCU packets, system services, BT app components ----
+        final com.thecarlauncher.media.GocBluetooth goc = com.thecarlauncher.media.GocBluetooth.get(act);
+        info(s("GOC Bluetooth servis", "GOC Bluetooth daemon"), goc.status());
+        info(s("GOC pesma", "GOC song"), goc.hasSong() ? goc.title() + " — " + goc.artist() : "—");
+        action(s("GOC: zatraži podatke o pesmi", "GOC: ask for song info"), "AT#MK", new Runnable() {
+            public void run() {
+                goc.start();
+                boolean ok = goc.send("MK") & goc.send("VI");
+                Ui.toast(act, ok ? s("Poslato — osveži za 2 s", "Sent — refresh in 2 s") : s("GOC nije povezan", "GOC not connected"));
+            }
+        });
+        for (String l : goc.lastLines()) info("GOC ← " + l, null);
         action(s("Proba BT servisa (pusti muziku)", "Probe BT daemon (play music)"), s("traje ~10 s", "takes ~10 s"), new Runnable() {
             public void run() {
                 Ui.toast(act, s("Proba traje desetak sekundi…", "Probing for about ten seconds…"));
