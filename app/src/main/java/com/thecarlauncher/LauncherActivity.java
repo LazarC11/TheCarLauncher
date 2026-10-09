@@ -24,6 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.thecarlauncher.apps.AppRepository;
+import com.thecarlauncher.media.PhoneStatus;
+import com.thecarlauncher.media.MediaListenerService;
+import com.thecarlauncher.mib.MibPopup;
+import android.app.Notification;
+import android.service.notification.StatusBarNotification;
+import android.graphics.drawable.Drawable;
 import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.media.MusicService;
@@ -56,7 +62,7 @@ import java.util.regex.Pattern;
 
 /** Home activity: MIB status bar on top, one screen at a time below, MENU as the root. */
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
-        StreetName.Listener {
+        StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
     public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8;
 
@@ -69,6 +75,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     private FrameLayout content;
     private TextView timeView, tagView, rightView, streetView;
+    private ImageView btIcon, battIcon, signalIcon, msgIcon;
     private ImageView globe;
 
     private final Runnable clock = new Runnable() {
@@ -177,23 +184,40 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         bar.addView(left, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT));
 
+        // Centre: [globe] clock [FM · Bluetooth · battery · signal · envelope]. Equal-width side
+        // slots keep the clock exactly centred however many phone icons are showing.
         LinearLayout center = new LinearLayout(this);
         center.setGravity(Gravity.CENTER_VERTICAL);
+        int slot = Mib.px(this, 230);
+        LinearLayout leftSlot = new LinearLayout(this);
+        leftSlot.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         globe = Mib.icon(this, R.drawable.vw_ic_globe, Mib.WHITE);
-        center.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 26), Mib.px(this, 26)));
+        leftSlot.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 26), Mib.px(this, 26)));
+        center.addView(leftSlot, new LinearLayout.LayoutParams(slot, ViewGroup.LayoutParams.MATCH_PARENT));
         timeView = Mib.text(this, "", 32, Mib.semibold(this), Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         tl.leftMargin = Mib.px(this, 30);
-        tl.rightMargin = Mib.px(this, 24);
+        tl.rightMargin = Mib.px(this, 26);
         center.addView(timeView, tl);
+        LinearLayout rightSlot = new LinearLayout(this);
+        rightSlot.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         tagView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
-        tagView.setMinWidth(Mib.px(this, 34));
-        center.addView(tagView);
+        rightSlot.addView(tagView);
+        btIcon = statusIcon(rightSlot, R.drawable.vw_sb_bt, 26, 26);
+        battIcon = statusIcon(rightSlot, R.drawable.vw_sb_batt_4, 38, 26);
+        signalIcon = statusIcon(rightSlot, R.drawable.vw_sb_sig_5, 54, 25);
+        msgIcon = statusIcon(rightSlot, R.drawable.vw_sb_msg, 38, 26);
+        msgIcon.setBackground(Mib.keyPressed());
+        msgIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotifications(v);
+            }
+        });
+        center.addView(rightSlot, new LinearLayout.LayoutParams(slot, ViewGroup.LayoutParams.MATCH_PARENT));
         FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER_HORIZONTAL);
-        // Balance the globe on the left with the tag on the right so the clock sits at the centre.
-        ml.leftMargin = Mib.px(this, 4);
         bar.addView(center, ml);
 
         rightView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
@@ -240,6 +264,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         t.start();
         t.addListener(this);
         MediaHub.get(this).addListener(this);
+        PhoneStatus.get(this).addListener(this);
         StreetName.get(this).addListener(this);
         main.post(clock);
         updateIndicators();
@@ -266,6 +291,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         t.removeListener(this);
         t.stop();
         MediaHub.get(this).removeListener(this);
+        PhoneStatus.get(this).removeListener(this);
         StreetName.get(this).removeListener(this);
         super.onStop();
     }
@@ -442,7 +468,75 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     public void onMediaChanged() {
         MediaHub hub = MediaHub.get(this);
-        tagView.setText(hub.isRadio() ? "FM" : hub.isBluetooth() ? "BT" : "");
+        tagView.setText(hub.isRadio() ? "FM" : "");
+        tagView.setVisibility(hub.isRadio() ? View.VISIBLE : View.GONE);
+        onPhoneStatusChanged();
+    }
+
+    private ImageView statusIcon(LinearLayout row, int res, int w, int h) {
+        ImageView iv = new ImageView(this);
+        iv.setImageResource(res);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(this, w), Mib.px(this, h));
+        lp.rightMargin = Mib.px(this, 12);
+        row.addView(iv, lp);
+        return iv;
+    }
+
+    private static final int[] BATT = {R.drawable.vw_sb_batt_0, R.drawable.vw_sb_batt_1, R.drawable.vw_sb_batt_2,
+            R.drawable.vw_sb_batt_3, R.drawable.vw_sb_batt_4};
+    private static final int[] SIGNAL = {R.drawable.vw_sb_sig_0, R.drawable.vw_sb_sig_1, R.drawable.vw_sb_sig_2,
+            R.drawable.vw_sb_sig_3, R.drawable.vw_sb_sig_4, R.drawable.vw_sb_sig_5};
+
+    /** Bluetooth, phone battery and signal, and the envelope when notifications are waiting. */
+    @Override
+    public void onPhoneStatusChanged() {
+        if (btIcon == null) return;
+        PhoneStatus ps = PhoneStatus.get(this);
+        boolean bt = ps.connected() || MediaHub.get(this).isBluetooth();
+        btIcon.setVisibility(bt ? View.VISIBLE : View.GONE);
+        int b = ps.battery();
+        battIcon.setVisibility(b >= 0 ? View.VISIBLE : View.GONE);
+        // Factory steps: empty (red) below 10 %, then quarters.
+        if (b >= 0) battIcon.setImageResource(BATT[b < 10 ? 0 : b < 35 ? 1 : b < 60 ? 2 : b < 85 ? 3 : 4]);
+        int sg = ps.signal();
+        signalIcon.setVisibility(sg == -1 ? View.GONE : View.VISIBLE);
+        if (sg != -1) signalIcon.setImageResource(sg == -2 ? R.drawable.vw_sb_sig_none : SIGNAL[sg]);
+        msgIcon.setVisibility(ps.notifications().isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    /** The waiting notifications in a MIB popup; tapping one opens it. */
+    private void showNotifications(View key) {
+        List<StatusBarNotification> list = PhoneStatus.get(this).notifications();
+        if (list.isEmpty()) return;
+        MibPopup p = new MibPopup(this).columns(1);
+        PackageManager pm = getPackageManager();
+        for (final StatusBarNotification n : list) {
+            Notification no = n.getNotification();
+            CharSequence title = no.extras.getCharSequence(Notification.EXTRA_TITLE);
+            CharSequence text = no.extras.getCharSequence(Notification.EXTRA_TEXT);
+            String label = (title == null ? "" : title.toString()) + (text == null ? "" : ": " + text);
+            if (label.length() > 60) label = label.substring(0, 57) + "…";
+            Drawable icon = null;
+            try {
+                icon = pm.getApplicationIcon(n.getPackageName());
+            } catch (Exception ignored) {
+            }
+            p.add(label, icon, false, false, new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (n.getNotification().contentIntent != null) n.getNotification().contentIntent.send();
+                    } catch (Exception ignored) {
+                    }
+                    MediaListenerService s = MediaListenerService.get();
+                    if (s != null && (n.getNotification().flags & Notification.FLAG_AUTO_CANCEL) != 0) {
+                        s.cancelNotification(n.getKey());
+                    }
+                }
+            });
+        }
+        p.show(getWindow().getDecorView(), key);
     }
 
     // ---- Permissions ------------------------------------------------------------------------
@@ -455,6 +549,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             need.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         if (!MusicLibrary.hasPermission(this)) need.add(MusicLibrary.permission());
+        if (Build.VERSION.SDK_INT >= 31
+                && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            need.add(Manifest.permission.BLUETOOTH_CONNECT);
+        }
         if (Build.VERSION.SDK_INT >= 33
                 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             need.add(Manifest.permission.POST_NOTIFICATIONS);
@@ -469,6 +567,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LocationTracker t = LocationTracker.get(this);
         t.stop();
         t.start();
+        PhoneStatus.get(this).refresh();
         if (MusicLibrary.hasPermission(this)) {
             MusicLibrary.invalidate();
             MusicService.start(this);
