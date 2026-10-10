@@ -9,10 +9,6 @@ Text is in Serbian (Latin) by default; English can be picked under
 *Podešavanja → Jezik/Language*. The screenshots below use English.
 
 ![Main menu](docs/screenshots/menu.png)
-
-> **Private repository.** The icons and artwork are original MIB system graphics and an Opel
-> press picture, used only for a personal head unit. See [Artwork and licences](#artwork-and-licences).
-
 ---
 
 ## Contents
