@@ -111,8 +111,9 @@ same daemon directly over `/dev/goc_serial`:
 - disconnects. When the phone drops, the old song details are cleared and the Bluetooth picture
   is shown until the phone plays again.
 
-Choosing **BT-audio** starts the factory Bluetooth app **in the background** (no screen opens) and
-tells the phone to play. Play/pause, next and previous are sent to the module as AT commands.
+Choosing **BT-audio** opens the factory Bluetooth app for about a second (the unit only switches
+the audio over once its screen has opened), then brings the launcher back and tells the phone to
+play. Allow **Display over other apps** for Car Launcher so Android lets it come back. Play/pause, next and previous are sent to the module as AT commands.
 
 **Cover art.** The module only sends text, so the launcher looks the song up by artist and title on
 **Deezer**, falling back to **iTunes**. Found covers are cached on the unit. This needs an internet
@@ -125,7 +126,7 @@ Related settings (*Setup → Bluetooth audio*):
 | Setting | Default | What it does |
 | --- | --- | --- |
 | Song straight from the BT module | On | Reads song info from `/dev/goc_serial`. Turn it off if the factory app stops getting calls or songs. |
-| Start the BT app when choosing BT audio | Off | Opens the factory app's screen briefly, like the factory launcher. Use it if there is no sound otherwise. |
+| Open the BT app briefly when choosing BT audio | On | The unit only plays BT audio once the factory app's screen has opened, so it is shown for about a second and the launcher comes back. Coming back needs **Display over other apps** for Car Launcher (Android blocks background starts otherwise). |
 | Cover art from the internet | On | Deezer / iTunes lookup of the cover. |
 | BT audio app | Automatic | Which app is the Bluetooth player (the factory one is hidden from the app list). |
 | MCU channel for BT audio | Off | Advanced: forces an MCU audio channel. Normally not needed. |
@@ -363,7 +364,8 @@ information shows *robolectric*.
 | Problem | What to try |
 | --- | --- |
 | BT music plays but no title shows | *Setup → Bluetooth audio*: make sure *Song straight from the BT module* is on. Open *Diagnostics* and tap *GOC: ask for song info*; the `GOC ←` lines should show `MI…`. |
-| No sound after choosing BT-audio | Turn on *Start the BT app when choosing BT audio*. |
+| No sound after choosing BT-audio | Make sure *Open the BT app briefly when choosing BT audio* is on. |
+| The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
 | Calls stop working in the factory app | Turn off *Song straight from the BT module* and report it. |
 | No cover art | The unit needs internet. Songs whose "artist" is a YouTube channel name may not be found. |
 | Radio tile opens another app | `mcu_service` wasn't found. *Setup → Radio* shows the tuner status. |
@@ -379,7 +381,7 @@ information shows *robolectric*.
 | BT song title / artist / album from the module | Confirmed |
 | BT position, length and full progress bar | Confirmed |
 | MIB UI, MENU, status bar, fullscreen | In daily use |
-| BT-audio without opening the factory app | New in 3.2.0, needs testing |
+| BT-audio: app opens briefly, launcher comes back | New in 3.2.1, needs testing |
 | Cover art lookup | New, needs testing on the unit's connection |
 | Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
 | Calls in the factory app while reading the module | Needs confirming |

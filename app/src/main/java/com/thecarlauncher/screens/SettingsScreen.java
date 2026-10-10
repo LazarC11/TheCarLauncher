@@ -387,8 +387,14 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
-        toggle(s("Pokreni BT aplikaciju pri izboru BT audio (ako nema zvuka)", "Start the BT app when choosing BT audio (if there is no sound)"),
-                Prefs.BT_OPEN_APP, false, false);
+        toggle(s("Otvori BT aplikaciju na trenutak pri izboru BT audio", "Open the BT app briefly when choosing BT audio"),
+                Prefs.BT_OPEN_APP, true, false);
+        if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
+            action(s("Dozvoli povratak iz BT aplikacije", "Allow returning from the BT app"),
+                    s("Prikaz preko drugih aplikacija: isključeno", "Display over other apps: off"), new Runnable() {
+                        public void run() { com.thecarlauncher.util.BringBack.requestOverlay(act); }
+                    });
+        }
         toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
             public void run() { MediaHub.get(act).radioChanged(); }
         });
