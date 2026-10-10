@@ -127,9 +127,9 @@ public class MibPager extends ViewGroup {
             case MotionEvent.ACTION_MOVE: {
                 float delta = e.getX() - lastX;
                 lastX = e.getX();
-                boolean edge = (page == 0 && offset + delta > 0) || (page == getChildCount() - 1 && offset + delta < 0);
-                // Rubber band at the first / last page.
-                offset += edge ? delta * 0.35f : delta;
+                // Follow the finger 1:1; no stretching past the first / last page.
+                float max = page > 0 ? getWidth() : 0, min = page < getChildCount() - 1 ? -getWidth() : 0;
+                offset = Math.max(min, Math.min(max, offset + delta));
                 position();
                 return true;
             }
@@ -139,10 +139,12 @@ public class MibPager extends ViewGroup {
                 float v = vt.getXVelocity();
                 vt.recycle();
                 vt = null;
+                // Only ever move the way the page was dragged: a flick in that direction or
+                // a quarter of the screen turns the page, anything else settles back.
                 int target = page;
-                boolean fling = Math.abs(v) > minFling;
-                if (((fling && v < 0) || (!fling && offset < -getWidth() / 3f)) && page < getChildCount() - 1) target++;
-                else if (((fling && v > 0) || (!fling && offset > getWidth() / 3f)) && page > 0) target--;
+                float w = getWidth();
+                if (offset < 0 && page < getChildCount() - 1 && (offset < -w / 4f || v < -minFling)) target++;
+                else if (offset > 0 && page > 0 && (offset > w / 4f || v > minFling)) target--;
                 glide(target, Math.abs(v));
                 dragging = false;
                 return true;
@@ -168,12 +170,14 @@ public class MibPager extends ViewGroup {
             position();
             setLayers(false);
         } else {
-            long dur = velocity > 0 ? (long) (dist / velocity * 1000 * 2.2f) : (long) (180 + 160 * dist / Math.max(1, getWidth()));
-            dur = Math.max(160, Math.min(380, dur));
+            // Continue at the finger's speed, easing out; steady timing for slow releases.
+            long dur = (long) (220 + 120 * dist / Math.max(1, getWidth()));
+            if (velocity > minFling) dur = Math.min(dur, (long) (dist / velocity * 1000 * 1.8f));
+            dur = Math.max(180, Math.min(320, dur));
             setLayers(true);
             anim = ValueAnimator.ofFloat(from, 0f);
             anim.setDuration(dur);
-            anim.setInterpolator(new DecelerateInterpolator(1.6f));
+            anim.setInterpolator(new DecelerateInterpolator(1.4f));
             anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator va) {

@@ -362,6 +362,10 @@ public final class MediaHub {
             selectBluetooth();
             return;
         }
+        if (app.getPackageName().equals(key)) {
+            selectOwn();
+            return;
+        }
         MediaController mc = controllers.get(key);
         if (mc == null) return;
         if (btSelected && !bt.isBluetoothPackage(key)) pauseBluetooth();
@@ -380,10 +384,13 @@ public final class MediaHub {
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
         // background, start playback, and show what it is playing.
-        if (goc().enabled() && !Prefs.bool(app, Prefs.BT_OPEN_APP, false)) {
-            // Song info comes straight from the BT module: no need to open the BT app,
-            // just tell the phone to play.
+        if (!Prefs.bool(app, Prefs.BT_OPEN_APP, false)) {
+            // Never show the BT app: start it in the background (it switches the audio over),
+            // read the song from the BT module and tell the phone to play.
+            bt.startInBackground(this, bt.appPackage());
+            playWhenConnected = true;
             goc().send("MS");
+            main.postDelayed(playBluetoothRetry, 2500);
         } else {
             bt.connectApp(this, bt.appPackage());
             playWhenConnected = true;
@@ -394,7 +401,32 @@ public final class MediaHub {
         notifyChanged();
     }
 
+    /** Our own player (USB / flash) becomes the source: radio and Bluetooth stop. */
+    public void selectOwn() {
+        if (isRadio()) radio().stop();
+        if (btSelected) {
+            main.removeCallbacks(playBluetooth);
+            main.removeCallbacks(playBluetoothRetry);
+            playWhenConnected = false;
+            pauseBluetooth();
+            if (btRouted) {
+                radio().routeChannel(4);
+                btRouted = false;
+            }
+            btSelected = false;
+        }
+        MediaController mc = controllers.get(app.getPackageName());
+        if (mc != null) active = mc;
+        Prefs.put(app, Prefs.LAST_SOURCE, app.getPackageName());
+        notifyChanged();
+    }
+
     private void pauseBluetooth() {
+        if (goc().connected()) {
+            goc().send("MJ");
+            btPlaying = false;
+            return;
+        }
         MediaController mc = btController();
         if (mc != null) mc.getTransportControls().pause();
         else bt.sendKey(KeyEvent.KEYCODE_MEDIA_PAUSE);
@@ -463,6 +495,13 @@ public final class MediaHub {
         public void run() {
             if (!btSelected) return;
             MediaController mc = btController();
+            if (goc().connected()) {
+                if (goc().playing() != 1) goc().send("MS");
+                if (mc != null) active = mc;
+                playWhenConnected = false;
+                notifyChanged();
+                return;
+            }
             if (mc != null) {
                 active = mc;
                 playWhenConnected = false;
@@ -480,7 +519,7 @@ public final class MediaHub {
         public void run() {
             if (!btSelected) return;
             MediaController mc = btController();
-            boolean silent = mc != null ? !isPlaying(mc) : qf().playing() != 1;
+            boolean silent = goc().connected() ? goc().playing() != 1 : mc != null ? !isPlaying(mc) : qf().playing() != 1;
             if (silent) playBluetooth.run();
         }
     };
@@ -559,6 +598,9 @@ public final class MediaHub {
     public boolean hasTrackInfo() {
         if (isRadio()) return true;
         if (gocSong()) return true;
+        // The BT module is the truth when we read it: no song there means the phone is gone
+        // or stopped, so old details from other sources are not shown.
+        if (btSelected && goc().connected()) return false;
         if (btSelected && qf().title() != null) return true;
         if (notifUsable()) return true;
         MediaMetadata m = meta();

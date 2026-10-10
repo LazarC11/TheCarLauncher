@@ -22,6 +22,7 @@ import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.media.MusicService;
 import com.thecarlauncher.media.Track;
 import com.thecarlauncher.mib.Mib;
+import com.thecarlauncher.mib.CoverGlow;
 import com.thecarlauncher.mib.MibArtBox;
 import com.thecarlauncher.mib.MibBar;
 import com.thecarlauncher.mib.MibPopup;
@@ -38,6 +39,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     private TextView title, artist, album, message, pos, remain, path, empty;
     private View artistRow, albumRow, progressRow;
     private MibArtBox art;
+    private CoverGlow glow;
     private MibProgress progress;
     private MibBar bar, browseBar;
     private MibBar.Key sourceKey, playKey;
@@ -74,35 +76,48 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout content = new FrameLayout(act);
         r.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
-        // ---- Now playing (measured from the factory media screen) ----
-        // Cover box: top-right, ~30% of the width; text block centred beside it;
-        // progress line along the bottom of the left area.
+        // ---- Now playing ----
+        // Cover box on the right, vertically centred with the title / artist / album block;
+        // progress line across the full width at the bottom.
         FrameLayout np = new FrameLayout(act);
         nowPlaying = np;
         content.addView(np, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        int box = Mib.px(act, 312), boxTop = Mib.px(act, 36), boxRight = Mib.px(act, 74);
+        int box = Mib.px(act, 264), boxRight = Mib.px(act, 74), progH = Mib.px(act, 84);
+
+        FrameLayout upper = new FrameLayout(act);
+        upper.setClipChildren(false);
+        np.setClipChildren(false);
+        FrameLayout.LayoutParams ul = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        ul.bottomMargin = progH;
+        np.addView(upper, ul);
+
+        // Soft glow under the cover while a song plays (sits behind the cover).
+        glow = new CoverGlow(act);
+        int glowW = (int) (box * 1.25f), glowH = (int) (box * 0.34f);
+        FrameLayout.LayoutParams gl = new FrameLayout.LayoutParams(glowW, glowH, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+        gl.rightMargin = boxRight - (glowW - box) / 2;
+        glow.setTranslationY(box / 2f - glowH * 0.12f);
+        upper.addView(glow, gl);
 
         art = new MibArtBox(act);
-        FrameLayout.LayoutParams al = new FrameLayout.LayoutParams(box, box, Gravity.TOP | Gravity.RIGHT);
-        al.topMargin = boxTop;
+        FrameLayout.LayoutParams al = new FrameLayout.LayoutParams(box, box, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         al.rightMargin = boxRight;
-        np.addView(art, al);
+        upper.addView(art, al);
 
         FrameLayout left = new FrameLayout(act);
         FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         ll.rightMargin = box + boxRight + Mib.px(act, 30);
-        np.addView(left, ll);
+        upper.addView(left, ll);
 
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER_VERTICAL);
         col.setPadding(Mib.px(act, 60), 0, 0, 0);
         info = col;
-        FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box);
-        cl.topMargin = boxTop;
-        left.addView(col, cl);
+        left.addView(col, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box, Gravity.CENTER_VERTICAL));
         View titleRow = metaRow(R.drawable.vw_ic_note, 36, Mib.semibold(act));
         title = (TextView) ((ViewGroup) titleRow).getChildAt(1);
         titleRow.setPadding(0, 0, 0, 0);
@@ -116,7 +131,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
 
         LinearLayout pr = new LinearLayout(act);
         pr.setGravity(Gravity.CENTER_VERTICAL);
-        pr.setPadding(Mib.px(act, 60), 0, 0, 0);
+        pr.setPadding(Mib.px(act, 60), 0, boxRight, 0);
         progressRow = pr;
         pos = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
         remain = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
@@ -133,9 +148,8 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         remain.setGravity(Gravity.RIGHT);
         pr.addView(remain, new LinearLayout.LayoutParams(Mib.px(act, 88), ViewGroup.LayoutParams.WRAP_CONTENT));
         FrameLayout.LayoutParams pl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
-        pl.bottomMargin = Mib.px(act, 30);
-        left.addView(pr, pl);
+                progH, Gravity.BOTTOM);
+        np.addView(pr, pl);
 
         // "Uređaj nije povezan."-style centred message when there is nothing to show.
         message = Mib.text(act, "", 38, Mib.regular(act), Mib.WHITE);
@@ -324,7 +338,10 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         // Own player: the USB placeholder only while nothing is loaded; a playing song without
         // cover art gets the music-note placeholder.
         boolean usbIdle = hub.isOwn() && !hub.hasTrackInfo();
-        art.setCover(fm ? R.drawable.vw_cover_radio : usbIdle ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
+        // Bluetooth with no song (phone gone or not playing): the Bluetooth placeholder.
+        boolean btIdle = bt && !hub.hasTrackInfo();
+        glow.setOn(playing && hub.hasTrackInfo());
+        art.setCover(fm ? R.drawable.vw_cover_radio : btIdle ? R.drawable.vw_cover_bt : usbIdle ? R.drawable.vw_cover_usb : R.drawable.vw_cover_music);
         art.setBitmap(hub.art());
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
@@ -486,17 +503,39 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             loadTab();
             return;
         }
-        MusicService svc = MusicService.get();
-        if (svc == null) {
-            MusicService.start(act);
-            return;
-        }
-        List<Track> queue = new ArrayList<>();
+        final List<Track> queue = new ArrayList<>();
         for (Object r : rows) if (r instanceof Track) queue.add((Track) r);
-        svc.playQueue(queue, queue.indexOf(o), openGroup != null ? openGroup.key : MusicLibrary.CTX_ALL);
-        MediaHub.get(act).select(act.getPackageName());
+        final int start = queue.indexOf(o);
+        final String ctx = openGroup != null ? openGroup.key : MusicLibrary.CTX_ALL;
         openGroup = null;
         closeBrowser();
+        // Switch the source first (pauses Bluetooth / radio), then start the song.
+        MediaHub.get(act).selectOwn();
+        playWhenReady(queue, start, ctx, 0);
+    }
+
+    /** Starts the queue as soon as the player service is up, and makes sure it really plays. */
+    private void playWhenReady(final List<Track> queue, final int start, final String ctx, final int tries) {
+        final MusicService svc = MusicService.get();
+        if (svc == null) {
+            if (tries == 0) MusicService.start(act);
+            if (tries < 20) {
+                main.postDelayed(new Runnable() {
+                    @Override
+                    public void run() { playWhenReady(queue, start, ctx, tries + 1); }
+                }, 150);
+            }
+            return;
+        }
+        svc.playQueue(queue, start, ctx);
+        MediaHub.get(act).selectOwn();
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MusicService s = MusicService.get();
+                if (s != null && s.current() != null && !s.isPlaying()) s.play();
+            }
+        }, 1500);
     }
 
     private class RowAdapter extends BaseAdapter {

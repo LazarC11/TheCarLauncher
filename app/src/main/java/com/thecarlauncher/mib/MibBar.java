@@ -36,6 +36,18 @@ public class MibBar extends LinearLayout {
             addView(icon, ip);
         }
 
+        /** Setup in the right-most slot sits against the right edge, like the factory bar. */
+        void alignEnd() {
+            setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+            int w = Mib.px(getContext(), 112);
+            LayoutParams lp = (LayoutParams) label.getLayoutParams();
+            lp.width = w;
+            lp.gravity = Gravity.RIGHT;
+            LayoutParams ip = (LayoutParams) icon.getLayoutParams();
+            ip.gravity = Gravity.RIGHT;
+            ip.rightMargin = (w - ip.width) / 2;
+        }
+
         public Key setLabel(String s) {
             label.setText(s);
             return this;
@@ -84,8 +96,10 @@ public class MibBar extends LinearLayout {
     }
 
     public Key add(String label, int icon, View.OnClickListener l) {
+        boolean end = !lastWasKey && getChildCount() > 0 && "Setup".equals(label);
         if (lastWasKey) divider();
         Key k = new Key(getContext(), label, icon);
+        if (end) k.alignEnd();
         k.setOnClickListener(l);
         addView(k, new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
         lastWasKey = true;

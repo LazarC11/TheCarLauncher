@@ -41,6 +41,7 @@ public final class GocBluetooth {
     private int playing = -1;
     private long posMs = -1, lenMs = -1, posAt;
     private volatile String lastMi, lastMp;
+    private volatile boolean phoneGone;
     private int signal = -1, battery = -1;
     private long updated;
     private volatile long received;
@@ -202,7 +203,7 @@ public final class GocBluetooth {
     /** Opt-in: reading the shared serial port may take messages away from the factory BT app. */
     public static final String PREF = "goc_direct";
 
-    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, false); }
+    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, true); }
 
     public synchronized void stop() {
         running = false;
@@ -320,6 +321,16 @@ public final class GocBluetooth {
                 if (l > 0) lenMs = l;
                 changed = true;
             }
+        } else if (("MY".equals(code) || "IA".equals(code)) && first.length() == 2) {
+            // Phone gone (A2DP / HFP disconnected): forget the song until it plays again.
+            title = artist = album = null;
+            posMs = lenMs = -1;
+            playing = 0;
+            if ("IA".equals(code)) {
+                signal = battery = -1;
+                phoneGone = true;
+            }
+            changed = true;
         } else if ("PS".equals(code) && first.length() >= 6) {
             try {
                 signal = Integer.parseInt(first.substring(2, 4));
@@ -333,7 +344,12 @@ public final class GocBluetooth {
                 @Override
                 public void run() {
                     MediaHub.get(app).radioChanged();
-                    PhoneStatus.get(app).onGoc(signal, battery);
+                    if (phoneGone) {
+                        phoneGone = false;
+                        PhoneStatus.get(app).onGocGone();
+                    } else {
+                        PhoneStatus.get(app).onGoc(signal, battery);
+                    }
                 }
             });
         }

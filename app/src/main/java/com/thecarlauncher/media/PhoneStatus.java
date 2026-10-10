@@ -82,6 +82,13 @@ public final class PhoneStatus {
 
     private boolean gocPhone;
 
+    /** The Goodocom daemon reports the phone disconnected. */
+    void onGocGone() {
+        if (!gocPhone) return;
+        gocPhone = false;
+        changed();
+    }
+
     /** Phone signal / battery reported by the Goodocom Bluetooth daemon (0–5 scales). */
     void onGoc(int sig, int batt) {
         if (sig < 0 && batt < 0) return;

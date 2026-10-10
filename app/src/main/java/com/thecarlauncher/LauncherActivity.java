@@ -161,6 +161,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         requestMissingPermissions(false);
     }
 
+    /** Status bar text / icons: a touch dimmer than the white screen content. */
+    private static final int SB_GREY = 0xFFD2D3D8;
+
     /** Status bar: [compass street] ... [globe clock tag] ... [speed], all on one centre line. */
     private View buildStatusBar() {
         FrameLayout bar = new FrameLayout(this);
@@ -176,13 +179,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 show(MENU, true);
             }
         });
-        ImageView compass = Mib.icon(this, R.drawable.vw_sb_compass, Mib.WHITE);
-        left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 28), Mib.px(this, 28)));
-        streetView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
+        ImageView compass = Mib.icon(this, R.drawable.vw_sb_compass, SB_GREY);
+        left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 24), Mib.px(this, 24)));
+        streetView = Mib.text(this, "", 20, Mib.regular(this), SB_GREY);
         streetView.setMaxWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.30f));
         LinearLayout.LayoutParams stl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        stl.leftMargin = Mib.px(this, 14);
+        stl.leftMargin = Mib.px(this, 12);
         left.addView(streetView, stl);
         bar.addView(left, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT));
@@ -194,10 +197,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         int slot = Mib.px(this, 230);
         LinearLayout leftSlot = new LinearLayout(this);
         leftSlot.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-        globe = Mib.icon(this, R.drawable.vw_ic_globe, Mib.WHITE);
-        leftSlot.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 26), Mib.px(this, 26)));
+        globe = Mib.icon(this, R.drawable.vw_sb_globe, SB_GREY);
+        leftSlot.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 23), Mib.px(this, 23)));
         center.addView(leftSlot, new LinearLayout.LayoutParams(slot, ViewGroup.LayoutParams.MATCH_PARENT));
-        timeView = Mib.text(this, "", 32, Mib.semibold(this), Mib.WHITE);
+        timeView = Mib.text(this, "", 28, Mib.semibold(this), SB_GREY);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         tl.leftMargin = Mib.px(this, 30);

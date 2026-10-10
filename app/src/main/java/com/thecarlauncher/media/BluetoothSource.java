@@ -210,6 +210,31 @@ public final class BluetoothSource {
         }
     }
 
+    /**
+     * Starts the Bluetooth music app without its screen: binds its media service and starts
+     * its exported services, so it can switch the audio to Bluetooth from the background.
+     * Returns how many services were started.
+     */
+    int startInBackground(MediaHub hub, String pkg) {
+        if (pkg == null || pkg.equals(SYSTEM_PKG)) return 0;
+        connectApp(hub, pkg);
+        int n = 0;
+        try {
+            android.content.pm.PackageInfo pi = app.getPackageManager().getPackageInfo(pkg, PackageManager.GET_SERVICES);
+            if (pi.services != null) {
+                for (android.content.pm.ServiceInfo si : pi.services) {
+                    if (!si.exported || !si.enabled || si.permission != null) continue;
+                    try {
+                        if (app.startService(new Intent().setComponent(new ComponentName(pkg, si.name))) != null) n++;
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return n;
+    }
+
     public boolean openApp() {
         AppRepository.App screen = appScreen();
         if (screen != null && AppRepository.launch(app, screen)) return true;
