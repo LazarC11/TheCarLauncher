@@ -103,6 +103,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
         Mib.loadAmbient(this);
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
