@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Roomier layout for mdpi 1024x600 / 1280x720 head units. -->
+    <dimen name="gap">10dp</dimen>
+    <dimen name="screen_pad">12dp</dimen>
+    <dimen name="tile_radius">16dp</dimen>
+    <dimen name="status_height">44dp</dimen>
+    <dimen name="dock_height">68dp</dimen>
+    <dimen name="tile_pad">14dp</dimen>
+    <dimen name="play_button">76dp</dimen>
+    <dimen name="media_title">30sp</dimen>
+    <dimen name="home_title">22sp</dimen>
+    <dimen name="home_play">52dp</dimen>
+    <dimen name="home_icon_button">48dp</dimen>
+    <bool name="compact">false</bool>
+</resources>

@@ -1,0 +1,52 @@
+name: Build APK
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # The runner image ships the Android SDK; just make sure API 34 is present.
+      - name: Install Android platform
+        run: |
+          SDKM=$(ls "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Build release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          cp app/build/outputs/apk/release/app-release.apk TheCarLauncher.apk
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: TheCarLauncher-apk
+          path: TheCarLauncher.apk
+
+      # Every push to a branch also publishes a GitHub release, so the APK can be
+      # downloaded straight onto the head unit from the Releases page.
+      - name: Publish release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Car Launcher build ${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          files: TheCarLauncher.apk
+          body: |
+            Automatic build of `${{ github.ref_name }}` at ${{ github.sha }}.
+            Download **TheCarLauncher.apk** below and open it on the head unit to install.
