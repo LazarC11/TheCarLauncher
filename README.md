@@ -388,13 +388,6 @@ information shows *robolectric*.
 ---
 
 ## Artwork and licences
-
-- **MIB graphics.** The icons and tile artwork in `app/src/main/res/drawable-nodpi/vw_*.png` are
-  original MIB 2 system graphics supplied by the owner of this head unit. They are Volkswagen's
-  copyrighted material, used here only for a personal, non-commercial launcher. **Keep this
-  repository and its releases private** and don't redistribute the APK.
-- **Car pictures.** The Opel Corsa C exterior and interior pictures are likely press images, for
-  private use only.
 - **Font.** Text uses **Source Sans 3** (SIL Open Font License,
   `app/src/main/assets/fonts/OFL.txt`) as a stand-in for VW's own typeface.
 - **FM radio protocol.** The tuner protocol is from OpenRadioFM (Apache-2.0); see `NOTICE`.
