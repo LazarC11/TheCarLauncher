@@ -2,7 +2,7 @@
 
 A home-screen launcher for Android head units, built for a **Roco K706 (QF001, UIS7862S,
 QuickFish firmware)** double-DIN unit in an **Opel Corsa C**. Its interface recreates
-Volkswagen's **MIB 2.5 (Discover Media)** infotainment: black background, MENU tiles with blue
+German brand’s**Multimedia** infotainment: black background, MENU tiles with blue
 underlines, soft-key bars along the bottom, bordered popups and light settings bars.
 
 Text is in Serbian (Latin) by default; English can be picked under
@@ -40,7 +40,7 @@ Text is in Serbian (Latin) by default; English can be picked under
 
 ## Highlights
 
-- **MIB 2.5 look**: factory icons, MENU tiles, soft-key bars, popups and settings bars, with
+- **MULTIMEDIA 2.5 look**: factory icons, MENU tiles, soft-key bars, popups and settings bars, with
   layouts tested at 800×480, 1024×600 and 1280×720 in landscape.
 - **Media player** for USB / SD / internal storage, with song, album, artist and folder browsing,
   a seekable progress bar, a soft glow under the cover while a song plays, and
