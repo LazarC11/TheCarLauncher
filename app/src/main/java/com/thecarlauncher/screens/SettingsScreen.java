@@ -73,7 +73,7 @@ public class SettingsScreen extends Screen {
         head.setPadding(Mib.px(act, 30), 0, Mib.px(act, 30), Mib.px(act, 10));
         FrameLayout backBox = new FrameLayout(act);
         backBox.setBackground(Mib.box(act));
-        backBox.addView(Mib.icon(act, R.drawable.vw_ic_back, Mib.WHITE),
+        backBox.addView(Mib.icon(act, R.drawable.ui_ic_back, Mib.WHITE),
                 new FrameLayout.LayoutParams(Mib.px(act, 30), Mib.px(act, 30), Gravity.CENTER));
         backBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -933,14 +933,14 @@ public class SettingsScreen extends Screen {
 
     /** Factory checkbox glyph, drawn dark on the light bars. */
     private View checkbox(LinearLayout row, boolean on) {
-        ImageView box = Mib.icon(act, R.drawable.vw_ic_check_off, 0xFF1C1C22);
+        ImageView box = Mib.icon(act, R.drawable.ui_ic_check_off, 0xFF1C1C22);
         row.addView(box, new LinearLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46)));
         setChecked(box, on);
         return box;
     }
 
     private static void setChecked(View box, boolean on) {
-        ((ImageView) box).setImageResource(on ? R.drawable.vw_ic_check_on : R.drawable.vw_ic_check_off);
+        ((ImageView) box).setImageResource(on ? R.drawable.ui_ic_check_on : R.drawable.ui_ic_check_off);
     }
 
     private void addLeading(LinearLayout row, View v) {
@@ -952,7 +952,7 @@ public class SettingsScreen extends Screen {
     /** Serbian tricolour, as the factory language bar shows the country flag. */
     private View flag() {
         ImageView f = new ImageView(act);
-        f.setImageResource(R.drawable.vw_ic_flag_rs);
+        f.setImageResource(R.drawable.ui_ic_flag_rs);
         f.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return f;
     }

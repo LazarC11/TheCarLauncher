@@ -180,7 +180,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 show(MENU, true);
             }
         });
-        ImageView compass = Mib.icon(this, R.drawable.vw_sb_compass, SB_GREY);
+        ImageView compass = Mib.icon(this, R.drawable.ui_sb_compass, SB_GREY);
         left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 24), Mib.px(this, 24)));
         streetView = Mib.text(this, "", 20, Mib.regular(this), SB_GREY);
         streetView.setMaxWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.30f));
@@ -198,7 +198,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         int slot = Mib.px(this, 230);
         LinearLayout leftSlot = new LinearLayout(this);
         leftSlot.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-        globe = Mib.icon(this, R.drawable.vw_sb_globe, SB_GREY);
+        globe = Mib.icon(this, R.drawable.ui_sb_globe, SB_GREY);
         leftSlot.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 23), Mib.px(this, 23)));
         center.addView(leftSlot, new LinearLayout.LayoutParams(slot, ViewGroup.LayoutParams.MATCH_PARENT));
         timeView = Mib.text(this, "", 28, Mib.semibold(this), SB_GREY);
@@ -211,10 +211,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         rightSlot.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         tagView = Mib.text(this, "", 22, Mib.semibold(this), Mib.WHITE);
         rightSlot.addView(tagView);
-        btIcon = statusIcon(rightSlot, R.drawable.vw_sb_bt, 26, 26);
-        battIcon = statusIcon(rightSlot, R.drawable.vw_sb_batt_4, 38, 26);
-        signalIcon = statusIcon(rightSlot, R.drawable.vw_sb_sig_5, 54, 25);
-        msgIcon = statusIcon(rightSlot, R.drawable.vw_sb_msg, 38, 26);
+        btIcon = statusIcon(rightSlot, R.drawable.ui_sb_bt, 26, 26);
+        battIcon = statusIcon(rightSlot, R.drawable.ui_sb_batt_4, 38, 26);
+        signalIcon = statusIcon(rightSlot, R.drawable.ui_sb_sig_5, 54, 25);
+        msgIcon = statusIcon(rightSlot, R.drawable.ui_sb_msg, 38, 26);
         msgIcon.setBackground(Mib.keyPressed());
         msgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -520,10 +520,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         return iv;
     }
 
-    private static final int[] BATT = {R.drawable.vw_sb_batt_0, R.drawable.vw_sb_batt_1, R.drawable.vw_sb_batt_2,
-            R.drawable.vw_sb_batt_3, R.drawable.vw_sb_batt_4};
-    private static final int[] SIGNAL = {R.drawable.vw_sb_sig_0, R.drawable.vw_sb_sig_1, R.drawable.vw_sb_sig_2,
-            R.drawable.vw_sb_sig_3, R.drawable.vw_sb_sig_4, R.drawable.vw_sb_sig_5};
+    private static final int[] BATT = {R.drawable.ui_sb_batt_0, R.drawable.ui_sb_batt_1, R.drawable.ui_sb_batt_2,
+            R.drawable.ui_sb_batt_3, R.drawable.ui_sb_batt_4};
+    private static final int[] SIGNAL = {R.drawable.ui_sb_sig_0, R.drawable.ui_sb_sig_1, R.drawable.ui_sb_sig_2,
+            R.drawable.ui_sb_sig_3, R.drawable.ui_sb_sig_4, R.drawable.ui_sb_sig_5};
 
     /** Bluetooth, phone battery and signal, and the envelope when notifications are waiting. */
     @Override
@@ -538,7 +538,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (b >= 0) battIcon.setImageResource(BATT[b < 10 ? 0 : b < 35 ? 1 : b < 60 ? 2 : b < 85 ? 3 : 4]);
         int sg = ps.signal();
         signalIcon.setVisibility(sg == -1 ? View.GONE : View.VISIBLE);
-        if (sg != -1) signalIcon.setImageResource(sg == -2 ? R.drawable.vw_sb_sig_none : SIGNAL[sg]);
+        if (sg != -1) signalIcon.setImageResource(sg == -2 ? R.drawable.ui_sb_sig_none : SIGNAL[sg]);
         msgIcon.setVisibility(ps.notifications().isEmpty() ? View.GONE : View.VISIBLE);
     }
 

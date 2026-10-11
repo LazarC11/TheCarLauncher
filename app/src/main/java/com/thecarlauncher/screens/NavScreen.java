@@ -108,7 +108,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
         FrameLayout followBox = new FrameLayout(act);
         followBox.setBackground(Mib.box(act));
-        follow = Mib.icon(act, R.drawable.vw_ic_compass, Mib.WHITE);
+        follow = Mib.icon(act, R.drawable.ui_ic_compass, Mib.WHITE);
         followBox.addView(follow, new FrameLayout.LayoutParams(Mib.px(act, 60), Mib.px(act, 60), Gravity.CENTER));
         followBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,14 +122,14 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         LinearLayout zoom = new LinearLayout(act);
         zoom.setOrientation(LinearLayout.VERTICAL);
         zoom.setBackground(Mib.box(act));
-        zoom.addView(zoomCell(R.drawable.vw_map_zoom_in, 1), new LinearLayout.LayoutParams(box, box));
+        zoom.addView(zoomCell(R.drawable.ui_map_zoom_in, 1), new LinearLayout.LayoutParams(box, box));
         View div = new View(act);
         div.setBackgroundColor(0xFFD6D6DC);
         LinearLayout.LayoutParams dl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(1, Mib.px(act, 1.4f)));
         dl.leftMargin = dl.rightMargin = Mib.px(act, 10);
         zoom.addView(div, dl);
-        zoom.addView(zoomCell(R.drawable.vw_map_zoom_out, -1), new LinearLayout.LayoutParams(box, box));
+        zoom.addView(zoomCell(R.drawable.ui_map_zoom_out, -1), new LinearLayout.LayoutParams(box, box));
         side.addView(zoom);
 
         map.setListener(new MapTileView.Listener() {
@@ -195,7 +195,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
         // Soft keys.
         MibBar bar = new MibBar(act);
-        bar.add(s("Novo odr.", "New dest."), R.drawable.vw_key_newdest, new View.OnClickListener() {
+        bar.add(s("Novo odr.", "New dest."), R.drawable.ui_key_newdest, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 askSearch(s("Novo odredište", "New destination"), new Pick() {
@@ -203,19 +203,19 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
                 });
             }
         });
-        bar.add(s("Moja odred.", "My dest."), R.drawable.vw_key_mydest, new View.OnClickListener() {
+        bar.add(s("Moja odred.", "My dest."), R.drawable.ui_key_mydest, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPlaces(v);
             }
         });
-        bar.add(s("Spec. odred.", "Nearby"), R.drawable.vw_ic_search, new View.OnClickListener() {
+        bar.add(s("Spec. odred.", "Nearby"), R.drawable.ui_ic_search, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNearby(v);
             }
         });
-        bar.add(s("Pogled", "View"), R.drawable.vw_key_view, new View.OnClickListener() {
+        bar.add(s("Pogled", "View"), R.drawable.ui_key_view, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int z = map.getZoom(), next = VIEW_ZOOMS[0];
@@ -229,13 +229,13 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
                 map.setFollow(true);
             }
         });
-        bar.add(s("Mediji", "Media"), R.drawable.vw_key_music, new View.OnClickListener() {
+        bar.add(s("Mediji", "Media"), R.drawable.ui_key_music, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.MEDIA, true);
             }
         });
-        appKey = bar.add(s("Aplikacija", "Nav app"), R.drawable.vw_ic_nav, new View.OnClickListener() {
+        appKey = bar.add(s("Aplikacija", "Nav app"), R.drawable.ui_ic_nav, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (guide.active() || guide.arrived()) {
@@ -245,7 +245,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
                 }
             }
         });
-        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.ui_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.showSettings(SettingsScreen.PAGE_NAV);
@@ -286,20 +286,20 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         Location l = LocationTracker.get(act).location();
         showList(s("Pretraga: ", "Search: ") + query);
         listRows.removeAllViews();
-        row(R.drawable.vw_ic_search, s("Traži se…", "Searching…"), null, null);
+        row(R.drawable.ui_ic_search, s("Traži se…", "Searching…"), null, null);
         OsmApi.search(query, l == null ? Double.NaN : l.getLatitude(), l == null ? Double.NaN : l.getLongitude(), lang(),
                 new OsmApi.Callback<List<OsmApi.Place>>() {
                     @Override
                     public void done(List<OsmApi.Place> res, String err) {
                         listRows.removeAllViews();
                         if (res == null) {
-                            row(R.drawable.vw_ic_refresh, s("Nema veze sa serverom — pokušaj ponovo", "No connection — try again"),
+                            row(R.drawable.ui_ic_refresh, s("Nema veze sa serverom — pokušaj ponovo", "No connection — try again"),
                                     err, new Runnable() {
                                         public void run() { search(query, pick); }
                                     });
                             return;
                         }
-                        if (res.isEmpty()) row(R.drawable.vw_ic_search, s("Nema rezultata", "No results"), null, null);
+                        if (res.isEmpty()) row(R.drawable.ui_ic_search, s("Nema rezultata", "No results"), null, null);
                         for (final OsmApi.Place p : res) placeRow(p, pick);
                     }
                 });
@@ -318,7 +318,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         };
         MibPopup p = new MibPopup(act).columns(2);
         for (final String[] k : kinds) {
-            p.add(s(k[1], k[2]), R.drawable.vw_ic_search, false, new Runnable() {
+            p.add(s(k[1], k[2]), R.drawable.ui_ic_search, false, new Runnable() {
                 @Override
                 public void run() {
                     nearby(k[0], s(k[1], k[2]));
@@ -336,19 +336,19 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         }
         showList(title + s(" u blizini", " nearby"));
         listRows.removeAllViews();
-        row(R.drawable.vw_ic_search, s("Traži se…", "Searching…"), null, null);
+        row(R.drawable.ui_ic_search, s("Traži se…", "Searching…"), null, null);
         OsmApi.nearby(tag, l.getLatitude(), l.getLongitude(), 5000, new OsmApi.Callback<List<OsmApi.Place>>() {
             @Override
             public void done(List<OsmApi.Place> res, String err) {
                 listRows.removeAllViews();
                 if (res == null) {
-                    row(R.drawable.vw_ic_refresh, s("Nema veze sa serverom — pokušaj ponovo", "No connection — try again"), err,
+                    row(R.drawable.ui_ic_refresh, s("Nema veze sa serverom — pokušaj ponovo", "No connection — try again"), err,
                             new Runnable() {
                                 public void run() { nearby(tag, title); }
                             });
                     return;
                 }
-                if (res.isEmpty()) row(R.drawable.vw_ic_search, s("Ništa u krugu od 5 km", "Nothing within 5 km"), null, null);
+                if (res.isEmpty()) row(R.drawable.ui_ic_search, s("Ništa u krugu od 5 km", "Nothing within 5 km"), null, null);
                 for (OsmApi.Place p : res) {
                     if (p.name.length() == 0) p = new OsmApi.Place(title, p.detail, p.lat, p.lon);
                     placeRow(withDistance(p, l), new Pick() {
@@ -382,9 +382,9 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     private void showPlaces(View key) {
         MibPopup p = new MibPopup(act).columns(1);
-        place(p, R.drawable.vw_ic_home, s("Kuća", "Home"), Prefs.HOME_ADDR);
-        place(p, R.drawable.vw_ic_flag, s("Posao", "Work"), Prefs.WORK_ADDR);
-        p.add(s("Poslednja odredišta", "Recent destinations"), R.drawable.vw_ic_clock, false, new Runnable() {
+        place(p, R.drawable.ui_ic_home, s("Kuća", "Home"), Prefs.HOME_ADDR);
+        place(p, R.drawable.ui_ic_flag, s("Posao", "Work"), Prefs.WORK_ADDR);
+        p.add(s("Poslednja odredišta", "Recent destinations"), R.drawable.ui_ic_clock, false, new Runnable() {
             @Override
             public void run() {
                 showRecent();
@@ -428,17 +428,17 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         showList(s("Poslednja odredišta", "Recent destinations"));
         listRows.removeAllViews();
         List<OsmApi.Place> rec = guide.recent();
-        if (rec.isEmpty()) row(R.drawable.vw_ic_clock, s("Još nema odredišta", "No destinations yet"), null, null);
+        if (rec.isEmpty()) row(R.drawable.ui_ic_clock, s("Još nema odredišta", "No destinations yet"), null, null);
         Location l = LocationTracker.get(act).location();
         for (OsmApi.Place p : rec) {
             placeRow(l == null ? p : withDistance(p, l), new Pick() {
                 public void picked(OsmApi.Place x) { go(x); }
             });
         }
-        row(R.drawable.vw_ic_home, s("Promeni adresu kuće", "Change home address"), null, new Runnable() {
+        row(R.drawable.ui_ic_home, s("Promeni adresu kuće", "Change home address"), null, new Runnable() {
             public void run() { resetPlace(Prefs.HOME_ADDR, s("Kuća", "Home")); }
         });
-        row(R.drawable.vw_ic_flag, s("Promeni adresu posla", "Change work address"), null, new Runnable() {
+        row(R.drawable.ui_ic_flag, s("Promeni adresu posla", "Change work address"), null, new Runnable() {
             public void run() { resetPlace(Prefs.WORK_ADDR, s("Posao", "Work")); }
         });
     }
@@ -468,7 +468,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         head.addView(listTitle, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         FrameLayout back = new FrameLayout(act);
         back.setBackground(Mib.box(act));
-        back.addView(Mib.icon(act, R.drawable.vw_ic_back, Mib.WHITE),
+        back.addView(Mib.icon(act, R.drawable.ui_ic_back, Mib.WHITE),
                 new FrameLayout.LayoutParams(Mib.px(act, 36), Mib.px(act, 36), Gravity.CENTER));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -503,7 +503,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     private void placeRow(final OsmApi.Place p, final Pick pick) {
         String dist = p.distanceM >= 0 ? Guidance.distance(p.distanceM) : null;
-        View v = row(R.drawable.vw_ic_flag, p.name, (p.detail.length() > 0 ? p.detail : "") , new Runnable() {
+        View v = row(R.drawable.ui_ic_flag, p.name, (p.detail.length() > 0 ? p.detail : "") , new Runnable() {
             public void run() {
                 hideList();
                 pick.picked(p);
@@ -556,7 +556,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         if (map == null) return;
         boolean on = guide.active() || guide.arrived();
         appKey.setLabel(on ? s("Zaustavi", "Stop") : s("Aplikacija", "Nav app"));
-        appKey.setIcon(on ? R.drawable.vw_ic_back : R.drawable.vw_ic_nav);
+        appKey.setIcon(on ? R.drawable.ui_ic_back : R.drawable.ui_ic_nav);
         OsmApi.Route r = guide.route();
         map.setRoute(r == null ? null : r.lat, r == null ? null : r.lon);
         map.setRouteProgress(guide.progressIndex());

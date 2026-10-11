@@ -48,4 +48,4 @@ body:
     id: unit
     attributes:
       label: Head unit / phone (if relevant)
-      placeholder: "Roco K706 QF001, Android 13 / Galaxy S23 Ultra"
+      placeholder: "QF001, Android 13 / phone model, Android 16"
