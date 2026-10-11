@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.R;
+import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.mib.MibBar;
 import com.thecarlauncher.mib.MibPopup;
@@ -81,7 +82,20 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         r.setOrientation(LinearLayout.VERTICAL);
         root = r;
         FrameLayout mapFrame = new FrameLayout(act);
-        r.addView(mapFrame, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        // Map, and (in split screen) the media column beside it.
+        LinearLayout mid = new LinearLayout(act);
+        mid.setOrientation(LinearLayout.HORIZONTAL);
+        r.addView(mid, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        mid.addView(mapFrame, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
+        splitLine = new View(act);
+        splitLine.setBackgroundColor(0xFF55565C);
+        mid.addView(splitLine, new LinearLayout.LayoutParams(Math.max(1, Mib.px(act, 1)), ViewGroup.LayoutParams.MATCH_PARENT));
+        splitPanel = new NavMediaPanel(act, true, mediaActions);
+        mid.addView(splitPanel, new LinearLayout.LayoutParams(
+                (int) (act.getResources().getDisplayMetrics().widthPixels * 0.36f), ViewGroup.LayoutParams.MATCH_PARENT));
+        boolean split = Prefs.bool(act, P_SPLIT, false);
+        splitPanel.setVisibility(split ? View.VISIBLE : View.GONE);
+        splitLine.setVisibility(split ? View.VISIBLE : View.GONE);
 
         map = new MapTileView(act, null);
         map.setSource(Prefs.tiles(act));
@@ -193,6 +207,14 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
         buildList(mapFrame);
 
+        // Small media pop-up over the map (the Media key opens this instead of leaving the map).
+        miniPanel = new NavMediaPanel(act, false, mediaActions);
+        FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        ml.bottomMargin = Mib.px(act, 16);
+        miniPanel.setVisibility(View.GONE);
+        mapFrame.addView(miniPanel, ml);
+
         // Soft keys.
         MibBar bar = new MibBar(act);
         bar.add(s("Novo odr.", "New dest."), R.drawable.ui_key_newdest, new View.OnClickListener() {
@@ -229,10 +251,20 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
                 map.setFollow(true);
             }
         });
-        bar.add(s("Mediji", "Media"), R.drawable.ui_key_music, new View.OnClickListener() {
+        View mediaKey = bar.add(s("Mediji", "Media"), R.drawable.ui_key_music, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (splitPanel.getVisibility() == View.VISIBLE) setSplit(false);
+                else if (miniPanel.getVisibility() == View.VISIBLE) hideMini();
+                else showMini();
+            }
+        });
+        // Long press: the full media screen.
+        mediaKey.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 act.show(LauncherActivity.MEDIA, true);
+                return true;
             }
         });
         appKey = bar.add(s("Aplikacija", "Nav app"), R.drawable.ui_ic_nav, new View.OnClickListener() {
@@ -604,8 +636,95 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         if (msg != null) status.setText(msg);
     }
 
+    // ---- Media over the map -------------------------------------------------------------------
+
+    private static final String P_SPLIT = "nav_media_split";
+    private static final long MINI_TIMEOUT = 10_000L;
+    private NavMediaPanel miniPanel, splitPanel;
+    private View splitLine;
+    private final android.os.Handler ui = new android.os.Handler(android.os.Looper.getMainLooper());
+
+    private final NavMediaPanel.Actions mediaActions = new NavMediaPanel.Actions() {
+        public void onSplit() {
+            hideMini();
+            setSplit(true);
+        }
+
+        public void onClose() {
+            if (splitPanel.getVisibility() == View.VISIBLE) setSplit(false);
+            hideMini();
+        }
+
+        public void onTouched() {
+            if (miniPanel.getVisibility() == View.VISIBLE) {
+                ui.removeCallbacks(autoHide);
+                ui.postDelayed(autoHide, MINI_TIMEOUT);
+            }
+        }
+    };
+
+    private final Runnable autoHide = new Runnable() {
+        public void run() { hideMini(); }
+    };
+
+    private final MediaHub.Listener mediaListener = new MediaHub.Listener() {
+        public void onMediaChanged() { refreshMedia(); }
+    };
+
+    /** Keeps the progress line moving while a media panel is showing. */
+    private final Runnable mediaTick = new Runnable() {
+        public void run() {
+            refreshMedia();
+            if (miniPanel.getVisibility() == View.VISIBLE || splitPanel.getVisibility() == View.VISIBLE) {
+                ui.postDelayed(this, 1000);
+            }
+        }
+    };
+
+    private void refreshMedia() {
+        if (miniPanel == null) return;
+        if (miniPanel.getVisibility() == View.VISIBLE) miniPanel.update();
+        if (splitPanel.getVisibility() == View.VISIBLE) splitPanel.update();
+    }
+
+    private void showMini() {
+        miniPanel.update();
+        miniPanel.setVisibility(View.VISIBLE);
+        miniPanel.setAlpha(0f);
+        miniPanel.setTranslationY(Mib.px(act, 30));
+        miniPanel.animate().alpha(1f).translationY(0).setDuration(180).start();
+        ui.removeCallbacks(autoHide);
+        ui.postDelayed(autoHide, MINI_TIMEOUT);
+        ui.removeCallbacks(mediaTick);
+        ui.post(mediaTick);
+    }
+
+    private void hideMini() {
+        ui.removeCallbacks(autoHide);
+        if (miniPanel.getVisibility() != View.VISIBLE) return;
+        miniPanel.animate().alpha(0f).translationY(Mib.px(act, 30)).setDuration(160).withEndAction(new Runnable() {
+            public void run() { miniPanel.setVisibility(View.GONE); }
+        }).start();
+    }
+
+    private void setSplit(boolean on) {
+        Prefs.put(act, P_SPLIT, on);
+        splitPanel.setVisibility(on ? View.VISIBLE : View.GONE);
+        splitLine.setVisibility(on ? View.VISIBLE : View.GONE);
+        if (on) {
+            splitPanel.update();
+            ui.removeCallbacks(mediaTick);
+            ui.post(mediaTick);
+        }
+    }
+
     @Override
     public void onShow() {
+        MediaHub.get(act).addListener(mediaListener);
+        if (splitPanel != null && splitPanel.getVisibility() == View.VISIBLE) {
+            ui.removeCallbacks(mediaTick);
+            ui.post(mediaTick);
+        }
         LocationTracker.get(act).addListener(this);
         guide.addListener(this);
         onGuidanceChanged();
@@ -613,6 +732,12 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     @Override
     public void onHide() {
+        MediaHub.get(act).removeListener(mediaListener);
+        ui.removeCallbacks(mediaTick);
+        if (miniPanel != null) {
+            ui.removeCallbacks(autoHide);
+            miniPanel.setVisibility(View.GONE);
+        }
         LocationTracker.get(act).removeListener(this);
         guide.removeListener(this);
         Prefs.put(act, Prefs.MAP_ZOOM, map.getZoom());

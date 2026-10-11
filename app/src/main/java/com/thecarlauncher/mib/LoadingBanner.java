@@ -121,7 +121,8 @@ public class LoadingBanner extends FrameLayout {
     private void slideDown() {
         shown = true;
         anim = new AnimationDrawable();
-        for (int f : FRAMES) anim.addFrame(getContext().getDrawable(f).mutate(), 60);
+        // The frames run anti-clockwise; play them backwards so the spinner turns clockwise.
+        for (int i = FRAMES.length - 1; i >= 0; i--) anim.addFrame(getContext().getDrawable(FRAMES[i]).mutate(), 60);
         anim.setOneShot(false);
         anim.setColorFilter(new PorterDuffColorFilter(Mib.BLUE, PorterDuff.Mode.SRC_IN));
         spinner.setImageDrawable(anim);

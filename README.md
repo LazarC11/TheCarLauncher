@@ -158,6 +158,7 @@ offline (see [Offline maps](#offline-maps)); address search and routing need int
 | **My dest.** | Home, work and recent destinations. |
 | **Nearby** | Fuel, parking, EV chargers, car repair, cafés, restaurants, pharmacies and ATMs within 5 km, through **Overpass**. |
 | **View** | Cycles through preset zoom levels. |
+| **Media** | Opens a small media widget over the map (cover, song, artist, previous / play / next). Its split button puts the media in a column beside the map; long-press opens the full Media screen. |
 | **Nav app** | Hands off to an installed navigation app. |
 | **Stop** | Ends guidance. |
 
