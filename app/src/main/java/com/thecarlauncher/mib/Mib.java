@@ -171,13 +171,14 @@ public final class Mib {
 
     /** Menu tile: black with a soft grey haze from the top so it lifts off the black screen. */
     public static Drawable tile(Context c) {
-        GradientDrawable base = grad(0xFF1E1E22, 0xFF050506);
-        base.setStroke(Math.max(1, px(c, 1)), 0xFF26262B);
+        // Nearly black like the factory tiles, with only a faint sheen at the top.
+        GradientDrawable base = grad(0xFF111114, 0xFF040405);
+        base.setStroke(Math.max(1, px(c, 1)), 0xFF1A1A1E);
         GradientDrawable haze = new GradientDrawable();
         haze.setGradientType(GradientDrawable.RADIAL_GRADIENT);
         haze.setGradientCenter(0.35f, 0.0f);
         haze.setGradientRadius(px(c, 170));
-        haze.setColors(new int[]{0x2EC8C8D2, 0x00000000});
+        haze.setColors(new int[]{0x14C8C8D2, 0x00000000});
         LayerDrawable normal = new LayerDrawable(new Drawable[]{base, haze});
         GradientDrawable pressed = grad(shade(BLUE, 1.0f, 0xFF), shade(BLUE, 0.55f, 0xFF));
         pressed.setStroke(Math.max(1, px(c, 1)), shade(BLUE, 1.25f, 0xFF));

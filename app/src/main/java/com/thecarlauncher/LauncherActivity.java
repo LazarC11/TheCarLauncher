@@ -53,6 +53,8 @@ import com.thecarlauncher.screens.VehicleScreen;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.Ui;
 import com.thecarlauncher.util.Storage;
+import com.thecarlauncher.util.Weather;
+import com.thecarlauncher.mib.LoadingBanner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +78,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     private FrameLayout content;
     private TextView timeView, tagView, rightView, streetView;
+    private View statusBar, statusRule;
     private ImageView btIcon, battIcon, signalIcon, msgIcon;
     private ImageView globe;
 
@@ -126,8 +129,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         root.addView(col);
-        col.addView(buildStatusBar(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 52)));
+        statusBar = buildStatusBar();
+        col.addView(statusBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 52)));
         View rule = new View(this);
+        statusRule = rule;
         rule.setBackgroundColor(0xFF7D7F89);
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(1, Mib.px(this, 1.3f)));
@@ -136,6 +141,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         col.addView(rule, rl);
         content = new FrameLayout(this);
         col.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        LoadingBanner banner = new LoadingBanner(this);
+        root.addView(banner, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LoadingBanner.height(this),
+                Gravity.TOP));
+        LoadingBanner.attach(banner);
         setContentView(root);
 
         screens[MENU] = new MenuScreen(this);
@@ -297,6 +306,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         hadAllFiles = files;
         com.thecarlauncher.nav.OfflineMaps.get(this).finishDownloads();
+        Weather.get(this).update(LocationTracker.get(this));
         MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
@@ -357,6 +367,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             screens[current].view(content).setVisibility(View.GONE);
         }
         current = idx;
+        // The home screen is just the tile grid, like the factory MENU: no status bar.
+        int bar = idx == MENU ? View.GONE : View.VISIBLE;
+        statusBar.setVisibility(bar);
+        statusRule.setVisibility(bar);
         Screen s = screens[idx];
         View v = s.view(content);
         if (v.getParent() == null) {
@@ -513,8 +527,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     public void onLocationUpdate(LocationTracker t) {
-        float sp = t.speed(this);
-        rightView.setText(t.hasFix() && sp >= 3 ? Math.round(sp) + " " + LocationTracker.unit(this) : "");
+        // Top-right corner: outside temperature (weather at the car's position).
+        Weather.get(this).update(t);
+    }
+
+    /** Called by Weather when a new temperature is known. */
+    public void onTemperature(String text) {
+        rightView.setText(text == null ? "" : text);
     }
 
     @Override

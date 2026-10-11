@@ -80,6 +80,7 @@ public final class OfflineMaps {
         app = c;
         finishDownloads();
         reload();
+        if (downloading()) watch();
     }
 
     public File dir() {
@@ -196,7 +197,16 @@ public final class OfflineMaps {
     private static final Pattern SIZE = Pattern.compile("(?<![\\w.:-])(\\d+(?:\\.\\d+)?\\s?[KMG])(?:i?B)?(?![\\w])");
 
     /** Lists a folder of the download server, e.g. "" or "europe/". */
-    public void list(final String path, final Listed cb) {
+    public void list(final String path, final Listed done) {
+        com.thecarlauncher.mib.LoadingBanner.start("map-list",
+                com.thecarlauncher.mib.LoadingBanner.t("Učitavanje liste mapa…", "Loading the list of maps…"));
+        final Listed cb = new Listed() {
+            @Override
+            public void onListed(List<Region> regions, String error) {
+                com.thecarlauncher.mib.LoadingBanner.stop("map-list");
+                done.onListed(regions, error);
+            }
+        };
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -279,7 +289,29 @@ public final class OfflineMaps {
         long id = dm.enqueue(req);
         String list = Prefs.str(app, P_DOWNLOADS, "");
         Prefs.put(app, P_DOWNLOADS, list + id + "|" + file + ";");
+        watch();
         return id;
+    }
+
+    /** Keeps the loading banner up with the download progress until all downloads finish. */
+    private final Runnable watcher = new Runnable() {
+        @Override
+        public void run() {
+            List<String> p = progress();
+            if (p.isEmpty()) {
+                com.thecarlauncher.mib.LoadingBanner.stop("map-download");
+                return;
+            }
+            StringBuilder sb = new StringBuilder(com.thecarlauncher.mib.LoadingBanner.t("Preuzimanje mape: ", "Downloading map: "));
+            for (int i = 0; i < p.size(); i++) sb.append(i == 0 ? "" : ", ").append(p.get(i));
+            com.thecarlauncher.mib.LoadingBanner.start("map-download", sb.toString());
+            main.postDelayed(this, 2000);
+        }
+    };
+
+    public void watch() {
+        main.removeCallbacks(watcher);
+        main.post(watcher);
     }
 
     /** Running downloads: "name 34%" lines (and moves finished ones into place). */

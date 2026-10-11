@@ -311,6 +311,8 @@ public final class RadioController implements K706Tuner.Listener {
         if (!active) start();
         stations.clear();
         scanning = true;
+        com.thecarlauncher.mib.LoadingBanner.start("radio-scan",
+                com.thecarlauncher.mib.LoadingBanner.t("Traženje radio stanica…", "Searching for radio stations…"));
         scanSteps = 0;
         scanLast = FM_MIN;
         changed();
@@ -327,6 +329,7 @@ public final class RadioController implements K706Tuner.Listener {
     public void stopScan() {
         if (!scanning) return;
         scanning = false;
+        com.thecarlauncher.mib.LoadingBanner.stop("radio-scan");
         main.removeCallbacks(scanStep);
         main.removeCallbacks(scanWatch);
         Prefs.put(app, P_STATIONS, serialize(stations));
@@ -368,6 +371,9 @@ public final class RadioController implements K706Tuner.Listener {
                 return;
             }
             stations.add(new Station(freq, ps));
+            com.thecarlauncher.mib.LoadingBanner.update("radio-scan", com.thecarlauncher.mib.LoadingBanner.t(
+                    "Traženje radio stanica… ", "Searching for radio stations… ") + stations.size()
+                    + String.format(java.util.Locale.US, " · %.1f MHz", freq / 100f));
             changed();
             if (stations.size() >= 40) {
                 stopScan();

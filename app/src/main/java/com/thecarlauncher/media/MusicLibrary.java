@@ -61,6 +61,16 @@ public final class MusicLibrary {
         if (sCache != null) return sCache;
         List<Track> out = new ArrayList<>();
         if (!hasPermission(c)) return out;
+        com.thecarlauncher.mib.LoadingBanner.start("library", com.thecarlauncher.mib.Mib.t(c,
+                "Čitanje muzike sa USB-a i memorije…", "Reading music from USB and storage…"));
+        try {
+            return scanAll(c, out);
+        } finally {
+            com.thecarlauncher.mib.LoadingBanner.stop("library");
+        }
+    }
+
+    private static List<Track> scanAll(Context c, List<Track> out) {
         String[] proj = {
                 MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.ALBUM_ID, MediaStore.Audio.Media.ARTIST_ID,
