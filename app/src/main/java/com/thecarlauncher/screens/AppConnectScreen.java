@@ -67,6 +67,11 @@ public class AppConnectScreen extends Screen {
         r.setOrientation(LinearLayout.VERTICAL);
 
         FrameLayout body = new FrameLayout(act);
+        // Dark backdrop with the soft light band, like the factory App-Connect page.
+        android.widget.ImageView bg = new android.widget.ImageView(act);
+        bg.setImageResource(R.drawable.ui_bg_appconnect);
+        bg.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+        body.addView(bg, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
         message = Mib.text(act, "", 34, Mib.regular(act), Mib.WHITE);
         message.setGravity(Gravity.CENTER);
@@ -141,7 +146,7 @@ public class AppConnectScreen extends Screen {
                 0, 0, 0, 0, r * 255,
                 0, 0, 0, 0, g * 255,
                 0, 0, 0, 0, b * 255,
-                0, 0, 0, 2.2f * alpha, 0});
+                0, 0, 0, 1.5f * alpha, 0});
     }
 
     /** 0 Android Auto, 1 CarPlay, 2 mirroring. */
