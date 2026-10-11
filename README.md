@@ -38,6 +38,7 @@ Text is in Serbian (Latin) by default; English can be picked under
 - [Testing and screenshots](#testing-and-screenshots)
 - [Troubleshooting](#troubleshooting)
 - [Status on real hardware](#status-on-real-hardware)
+- [Reporting issues and ideas](#reporting-issues-and-ideas)
 - [Artwork and licences](#artwork-and-licences)
 
 ---
@@ -386,6 +387,20 @@ information shows *robolectric*.
 | Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
 | Calls in the factory app while reading the module | Needs confirming |
 | FM radio through `mcu_service` | Implemented from the OpenRadioFM protocol |
+
+---
+
+## Reporting issues and ideas
+
+Open [**Issues → New issue**](../../issues/new/choose) and pick a form:
+
+| Form | Use it for |
+| --- | --- |
+| **Bug report** | Something is broken or behaves wrongly. Asks for the area, steps, version, head unit and photos. |
+| **Feature request / change** | A new feature, or a change to how something looks or works. |
+| **Potential issue / risk** | Something that isn't broken yet but could be: untested features, side effects, driving safety, privacy, other units. |
+
+For Bluetooth problems, attach a photo of *Setup → Bluetooth audio → Diagnostics*.
 
 ---
 

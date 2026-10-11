@@ -1,0 +1,57 @@
+name: Feature request / change
+description: Suggest a new feature or a change to how something looks or works.
+title: "[Request] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - MENU / sliding
+        - Media (USB / SD player)
+        - Bluetooth audio
+        - Radio
+        - Navigation
+        - Vehicle (CAR)
+        - Ambient lighting
+        - Bass – Mid – Treble
+        - Apps
+        - Settings
+        - Status bar
+        - Looks / MIB design
+        - New screen or feature
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What should change?
+      placeholder: "Example: make the cover art a bit smaller and centre it with the song name."
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: What problem does it solve, or what would it make better?
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: Reference
+      description: Photos of the factory VW MIB screen, mock-ups or examples from other units.
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: How important is it to you?
+      options:
+        - Nice to have
+        - Important
+        - Can't use the launcher without it
+    validations:
+      required: true
