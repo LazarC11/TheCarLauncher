@@ -1,0 +1,51 @@
+name: Potential issue / risk
+description: Something that might go wrong, looks risky, or hasn't been tested yet.
+title: "[Potential] "
+labels: ["potential issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for things that **aren't broken yet** but could be: untested features, side effects,
+        safety concerns while driving, battery drain, privacy, other head units, and so on.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Not tested on real hardware
+        - Might break another feature (side effect)
+        - Driving safety / distraction
+        - Performance or battery
+        - Privacy / data
+        - Other head units or phones
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: concern
+    attributes:
+      label: What could go wrong?
+      placeholder: "Example: reading the Bluetooth module might stop the factory app from receiving calls."
+    validations:
+      required: true
+
+  - type: textarea
+    id: when
+    attributes:
+      label: When would it happen?
+      description: The situation or steps in which you think it could show up.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Suggested check or fix
+      description: How it could be tested or avoided, if you have an idea.
+
+  - type: input
+    id: unit
+    attributes:
+      label: Head unit / phone (if relevant)
+      placeholder: "Roco K706 QF001, Android 13 / Galaxy S23 Ultra"

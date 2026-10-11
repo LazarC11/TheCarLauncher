@@ -1,0 +1,110 @@
+name: Bug report
+description: Something in the launcher is broken or behaves wrongly.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The more exact you are, the faster it gets fixed.
+        Photos of the screen (and of **Setup → Bluetooth audio → Diagnostics** for Bluetooth problems) help a lot.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the launcher is affected?
+      options:
+        - MENU / sliding
+        - Media (USB / SD player)
+        - Bluetooth audio
+        - Radio
+        - Navigation
+        - Vehicle (CAR)
+        - Ambient lighting
+        - Bass – Mid – Treble
+        - Apps
+        - Settings
+        - Status bar (clock, street, phone icons)
+        - Fullscreen / layout
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Describe the problem.
+      placeholder: "Example: after tapping BT-audio the Bluetooth music app opens and stays on screen."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      placeholder: "Example: the app opens for a second, then the launcher comes back and music plays."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Play a song on the phone
+        2. Open Media → Source → BT-audio
+        3. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often?
+      options:
+        - Every time
+        - Often
+        - Sometimes
+        - Happened once
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Launcher version
+      description: "Setup → System information → Car Launcher (e.g. 3.2.1), or the release build-N."
+      placeholder: "3.2.1"
+    validations:
+      required: true
+
+  - type: input
+    id: unit
+    attributes:
+      label: Head unit
+      description: Model, platform and Android version if known.
+      placeholder: "Roco K706, QF001, UIS7862S, Android 13"
+    validations:
+      required: true
+
+  - type: input
+    id: phone
+    attributes:
+      label: Phone (for Bluetooth / phone-status problems)
+      placeholder: "Samsung Galaxy S23 Ultra, Android 16"
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Photos, screenshots or diagnostics
+      description: Drag images here. For Bluetooth, include the "GOC ←" lines from Diagnostics.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before sending
+      options:
+        - label: I'm on the latest build from the Releases page.
+        - label: I checked the Troubleshooting section of the README.
