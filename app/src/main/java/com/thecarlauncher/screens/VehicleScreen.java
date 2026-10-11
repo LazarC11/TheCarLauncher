@@ -226,7 +226,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
 
     private void buildStatus() {
         final ImageView car = new ImageView(act);
-        car.setImageResource(R.drawable.car_exterior);
+        car.setImageBitmap(com.thecarlauncher.util.CarImages.get(act, com.thecarlauncher.util.CarImages.EXTERIOR));
         car.setScaleType(ImageView.ScaleType.FIT_END);
         car.setAdjustViewBounds(false);
         FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,
@@ -560,15 +560,8 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                                 });
                     }
                 });
-        row(col, R.drawable.ui_ic_car_s, s("Naziv vozila", "Vehicle name"), Prefs.vehicle(act), new Runnable() {
-            public void run() {
-                Dialogs.text(act, s("Naziv vozila", "Vehicle name"), "Opel Corsa C", Prefs.vehicle(act), new Dialogs.TextEntered() {
-                    public void onText(String text) {
-                        Prefs.put(act, Prefs.VEHICLE, text);
-                        setPage(SERVICE);
-                    }
-                });
-            }
+        row(col, R.drawable.ui_ic_car_s, s("Vozilo i slike", "Vehicle and pictures"), Prefs.vehicle(act), new Runnable() {
+            public void run() { act.showSettings(SettingsScreen.PAGE_VEHICLE); }
         });
     }
 

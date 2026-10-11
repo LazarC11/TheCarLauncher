@@ -24,6 +24,7 @@ Text is in Serbian (Latin) by default; English can be picked under
   - [Bluetooth audio](#bluetooth-audio)
   - [Radio](#radio)
   - [Navigation](#navigation)
+  - [App-Connect](#app-connect)
   - [Vehicle (CAR)](#vehicle-car)
   - [Ambient lighting](#ambient-lighting)
   - [Bass – Mid – Treble](#bass--mid--treble)
@@ -53,14 +54,21 @@ Text is in Serbian (Latin) by default; English can be picked under
 - **Bluetooth music without the factory app on screen**: song title, artist, album, position
   and length are read straight from the unit's Bluetooth module. Cover art is looked up
   online.
-- **Built-in FM radio** that drives the unit's tuner through the MCU: presets, RDS names, a
-  station list scan and the factory manual dial.
+- **Built-in FM radio** that drives the unit's tuner through the MCU: presets with station
+  logos, RDS names, a station list scan and the factory manual dial.
+- **App-Connect** page in the factory style that drives the unit's ZLink app (Android Auto,
+  CarPlay, mirroring) and shows the connection live.
 - **Navigation on OpenStreetMap**: address search, routing, turn-by-turn voice
-  prompts, re-routing, nearby places.
+  prompts, re-routing, nearby places, and **offline maps** of whole countries drawn on the unit.
 - **Vehicle page** in the style of a factory *Vehicle status* screen, with a picture of the car, GPS trip
   computer, fuel log and service reminders. No OBD adapter needed.
 - **Ambient lighting** and **Bass – Mid – Treble** pages modelled on the factory ones.
-- **Phone status in the top bar**: Bluetooth, phone battery, signal and a notifications envelope.
+- **Phone status in the top bar**: Bluetooth, phone battery, signal, a notifications envelope and
+  the outside temperature.
+- **Drop-down loading banner** for anything that takes a moment (radio scan, reading USB, maps,
+  route, phone connecting), soft fade-in on every page, and a back arrow wherever a page has no
+  back key of its own.
+- **Own car pictures**: brand, model and the car / interior pictures can be set from storage.
 - **True fullscreen** (no Android bars) and a smooth, GPU-accelerated MENU pager.
 
 ---
@@ -69,8 +77,8 @@ Text is in Serbian (Latin) by default; English can be picked under
 
 ### MENU
 
-Eight tiles in a 4×2 grid: **Radio, Media, Apps, App-Connect, Phone, Vehicle, Navigation,
-Setup**. Swipe left for a second page of pinned apps.
+Eight nearly black tiles in a 4×2 grid, with no status bar, like the factory MENU: **Radio, Media,
+Apps, App-Connect, Phone, Vehicle, Navigation, Setup**. Swipe left for a second page of pinned apps.
 
 - The page follows your finger 1:1 and glides to rest. It turns only in the direction you dragged:
   a quarter of the screen or a quick flick. It never stretches past the first or last page.
@@ -112,9 +120,11 @@ same daemon directly over `/dev/goc_serial`:
 - disconnects. When the phone drops, the old song details are cleared and the Bluetooth picture
   is shown until the phone plays again.
 
-Choosing **BT-audio** opens the factory Bluetooth app for about a second (the unit only switches
-the audio over once its screen has opened), then brings the launcher back and tells the phone to
-play. Allow **Display over other apps** for Car Launcher so Android lets it come back. Play/pause, next and previous are sent to the module as AT commands.
+Choosing **BT-audio** never shows the factory Bluetooth app. The launcher makes sure the app runs
+in the background and sends it the app's own music-control broadcast
+(`com.qf.action.BT.MUSIC.CONTROL`, `command` 1 previous · 2 next · 3 play/pause · 4 play · 5 pause).
+The app's "play" also takes Android's audio focus, and that is what switches the unit's sound to
+Bluetooth. Song details still come straight from the Bluetooth module.
 
 **Cover art.** The module only sends text, so the launcher looks the song up by artist and title in
 two public music catalogues (one as a fallback for the other). Found covers are cached on the unit. This needs an internet
@@ -126,30 +136,36 @@ Related settings (*Setup → Bluetooth audio*):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| Song straight from the BT module | On | Reads song info from `/dev/goc_serial`. Turn it off if the factory app stops getting calls or songs. |
-| Open the BT app briefly when choosing BT audio | On | The unit only plays BT audio once the factory app's screen has opened, so it is shown for about a second and the launcher comes back. Coming back needs **Display over other apps** for Car Launcher (Android blocks background starts otherwise). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
-| BT audio app | Automatic | Which app is the Bluetooth player (the factory one is hidden from the app list). |
-| MCU channel for BT audio | Off | Advanced: forces an MCU audio channel. Normally not needed. |
-| Diagnostics | – | Shows what the module sends (`GOC ←` lines), media sessions, factory broadcasts, MCU packets and more. |
+| Open the BT app briefly (if there is no sound) | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
+| Diagnostics | – | Phone battery / signal, media sessions, the song as the Bluetooth module reports it and the module's last lines. |
 
 ### Radio
 
 A built-in FM radio that controls the unit's real tuner through the MCU service.
 
 - Large frequency display with **<** **>** seek boxes.
-- Three pages of six presets with RDS station names. Tap a preset to tune, long-press to store; an
-  empty slot says *Empty*.
+- When the station sends its RDS name, the name replaces the frequency at the top (the frequency
+  moves to the line under it).
+- Three pages of six presets, shaded like the MENU tiles, with the preset number, the station's
+  logo and its name under the tile.
+- Station logos come from the free [Radio Browser](https://www.radio-browser.info) database by RDS
+  name: fetched automatically when a station is shown, or all at once with *Setup → Radio →
+  Download logos for found stations*. They are kept on the unit; none are bundled in the APK.
+- Tap a preset to tune, long-press to store; an empty slot says *Empty*.
 - **Stations** scans the band into a station list.
 - **Manual** shows the factory FM dial for drag-tuning; the arrows then step 0.1 MHz.
 - Steering-wheel next/previous seek to the next station while the radio is the source.
 - On a unit without `mcu_service`, the Radio tile opens the factory radio app instead.
 
-![Radio station list](docs/screenshots/radio-stations.png)
+| Presets | Station list |
+| --- | --- |
+| ![Radio](docs/screenshots/radio.png) | ![Radio station list](docs/screenshots/radio-stations.png) |
 
 ### Navigation
 
-Built-in navigation on OpenStreetMap data (needs internet, no live traffic):
+Built-in navigation on OpenStreetMap data (no live traffic). The map itself can work fully
+offline (see [Offline maps](#offline-maps)); address search and routing need internet.
 
 | Soft key | What it does |
 | --- | --- |
@@ -157,6 +173,7 @@ Built-in navigation on OpenStreetMap data (needs internet, no live traffic):
 | **My dest.** | Home, work and recent destinations. |
 | **Nearby** | Fuel, parking, EV chargers, car repair, cafés, restaurants, pharmacies and ATMs within 5 km, through **Overpass**. |
 | **View** | Cycles through preset zoom levels. |
+| **Media** | Opens a small media widget over the map (cover, song, artist, previous / play / next). Its split button puts the media in a column beside the map; long-press opens the full Media screen. |
 | **Nav app** | Hands off to an installed navigation app. |
 | **Stop** | Ends guidance. |
 
@@ -169,6 +186,52 @@ Built-in navigation on OpenStreetMap data (needs internet, no live traffic):
 | Route | Nearby | My destinations |
 | --- | --- | --- |
 | ![Route](docs/screenshots/nav-route.png) | ![Nearby](docs/screenshots/nav-nearby.png) | ![Destinations](docs/screenshots/nav-destinations.png) |
+
+**Media while navigating.** *Media* opens a small widget over the map with the cover, song and
+previous / play / next; it hides itself after 10 seconds. Its split button keeps the media in a
+column beside the map (remembered); long-press *Media* for the full Media screen.
+
+| Media widget | Split screen |
+| --- | --- |
+| ![Media widget](docs/screenshots/nav-media-widget.png) | ![Split screen](docs/screenshots/nav-media-split.png) |
+
+#### Offline maps
+
+Whole countries or regions can be downloaded and are then drawn on the unit itself, in a soft
+factory-navigation day style, with no internet at all.
+
+- *Setup → Navigation → Offline maps → Download a map*: pick a continent, then a country (large
+  countries are split into regions). Sizes are shown next to each map.
+- Downloads run in the background with progress in the list and in Android's notifications.
+- Inside a downloaded area the offline map is always used; elsewhere the online map is shown.
+  *Use offline map* switches this off.
+- Tap a downloaded map to delete it.
+- Maps are OpenStreetMap vector files in the open mapsforge format, from
+  `download.mapsforge.org`. They are stored in the launcher's own folder, so no storage
+  permission is needed.
+
+![Offline maps](docs/screenshots/offline-maps.png)
+
+### App-Connect
+
+A factory-style App-Connect page: *"Welcome to App-Connect. Please connect a device using the USB."*
+with the three phone-mode logos along the bottom (Android Auto, Apple CarPlay, MirrorLink, from the factory artwork) and
+*Info* / *Setup* soft keys.
+
+- The projection itself is done by the unit's ZLink app. The launcher keeps ZLink's background
+  service running while the page is open and starts the chosen mode through ZLink's public screens.
+- ZLink's status broadcast (`com.zjinnova.zlink`, extras `status` and `phoneMode`) shows which
+  phone is connected; the page then highlights that mode and a tap shows the phone.
+- While a phone connects, a framed box appears in the middle with the phone's name above it and
+  the mode's logo inside; the loading banner says "Connecting: Apple CarPlay…". Once connected the
+  box turns white with the logo in dark, the banner says "… connected", and the phone's screen
+  opens by itself.
+- *Setup* opens ZLink's own settings. Without ZLink, the page falls back to any other projection
+  app found on the unit.
+
+| Waiting for a phone | Connecting | Connected |
+| --- | --- | --- |
+| ![App-Connect](docs/screenshots/appconnect.png) | ![Connecting](docs/screenshots/appconnect-connecting.png) | ![Connected](docs/screenshots/appconnect-connected.png) |
 
 ### Vehicle (CAR)
 
@@ -187,6 +250,10 @@ enter; no diagnostic adapter is needed.
 | Status | Since refuelling | Fuel log | Service |
 | --- | --- | --- | --- |
 | ![Status](docs/screenshots/vehicle-status.png) | ![Refuel](docs/screenshots/vehicle-refuel.png) | ![Fuel](docs/screenshots/vehicle-fuel.png) | ![Service](docs/screenshots/vehicle-service.png) |
+
+*Setup → Vehicle* sets the brand and model and lets you pick your own car picture (Vehicle status)
+and interior picture (Ambient lighting) from the unit's storage; *Back to built-in* restores the
+originals.
 
 ### Ambient lighting
 
@@ -212,18 +279,30 @@ with a **Bluetooth audio** tile that switches the media player to BT.
 
 ### Settings
 
-*System settings*: screen, ambient lighting, time and date, language,
-units, navigation (map style, voice), media, Bluetooth audio, App-Connect, phone and radio, vehicle,
-Android settings and system information.
+*System settings*: screen, ambient lighting, time and date, language, units, navigation (offline
+maps, map style, voice, home / work), sound, media (library, All files access, other media apps),
+radio (LOC, RDS, station logos), Bluetooth audio, phone app, vehicle (brand, model, pictures),
+Android settings and system information. Options that no longer did anything useful were removed.
 
-| Settings | Media settings | Diagnostics |
-| --- | --- | --- |
-| ![Settings](docs/screenshots/settings.png) | ![Media settings](docs/screenshots/settings-media.png) | ![Diagnostics](docs/screenshots/diagnostics.png) |
+| Settings | Vehicle | Bluetooth audio | Radio |
+| --- | --- | --- | --- |
+| ![Settings](docs/screenshots/settings.png) | ![Vehicle](docs/screenshots/settings-vehicle.png) | ![Bluetooth](docs/screenshots/settings-bluetooth.png) | ![Radio](docs/screenshots/settings-radio.png) |
+
+### Loading banner
+
+Anything that takes a moment drops a black banner, two status bars tall, from the top: the factory
+spinner (in the ambient colour, turning clockwise) and a line saying what is happening, e.g.
+*Searching for radio stations… 4 · 94.8 MHz*, *Reading music from USB…*, *Downloading map: 34 %*,
+*Calculating the route…* or *Connecting: Apple CarPlay…*. It slides away when done and never
+blocks taps.
+
+![Loading banner](docs/screenshots/loading-banner.png)
 
 ### Status bar
 
 From left to right:
 
+- **Back arrow** on pages that have no back key of their own.
 - **Compass and street name**: the current street from GPS and reverse geocoding. Tap it to go
   to MENU.
 - **Globe**: shown dimmed when there is no internet.
@@ -231,7 +310,8 @@ From left to right:
 - **Phone icons**: FM while the radio plays, the **Bluetooth** icon, phone **battery**,
   **signal**, and an **envelope** when the phone has notifications. Tap the envelope to list
   them.
-- **Speed**: shown on the right.
+- **Outside temperature** on the right: the current weather at the car's position (Open-Meteo,
+  refreshed every 15 minutes).
 
 The text and icons are a touch dimmer than the screen content, like the factory screen.
 
@@ -255,14 +335,15 @@ Requires Android 5.0 or newer.
 | Permission | Why | Where |
 | --- | --- | --- |
 | Location | Map, speed, street name, trip computer | Asked on first start |
-| Music / storage | Local songs from USB, SD and internal storage | Asked on first start |
+| Music / storage | Local songs from internal storage and indexed cards | Asked on first start |
+| All files access (Android 11+) | Reads USB sticks and SD cards as folders, since many head units never add them to Android's media index | Opened once after the first permission dialog; also *Setup → Media → All files access (USB)* or by tapping *No media* in Browse |
 | Notification access | Song info from other media apps, phone notification envelope | *Media → Source → Connect apps* |
 | Bluetooth (nearby devices) | Phone status on Android 12+ | Asked on first start |
 
 Then, in *Setup*:
 
-- **Bluetooth audio**: leave *Song straight from the BT module* on, and play something on the
-  phone to check that the title shows.
+- **Bluetooth audio**: choose *BT-audio* in Media and play something on the phone to check that
+  the title shows.
 - **Radio**: check that *FM tuner* says it is available.
 - **Vehicle → Service**: enter the odometer, the oil-change interval and the registration
   date so the reminders work.
@@ -310,7 +391,7 @@ unit, but don't reuse it for anything published.
 
 ### Tech notes
 
-- Plain Java 8 source, no AndroidX or other libraries.
+- Plain Java 8 source, no AndroidX. The only libraries are the offline-map jars in `app/libs/`.
 - `minSdk 21`, `targetSdk 34`.
 - `versionName` / `versionCode` live in `app/build.gradle`.
 
@@ -335,7 +416,8 @@ app/src/main/java/com/thecarlauncher/
 │   ├── MediaListenerService notification listener (other players' sessions)
 │   └── Tone                Bass / Mid / Treble
 ├── mib/                    UI widgets: tiles, soft-key bar, pager, popup, progress, cover glow
-├── nav/                    OsmApi (Nominatim, OSRM, Overpass), Guidance (TTS, re-route), GPS
+├── nav/                    OsmApi (Nominatim, OSRM, Overpass), Guidance (TTS, re-route), GPS,
+│                           OfflineMaps (download + on-device drawing of mapsforge files)
 ├── radio/                  tuner driver, RadioController, FmScaleView, McuSniffer
 ├── screens/                Menu, Media, Radio, Nav, Vehicle, Ambient, Sound, Apps, Settings
 ├── util/                   Prefs, Ui, Theme
@@ -364,10 +446,10 @@ information shows *robolectric*.
 
 | Problem | What to try |
 | --- | --- |
-| BT music plays but no title shows | *Setup → Bluetooth audio*: make sure *Song straight from the BT module* is on. Open *Diagnostics* and tap *GOC: ask for song info*; the `GOC ←` lines should show `MI…`. |
-| No sound after choosing BT-audio | Make sure *Open the BT app briefly when choosing BT audio* is on. |
+| BT music plays but no title shows | *Setup → Bluetooth audio → Diagnostics* → *Ask for song info*; the `←` lines should show `MI…`. Send a photo of that page with a bug report. |
+| No sound after choosing BT-audio | Turn on *Open the BT app briefly (if there is no sound)* as a fallback. |
 | The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
-| Calls stop working in the factory app | Turn off *Song straight from the BT module* and report it. |
+| Calls stop working in the factory app | Report it with the *Potential issue* form. |
 | No cover art | The unit needs internet. Songs whose "artist" is a video channel name may not be found. |
 | Radio tile opens another app | `mcu_service` wasn't found. *Setup → Radio* shows the tuner status. |
 | Other apps' songs don't show | Enable notification access: *Media → Source → Connect apps*. |
@@ -382,10 +464,14 @@ information shows *robolectric*.
 | BT song title / artist / album from the module | Confirmed |
 | BT position, length and full progress bar | Confirmed |
 | UI, MENU, status bar, fullscreen | In daily use |
-| BT-audio: app opens briefly, launcher comes back | New in 3.2.1, needs testing |
+| BT-audio through the factory app's control broadcast (no screen) | New in 3.7.0, needs testing |
+| App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
+| Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |
 | Cover art lookup | New, needs testing on the unit's connection |
 | Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
 | Calls in the factory app while reading the module | Needs confirming |
+| USB sticks read as folders (All files access) | New in 3.3.0, needs testing |
+| Offline maps (download + drawing) | New in 3.4.0, needs testing with a real country map |
 | FM radio through `mcu_service` | Implemented from the OpenRadioFM protocol |
 
 ---
@@ -413,6 +499,13 @@ For Bluetooth problems, attach a photo of *Setup → Bluetooth audio → Diagnos
 - **Font.** Text uses **Source Sans 3** (SIL Open Font License,
   `app/src/main/assets/fonts/OFL.txt`) as a stand-in for the factory typeface.
 - **FM radio protocol.** The tuner protocol is from OpenRadioFM (Apache-2.0); see `NOTICE`.
+- **Offline maps.** Drawn with the [mapsforge](https://github.com/mapsforge/mapsforge) libraries
+  (LGPL-3.0, unmodified jars in `app/libs/`, licence texts in `licenses/`) and AndroidSVG
+  (Apache-2.0). The map style `app/src/main/assets/maptheme/stock_day.xml` is original to this
+  project. Map files from `download.mapsforge.org`, data © OpenStreetMap contributors (ODbL).
+- **Online map tiles.** Without a key the online map uses OpenStreetMap's own tiles. CARTO's
+  styles (day / night) need a free CARTO API key since 2026, entered under *Setup → Navigation →
+  CARTO key*; without it CARTO draws "API KEY REQUIRED" on every tile.
 - **Map data.** © OpenStreetMap contributors, tiles styled by © CARTO, cached on the unit for 30
   days. Search by Nominatim, routing by OSRM (FOSSGIS), places by Overpass.
 - **Cover art.** Covers are fetched from public music catalogue search results, for display only.

@@ -28,6 +28,18 @@ import java.util.concurrent.Executors;
 public final class OsmApi {
     public interface Callback<T> { void done(T result, String error); }
 
+    /** Shows the loading banner until the callback runs. */
+    private static <T> Callback<T> loading(final String key, String sr, String en, final Callback<T> cb) {
+        com.thecarlauncher.mib.LoadingBanner.start(key, com.thecarlauncher.mib.LoadingBanner.t(sr, en));
+        return new Callback<T>() {
+            @Override
+            public void done(T result, String error) {
+                com.thecarlauncher.mib.LoadingBanner.stop(key);
+                cb.done(result, error);
+            }
+        };
+    }
+
     /** A search result or point of interest. */
     public static final class Place {
         public final String name, detail;
@@ -114,7 +126,8 @@ public final class OsmApi {
 
     /** Address / place search, biased towards the current position. */
     public static void search(final String query, final double nearLat, final double nearLon, final String lang,
-                              final Callback<List<Place>> cb) {
+                              Callback<List<Place>> callback) {
+        final Callback<List<Place>> cb = loading("nav-search", "Traženje adrese…", "Searching for the address…", callback);
         worker.execute(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +207,8 @@ public final class OsmApi {
 
     /** Driving route with turn-by-turn steps; tries the FOSSGIS server, then the OSRM demo. */
     public static void route(final double fromLat, final double fromLon, final float bearing,
-                             final double toLat, final double toLon, final Callback<Route> cb) {
+                             final double toLat, final double toLon, Callback<Route> callback) {
+        final Callback<Route> cb = loading("nav-route", "Izračunavanje rute…", "Calculating the route…", callback);
         worker.execute(new Runnable() {
             @Override
             public void run() {
@@ -272,7 +286,8 @@ public final class OsmApi {
 
     /** Places with an OSM tag (e.g. "amenity=fuel") within radius metres, nearest first. */
     public static void nearby(final String tag, final double lat, final double lon, final int radius,
-                              final Callback<List<Place>> cb) {
+                              Callback<List<Place>> callback) {
+        final Callback<List<Place>> cb = loading("nav-nearby", "Traženje mesta u blizini…", "Finding places nearby…", callback);
         worker.execute(new Runnable() {
             @Override
             public void run() {

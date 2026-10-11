@@ -41,6 +41,9 @@ public class AmbientScreen extends Screen {
     }
 
     @Override
+    public boolean hasOwnBack() { return true; }
+
+    @Override
     public String title() { return s("Ambijentalno osvetljenje", "Ambient lighting"); }
 
     private String s(String sr, String en) { return Mib.t(act, sr, en); }
@@ -204,7 +207,7 @@ public class AmbientScreen extends Screen {
 
         InteriorView(Context c) {
             super(c);
-            photo = BitmapFactory.decodeResource(c.getResources(), R.drawable.car_interior);
+            photo = com.thecarlauncher.util.CarImages.get(c, com.thecarlauncher.util.CarImages.INTERIOR);
         }
 
         @Override

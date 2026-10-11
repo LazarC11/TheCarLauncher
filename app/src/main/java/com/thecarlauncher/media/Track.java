@@ -7,9 +7,17 @@ import android.provider.MediaStore;
 public final class Track {
     public final long id, albumId, artistId, duration;
     public final String title, artist, album, folder;
+    /** File path for songs read straight from a USB stick / SD card (not in MediaStore). */
+    public final String path;
 
     public Track(long id, String title, String artist, String album, long albumId, long artistId,
                  long duration, String folder) {
+        this(id, title, artist, album, albumId, artistId, duration, folder, null);
+    }
+
+    public Track(long id, String title, String artist, String album, long albumId, long artistId,
+                 long duration, String folder, String path) {
+        this.path = path;
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -21,6 +29,7 @@ public final class Track {
     }
 
     public Uri uri() {
+        if (path != null) return Uri.fromFile(new java.io.File(path));
         return ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
     }
 }

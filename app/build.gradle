@@ -10,8 +10,8 @@ android {
         applicationId 'com.thecarlauncher'
         minSdk 21
         targetSdk 34
-        versionCode 40
-        versionName '3.2.2'
+        versionCode 55
+        versionName '4.2.0'
     }
 
     signingConfigs {
@@ -43,4 +43,9 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+}
+
+dependencies {
+    // Offline maps (mapsforge, LGPL-3.0) and its SVG helper (Apache-2.0); see NOTICE.
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

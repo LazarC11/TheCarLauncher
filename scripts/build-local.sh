@@ -33,13 +33,14 @@ sed "s|<manifest |<manifest package=\"$PKG\" |" "$SRC/AndroidManifest.xml" > "$O
 
 echo "> Compiling Java"
 find "$SRC/java" "$OUT/gen" -name '*.java' > "$OUT/sources.txt"
+LIBS=$(ls "$ROOT"/app/libs/*.jar 2>/dev/null | tr '\n' ':')
 javac -nowarn -Xlint:none --release 8 -encoding UTF-8 \
-    -classpath "$ANDROID_JAR" -d "$OUT/classes" @"$OUT/sources.txt" 2>&1 \
+    -classpath "$ANDROID_JAR:$LIBS" -d "$OUT/classes" @"$OUT/sources.txt" 2>&1 \
     | grep -v -e '^warning: \[options\]' -e '^Picked up JAVA_TOOL_OPTIONS' -e '^[0-9]* warnings\?$' || true
 test -f "$OUT/classes/com/thecarlauncher/LauncherActivity.class"
 
 echo "> Dexing"
-"$BT/dx" --dex --min-sdk-version=21 --output="$OUT/classes.dex" "$OUT/classes" 2>&1 | grep -v JAVA_TOOL || true
+"$BT/dx" --dex --min-sdk-version=21 --output="$OUT/classes.dex" "$OUT/classes" "$ROOT"/app/libs/*.jar 2>&1 | grep -v JAVA_TOOL || true
 (cd "$OUT" && zip -q app.unsigned.apk classes.dex)
 
 echo "> Aligning and signing"

@@ -58,6 +58,7 @@ public final class Prefs {
     public static final String TILES_DARK = "carto_dark";
     public static final String TILES_OSM = "osm_dark";
     public static final String TILES_OFF = "off";
+    public static final String CARTO_KEY = "carto_key";
 
     private Prefs() {}
 
@@ -97,11 +98,20 @@ public final class Prefs {
         return !"mph".equals(str(c, UNITS, "kmh"));
     }
 
+    public static final String VEHICLE_BRAND = "vehicle_brand", VEHICLE_MODEL = "vehicle_model";
+
+    /** "Brand Model" when set in Setup, else the older free-text name. */
     public static String vehicle(Context c) {
-        return str(c, VEHICLE, "Opel Corsa C");
+        String b = str(c, VEHICLE_BRAND, ""), m = str(c, VEHICLE_MODEL, "");
+        String bm = (b.trim() + " " + m.trim()).trim();
+        return bm.isEmpty() ? str(c, VEHICLE, "Opel Corsa C") : bm;
     }
 
     public static String tiles(Context c) {
-        return str(c, MAP_TILES, TILES_DAY);
+        String t = str(c, MAP_TILES, TILES_DAY);
+        // The night style needs a CARTO key; without one, use the dimmed OpenStreetMap map.
+        String k = str(c, CARTO_KEY, null);
+        if (TILES_DARK.equals(t) && (k == null || k.trim().isEmpty())) return TILES_OSM;
+        return t;
     }
 }

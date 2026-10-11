@@ -52,6 +52,9 @@ import com.thecarlauncher.screens.SettingsScreen;
 import com.thecarlauncher.screens.VehicleScreen;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.Ui;
+import com.thecarlauncher.util.Storage;
+import com.thecarlauncher.util.Weather;
+import com.thecarlauncher.mib.LoadingBanner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,17 +67,19 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[9];
+    private final Screen[] screens = new Screen[10];
     private int current = -1;
 
     private FrameLayout content;
     private TextView timeView, tagView, rightView, streetView;
+    private View statusBar, statusRule;
+    private ImageView backArrow;
     private ImageView btIcon, battIcon, signalIcon, msgIcon;
     private ImageView globe;
 
@@ -104,6 +109,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
+        hadAllFiles = Storage.hasAllFiles();
+        IntentFilter mf = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        mf.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        mf.addAction(Intent.ACTION_MEDIA_EJECT);
+        mf.addAction(Intent.ACTION_MEDIA_REMOVED);
+        mf.addDataScheme("file");
+        registerReceiver(mediaMount, mf);
         Mib.loadAmbient(this);
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
@@ -118,8 +130,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LinearLayout col = new LinearLayout(this);
         col.setOrientation(LinearLayout.VERTICAL);
         root.addView(col);
-        col.addView(buildStatusBar(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 52)));
+        statusBar = buildStatusBar();
+        col.addView(statusBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(this, 52)));
         View rule = new View(this);
+        statusRule = rule;
         rule.setBackgroundColor(0xFF7D7F89);
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(1, Mib.px(this, 1.3f)));
@@ -128,6 +142,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         col.addView(rule, rl);
         content = new FrameLayout(this);
         col.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        LoadingBanner banner = new LoadingBanner(this);
+        root.addView(banner, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LoadingBanner.height(this),
+                Gravity.TOP));
+        LoadingBanner.attach(banner);
         setContentView(root);
 
         screens[MENU] = new MenuScreen(this);
@@ -139,6 +157,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[RADIO] = new RadioScreen(this);
         screens[AMBIENT] = new AmbientScreen(this);
         screens[SOUND] = new SoundScreen(this);
+        screens[APPCONNECT] = new com.thecarlauncher.screens.AppConnectScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
@@ -180,6 +199,19 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 show(MENU, true);
             }
         });
+        // Back arrow for pages that have no back key of their own.
+        backArrow = Mib.icon(this, R.drawable.ui_ic_back, SB_GREY);
+        backArrow.setBackground(Mib.keyPressed());
+        backArrow.setPadding(Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4));
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        LinearLayout.LayoutParams bal = new LinearLayout.LayoutParams(Mib.px(this, 44), Mib.px(this, 40));
+        bal.rightMargin = Mib.px(this, 14);
+        left.addView(backArrow, bal);
         ImageView compass = Mib.icon(this, R.drawable.ui_sb_compass, SB_GREY);
         left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 24), Mib.px(this, 24)));
         streetView = Mib.text(this, "", 20, Mib.regular(this), SB_GREY);
@@ -281,6 +313,15 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onResume() {
         super.onResume();
         applyImmersive();
+        // Came back from the "All files access" page with it switched on: rescan.
+        boolean files = Storage.hasAllFiles();
+        if (files && !hadAllFiles) {
+            MusicLibrary.invalidate();
+            for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        }
+        hadAllFiles = files;
+        com.thecarlauncher.nav.OfflineMaps.get(this).finishDownloads();
+        Weather.get(this).update(LocationTracker.get(this));
         MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
@@ -305,6 +346,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     protected void onDestroy() {
+        try {
+            unregisterReceiver(mediaMount);
+        } catch (Exception ignored) {
+        }
         unregisterReceiver(packageReceiver);
         unregisterReceiver(statusReceiver);
         for (Screen s : screens) if (s != null) s.onDestroy();
@@ -323,6 +368,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (current != MENU) show(MENU, true);
     }
 
+    /** Shows the status-bar back arrow unless the page has its own back key. */
+    public void updateBackArrow() {
+        if (backArrow == null) return;
+        boolean own = current >= 0 && screens[current] != null && screens[current].hasOwnBack();
+        backArrow.setVisibility(current == MENU || own ? View.GONE : View.VISIBLE);
+    }
+
     /** Kept for screens that still ask for an accent colour. */
     public int accent() { return Mib.BLUE; }
 
@@ -332,11 +384,18 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (idx < 0 || idx >= screens.length || screens[idx] == null) return;
         hideKeyboard();
         if (idx == current) return;
+        // Every page fades in softly (not on the very first page after start).
+        animate = current >= 0;
         if (current >= 0) {
             screens[current].onHide();
             screens[current].view(content).setVisibility(View.GONE);
         }
         current = idx;
+        // The home screen is just the tile grid, like the factory MENU: no status bar.
+        int bar = idx == MENU ? View.GONE : View.VISIBLE;
+        statusBar.setVisibility(bar);
+        statusRule.setVisibility(bar);
+        updateBackArrow();
         Screen s = screens[idx];
         View v = s.view(content);
         if (v.getParent() == null) {
@@ -346,9 +405,37 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         v.setVisibility(View.VISIBLE);
         if (animate) {
             v.setAlpha(0f);
-            v.animate().alpha(1f).setDuration(180).start();
+            v.animate().alpha(1f).setDuration(220).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();
         }
         s.onShow();
+    }
+
+    public interface ImagePicked { void onPicked(android.net.Uri uri); }
+    private static final int REQ_IMAGE = 4711;
+    private ImagePicked imagePicked;
+
+    /** Lets the owner choose a picture from the unit's storage. */
+    public void pickImage(ImagePicked cb) {
+        imagePicked = cb;
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("image/*");
+        try {
+            startActivityForResult(i, REQ_IMAGE);
+        } catch (Exception e) {
+            try {
+                startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), REQ_IMAGE);
+            } catch (Exception e2) {
+                Ui.toast(this, Mib.t(this, "Nema aplikacije za izbor slike", "No app to choose a picture"));
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req == REQ_IMAGE && res == RESULT_OK && data != null && data.getData() != null && imagePicked != null) {
+            imagePicked.onPicked(data.getData());
+        }
+        imagePicked = null;
     }
 
     public void showSettings(int page) {
@@ -387,19 +474,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         show(APPS, true);
     }
 
+    /** MENU → App-Connect: the launcher's own App-Connect page (ZLink does the projection). */
     public void openProjection() {
-        List<String> found = new ArrayList<>();
-        String pkg = Prefs.str(this, Prefs.PROJECTION_PKG, null);
-        if (pkg == null) {
-            for (AppRepository.App a : AppRepository.get(this).all()) {
-                String h = (a.pkg + " " + a.label).toLowerCase(Locale.ROOT);
-                if (h.contains("zlink") || h.contains("carplay") || h.contains("carlink") || h.contains("android auto")
-                        || h.contains("autokit") || h.contains("zjinnova")) found.add(a.pkg);
-            }
-            if (!found.isEmpty()) pkg = found.get(0);
-        }
-        if (pkg != null && AppRepository.launchPackage(this, pkg)) return;
-        Ui.toast(this, Mib.t(this, "ZLink / CarPlay aplikacija nije pronađena", "No ZLink / CarPlay app found"));
+        show(APPCONNECT, true);
     }
 
     public static String radioPackage(Context c) {
@@ -493,8 +570,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     public void onLocationUpdate(LocationTracker t) {
-        float sp = t.speed(this);
-        rightView.setText(t.hasFix() && sp >= 3 ? Math.round(sp) + " " + LocationTracker.unit(this) : "");
+        // Top-right corner: outside temperature (weather at the car's position).
+        Weather.get(this).update(t);
+    }
+
+    /** Called by Weather when a new temperature is known. */
+    public void onTemperature(String text) {
+        rightView.setText(text == null ? "" : text);
     }
 
     @Override
@@ -585,7 +667,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             need.add(Manifest.permission.ACCESS_FINE_LOCATION);
             need.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        if (!MusicLibrary.hasPermission(this)) need.add(MusicLibrary.permission());
+        if (checkSelfPermission(MusicLibrary.permission()) != PackageManager.PERMISSION_GRANTED) {
+            need.add(MusicLibrary.permission());
+        }
         if (Build.VERSION.SDK_INT >= 31
                 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             need.add(Manifest.permission.BLUETOOTH_CONNECT);
@@ -596,7 +680,27 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         Prefs.put(this, Prefs.ASKED_PERMS, true);
         if (!need.isEmpty()) requestPermissions(need.toArray(new String[0]), REQ_PERMS);
+        else askAllFiles(force);
     }
+
+    /** USB sticks are read as folders, which needs "All files access" on Android 11+: ask once. */
+    private void askAllFiles(boolean force) {
+        if (Storage.hasAllFiles() || (!force && Prefs.bool(this, "asked_all_files", false))) return;
+        Prefs.put(this, "asked_all_files", true);
+        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za Car Launcher da bi se čitala muzika sa USB-a.",
+                "Allow \"All files access\" for Car Launcher so music on USB sticks can be read."));
+        Storage.requestAllFiles(this);
+    }
+
+    private boolean hadAllFiles;
+    private final android.content.BroadcastReceiver mediaMount = new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context c, Intent i) {
+            // USB stick plugged in or removed: read the library again.
+            MusicLibrary.invalidate();
+            for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int code, String[] perms, int[] results) {
@@ -610,5 +714,6 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             MusicService.start(this);
         }
         for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        askAllFiles(false);
     }
 }

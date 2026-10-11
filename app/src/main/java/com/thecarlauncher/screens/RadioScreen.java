@@ -28,7 +28,7 @@ import com.thecarlauncher.util.Ui;
  * MIB "Radio" (FM): big frequency with seek boxes, three pages of six presets with station
  * names, "Lista stan." station list and "Ručno" manual tuning on the factory dial scale.
  */
-public class RadioScreen extends Screen implements RadioController.Listener {
+public class RadioScreen extends Screen implements RadioController.Listener, com.thecarlauncher.radio.RadioLogos.Listener {
     private static final int PER_PAGE = 6;
 
     private RadioController radio;
@@ -269,6 +269,7 @@ public class RadioScreen extends Screen implements RadioController.Listener {
         manualKey.setActive(on);
         presetsArea.setVisibility(on ? View.GONE : View.VISIBLE);
         manualArea.setVisibility(on ? View.VISIBLE : View.GONE);
+        onRadioChanged();
     }
 
     private void showList(boolean on) {
@@ -292,12 +293,18 @@ public class RadioScreen extends Screen implements RadioController.Listener {
                             + (app != null ? "Tap to open the radio app." : "No radio app found.")));
         }
         radio.addListener(this);
+        com.thecarlauncher.radio.RadioLogos.get(act).addListener(this);
+        onRadioChanged();
     }
 
     @Override
     public void onHide() {
         radio.removeListener(this);
+        com.thecarlauncher.radio.RadioLogos.get(act).removeListener(this);
     }
+
+    @Override
+    public void onLogo() { onRadioChanged(); }
 
     @Override
     public boolean onBack() {
@@ -315,10 +322,13 @@ public class RadioScreen extends Screen implements RadioController.Listener {
     @Override
     public void onRadioChanged() {
         if (freq == null) return;
-        freq.setText(RadioController.format(radio.freq()));
         scale.setFreq(radio.freq());
-        String ps = radio.ps(), rt = radio.rt();
-        StringBuilder sb = new StringBuilder(ps);
+        String ps = radio.ps().trim(), rt = radio.rt();
+        // The station's own name (RDS) replaces the frequency at the top when it is sent.
+        boolean named = radio.isActive() && ps.length() > 0 && !manual;
+        freq.setText(named ? ps : RadioController.format(radio.freq()));
+        unit.setVisibility(named ? View.GONE : View.VISIBLE);
+        StringBuilder sb = new StringBuilder(named ? RadioController.format(radio.freq()) + " MHz" : "");
         if (rt.length() > 0) sb.append(sb.length() > 0 ? "  ·  " : "").append(rt);
         if (radio.stereo()) sb.append(sb.length() > 0 ? "   " : "").append("ST");
         if (!radio.isActive()) sb.setLength(0);
@@ -331,24 +341,41 @@ public class RadioScreen extends Screen implements RadioController.Listener {
 
     // ---- Preset tile -------------------------------------------------------------------------
 
-    /** Grey-blue tile with the preset number top-right, accent edge, station name underneath. */
+    /**
+     * Preset tile shaded like the MENU tiles: preset number top-right, the station's logo in the
+     * middle when known, an accent line under the tile and the station name beneath it.
+     */
     private class Preset extends LinearLayout {
         final int index;
         final FrameLayout face;
         final TextView number, name;
+        final ImageView logo;
+        final View line;
 
         Preset(int idx) {
             super(act);
             index = idx;
             setOrientation(VERTICAL);
             face = new FrameLayout(act);
+            face.setBackground(Mib.tile(act));
+            logo = new ImageView(act);
+            logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            FrameLayout.LayoutParams lgl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            lgl.leftMargin = lgl.rightMargin = Mib.px(act, 18);
+            lgl.topMargin = Mib.px(act, 30);
+            lgl.bottomMargin = Mib.px(act, 12);
+            face.addView(logo, lgl);
             number = Mib.text(act, String.valueOf(idx % PER_PAGE + 1), 34, Mib.semibold(act), Mib.WHITE);
             FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.RIGHT);
             nl.rightMargin = Mib.px(act, 10);
-            nl.topMargin = Mib.px(act, 4);
+            nl.topMargin = Mib.px(act, 2);
             face.addView(number, nl);
-            addView(face, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 112)));
+            addView(face, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 110)));
+            line = new View(act);
+            line.setBackgroundColor(Mib.BLUE);
+            addView(line, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 3))));
             name = Mib.text(act, "", 24, Mib.semibold(act), Mib.WHITE);
             name.setGravity(Gravity.CENTER);
             name.setPadding(0, Mib.px(act, 6), 0, 0);
@@ -368,7 +395,6 @@ public class RadioScreen extends Screen implements RadioController.Listener {
                     return true;
                 }
             });
-            face.setBackground(background(false));
         }
 
         void save() {
@@ -379,24 +405,18 @@ public class RadioScreen extends Screen implements RadioController.Listener {
         void bind(RadioController.Station st, boolean current) {
             if (st == null) name.setText(s("Prazno", "Empty"));
             else name.setText(st.name.length() > 0 ? st.name : RadioController.format(st.freq));
-            face.setBackground(background(current));
-        }
-
-        private Drawable background(boolean current) {
-            int line = Math.max(2, Mib.px(act, 3));
-            GradientDrawable body = new GradientDrawable(GradientDrawable.Orientation.TL_BR, current
-                    ? new int[]{Mib.shade(Mib.BLUE, 0.85f, 0xFF), Mib.shade(Mib.BLUE, 0.35f, 0xFF)}
-                    : new int[]{0xFF5A5D70, 0xFF2B2D38});
-            GradientDrawable edge = new GradientDrawable();
-            edge.setColor(Mib.BLUE);
-            LayerDrawable normal = new LayerDrawable(new Drawable[]{edge, body});
-            normal.setLayerInset(1, 0, 0, 0, line);
-            GradientDrawable pressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                    new int[]{Mib.shade(Mib.BLUE, 1f, 0xFF), Mib.shade(Mib.BLUE, 0.55f, 0xFF)});
-            StateListDrawable s = new StateListDrawable();
-            s.addState(new int[]{android.R.attr.state_pressed}, pressed);
-            s.addState(new int[]{}, normal);
-            return s;
+            android.graphics.Bitmap b = st != null && st.name.length() > 0
+                    ? com.thecarlauncher.radio.RadioLogos.get(act).logo(st.name) : null;
+            logo.setImageBitmap(b);
+            int c = current ? Mib.BLUE : Mib.WHITE;
+            number.setTextColor(c);
+            name.setTextColor(c);
+            ViewGroup.LayoutParams lp = line.getLayoutParams();
+            int h = Math.max(2, Mib.px(act, current ? 5 : 3));
+            if (lp.height != h) {
+                lp.height = h;
+                line.setLayoutParams(lp);
+            }
         }
     }
 
@@ -428,11 +448,18 @@ public class RadioScreen extends Screen implements RadioController.Listener {
             } else {
                 RadioController.Station st = radio.stations().get(pos - 1);
                 boolean cur = st.freq == radio.freq();
-                iv = Mib.icon(act, R.drawable.ui_ic_radio, cur ? Mib.BLUE : Mib.WHITE);
+                android.graphics.Bitmap lb = st.name.length() > 0 ? com.thecarlauncher.radio.RadioLogos.get(act).logo(st.name) : null;
+                if (lb != null) {
+                    iv = new ImageView(act);
+                    iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    iv.setImageBitmap(lb);
+                } else {
+                    iv = Mib.icon(act, R.drawable.ui_ic_radio, cur ? Mib.BLUE : Mib.WHITE);
+                }
                 t = Mib.text(act, st.name.length() > 0 ? st.name : "FM", 28, Mib.regular(act), cur ? Mib.BLUE : Mib.WHITE);
                 f = Mib.text(act, RadioController.format(st.freq) + " MHz", 26, Mib.regular(act), cur ? Mib.BLUE : Mib.GREY);
             }
-            row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 36), Mib.px(act, 36)));
+            row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 44)));
             LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
             tl.leftMargin = Mib.px(act, 18);
             row.addView(t, tl);

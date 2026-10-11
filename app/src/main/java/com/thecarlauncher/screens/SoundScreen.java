@@ -30,6 +30,9 @@ public class SoundScreen extends Screen {
     }
 
     @Override
+    public boolean hasOwnBack() { return true; }
+
+    @Override
     public String title() { return s("Duboki - Srednji - Visoki", "Bass - Mid - Treble"); }
 
     private String s(String sr, String en) { return Mib.t(act, sr, en); }

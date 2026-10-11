@@ -485,10 +485,20 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                         list.setSelection(0);
                         if (data.isEmpty()) {
                             empty.setVisibility(View.VISIBLE);
-                            empty.setText(MusicLibrary.hasPermission(act)
-                                    ? s("Nema medija.\nUbacite USB ili SD karticu sa muzikom.",
-                                    "No media.\nInsert a USB stick or SD card with music.")
-                                    : s("Dozvolite pristup muzici.", "Allow access to music."));
+                            boolean files = com.thecarlauncher.util.Storage.hasAllFiles();
+                            empty.setText(!MusicLibrary.hasPermission(act)
+                                    ? s("Dozvolite pristup muzici.", "Allow access to music.")
+                                    : !files ? s("Nema medija.\nDodirnite ovde i dozvolite \"Pristup svim fajlovima\" da bi se čitao USB.",
+                                    "No media.\nTap here and allow \"All files access\" so USB sticks can be read.")
+                                    : s("Nema medija.\nUbacite USB ili SD karticu sa muzikom.",
+                                    "No media.\nInsert a USB stick or SD card with music."));
+                            empty.setOnClickListener(files && MusicLibrary.hasPermission(act) ? null : new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (!MusicLibrary.hasPermission(act)) act.requestMissingPermissions(true);
+                                    else com.thecarlauncher.util.Storage.requestAllFiles(act);
+                                }
+                            });
                         }
                     }
                 });

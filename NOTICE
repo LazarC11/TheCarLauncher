@@ -7,3 +7,17 @@ by OpenRadioFM:
   OpenRadioFM — https://github.com/kapi21/OpenRadioFM
   Licensed under the Apache License, Version 2.0
   http://www.apache.org/licenses/LICENSE-2.0
+
+Offline maps use the mapsforge libraries (app/libs/mapsforge-*.jar, unmodified):
+
+  mapsforge 0.25.0 — https://github.com/mapsforge/mapsforge
+  Licensed under the GNU Lesser General Public License v3.0 (licenses/LGPL-3.0.txt,
+  which supplements licenses/GPL-3.0.txt). Source code is available from the project
+  above; the jars can be replaced with any compatible build.
+
+  AndroidSVG 1.4 (app/libs/androidsvg-1.4.jar) — https://github.com/BigBadaboom/androidsvg
+  Licensed under the Apache License, Version 2.0
+
+Offline map data: © OpenStreetMap contributors, available under the Open Database License
+(https://www.openstreetmap.org/copyright). Map files are downloaded on the device from
+https://download.mapsforge.org/.

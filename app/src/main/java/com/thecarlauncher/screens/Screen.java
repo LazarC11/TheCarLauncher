@@ -33,6 +33,9 @@ public abstract class Screen {
 
     public void onDestroy() {}
 
+    /** True when the page draws its own back key (then the status bar shows none). */
+    public boolean hasOwnBack() { return false; }
+
     /** Return true if the back press was handled inside the screen. */
     public boolean onBack() { return false; }
 
