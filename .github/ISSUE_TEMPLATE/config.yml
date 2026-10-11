@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: README and troubleshooting
+    url: https://github.com/LazarC11/TheCarLauncher#troubleshooting
+    about: Common problems and fixes.

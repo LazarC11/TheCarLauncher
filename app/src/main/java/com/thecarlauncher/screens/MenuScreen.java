@@ -35,28 +35,28 @@ public class MenuScreen extends Screen implements AppRepository.Listener {
         FrameLayout root = new FrameLayout(act);
         pager = new MibPager(act);
         Grid main = new Grid();
-        main.add(tile(Mib.t(act, "Radio", "Radio"), R.drawable.vw_tile_radio, new Runnable() {
+        main.add(tile(Mib.t(act, "Radio", "Radio"), R.drawable.ui_tile_radio, new Runnable() {
             public void run() { act.openRadio(); }
         }));
-        main.add(tile(Mib.t(act, "Mediji", "Media"), R.drawable.vw_tile_media, new Runnable() {
+        main.add(tile(Mib.t(act, "Mediji", "Media"), R.drawable.ui_tile_media, new Runnable() {
             public void run() { act.show(LauncherActivity.MEDIA, true); }
         }));
-        main.add(tile(Mib.t(act, "Aplikacije", "Apps"), R.drawable.vw_tile_apps, new Runnable() {
+        main.add(tile(Mib.t(act, "Aplikacije", "Apps"), R.drawable.ui_tile_apps, new Runnable() {
             public void run() { act.show(LauncherActivity.APPS, true); }
         }));
-        main.add(tile("App-Connect", R.drawable.vw_tile_appconnect, new Runnable() {
+        main.add(tile("App-Connect", R.drawable.ui_tile_appconnect, new Runnable() {
             public void run() { act.openProjection(); }
         }));
-        main.add(tile(Mib.t(act, "Telefon", "Phone"), R.drawable.vw_tile_phone, new Runnable() {
+        main.add(tile(Mib.t(act, "Telefon", "Phone"), R.drawable.ui_tile_phone, new Runnable() {
             public void run() { act.openPhone(); }
         }));
-        main.add(tile(Mib.t(act, "Vozilo", "Vehicle"), R.drawable.vw_tile_car, new Runnable() {
+        main.add(tile(Mib.t(act, "Vozilo", "Vehicle"), R.drawable.ui_tile_car, new Runnable() {
             public void run() { act.show(LauncherActivity.VEHICLE, true); }
         }));
-        main.add(tile(Mib.t(act, "Navigacija", "Navigation"), R.drawable.vw_tile_nav, new Runnable() {
+        main.add(tile(Mib.t(act, "Navigacija", "Navigation"), R.drawable.ui_tile_nav, new Runnable() {
             public void run() { act.show(LauncherActivity.NAV, true); }
         }));
-        main.add(tile(Mib.t(act, "Podešavanja", "Setup"), R.drawable.vw_tile_settings, new Runnable() {
+        main.add(tile(Mib.t(act, "Podešavanja", "Setup"), R.drawable.ui_tile_settings, new Runnable() {
             public void run() { act.show(LauncherActivity.SETTINGS, true); }
         }));
         pager.addView(main);
@@ -106,7 +106,7 @@ public class MenuScreen extends Screen implements AppRepository.Listener {
             favPage.add(t);
         }
         if (favs.size() < 8) {
-            MibTile add = new MibTile(act, Mib.t(act, "Dodaj", "Add"), R.drawable.vw_ic_plus);
+            MibTile add = new MibTile(act, Mib.t(act, "Dodaj", "Add"), R.drawable.ui_ic_plus);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

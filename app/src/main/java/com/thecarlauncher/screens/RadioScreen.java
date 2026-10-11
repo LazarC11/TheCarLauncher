@@ -67,14 +67,14 @@ public class RadioScreen extends Screen implements RadioController.Listener {
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         int arrow = Mib.px(act, 76), side = Mib.px(act, 18), top = Mib.px(act, 14);
-        m.addView(arrowBox(R.drawable.vw_key_prev, new View.OnClickListener() {
+        m.addView(arrowBox(R.drawable.ui_key_prev, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (manual) radio.stepDown();
                 else radio.seekDown();
             }
         }), boxParams(arrow, side, top, Gravity.LEFT));
-        m.addView(arrowBox(R.drawable.vw_key_next, new View.OnClickListener() {
+        m.addView(arrowBox(R.drawable.ui_key_next, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (manual) radio.stepUp();
@@ -212,13 +212,13 @@ public class RadioScreen extends Screen implements RadioController.Listener {
 
         // ---- Soft keys ----
         MibBar bar = new MibBar(act);
-        listKey = bar.add(s("Lista stan.", "Stations"), R.drawable.vw_key_list, new View.OnClickListener() {
+        listKey = bar.add(s("Lista stan.", "Stations"), R.drawable.ui_key_list, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showList(listArea.getVisibility() != View.VISIBLE);
             }
         });
-        manualKey = bar.add(s("Ručno", "Manual"), R.drawable.vw_key_manual, new View.OnClickListener() {
+        manualKey = bar.add(s("Ručno", "Manual"), R.drawable.ui_key_manual, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showList(false);
@@ -226,7 +226,7 @@ public class RadioScreen extends Screen implements RadioController.Listener {
             }
         });
         bar.gap(4);
-        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.ui_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.showSettings(SettingsScreen.PAGE_RADIO);
@@ -421,14 +421,14 @@ public class RadioScreen extends Screen implements RadioController.Listener {
             ImageView iv;
             TextView t, f;
             if (pos == 0) {
-                iv = Mib.icon(act, R.drawable.vw_ic_refresh, Mib.WHITE);
+                iv = Mib.icon(act, R.drawable.ui_ic_refresh, Mib.WHITE);
                 t = Mib.text(act, radio.scanning() ? s("Zaustavi pretragu", "Stop scan")
                         : s("Ažuriraj listu stanica", "Update station list"), 28, Mib.regular(act), Mib.WHITE);
                 f = Mib.text(act, "", 26, Mib.regular(act), Mib.GREY);
             } else {
                 RadioController.Station st = radio.stations().get(pos - 1);
                 boolean cur = st.freq == radio.freq();
-                iv = Mib.icon(act, R.drawable.vw_ic_radio, cur ? Mib.BLUE : Mib.WHITE);
+                iv = Mib.icon(act, R.drawable.ui_ic_radio, cur ? Mib.BLUE : Mib.WHITE);
                 t = Mib.text(act, st.name.length() > 0 ? st.name : "FM", 28, Mib.regular(act), cur ? Mib.BLUE : Mib.WHITE);
                 f = Mib.text(act, RadioController.format(st.freq) + " MHz", 26, Mib.regular(act), cur ? Mib.BLUE : Mib.GREY);
             }

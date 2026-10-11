@@ -384,7 +384,7 @@ public final class MediaHub {
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
         // background, start playback, and show what it is playing.
-        if (!Prefs.bool(app, Prefs.BT_OPEN_APP, false)) {
+        if (!Prefs.bool(app, Prefs.BT_OPEN_APP, true)) {
             // Never show the BT app: start it in the background (it switches the audio over),
             // read the song from the BT module and tell the phone to play.
             bt.startInBackground(this, bt.appPackage());
@@ -392,9 +392,19 @@ public final class MediaHub {
             goc().send("MS");
             main.postDelayed(playBluetoothRetry, 2500);
         } else {
-            bt.connectApp(this, bt.appPackage());
+            // The unit only plays BT audio once the app's screen has opened: open it briefly
+            // and come back. Coming back needs "Display over other apps" on Android 10+.
+            bt.startInBackground(this, bt.appPackage());
             playWhenConnected = true;
-            wakeBluetoothApp();
+            if (!com.thecarlauncher.util.BringBack.canOverlay(app) && !Prefs.bool(app, "overlay_asked", false)) {
+                // Without this permission Android keeps the BT app on top: ask once.
+                Prefs.put(app, "overlay_asked", true);
+                Ui.toast(app, com.thecarlauncher.mib.Mib.t(app, "Uključi \"Prikaz preko drugih aplikacija\" za Car Launcher, pa ponovo izaberi BT audio.",
+                        "Turn on \"Display over other apps\" for Car Launcher, then choose BT audio again."));
+                com.thecarlauncher.util.BringBack.requestOverlay(app);
+            } else {
+                wakeBluetoothApp();
+            }
         }
         goc().send("MK");
         goc().send("VI");
@@ -477,11 +487,7 @@ public final class MediaHub {
             main.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent back = new Intent(app, LauncherActivity.class)
-                            .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                                    | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    Ui.start(app, back);
+                    com.thecarlauncher.util.BringBack.toMedia(app);
                 }
             }, stay);
         }

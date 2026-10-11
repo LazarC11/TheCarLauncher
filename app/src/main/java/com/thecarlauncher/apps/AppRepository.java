@@ -109,7 +109,7 @@ public final class AppRepository {
         }
         addHidden(pm, out);
         // The unit's Bluetooth audio app often has no icon at all: always offer a tile for it.
-        out.add(new App(BT_AUDIO, "", "Bluetooth audio", app.getDrawable(com.thecarlauncher.R.drawable.vw_key_bt)));
+        out.add(new App(BT_AUDIO, "", "Bluetooth audio", app.getDrawable(com.thecarlauncher.R.drawable.ui_key_bt)));
         final Collator col = Collator.getInstance();
         Collections.sort(out, new Comparator<App>() {
             @Override

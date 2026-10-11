@@ -92,13 +92,13 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         bl.topMargin = top + arrow + Mib.px(act, 6);
         content.addView(body, bl);
 
-        content.addView(arrowBox(R.drawable.vw_key_prev, new View.OnClickListener() {
+        content.addView(arrowBox(R.drawable.ui_key_prev, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPage((page + PAGES - 1) % PAGES);
             }
         }), boxParams(arrow, side, top, Gravity.LEFT));
-        content.addView(arrowBox(R.drawable.vw_key_next, new View.OnClickListener() {
+        content.addView(arrowBox(R.drawable.ui_key_next, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPage((page + 1) % PAGES);
@@ -112,26 +112,26 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         content.addView(title, tl);
 
         MibBar bar = new MibBar(act);
-        izbor = bar.add(s("Izbor", "Select"), R.drawable.vw_ic_car_s, new View.OnClickListener() {
+        izbor = bar.add(s("Izbor", "Select"), R.drawable.ui_ic_car_s, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPages(v);
             }
         });
-        bar.add(s("Mediji", "Media"), R.drawable.vw_key_music, new View.OnClickListener() {
+        bar.add(s("Mediji", "Media"), R.drawable.ui_key_music, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 act.show(LauncherActivity.MEDIA, true);
             }
         });
-        actionKey = bar.add("", R.drawable.vw_ic_refresh, new View.OnClickListener() {
+        actionKey = bar.add("", R.drawable.ui_ic_refresh, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onAction();
             }
         });
         bar.gap(3);
-        bar.add("Setup", R.drawable.vw_key_setup, new View.OnClickListener() {
+        bar.add("Setup", R.drawable.ui_key_setup, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setPage(SERVICE);
@@ -159,8 +159,8 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
 
     private void showPages(View key) {
         MibPopup p = new MibPopup(act).columns(1);
-        int[] icons = {R.drawable.vw_ic_car_s, R.drawable.vw_ic_clock, R.drawable.vw_ic_route, R.drawable.vw_ic_speedo,
-                R.drawable.vw_ic_speedo, R.drawable.vw_ic_eq};
+        int[] icons = {R.drawable.ui_ic_car_s, R.drawable.ui_ic_clock, R.drawable.ui_ic_route, R.drawable.ui_ic_speedo,
+                R.drawable.ui_ic_speedo, R.drawable.ui_ic_eq};
         for (int i = 0; i < PAGES; i++) {
             final int idx = i;
             p.add(pageTitle(i), icons[i], i == page, new Runnable() {
@@ -181,21 +181,21 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         switch (p) {
             case STATUS: buildStatus(); break;
             case START:
-                buildCells(new int[]{R.drawable.vw_ic_clock, R.drawable.vw_ic_route, R.drawable.vw_ic_speedo,
-                                R.drawable.vw_ic_car_s, R.drawable.vw_ic_compass, R.drawable.vw_ic_mountain},
+                buildCells(new int[]{R.drawable.ui_ic_clock, R.drawable.ui_ic_route, R.drawable.ui_ic_speedo,
+                                R.drawable.ui_ic_car_s, R.drawable.ui_ic_compass, R.drawable.ui_ic_mountain},
                         new String[]{s("Vreme vožnje", "Driving time"), s("Pređeni put", "Distance"),
                                 s("Prosečna brzina", "Average speed"), s("Trenutna brzina", "Current speed"),
                                 s("Smer", "Heading"), s("Nadmorska visina", "Altitude")});
                 break;
             case LONG:
-                buildCells(new int[]{R.drawable.vw_ic_clock, R.drawable.vw_ic_route, R.drawable.vw_ic_speedo,
-                                R.drawable.vw_ic_car_s},
+                buildCells(new int[]{R.drawable.ui_ic_clock, R.drawable.ui_ic_route, R.drawable.ui_ic_speedo,
+                                R.drawable.ui_ic_car_s},
                         new String[]{s("Vreme vožnje", "Driving time"), s("Pređeni put", "Distance"),
                                 s("Prosečna brzina", "Average speed"), s("Kilometraža", "Odometer")});
                 break;
             case REFUEL:
-                buildCells(new int[]{R.drawable.vw_ic_route, R.drawable.vw_ic_speedo, R.drawable.vw_ic_nav,
-                                R.drawable.vw_ic_clock, R.drawable.vw_ic_eq, R.drawable.vw_ic_speedo},
+                buildCells(new int[]{R.drawable.ui_ic_route, R.drawable.ui_ic_speedo, R.drawable.ui_ic_nav,
+                                R.drawable.ui_ic_clock, R.drawable.ui_ic_eq, R.drawable.ui_ic_speedo},
                         new String[]{s("Pređeni put", "Distance"), s("Prosečna potrošnja", "Avg. consumption"),
                                 s("Domet", "Range"), s("Poslednje točenje", "Last fill-up"),
                                 s("Cena na 100 km", "Cost per 100 km"), s("Prosečna cena goriva", "Avg. fuel price")});
@@ -205,8 +205,8 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         }
         boolean action = p == START || p == LONG || p == REFUEL || p == FUEL;
         actionKey.setVisibility(action ? View.VISIBLE : View.INVISIBLE);
-        if (p == START || p == LONG) actionKey.setLabel(s("Resetuj", "Reset")).setIcon(R.drawable.vw_ic_refresh);
-        else actionKey.setLabel(s("Točenje", "Fill-up")).setIcon(R.drawable.vw_ic_plus);
+        if (p == START || p == LONG) actionKey.setLabel(s("Resetuj", "Reset")).setIcon(R.drawable.ui_ic_refresh);
+        else actionKey.setLabel(s("Točenje", "Fill-up")).setIcon(R.drawable.ui_ic_plus);
         update();
     }
 
@@ -226,7 +226,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
 
     private void buildStatus() {
         final ImageView car = new ImageView(act);
-        car.setImageResource(R.drawable.car_corsa);
+        car.setImageResource(R.drawable.car_exterior);
         car.setScaleType(ImageView.ScaleType.FIT_END);
         car.setAdjustViewBounds(false);
         FrameLayout.LayoutParams cl = new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,
@@ -263,7 +263,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         btn.setGravity(Gravity.CENTER_VERTICAL);
         btn.setBackground(Mib.box(act));
         btn.setPadding(Mib.px(act, 14), 0, Mib.px(act, 30), 0);
-        btn.addView(Mib.icon(act, R.drawable.vw_ic_eq, Mib.WHITE), new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 44)));
+        btn.addView(Mib.icon(act, R.drawable.ui_ic_eq, Mib.WHITE), new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 44)));
         TextView bt = Mib.text(act, s("Servis", "Service"), 34, Mib.regular(act), Mib.WHITE);
         bt.setPadding(Mib.px(act, 14), 0, 0, 0);
         btn.addView(bt);
@@ -430,7 +430,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
     private void checkRow(LinearLayout col, String label, boolean on, Runnable click) {
         TextView v = row(col, 0, label, null, click);
         LinearLayout row = (LinearLayout) v.getParent();
-        ImageView box = Mib.icon(act, on ? R.drawable.vw_ic_check_on : R.drawable.vw_ic_check_off, Mib.WHITE);
+        ImageView box = Mib.icon(act, on ? R.drawable.ui_ic_check_on : R.drawable.ui_ic_check_off, Mib.WHITE);
         row.addView(box, new LinearLayout.LayoutParams(Mib.px(act, 42), Mib.px(act, 42)));
     }
 
@@ -441,21 +441,21 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
     private void buildFuel() {
         final CarData cd = CarData.get(act);
         LinearLayout col = list();
-        row(col, R.drawable.vw_ic_plus, s("Dodaj točenje", "Add fill-up"), null, new Runnable() {
+        row(col, R.drawable.ui_ic_plus, s("Dodaj točenje", "Add fill-up"), null, new Runnable() {
             public void run() { addRefuel(); }
         });
         double avg = cd.averageConsumption();
-        row(col, R.drawable.vw_ic_speedo, s("Prosečna potrošnja", "Average consumption"),
+        row(col, R.drawable.ui_ic_speedo, s("Prosečna potrošnja", "Average consumption"),
                 avg < 0 ? s("potrebna 2 puna rezervoara", "needs 2 full tanks") : String.format(Locale.US, "%.1f l/100 km", avg), null);
         List<CarData.Refuel> l = cd.refuels();
         for (int i = l.size() - 1; i >= 0; i--) {
             CarData.Refuel r = l.get(i);
             String v = String.format(Locale.US, "%.1f l", r.litres) + (r.price > 0 ? String.format(Locale.US, "  ·  %.2f din/l", r.price) : "")
                     + "  ·  " + km(r.odoKm);
-            row(col, R.drawable.vw_ic_clock, CarData.date(r.time) + (r.full ? "" : s("  (delimično)", "  (partial)")), v, null);
+            row(col, R.drawable.ui_ic_clock, CarData.date(r.time) + (r.full ? "" : s("  (delimično)", "  (partial)")), v, null);
         }
         if (!l.isEmpty()) {
-            row(col, R.drawable.vw_ic_back, s("Obriši poslednje točenje", "Delete last fill-up"), null, new Runnable() {
+            row(col, R.drawable.ui_ic_back, s("Obriši poslednje točenje", "Delete last fill-up"), null, new Runnable() {
                 public void run() {
                     cd.removeLastRefuel();
                     setPage(FUEL);
@@ -481,7 +481,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
     private void buildService() {
         final CarData cd = CarData.get(act);
         LinearLayout col = list();
-        row(col, R.drawable.vw_ic_car_s, s("Kilometraža", "Odometer"),
+        row(col, R.drawable.ui_ic_car_s, s("Kilometraža", "Odometer"),
                 cd.hasOdometer() ? km(cd.odometer()) : s("unesite", "enter"), new Runnable() {
                     public void run() {
                         Dialogs.number(act, s("Trenutna kilometraža (km)", "Current odometer (km)"), "150000",
@@ -493,7 +493,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                                 });
                     }
                 });
-        row(col, R.drawable.vw_ic_eq, s("Sledeća zamena ulja", "Next oil change"),
+        row(col, R.drawable.ui_ic_eq, s("Sledeća zamena ulja", "Next oil change"),
                 cd.oilDueKm() > 0 ? km(cd.oilDueKm()) : "–", new Runnable() {
                     public void run() {
                         Dialogs.number(act, s("Zamena ulja na (km)", "Oil change at (km)"), "165000",
@@ -505,7 +505,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                                 });
                     }
                 });
-        row(col, R.drawable.vw_ic_clock, s("Godišnji servis", "Annual service"),
+        row(col, R.drawable.ui_ic_clock, s("Godišnji servis", "Annual service"),
                 cd.oilDueDate() > 0 ? CarData.date(cd.oilDueDate()) : "–", new Runnable() {
                     public void run() {
                         Dialogs.date(act, cd.oilDueDate(), new Dialogs.DatePicked() {
@@ -516,7 +516,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                         });
                     }
                 });
-        row(col, R.drawable.vw_ic_refresh, s("Servis obavljen danas", "Service done today"),
+        row(col, R.drawable.ui_ic_refresh, s("Servis obavljen danas", "Service done today"),
                 s("+15.000 km / +1 god.", "+15,000 km / +1 yr"), new Runnable() {
                     public void run() {
                         cd.oilServiceDone();
@@ -524,7 +524,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                         setPage(SERVICE);
                     }
                 });
-        row(col, R.drawable.vw_ic_flag, s("Registracija ističe", "Registration expires"),
+        row(col, R.drawable.ui_ic_flag, s("Registracija ističe", "Registration expires"),
                 cd.registrationDate() > 0 ? CarData.date(cd.registrationDate()) : "–", new Runnable() {
                     public void run() {
                         Dialogs.date(act, cd.registrationDate(), new Dialogs.DatePicked() {
@@ -548,7 +548,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                         setPage(SERVICE);
                     }
                 });
-        row(col, R.drawable.vw_ic_speedo, s("Zapremina rezervoara", "Fuel tank"),
+        row(col, R.drawable.ui_ic_speedo, s("Zapremina rezervoara", "Fuel tank"),
                 String.format(Locale.US, "%.0f l", cd.tank()), new Runnable() {
                     public void run() {
                         Dialogs.number(act, s("Zapremina rezervoara (l)", "Fuel tank (l)"), "44",
@@ -560,7 +560,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
                                 });
                     }
                 });
-        row(col, R.drawable.vw_ic_car_s, s("Naziv vozila", "Vehicle name"), Prefs.vehicle(act), new Runnable() {
+        row(col, R.drawable.ui_ic_car_s, s("Naziv vozila", "Vehicle name"), Prefs.vehicle(act), new Runnable() {
             public void run() {
                 Dialogs.text(act, s("Naziv vozila", "Vehicle name"), "Opel Corsa C", Prefs.vehicle(act), new Dialogs.TextEntered() {
                     public void onText(String text) {

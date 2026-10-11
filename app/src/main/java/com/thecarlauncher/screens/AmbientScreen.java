@@ -73,7 +73,7 @@ public class AmbientScreen extends Screen {
         head.addView(value, new LinearLayout.LayoutParams(Mib.px(act, 290), Mib.px(act, 58)));
         FrameLayout back = new FrameLayout(act);
         back.setBackground(Mib.box(act));
-        back.addView(Mib.icon(act, R.drawable.vw_ic_back, Mib.WHITE),
+        back.addView(Mib.icon(act, R.drawable.ui_ic_back, Mib.WHITE),
                 new FrameLayout.LayoutParams(Mib.px(act, 40), Mib.px(act, 40), Gravity.CENTER));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +99,7 @@ public class AmbientScreen extends Screen {
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(Mib.px(act, 22), 0, Mib.px(act, 16), 0);
         int box = Mib.px(act, 62);
-        row.addView(key(R.drawable.vw_key_prev, new View.OnClickListener() {
+        row.addView(key(R.drawable.ui_key_prev, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pick((index + Mib.AMBIENT.length - 1) % Mib.AMBIENT.length, true);
@@ -115,7 +115,7 @@ public class AmbientScreen extends Screen {
         LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(0, Mib.px(act, 62), 1f);
         sl.leftMargin = sl.rightMargin = Mib.px(act, 10);
         row.addView(slider, sl);
-        row.addView(key(R.drawable.vw_key_next, new View.OnClickListener() {
+        row.addView(key(R.drawable.ui_key_next, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pick((index + 1) % Mib.AMBIENT.length, true);
@@ -204,7 +204,7 @@ public class AmbientScreen extends Screen {
 
         InteriorView(Context c) {
             super(c);
-            photo = BitmapFactory.decodeResource(c.getResources(), R.drawable.corsa_interior);
+            photo = BitmapFactory.decodeResource(c.getResources(), R.drawable.car_interior);
         }
 
         @Override
