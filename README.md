@@ -24,6 +24,7 @@ Text is in Serbian (Latin) by default; English can be picked under
   - [Bluetooth audio](#bluetooth-audio)
   - [Radio](#radio)
   - [Navigation](#navigation)
+  - [App-Connect](#app-connect)
   - [Vehicle (CAR)](#vehicle-car)
   - [Ambient lighting](#ambient-lighting)
   - [Bass – Mid – Treble](#bass--mid--treble)
@@ -190,6 +191,19 @@ factory-navigation day style, with no internet at all.
   permission is needed.
 
 ![Offline maps](docs/screenshots/offline-maps.png)
+
+### App-Connect
+
+A factory-style App-Connect page: *"Welcome to App-Connect. Please connect a device using the USB."*
+with the three phone modes along the bottom (Android Auto, Apple CarPlay, screen mirroring) and
+*Info* / *Setup* soft keys.
+
+- The projection itself is done by the unit's ZLink app. The launcher keeps ZLink's background
+  service running while the page is open and starts the chosen mode through ZLink's public screens.
+- ZLink's status broadcast (`com.zjinnova.zlink`, extras `status` and `phoneMode`) shows which
+  phone is connected; the page then highlights that mode and a tap shows the phone.
+- *Setup* opens ZLink's own settings. Without ZLink, the page falls back to any other projection
+  app found on the unit.
 
 ### Vehicle (CAR)
 
