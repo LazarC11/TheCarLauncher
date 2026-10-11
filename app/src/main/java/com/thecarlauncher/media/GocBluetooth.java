@@ -115,6 +115,15 @@ public final class GocBluetooth {
             main.postDelayed(this, 1000);
             String v = prop("sys.qf.bt.music.progress");
             long now = System.currentTimeMillis();
+            // The BT app's own connection flag: phone gone → no song.
+            if ("false".equals(prop("sys.qf.bt.is.connect")) && title != null) {
+                synchronized (GocBluetooth.this) {
+                    title = artist = album = null;
+                    posMs = lenMs = -1;
+                    playing = 0;
+                }
+                MediaHub.get(app).radioChanged();
+            }
             if (v == null) return;
             if (v.isEmpty()) {
                 // The BT app clears it when the phone disconnects: forget the song too.
@@ -167,10 +176,7 @@ public final class GocBluetooth {
 
     /** Starts the background connection (no-op on units without the daemon). */
     public synchronized void start() {
-        if (running || !enabled()) {
-            if (!enabled()) status = "isključeno (Podešavanja → Bluetooth audio)";
-            return;
-        }
+        if (running) return;
         running = true;
         new Thread(new Runnable() {
             @Override
@@ -183,6 +189,10 @@ public final class GocBluetooth {
     private void loop() {
         int fails = 0;
         while (running) {
+            if (!enabled()) {
+                writeOnly();
+                continue;
+            }
             Conn c = open();
             if (c == null) {
                 if (++fails > 5) {
@@ -213,7 +223,7 @@ public final class GocBluetooth {
             int n = 0;
             long lastAsk = System.currentTimeMillis();
             try {
-                while (running) {
+                while (running && enabled()) {
                     int r;
                     try {
                         r = c.in.read(buf);
@@ -258,6 +268,37 @@ public final class GocBluetooth {
             sleep(3000);
         }
     }
+
+    /** Only sends commands (song info requests); the factory BT app reads the answers. */
+    private void writeOnly() {
+        File serial = new File("/dev/goc_serial");
+        OutputStream o = null;
+        try {
+            if (serial.canWrite()) o = new FileOutputStream(serial);
+        } catch (Exception e) {
+            lastError = e.getClass().getSimpleName();
+        }
+        if (o == null) {
+            status = "samo slanje: /dev/goc_serial nije dostupan";
+            sleep(10000);
+            return;
+        }
+        endpoint = "/dev/goc_serial";
+        out = o;
+        status = "samo slanje (liniju čita BT aplikacija)";
+        while (running && !enabled() && out == o) {
+            if (!send("MK")) break;
+            sleep(5000);
+        }
+        if (out == o) out = null;
+        try {
+            o.close();
+        } catch (Exception ignored) {
+        }
+    }
+
+    /** True while we read the module's lines ourselves (not only write commands). */
+    public boolean reading() { return out != null && enabled(); }
 
     private static final class Conn {
         InputStream in;
@@ -311,9 +352,23 @@ public final class GocBluetooth {
     }
 
     /** Opt-in: reading the shared serial port may take messages away from the factory BT app. */
-    public static final String PREF = "goc_direct";
+    public static final String PREF = "goc_read";
 
-    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, true); }
+    /**
+     * Reading the line: off by default when the factory BT app is installed. It is a persistent
+     * system app that owns the line, and every byte we read is lost to it (it then thinks the
+     * phone is gone, ignores play / next, and publishes no song). Commands are still written.
+     */
+    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, !factoryApp()); }
+
+    private boolean factoryApp() {
+        try {
+            app.getPackageManager().getPackageInfo("com.qf.bluetooth", 0);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public synchronized void stop() {
         running = false;

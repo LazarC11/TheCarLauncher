@@ -583,17 +583,15 @@ public class SettingsScreen extends Screen {
             }
         });
         final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
-        checkRowWithAction(s("Pesma direktno sa BT modula (eksperimentalno)", "Song straight from the BT module (experimental)"),
+        checkRowWithAction(s("Čitaj BT modul direktno (bez fabričke BT aplikacije)", "Read the BT module directly (no factory BT app)"),
                 gocBt.enabled(), new Runnable() {
                     public void run() {
                         boolean on = !gocBt.enabled();
                         Prefs.put(act, com.thecarlauncher.media.GocBluetooth.PREF, on);
+                        gocBt.start();
                         if (on) {
-                            gocBt.start();
-                            Ui.toast(act, s("Uključeno. Ako fabrička BT aplikacija prestane da prima pozive ili pesme, isključi.",
-                                    "On. If the factory BT app stops getting calls or songs, switch it off."));
-                        } else {
-                            gocBt.stop();
+                            Ui.toast(act, s("Uključeno. Fabrička BT aplikacija tada gubi poruke modula (kontrole, pesma). Isključi ako ona postoji.",
+                                    "On. The factory BT app then loses module messages (controls, song). Switch off if it is installed."));
                         }
                         refresh();
                     }
