@@ -52,7 +52,8 @@ Text is in Serbian (Latin) by default; English can be picked under
   a seekable progress bar, a soft glow under the cover while a song plays, and
   steering-wheel key support.
 - **Bluetooth music without the factory app on screen**: song title, artist, album, position
-  and length are read straight from the unit's Bluetooth module. Cover art is looked up
+  and length come from the factory Bluetooth service running in the background. BT audio becomes
+  the source as soon as the phone connects, and opening Media starts it. Cover art is looked up
   online.
 - **Built-in FM radio** that drives the unit's tuner through the MCU: presets with station
   logos, RDS names, a station list scan and the factory manual dial.
@@ -109,22 +110,29 @@ Soft keys: **Source · Browse · Previous · Play/Pause · Next · Setup**.
 
 ### Bluetooth audio
 
-This head unit does **not** use Android's own Bluetooth stack. Its Bluetooth is a separate module run by
-the `gocsdk` daemon, which the factory *Bluetooth Music* app talks to. The launcher reads the
-same daemon directly over `/dev/goc_serial`:
+This head unit does **not** use Android's own Bluetooth stack. Its Bluetooth is a separate module on
+the serial line `/dev/goc_serial`, owned by the factory *Bluetooth* app (`com.qf.bluetooth`), a
+persistent system service that runs from boot. The factory app's screen is never needed:
 
-- title, artist and album,
-- song position and length (the `MT` line: 8-digit position + 8-digit length, in ms),
-- playing / paused state,
-- phone battery and signal for the status bar,
-- disconnects. When the phone drops, the old song details are cleared and the Bluetooth picture
-  is shown until the phone plays again.
-
-Choosing **BT-audio** never shows the factory Bluetooth app. The launcher makes sure the app runs
-in the background and sends it the app's own music-control broadcast
-(`com.qf.action.BT.MUSIC.CONTROL`, `command` 1 previous · 2 next · 3 play/pause · 4 play · 5 pause).
-The app's "play" also takes Android's audio focus, and that is what switches the unit's sound to
-Bluetooth. Song details still come straight from the Bluetooth module.
+- **Phone connects → BT audio.** As soon as a phone connects over Bluetooth, BT audio becomes the
+  source, exactly as if the BT-audio key had been pressed: the sound switches to Bluetooth and play
+  is sent. Also works when the phone is already connected when the launcher starts.
+- **Opening Media starts it.** With BT audio as the last source, opening the Media screen switches
+  the sound and starts playback (once per drive, and again after the phone reconnects; a song
+  paused on the phone is left alone).
+- **Controls** (play/pause, next, previous) go to the factory service through its own control
+  broadcast (`com.qf.action.BT.MUSIC.CONTROL`, `command` 1 previous · 2 next · 3 play/pause ·
+  4 play · 5 pause). Its "play" takes Android's audio focus, and that is what switches the unit's
+  sound to Bluetooth.
+- **Song details**: title, artist and album from the service's `com.qf.action.BT.MUSIC.INFO`
+  broadcast; position and length from the system property `sys.qf.bt.music.progress`
+  (`position,length` in ms); the connection from `sys.qf.bt.is.connect`. When the phone drops,
+  the song is cleared and the Bluetooth picture is shown.
+- **The launcher does not read the serial line** while the factory app is installed: every byte
+  read there is lost to the factory service, which then thinks the phone is gone and ignores the
+  controls. The launcher only writes song-info requests (`AT#MK`) every 5 s; the service reads the
+  answer and republishes it. Reading the module directly is still available as a setting for units
+  without the factory app.
 
 **Cover art.** The module only sends text, so the launcher looks the song up by artist and title in
 two public music catalogues (one as a fallback for the other). Found covers are cached on the unit. This needs an internet
@@ -136,9 +144,13 @@ Related settings (*Setup → Bluetooth audio*):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
+| BT audio as soon as the phone connects | On | A connecting phone makes BT audio the source, like pressing its key. |
+| BT audio app | Bluetooth Music | Which app receives the controls (normally the factory one). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
 | Open the BT app briefly (if there is no sound) | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
-| Diagnostics | – | Phone battery / signal, media sessions, the song as the Bluetooth module reports it and the module's last lines. |
+| Read the BT module directly | Off with the factory app | Only for units without the factory BT app; with it, reading steals the app's messages. |
+| Return to launcher, BT app wait time, MCU channel | – | Fallbacks for other units. |
+| Diagnostics | – | Phone battery / signal, media sessions, the song the factory app published, `sys.qf.bt.music.progress` and `sys.qf.bt.is.connect`, and the module's last lines. |
 
 ### Radio
 
@@ -282,7 +294,7 @@ with a **Bluetooth audio** tile that switches the media player to BT.
 *System settings*: screen, ambient lighting, time and date, language, units, navigation (offline
 maps, map style, voice, home / work), sound, media (library, All files access, other media apps),
 radio (LOC, RDS, station logos), Bluetooth audio, phone app, vehicle (brand, model, pictures),
-Android settings and system information. Options that no longer did anything useful were removed.
+App-Connect, phone and radio apps, Android settings, diagnostics and system information.
 
 | Settings | Vehicle | Bluetooth audio | Radio |
 | --- | --- | --- | --- |
@@ -355,7 +367,7 @@ Then, in *Setup*:
 | Part | How |
 | --- | --- |
 | **FM tuner** | `mcu_service` / `IMcuManager` through reflection, using the tuner protocol documented by [OpenRadioFM](https://github.com/kapi21/OpenRadioFM) (Apache-2.0, see `NOTICE`). MCU channel 2 = FM, 4 = Android media. |
-| **Bluetooth song info** | `/dev/goc_serial`, the Bluetooth module's AT protocol: commands `AT#<code>\r\n` (`MK` song info, `VI` state, `MA` play/pause, `MD` next, `ME` previous, `MS` play, `MJ` pause); replies are `\r`-terminated lines with fields split by byte `0xFF` (`MI` song, `MT` position/length, `MB`/`MA` playing/stopped, `PS` signal/battery, `MY`/`IA` disconnects). The factory app's audio sockets (`goc_control`, `goc_data`) and the phone-projection app's TCP port 3152 are never touched. |
+| **Bluetooth song info** | From the factory BT service: `com.qf.action.BT.MUSIC.INFO` broadcast (`songName`, `songSinger`, `songAlbum`), system properties `sys.qf.bt.music.progress` and `sys.qf.bt.is.connect`. Controls through `com.qf.action.BT.MUSIC.CONTROL`. The launcher only writes `AT#MK` (song info request) to `/dev/goc_serial`. With direct reading turned on (units without the factory app) it parses the module's AT protocol itself: `MI` song, `MT` position/length, `MB`/`MA` playing/stopped, `PS` signal/battery, `IB` connected, `MY`/`IA` disconnects. |
 | **Factory media info** | The factory media apps' `UPDATE_MEDIA_INFO`, `UPDATE_MEDIA_STATE`, `BT_STATE` and `UPDATE_ACTION` broadcasts, as a fallback. |
 | **Other players** | Android `MediaSession`s, found through the notification listener. |
 | **Fullscreen** | `LAYOUT_FULLSCREEN` plus `WindowInsetsController`; the UI scale is recalculated for the real screen size. |
@@ -408,7 +420,7 @@ app/src/main/java/com/thecarlauncher/
 │   ├── MediaHub            the single source of truth for "what is playing"
 │   ├── MusicService        built-in player (MediaSession, audio focus)
 │   ├── MusicLibrary        songs / albums / artists / folders from MediaStore
-│   ├── GocBluetooth        /dev/goc_serial client (BT song info + controls)
+│   ├── GocBluetooth        BT song info: factory service broadcast / properties, goc_serial
 │   ├── BluetoothSource     factory BT app discovery, background start, media keys
 │   ├── CoverArt            online cover lookup with disk cache
 │   ├── QfMediaBridge       factory media broadcasts
@@ -446,7 +458,8 @@ information shows *robolectric*.
 
 | Problem | What to try |
 | --- | --- |
-| BT music plays but no title shows | *Setup → Bluetooth audio → Diagnostics* → *Ask for song info*; the `←` lines should show `MI…`. Send a photo of that page with a bug report. |
+| BT music plays but no title shows | Check that *Read the BT module directly* is **off**, then restart the unit. *Diagnostics* should show the song under *Song from BT app (broadcast)*. Send a photo of that page with a bug report. |
+| BT audio doesn't start when the phone connects | *Diagnostics* → `sys.qf.bt.is.connect` should read `true`; check *BT audio as soon as the phone connects*. |
 | No sound after choosing BT-audio | Turn on *Open the BT app briefly (if there is no sound)* as a fallback. |
 | The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
 | Calls stop working in the factory app | Report it with the *Potential issue* form. |
@@ -461,15 +474,14 @@ information shows *robolectric*.
 
 | Feature | Status on the head unit |
 | --- | --- |
-| BT song title / artist / album from the module | Confirmed |
-| BT position, length and full progress bar | Confirmed |
+| BT song title / artist / album / position from the factory service | Confirmed (4.2.3) |
+| BT controls through the factory control broadcast | Confirmed (4.2.3) |
+| BT audio when the phone connects / when opening Media | Confirmed (4.2.5) |
 | UI, MENU, status bar, fullscreen | In daily use |
-| BT-audio through the factory app's control broadcast (no screen) | New in 3.7.0, needs testing |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |
 | Cover art lookup | New, needs testing on the unit's connection |
-| Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
-| Calls in the factory app while reading the module | Needs confirming |
+| Clearing the song on phone disconnect | Relies on `sys.qf.bt.is.connect` |
 | USB sticks read as folders (All files access) | New in 3.3.0, needs testing |
 | Offline maps (download + drawing) | New in 3.4.0, needs testing with a real country map |
 | FM radio through `mcu_service` | Implemented from the OpenRadioFM protocol |
