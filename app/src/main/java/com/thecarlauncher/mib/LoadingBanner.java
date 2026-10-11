@@ -42,11 +42,13 @@ public class LoadingBanner extends FrameLayout {
 
     public LoadingBanner(Context c) {
         super(c);
-        // Solid black with a very thin outline.
+        // Solid black with a very thin line along the bottom edge only (the stroke on the
+        // other three sides is pushed outside the view).
+        int sw = Math.max(1, Mib.px(c, 1));
         GradientDrawable bg = new GradientDrawable();
         bg.setColor(0xFF000000);
-        bg.setStroke(Math.max(1, Mib.px(c, 1)), 0xFF55565C);
-        setBackground(bg);
+        bg.setStroke(sw, 0xFF55565C);
+        setBackground(new android.graphics.drawable.InsetDrawable(bg, -sw, -sw, -sw, 0));
         LinearLayout row = new LinearLayout(c);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(Mib.px(c, 30), 0, Mib.px(c, 30), 0);
