@@ -335,16 +335,30 @@ public class SettingsScreen extends Screen {
                 Ui.toast(act, s("Obrisano", "Cleared"));
             }
         });
-        final String[] names = {s("Dan (MIB)", "Day (MIB)"), s("Noć", "Night"), s("OpenStreetMap (zatamnjena)", "OpenStreetMap (dimmed)"),
+        String ck = Prefs.str(act, Prefs.CARTO_KEY, null);
+        action(s("CARTO ključ za online mapu", "CARTO key for the online map"),
+                ck == null || ck.trim().isEmpty() ? s("Nije unet – koristi se OpenStreetMap", "Not set – OpenStreetMap is used")
+                        : s("Unet", "Set"), new Runnable() {
+            public void run() {
+                Dialogs.text(act, s("CARTO API ključ (besplatan: carto.com/basemaps/apikey)", "CARTO API key (free: carto.com/basemaps/apikey)"),
+                        "key", Prefs.str(act, Prefs.CARTO_KEY, ""), new Dialogs.TextEntered() {
+                            public void onText(String text) {
+                                Prefs.put(act, Prefs.CARTO_KEY, text == null ? "" : text.trim());
+                                act.restartUi();
+                            }
+                        });
+            }
+        });
+        final String[] names = {s("Dan", "Day"), s("Noć", "Night"), s("OpenStreetMap (zatamnjena)", "OpenStreetMap (dimmed)"),
                 s("Isključena (bez interneta)", "Off (no internet)")};
         final String[] keys = {Prefs.TILES_DAY, Prefs.TILES_DARK, Prefs.TILES_OSM, Prefs.TILES_OFF};
-        action(s("Izgled mape", "Map style"), names[indexOf(keys, Prefs.tiles(act))], new Runnable() {
+        action(s("Izgled mape", "Map style"), names[indexOf(keys, Prefs.str(act, Prefs.MAP_TILES, Prefs.TILES_DAY))], new Runnable() {
             public void run() {
                 push(s("Izgled mape", "Map style"), new Page() {
                     public void build() {
                         for (int i = 0; i < keys.length; i++) {
                             final int idx = i;
-                            choice(names[i], keys[i].equals(Prefs.tiles(act)), new Runnable() {
+                            choice(names[i], keys[i].equals(Prefs.str(act, Prefs.MAP_TILES, Prefs.TILES_DAY)), new Runnable() {
                                 public void run() {
                                     Prefs.put(act, Prefs.MAP_TILES, keys[idx]);
                                     act.restartUi();

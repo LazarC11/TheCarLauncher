@@ -58,6 +58,7 @@ public final class Prefs {
     public static final String TILES_DARK = "carto_dark";
     public static final String TILES_OSM = "osm_dark";
     public static final String TILES_OFF = "off";
+    public static final String CARTO_KEY = "carto_key";
 
     private Prefs() {}
 
@@ -102,6 +103,10 @@ public final class Prefs {
     }
 
     public static String tiles(Context c) {
-        return str(c, MAP_TILES, TILES_DAY);
+        String t = str(c, MAP_TILES, TILES_DAY);
+        // The night style needs a CARTO key; without one, use the dimmed OpenStreetMap map.
+        String k = str(c, CARTO_KEY, null);
+        if (TILES_DARK.equals(t) && (k == null || k.trim().isEmpty())) return TILES_OSM;
+        return t;
     }
 }

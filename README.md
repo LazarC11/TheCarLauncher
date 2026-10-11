@@ -440,6 +440,9 @@ For Bluetooth problems, attach a photo of *Setup → Bluetooth audio → Diagnos
   (LGPL-3.0, unmodified jars in `app/libs/`, licence texts in `licenses/`) and AndroidSVG
   (Apache-2.0). The map style `app/src/main/assets/maptheme/stock_day.xml` is original to this
   project. Map files from `download.mapsforge.org`, data © OpenStreetMap contributors (ODbL).
+- **Online map tiles.** Without a key the online map uses OpenStreetMap's own tiles. CARTO's
+  styles (day / night) need a free CARTO API key since 2026, entered under *Setup → Navigation →
+  CARTO key*; without it CARTO draws "API KEY REQUIRED" on every tile.
 - **Map data.** © OpenStreetMap contributors, tiles styled by © CARTO, cached on the unit for 30
   days. Search by Nominatim, routing by OSRM (FOSSGIS), places by Overpass.
 - **Cover art.** Covers are fetched from public music catalogue search results, for display only.

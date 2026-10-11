@@ -3,6 +3,7 @@ package com.thecarlauncher.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.LruCache;
@@ -66,17 +67,30 @@ public final class TileCache {
     public void addListener(Listener l) { listeners.add(l); }
     public void removeListener(Listener l) { listeners.remove(l); }
 
-    public static String url(String source, int z, int x, int y, boolean hiDpi) {
-        if ("osm_dark".equals(source)) {
+    /**
+     * Tile address. Since 2026 CARTO's basemaps need a (free) API key and draw "API KEY
+     * REQUIRED" over every tile without one, so without a key the day map uses
+     * OpenStreetMap's own tiles instead.
+     */
+    public static String url(String source, int z, int x, int y, boolean hiDpi, String cartoKey) {
+        boolean carto = cartoKey != null && !cartoKey.isEmpty();
+        if ("osm_dark".equals(source) || !carto) {
             return String.format(Locale.US, "https://tile.openstreetmap.org/%d/%d/%d.png", z, x, y);
         }
-        char sub = "abcd".charAt(Math.abs(x + y) % 4);
-        if ("mib_day".equals(source)) {
-            return String.format(Locale.US, "https://%c.basemaps.cartocdn.com/rastertiles/voyager/%d/%d/%d%s.png",
-                    sub, z, x, y, hiDpi ? "@2x" : "");
-        }
-        return String.format(Locale.US, "https://%c.basemaps.cartocdn.com/dark_all/%d/%d/%d%s.png",
-                sub, z, x, y, hiDpi ? "@2x" : "");
+        String style = "mib_day".equals(source) ? "rastertiles/voyager" : "dark_all";
+        return String.format(Locale.US, "https://basemaps.cartocdn.com/%s/%d/%d/%d%s.png?key=%s",
+                style, z, x, y, hiDpi ? "@2x" : "", Uri.encode(cartoKey.trim()));
+    }
+
+    private String cartoKey() {
+        return com.thecarlauncher.util.Prefs.str(app, com.thecarlauncher.util.Prefs.CARTO_KEY, null);
+    }
+
+    /** Cache name of a tile; the tile server is part of it so old watermarked tiles are not reused. */
+    private String keyOf(String source, int z, int x, int y, boolean hiDpi) {
+        String k = cartoKey();
+        String server = "osm_dark".equals(source) || k == null || k.isEmpty() ? "o" : "c";
+        return source + "_" + server + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y;
     }
 
     /** True when the map has something to draw: an online style, or a downloaded offline map. */
@@ -153,7 +167,7 @@ public final class TileCache {
             return getOffline(z, x, y, hiDpi);
         }
         if (com.thecarlauncher.util.Prefs.TILES_OFF.equals(source)) return null;
-        final String key = source + "_" + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y;
+        final String key = keyOf(source, z, x, y, hiDpi);
         Bitmap b = memory.get(key);
         if (b != null) return b;
         long now = System.currentTimeMillis();
@@ -166,7 +180,7 @@ public final class TileCache {
         pool.execute(new Runnable() {
             @Override
             public void run() {
-                final Bitmap loaded = load(key, url(source, z, x, y, hiDpi));
+                final Bitmap loaded = load(key, url(source, z, x, y, hiDpi, cartoKey()));
                 main.post(new Runnable() {
                     @Override
                     public void run() {
@@ -188,7 +202,7 @@ public final class TileCache {
     public Bitmap peek(String source, int z, int x, int y, boolean hiDpi) {
         Bitmap off = memory.get(offlineKey(z, x, y, hiDpi));
         if (off != null) return off;
-        return memory.get(source + "_" + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y);
+        return memory.get(keyOf(source, z, x, y, hiDpi));
     }
 
     private Bitmap load(String key, String url) {

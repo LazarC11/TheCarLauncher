@@ -199,7 +199,10 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         mapFrame.addView(status, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
 
-        TextView attrib = Mib.text(act, "© OpenStreetMap  © CARTO  · OSRM", 11, Mib.regular(act), 0xAA3A3A3A);
+        String ck = Prefs.str(act, Prefs.CARTO_KEY, null);
+        boolean carto = ck != null && !ck.trim().isEmpty() && !Prefs.TILES_OSM.equals(Prefs.tiles(act));
+        TextView attrib = Mib.text(act, carto ? "© OpenStreetMap  © CARTO  · OSRM" : "© OpenStreetMap  · OSRM",
+                11, Mib.regular(act), 0xAA3A3A3A);
         FrameLayout.LayoutParams al = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT);
         al.leftMargin = al.bottomMargin = Mib.px(act, 6);
