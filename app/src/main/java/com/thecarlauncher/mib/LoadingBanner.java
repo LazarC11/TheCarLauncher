@@ -1,8 +1,6 @@
 package com.thecarlauncher.mib;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.AnimationDrawable;
@@ -39,16 +37,16 @@ public class LoadingBanner extends FrameLayout {
 
     private final ImageView spinner;
     private final TextView text;
-    private final Paint rule = new Paint();
     private AnimationDrawable anim;
     private boolean shown;
 
     public LoadingBanner(Context c) {
         super(c);
-        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0xFF141417, 0xFF060607});
+        // Solid black with a very thin outline.
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(0xFF000000);
+        bg.setStroke(Math.max(1, Mib.px(c, 1)), 0xFF55565C);
         setBackground(bg);
-        setWillNotDraw(false);
         LinearLayout row = new LinearLayout(c);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(Mib.px(c, 30), 0, Mib.px(c, 30), 0);
@@ -126,7 +124,6 @@ public class LoadingBanner extends FrameLayout {
         anim.setColorFilter(new PorterDuffColorFilter(Mib.BLUE, PorterDuff.Mode.SRC_IN));
         spinner.setImageDrawable(anim);
         anim.start();
-        rule.setColor(Mib.BLUE);
         setVisibility(VISIBLE);
         animate().cancel();
         setTranslationY(-height(getContext()));
@@ -144,13 +141,5 @@ public class LoadingBanner extends FrameLayout {
                 if (anim != null) anim.stop();
             }
         }).start();
-    }
-
-    @Override
-    protected void onDraw(Canvas c) {
-        super.onDraw(c);
-        // Thin ambient rule along the bottom edge, like the factory pop-downs.
-        int h = Math.max(2, Mib.px(getContext(), 2));
-        c.drawRect(0, getHeight() - h, getWidth(), getHeight(), rule);
     }
 }
