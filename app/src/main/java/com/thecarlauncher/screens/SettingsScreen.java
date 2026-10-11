@@ -363,6 +363,13 @@ public class SettingsScreen extends Screen {
                 }
             }
         });
+        if (com.thecarlauncher.util.Storage.needsAllFiles()) {
+            boolean files = com.thecarlauncher.util.Storage.hasAllFiles();
+            action(s("Pristup svim fajlovima (USB)", "All files access (USB)"),
+                    files ? s("Dozvoljeno", "Allowed") : s("Nije dozvoljeno – dodirni", "Not allowed – tap"), new Runnable() {
+                        public void run() { com.thecarlauncher.util.Storage.requestAllFiles(act); }
+                    });
+        }
         action(s("Druge aplikacije za medije", "Other media apps"), MediaHub.get(act).hasNotificationAccess()
                         ? s("Povezano", "Connected") : s("Nije povezano", "Not connected"),
                 intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));

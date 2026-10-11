@@ -52,6 +52,7 @@ import com.thecarlauncher.screens.SettingsScreen;
 import com.thecarlauncher.screens.VehicleScreen;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.Ui;
+import com.thecarlauncher.util.Storage;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,6 +105,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
+        hadAllFiles = Storage.hasAllFiles();
+        IntentFilter mf = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        mf.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        mf.addAction(Intent.ACTION_MEDIA_EJECT);
+        mf.addAction(Intent.ACTION_MEDIA_REMOVED);
+        mf.addDataScheme("file");
+        registerReceiver(mediaMount, mf);
         Mib.loadAmbient(this);
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
@@ -281,6 +289,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onResume() {
         super.onResume();
         applyImmersive();
+        // Came back from the "All files access" page with it switched on: rescan.
+        boolean files = Storage.hasAllFiles();
+        if (files && !hadAllFiles) {
+            MusicLibrary.invalidate();
+            for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        }
+        hadAllFiles = files;
         MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
@@ -305,6 +320,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     protected void onDestroy() {
+        try {
+            unregisterReceiver(mediaMount);
+        } catch (Exception ignored) {
+        }
         unregisterReceiver(packageReceiver);
         unregisterReceiver(statusReceiver);
         for (Screen s : screens) if (s != null) s.onDestroy();
@@ -585,7 +604,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             need.add(Manifest.permission.ACCESS_FINE_LOCATION);
             need.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        if (!MusicLibrary.hasPermission(this)) need.add(MusicLibrary.permission());
+        if (checkSelfPermission(MusicLibrary.permission()) != PackageManager.PERMISSION_GRANTED) {
+            need.add(MusicLibrary.permission());
+        }
         if (Build.VERSION.SDK_INT >= 31
                 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             need.add(Manifest.permission.BLUETOOTH_CONNECT);
@@ -596,7 +617,27 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         Prefs.put(this, Prefs.ASKED_PERMS, true);
         if (!need.isEmpty()) requestPermissions(need.toArray(new String[0]), REQ_PERMS);
+        else askAllFiles(force);
     }
+
+    /** USB sticks are read as folders, which needs "All files access" on Android 11+: ask once. */
+    private void askAllFiles(boolean force) {
+        if (Storage.hasAllFiles() || (!force && Prefs.bool(this, "asked_all_files", false))) return;
+        Prefs.put(this, "asked_all_files", true);
+        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za Car Launcher da bi se čitala muzika sa USB-a.",
+                "Allow \"All files access\" for Car Launcher so music on USB sticks can be read."));
+        Storage.requestAllFiles(this);
+    }
+
+    private boolean hadAllFiles;
+    private final android.content.BroadcastReceiver mediaMount = new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context c, Intent i) {
+            // USB stick plugged in or removed: read the library again.
+            MusicLibrary.invalidate();
+            for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int code, String[] perms, int[] results) {
@@ -610,5 +651,6 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             MusicService.start(this);
         }
         for (Screen s : screens) if (s != null && s.isCreated()) s.onPermissionsChanged();
+        askAllFiles(false);
     }
 }

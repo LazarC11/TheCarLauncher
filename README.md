@@ -255,7 +255,8 @@ Requires Android 5.0 or newer.
 | Permission | Why | Where |
 | --- | --- | --- |
 | Location | Map, speed, street name, trip computer | Asked on first start |
-| Music / storage | Local songs from USB, SD and internal storage | Asked on first start |
+| Music / storage | Local songs from internal storage and indexed cards | Asked on first start |
+| All files access (Android 11+) | Reads USB sticks and SD cards as folders, since many head units never add them to Android's media index | Opened once after the first permission dialog; also *Setup → Media → All files access (USB)* or by tapping *No media* in Browse |
 | Notification access | Song info from other media apps, phone notification envelope | *Media → Source → Connect apps* |
 | Bluetooth (nearby devices) | Phone status on Android 12+ | Asked on first start |
 

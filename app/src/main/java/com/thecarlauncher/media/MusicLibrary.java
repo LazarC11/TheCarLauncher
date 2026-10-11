@@ -48,7 +48,8 @@ public final class MusicLibrary {
     }
 
     public static boolean hasPermission(Context c) {
-        return c.checkSelfPermission(permission()) == PackageManager.PERMISSION_GRANTED;
+        return c.checkSelfPermission(permission()) == PackageManager.PERMISSION_GRANTED
+                || (com.thecarlauncher.util.Storage.needsAllFiles() && com.thecarlauncher.util.Storage.hasAllFiles());
     }
 
     public static synchronized void invalidate() {
@@ -65,6 +66,7 @@ public final class MusicLibrary {
                 MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.ALBUM_ID, MediaStore.Audio.Media.ARTIST_ID,
                 MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.DATA
         };
+        indexed.clear();
         Cursor cur = null;
         try {
             cur = c.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, proj,
@@ -77,6 +79,7 @@ public final class MusicLibrary {
                         int slash = data.lastIndexOf('/');
                         folder = slash > 0 ? data.substring(0, slash) : data;
                     }
+                    if (data != null) indexed.add(data);
                     out.add(new Track(cur.getLong(0), clean(cur.getString(1), "Unknown title"),
                             clean(cur.getString(2), "Unknown artist"), clean(cur.getString(3), "Unknown album"),
                             cur.getLong(4), cur.getLong(5), cur.getLong(6), folder));
@@ -86,6 +89,7 @@ public final class MusicLibrary {
         } finally {
             if (cur != null) cur.close();
         }
+        scanRemovable(c, out);
         final Collator col = Collator.getInstance();
         Collections.sort(out, new Comparator<Track>() {
             @Override
@@ -95,6 +99,95 @@ public final class MusicLibrary {
         });
         sCache = out;
         return out;
+    }
+
+    // ---- USB sticks / SD cards read as folders --------------------------------------------
+
+    private static final java.util.Set<String> indexed = new java.util.HashSet<>();
+    private static final Map<Long, String> paths = new java.util.HashMap<>();
+    private static final java.util.regex.Pattern AUDIO =
+            java.util.regex.Pattern.compile("(?i).+\\.(mp3|m4a|aac|flac|ogg|oga|opus|wav|wma|amr|3gp|mka)$");
+    private static final int MAX_FILES = 20000, MAX_DEPTH = 12;
+
+    /**
+     * Adds songs from USB sticks / SD cards that Android's media index does not know about.
+     * Needs "All files access" on Android 11+. Title / artist come from the file name
+     * ("Artist - Title.mp3"), the album is the folder.
+     */
+    private static void scanRemovable(Context c, List<Track> out) {
+        if (com.thecarlauncher.util.Storage.needsAllFiles() && !com.thecarlauncher.util.Storage.hasAllFiles()) return;
+        paths.clear();
+        int[] count = {0};
+        for (java.io.File root : com.thecarlauncher.util.Storage.removableRoots(c)) {
+            walk(root, 0, out, count);
+        }
+    }
+
+    private static void walk(java.io.File dir, int depth, List<Track> out, int[] count) {
+        if (depth > MAX_DEPTH || count[0] >= MAX_FILES) return;
+        java.io.File[] files = dir.listFiles();
+        if (files == null) return;
+        for (java.io.File f : files) {
+            String name = f.getName();
+            if (name.startsWith(".") || name.equals("LOST.DIR") || name.equals("Android")) continue;
+            if (f.isDirectory()) {
+                walk(f, depth + 1, out, count);
+            } else if (AUDIO.matcher(name).matches() && !indexed.contains(f.getPath())) {
+                String folder = dir.getPath();
+                String base = name.substring(0, name.lastIndexOf('.'));
+                String artist = "Unknown artist", title = base;
+                int dash = base.indexOf(" - ");
+                if (dash > 0) {
+                    artist = base.substring(0, dash).trim();
+                    title = base.substring(dash + 3).trim();
+                }
+                long id = -1 - (f.getPath().hashCode() & 0x7fffffffL);
+                long albumId = -1 - (folder.hashCode() & 0x7fffffffL);
+                long artistId = -1 - (artist.toLowerCase().hashCode() & 0x7fffffffL);
+                paths.put(id, f.getPath());
+                out.add(new Track(id, title, artist, dir.getName(), albumId, artistId, 0, folder, f.getPath()));
+                count[0]++;
+            }
+        }
+    }
+
+    /** Cover for a song read from a folder: embedded picture, else cover.jpg / folder.jpg. */
+    private static Bitmap fileArt(String path, int size) {
+        android.media.MediaMetadataRetriever r = new android.media.MediaMetadataRetriever();
+        try {
+            r.setDataSource(path);
+            byte[] pic = r.getEmbeddedPicture();
+            if (pic != null) return decodeSampled(pic, size);
+        } catch (Throwable ignored) {
+        } finally {
+            try {
+                r.release();
+            } catch (Throwable ignored) {
+            }
+        }
+        java.io.File dir = new java.io.File(path).getParentFile();
+        if (dir != null) {
+            for (String n : new String[]{"cover.jpg", "folder.jpg", "Cover.jpg", "Folder.jpg", "front.jpg", "cover.png"}) {
+                java.io.File f = new java.io.File(dir, n);
+                if (f.isFile()) {
+                    BitmapFactory.Options o = new BitmapFactory.Options();
+                    o.inSampleSize = 2;
+                    return BitmapFactory.decodeFile(f.getPath(), o);
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Bitmap decodeSampled(byte[] data, int size) {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, o);
+        int sample = 1;
+        while (o.outWidth / (sample * 2) >= size) sample *= 2;
+        o = new BitmapFactory.Options();
+        o.inSampleSize = sample;
+        return BitmapFactory.decodeByteArray(data, 0, data.length, o);
     }
 
     private static String clean(String s, String def) {
@@ -189,6 +282,15 @@ public final class MusicLibrary {
 
     /** Loads cover art for an album, or null. Blocking. */
     public static Bitmap loadArt(Context c, long albumId, long trackId, int size) {
+        // Songs read from a folder have negative ids.
+        if (trackId < 0 || (trackId == 0 && albumId < 0)) {
+            String path = trackId < 0 ? paths.get(trackId) : null;
+            if (path == null && albumId < 0) {
+                List<Track> cache = sCache;
+                if (cache != null) for (Track t : cache) if (t.albumId == albumId && t.path != null) { path = t.path; break; }
+            }
+            return path == null ? null : fileArt(path, size);
+        }
         try {
             if (Build.VERSION.SDK_INT >= 29) {
                 Uri u = trackId > 0
