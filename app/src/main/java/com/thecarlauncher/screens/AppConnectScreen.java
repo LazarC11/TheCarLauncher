@@ -5,10 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +35,7 @@ public class AppConnectScreen extends Screen {
     private static String status, mode;
 
     private TextView message;
-    private TextView[] modes = new TextView[3];
+    private android.widget.ImageView[] modes = new android.widget.ImageView[3];
 
     private final BroadcastReceiver zlinkStatus = new BroadcastReceiver() {
         @Override
@@ -92,10 +88,10 @@ public class AppConnectScreen extends Screen {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(Mib.px(act, 60), 0, Mib.px(act, 60), 0);
-        modes[0] = logo(autoLogo(), 0);
-        modes[1] = logo(carplayLogo(), 1);
-        modes[2] = logo(s("Preslikavanje ekrana", "Screen mirroring"), 2);
-        for (TextView t : modes) row.addView(t, new LinearLayout.LayoutParams(0, Mib.px(act, 90), 1f));
+        modes[0] = logo(R.drawable.ui_logo_aauto, 0);
+        modes[1] = logo(R.drawable.ui_logo_carplay, 1);
+        modes[2] = logo(R.drawable.ui_logo_mirrorlink, 2);
+        for (View t : modes) row.addView(t, new LinearLayout.LayoutParams(0, Mib.px(act, 90), 1f));
         FrameLayout.LayoutParams rl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
         rl.bottomMargin = Mib.px(act, 8);
@@ -121,29 +117,31 @@ public class AppConnectScreen extends Screen {
         return r;
     }
 
-    private CharSequence autoLogo() {
-        SpannableString sp = new SpannableString("android auto");
-        sp.setSpan(new ForegroundColorSpan(0xFF9C9EA8), 7, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return sp;
-    }
-
-    private CharSequence carplayLogo() {
-        return "▶  Apple CarPlay";
-    }
-
-    private TextView logo(CharSequence text, final int idx) {
-        TextView t = Mib.text(act, "", 30, Mib.regular(act), Mib.WHITE);
-        t.setText(text);
-        t.setGravity(Gravity.CENTER);
-        t.setBackground(Mib.keyPressed());
-        if (idx == 0) t.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        t.setOnClickListener(new View.OnClickListener() {
+    /** The factory logo artwork (white, half transparent): shown at full white like the photo. */
+    private android.widget.ImageView logo(int res, final int idx) {
+        android.widget.ImageView v = new android.widget.ImageView(act);
+        v.setImageResource(res);
+        v.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        int pad = Mib.px(act, 12);
+        v.setPadding(pad, pad, pad, pad);
+        v.setBackground(Mib.keyPressed());
+        v.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 open(idx);
             }
         });
-        return t;
+        return v;
+    }
+
+    /** Colour filter: the logo's alpha boosted to near-opaque, drawn in the given colour. */
+    private static android.graphics.ColorMatrixColorFilter tint(int color, float alpha) {
+        float r = ((color >> 16) & 0xFF) / 255f, g = ((color >> 8) & 0xFF) / 255f, b = (color & 0xFF) / 255f;
+        return new android.graphics.ColorMatrixColorFilter(new float[]{
+                0, 0, 0, 0, r * 255,
+                0, 0, 0, 0, g * 255,
+                0, 0, 0, 0, b * 255,
+                0, 0, 0, 2.2f * alpha, 0});
     }
 
     /** 0 Android Auto, 1 CarPlay, 2 mirroring. */
@@ -211,8 +209,8 @@ public class AppConnectScreen extends Screen {
                     "Welcome to App-Connect.\nPlease connect a device using the USB."));
         }
         for (int i = 0; i < modes.length; i++) {
-            modes[i].setAlpha(connected && i != active ? 0.45f : 1f);
-            modes[i].setTextColor(connected && i == active ? Mib.BLUE : Mib.WHITE);
+            boolean on = connected && i == active;
+            modes[i].setColorFilter(tint(on ? Mib.BLUE : 0xFFF2F2F4, connected && !on ? 0.4f : 1f));
         }
     }
 

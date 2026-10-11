@@ -195,7 +195,7 @@ factory-navigation day style, with no internet at all.
 ### App-Connect
 
 A factory-style App-Connect page: *"Welcome to App-Connect. Please connect a device using the USB."*
-with the three phone modes along the bottom (Android Auto, Apple CarPlay, screen mirroring) and
+with the three phone-mode logos along the bottom (Android Auto, Apple CarPlay, MirrorLink, from the factory artwork) and
 *Info* / *Setup* soft keys.
 
 - The projection itself is done by the unit's ZLink app. The launcher keeps ZLink's background
