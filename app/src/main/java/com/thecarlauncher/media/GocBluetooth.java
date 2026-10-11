@@ -53,7 +53,101 @@ public final class GocBluetooth {
         return sInstance;
     }
 
-    private GocBluetooth(Context c) { app = c; }
+    private GocBluetooth(Context c) {
+        app = c;
+        // The factory BT app reads the same serial line and may take the module's song lines
+        // before we see them. It republishes the song as a broadcast and the progress as a
+        // system property, so both are read as well.
+        try {
+            android.content.IntentFilter f = new android.content.IntentFilter("com.qf.action.BT.MUSIC.INFO");
+            if (android.os.Build.VERSION.SDK_INT >= 33) {
+                c.registerReceiver(appInfo, f, Context.RECEIVER_EXPORTED);
+            } else {
+                c.registerReceiver(appInfo, f);
+            }
+        } catch (Exception ignored) {
+        }
+        main.postDelayed(progressPoll, 1000);
+    }
+
+    private final android.content.BroadcastReceiver appInfo = new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(Context c, android.content.Intent i) {
+            String t = i.getStringExtra("songName");
+            if (t == null || t.trim().isEmpty()) return;
+            String a = i.getStringExtra("songSinger"), al = i.getStringExtra("songAlbum");
+            synchronized (GocBluetooth.this) {
+                if (!t.trim().equals(title)) {
+                    posMs = 0;
+                    posAt = System.currentTimeMillis();
+                    lenMs = -1;
+                }
+                title = t.trim();
+                artist = a == null ? "" : a.trim();
+                album = al == null || al.trim().isEmpty() ? null : al.trim();
+                updated = System.currentTimeMillis();
+            }
+            MediaHub.get(app).radioChanged();
+        }
+    };
+
+    private String lastProgress = "";
+    private long progressChangedAt;
+
+    /** "position,length" in ms, published by the factory BT app while a song plays. */
+    private final Runnable progressPoll = new Runnable() {
+        @Override
+        public void run() {
+            main.postDelayed(this, 1000);
+            String v = prop("sys.qf.bt.music.progress");
+            long now = System.currentTimeMillis();
+            if (v == null) return;
+            if (v.isEmpty()) {
+                // The BT app clears it when the phone disconnects: forget the song too.
+                if (!lastProgress.isEmpty()) {
+                    lastProgress = "";
+                    synchronized (GocBluetooth.this) {
+                        title = artist = album = null;
+                        posMs = lenMs = -1;
+                        playing = 0;
+                    }
+                    MediaHub.get(app).radioChanged();
+                }
+                return;
+            }
+            if (!v.equals(lastProgress)) {
+                lastProgress = v;
+                progressChangedAt = now;
+                String[] pl = v.split(",");
+                if (pl.length == 2) {
+                    long p = number(pl[0]), l = songLength(number(pl[1]));
+                    synchronized (GocBluetooth.this) {
+                        if (p >= 0) {
+                            posMs = p;
+                            posAt = now;
+                        }
+                        if (l > 0) lenMs = l;
+                        playing = 1;
+                    }
+                    MediaHub.get(app).radioChanged();
+                }
+            } else if (playing == 1 && progressChangedAt > 0 && now - progressChangedAt > 3000 && lastMp == null) {
+                // No progress for a while and no module lines of our own: treat as paused.
+                freezePosition();
+                playing = 0;
+                MediaHub.get(app).radioChanged();
+            }
+        }
+    };
+
+    private static String prop(String key) {
+        try {
+            Class<?> sp = Class.forName("android.os.SystemProperties");
+            return (String) sp.getMethod("get", String.class).invoke(null, key);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
 
     /** Starts the background connection (no-op on units without the daemon). */
     public synchronized void start() {
