@@ -363,6 +363,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (idx < 0 || idx >= screens.length || screens[idx] == null) return;
         hideKeyboard();
         if (idx == current) return;
+        // Every page fades in softly (not on the very first page after start).
+        animate = current >= 0;
         if (current >= 0) {
             screens[current].onHide();
             screens[current].view(content).setVisibility(View.GONE);
@@ -381,7 +383,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         v.setVisibility(View.VISIBLE);
         if (animate) {
             v.setAlpha(0f);
-            v.animate().alpha(1f).setDuration(180).start();
+            v.animate().alpha(1f).setDuration(220).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();
         }
         s.onShow();
     }

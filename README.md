@@ -141,7 +141,13 @@ Related settings (*Setup → Bluetooth audio*):
 A built-in FM radio that controls the unit's real tuner through the MCU service.
 
 - Large frequency display with **<** **>** seek boxes.
-- Three pages of six presets with RDS station names. Tap a preset to tune, long-press to store; an
+- When the station sends its RDS name, the name replaces the frequency at the top (the frequency
+  moves to the line under it).
+- Three pages of six presets, shaded like the MENU tiles, with the preset number, the station's
+  logo and its name under the tile.
+- Station logos come from the free [Radio Browser](https://www.radio-browser.info) database by RDS
+  name: fetched automatically when a station is shown, or all at once with *Setup → Radio →
+  Download logos for found stations*. They are kept on the unit; none are bundled in the APK. Tap a preset to tune, long-press to store; an
   empty slot says *Empty*.
 - **Stations** scans the band into a station list.
 - **Manual** shows the factory FM dial for drag-tuning; the arrows then step 0.1 MHz.
