@@ -533,6 +533,8 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
+        toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
+                Prefs.BT_AUTO_SELECT, true, false);
         toggle(s("Otvori BT aplikaciju na trenutak pri izboru BT audio", "Open the BT app briefly when choosing BT audio"),
                 Prefs.BT_OPEN_APP, false, false);
         if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
@@ -712,6 +714,8 @@ public class SettingsScreen extends Screen {
         });
         String fed = goc.appSongInfo();
         info(s("Pesma od BT aplikacije (broadcast)", "Song from BT app (broadcast)"), fed != null ? fed : s("ništa nije stiglo", "nothing received"));
+        String cp = goc.connectProp();
+        info("sys.qf.bt.is.connect", cp == null ? s("nečitljivo", "unreadable") : cp.isEmpty() ? s("prazno", "empty") : cp);
         String pp = goc.progressProp();
         info("sys.qf.bt.music.progress", pp == null ? s("nečitljivo", "unreadable") : pp.isEmpty() ? s("prazno", "empty") : pp);
         info(s("GOC brojevi uz pesmu (MI)", "GOC song numbers (MI)"), goc.lastMi() != null ? goc.lastMi() : "—");

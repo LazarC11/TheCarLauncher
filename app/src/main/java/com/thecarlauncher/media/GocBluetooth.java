@@ -106,6 +106,7 @@ public final class GocBluetooth {
     private boolean appFeeds() { return appFedAt > 0 && System.currentTimeMillis() - appFedAt < 30_000; }
 
     private String lastProgress = "";
+    private String lastConnect;
     private long progressChangedAt;
 
     /** "position,length" in ms, published by the factory BT app while a song plays. */
@@ -115,8 +116,16 @@ public final class GocBluetooth {
             main.postDelayed(this, 1000);
             String v = prop("sys.qf.bt.music.progress");
             long now = System.currentTimeMillis();
-            // The BT app's own connection flag: phone gone → no song.
-            if ("false".equals(prop("sys.qf.bt.is.connect")) && title != null) {
+            // The BT app's own connection flag: phone gone → no song; phone back → BT audio.
+            String conn = prop("sys.qf.bt.is.connect");
+            if ("true".equals(conn) && !"true".equals(lastConnect)) {
+                // Also when the phone is already connected as the launcher starts.
+                main.postDelayed(new Runnable() {
+                    public void run() { MediaHub.get(app).onPhoneConnected(); }
+                }, 1500);
+            }
+            if (conn != null) lastConnect = conn;
+            if ("false".equals(conn) && title != null) {
                 synchronized (GocBluetooth.this) {
                     title = artist = album = null;
                     posMs = lenMs = -1;
@@ -499,6 +508,11 @@ public final class GocBluetooth {
                 phoneGone = true;
             }
             changed = true;
+        } else if ("IB".equals(code) && first.length() == 2) {
+            // Phone connected (hands-free): BT audio becomes the source.
+            main.postDelayed(new Runnable() {
+                public void run() { MediaHub.get(app).onPhoneConnected(); }
+            }, 1500);
         } else if ("PS".equals(code) && first.length() >= 6) {
             try {
                 signal = Integer.parseInt(first.substring(2, 4));
@@ -591,6 +605,8 @@ public final class GocBluetooth {
         if (appSong == null) return null;
         return appSong + "  (" + appSongs + "×, " + (System.currentTimeMillis() - appFedAt) / 1000 + " s)";
     }
+
+    public String connectProp() { return prop("sys.qf.bt.is.connect"); }
 
     public String progressProp() {
         String v = prop("sys.qf.bt.music.progress");

@@ -431,6 +431,13 @@ public final class MediaHub {
         selectBluetooth();
     }
 
+    /** The phone just connected over Bluetooth: BT audio becomes the source, like its key. */
+    public void onPhoneConnected() {
+        if (!Prefs.bool(app, Prefs.BT_AUTO_SELECT, true)) return;
+        btAutoAt = System.currentTimeMillis();
+        select(BLUETOOTH);
+    }
+
     /** Our own player (USB / flash) becomes the source: radio and Bluetooth stop. */
     public void selectOwn() {
         if (isRadio()) radio().stop();
