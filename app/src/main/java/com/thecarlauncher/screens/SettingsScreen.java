@@ -316,6 +316,16 @@ public class SettingsScreen extends Screen {
                 appChoice(s("Aplikacija za navigaciju", "Navigation app"), NavHelper.navApps(act), Prefs.NAV_PKG, false);
             }
         });
+        final com.thecarlauncher.nav.OfflineMaps om = com.thecarlauncher.nav.OfflineMaps.get(act);
+        int nMaps = om.files().size();
+        action(s("Offline mape", "Offline maps"), nMaps == 0 ? s("Nijedna preuzeta", "None downloaded")
+                : nMaps + s(" preuzeto", " downloaded"), new Runnable() {
+            public void run() {
+                push(s("Offline mape", "Offline maps"), new Page() {
+                    public void build() { buildOfflineMaps(); }
+                });
+            }
+        });
         address(s("Kuća", "Home"), Prefs.HOME_ADDR);
         address(s("Posao", "Work"), Prefs.WORK_ADDR);
         toggle(s("Glasovne poruke navigacije", "Voice guidance"), com.thecarlauncher.nav.Guidance.P_VOICE, true, false);
@@ -343,6 +353,104 @@ public class SettingsScreen extends Screen {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    // ---- Offline maps ------------------------------------------------------------------------
+
+    private final android.os.Handler ui = new android.os.Handler(android.os.Looper.getMainLooper());
+    private final Runnable offlineTick = new Runnable() {
+        public void run() {
+            // Refresh download progress while the offline-maps page is open.
+            if (stack.isEmpty() || !s("Offline mape", "Offline maps").equals(stack.get(stack.size() - 1).title)) return;
+            int y = scroll.getScrollY();
+            render();
+            scroll.scrollTo(0, y);
+        }
+    };
+
+    private void buildOfflineMaps() {
+        final com.thecarlauncher.nav.OfflineMaps om = com.thecarlauncher.nav.OfflineMaps.get(act);
+        info(s("Mape rade bez interneta i crtaju se na uređaju.", "Maps work without internet and are drawn on the unit."), null);
+        toggle(s("Koristi offline mapu", "Use offline map"), com.thecarlauncher.nav.OfflineMaps.P_ON, true, new Runnable() {
+            public void run() { com.thecarlauncher.views.TileCache.get(act).clearOffline(); }
+        });
+        for (String p : om.progress()) info(s("Preuzimanje: ", "Downloading: ") + p, null);
+        if (om.downloading()) {
+            ui.removeCallbacks(offlineTick);
+            ui.postDelayed(offlineTick, 2000);
+        }
+        for (final java.io.File f : om.files()) {
+            String name = f.getName().replace(".map", "").replace('-', ' ');
+            action(name.substring(0, 1).toUpperCase() + name.substring(1), com.thecarlauncher.nav.OfflineMaps.size(f)
+                    + s(" · dodirni za brisanje", " · tap to delete"), new Runnable() {
+                public void run() {
+                    Dialogs.choose(act, s("Obriši mapu?", "Delete map?"),
+                            new String[]{s("Obriši", "Delete"), s("Otkaži", "Cancel")}, -1, new Dialogs.Chosen() {
+                                public void onChosen(int i) {
+                                    if (i != 0) return;
+                                    om.delete(f);
+                                    com.thecarlauncher.views.TileCache.get(act).clearOffline();
+                                    refreshKeep();
+                                }
+                            });
+                }
+            });
+        }
+        action(s("Preuzmi mapu", "Download a map"), s("Države i regioni", "Countries and regions"), new Runnable() {
+            public void run() { pushRegions(""); }
+        });
+        info(s("Podaci: © OpenStreetMap saradnici (ODbL), datoteke: mapsforge.org", "Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org"), null);
+    }
+
+    private void refreshKeep() {
+        int y = scroll.getScrollY();
+        render();
+        scroll.scrollTo(0, y);
+    }
+
+    /** Browses the map server: continents, then countries (and regions of big countries). */
+    private void pushRegions(final String path) {
+        String t = path.isEmpty() ? s("Preuzmi mapu", "Download a map")
+                : path.substring(0, path.length() - 1).replace('/', ' ').replace('-', ' ');
+        final java.util.List<com.thecarlauncher.nav.OfflineMaps.Region>[] got = new java.util.List[1];
+        final String[] err = new String[1];
+        push(t, new Page() {
+            public void build() {
+                if (got[0] == null && err[0] == null) {
+                    info(s("Učitavanje liste…", "Loading the list…"), null);
+                    return;
+                }
+                if (err[0] != null) {
+                    info(s("Lista nije dostupna (potreban je internet): ", "List not available (needs internet): ") + err[0], null);
+                    return;
+                }
+                for (final com.thecarlauncher.nav.OfflineMaps.Region r : got[0]) {
+                    action(r.name, r.folder ? "›" : r.size, new Runnable() {
+                        public void run() {
+                            if (r.folder) {
+                                pushRegions(r.path);
+                            } else {
+                                com.thecarlauncher.nav.OfflineMaps.get(act).download(r);
+                                Ui.toast(act, s("Preuzimanje počelo: ", "Download started: ") + r.name);
+                                // Back to the offline-maps page to watch the progress.
+                                while (stack.size() > 1 && !s("Offline mape", "Offline maps").equals(stack.get(stack.size() - 1).title)) {
+                                    stack.remove(stack.size() - 1);
+                                }
+                                render();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        com.thecarlauncher.nav.OfflineMaps.get(act).list(path, new com.thecarlauncher.nav.OfflineMaps.Listed() {
+            public void onListed(java.util.List<com.thecarlauncher.nav.OfflineMaps.Region> regions, String error) {
+                got[0] = regions;
+                err[0] = error;
+                if (regions != null && regions.isEmpty() && error == null) err[0] = s("prazno", "empty");
+                refreshKeep();
             }
         });
     }

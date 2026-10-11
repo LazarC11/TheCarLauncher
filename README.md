@@ -56,7 +56,7 @@ Text is in Serbian (Latin) by default; English can be picked under
 - **Built-in FM radio** that drives the unit's tuner through the MCU: presets, RDS names, a
   station list scan and the factory manual dial.
 - **Navigation on OpenStreetMap**: address search, routing, turn-by-turn voice
-  prompts, re-routing, nearby places.
+  prompts, re-routing, nearby places, and **offline maps** of whole countries drawn on the unit.
 - **Vehicle page** in the style of a factory *Vehicle status* screen, with a picture of the car, GPS trip
   computer, fuel log and service reminders. No OBD adapter needed.
 - **Ambient lighting** and **Bass – Mid – Treble** pages modelled on the factory ones.
@@ -149,7 +149,8 @@ A built-in FM radio that controls the unit's real tuner through the MCU service.
 
 ### Navigation
 
-Built-in navigation on OpenStreetMap data (needs internet, no live traffic):
+Built-in navigation on OpenStreetMap data (no live traffic). The map itself can work fully
+offline (see [Offline maps](#offline-maps)); address search and routing need internet.
 
 | Soft key | What it does |
 | --- | --- |
@@ -169,6 +170,23 @@ Built-in navigation on OpenStreetMap data (needs internet, no live traffic):
 | Route | Nearby | My destinations |
 | --- | --- | --- |
 | ![Route](docs/screenshots/nav-route.png) | ![Nearby](docs/screenshots/nav-nearby.png) | ![Destinations](docs/screenshots/nav-destinations.png) |
+
+#### Offline maps
+
+Whole countries or regions can be downloaded and are then drawn on the unit itself, in a soft
+factory-navigation day style, with no internet at all.
+
+- *Setup → Navigation → Offline maps → Download a map*: pick a continent, then a country (large
+  countries are split into regions). Sizes are shown next to each map.
+- Downloads run in the background with progress in the list and in Android's notifications.
+- Inside a downloaded area the offline map is always used; elsewhere the online map is shown.
+  *Use offline map* switches this off.
+- Tap a downloaded map to delete it.
+- Maps are OpenStreetMap vector files in the open mapsforge format, from
+  `download.mapsforge.org`. They are stored in the launcher's own folder, so no storage
+  permission is needed.
+
+![Offline maps](docs/screenshots/offline-maps.png)
 
 ### Vehicle (CAR)
 
@@ -311,7 +329,7 @@ unit, but don't reuse it for anything published.
 
 ### Tech notes
 
-- Plain Java 8 source, no AndroidX or other libraries.
+- Plain Java 8 source, no AndroidX. The only libraries are the offline-map jars in `app/libs/`.
 - `minSdk 21`, `targetSdk 34`.
 - `versionName` / `versionCode` live in `app/build.gradle`.
 
@@ -336,7 +354,8 @@ app/src/main/java/com/thecarlauncher/
 │   ├── MediaListenerService notification listener (other players' sessions)
 │   └── Tone                Bass / Mid / Treble
 ├── mib/                    UI widgets: tiles, soft-key bar, pager, popup, progress, cover glow
-├── nav/                    OsmApi (Nominatim, OSRM, Overpass), Guidance (TTS, re-route), GPS
+├── nav/                    OsmApi (Nominatim, OSRM, Overpass), Guidance (TTS, re-route), GPS,
+│                           OfflineMaps (download + on-device drawing of mapsforge files)
 ├── radio/                  tuner driver, RadioController, FmScaleView, McuSniffer
 ├── screens/                Menu, Media, Radio, Nav, Vehicle, Ambient, Sound, Apps, Settings
 ├── util/                   Prefs, Ui, Theme
@@ -387,6 +406,8 @@ information shows *robolectric*.
 | Cover art lookup | New, needs testing on the unit's connection |
 | Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
 | Calls in the factory app while reading the module | Needs confirming |
+| USB sticks read as folders (All files access) | New in 3.3.0, needs testing |
+| Offline maps (download + drawing) | New in 3.4.0, needs testing with a real country map |
 | FM radio through `mcu_service` | Implemented from the OpenRadioFM protocol |
 
 ---
@@ -414,6 +435,10 @@ For Bluetooth problems, attach a photo of *Setup → Bluetooth audio → Diagnos
 - **Font.** Text uses **Source Sans 3** (SIL Open Font License,
   `app/src/main/assets/fonts/OFL.txt`) as a stand-in for the factory typeface.
 - **FM radio protocol.** The tuner protocol is from OpenRadioFM (Apache-2.0); see `NOTICE`.
+- **Offline maps.** Drawn with the [mapsforge](https://github.com/mapsforge/mapsforge) libraries
+  (LGPL-3.0, unmodified jars in `app/libs/`, licence texts in `licenses/`) and AndroidSVG
+  (Apache-2.0). The map style `app/src/main/assets/maptheme/stock_day.xml` is original to this
+  project. Map files from `download.mapsforge.org`, data © OpenStreetMap contributors (ODbL).
 - **Map data.** © OpenStreetMap contributors, tiles styled by © CARTO, cached on the unit for 30
   days. Search by Nominatim, routing by OSRM (FOSSGIS), places by Overpass.
 - **Cover art.** Covers are fetched from public music catalogue search results, for display only.

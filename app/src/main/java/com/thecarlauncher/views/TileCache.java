@@ -28,6 +28,9 @@ public final class TileCache {
     private static TileCache sInstance;
 
     private final File dir;
+    private final Context app;
+    /** Offline tiles are drawn one at a time (the map renderer is not thread-safe). */
+    private final ExecutorService offlinePool = Executors.newSingleThreadExecutor();
     private final LruCache<String, Bitmap> memory;
     private final Set<String> pending = new HashSet<>();
     private final Set<String> failed = new HashSet<>();
@@ -42,6 +45,7 @@ public final class TileCache {
     }
 
     private TileCache(Context c) {
+        app = c;
         dir = new File(c.getCacheDir(), "tiles");
         dir.mkdirs();
         int kb = (int) Math.min(48 * 1024, Runtime.getRuntime().maxMemory() / 1024 / 6);
@@ -75,8 +79,80 @@ public final class TileCache {
                 sub, z, x, y, hiDpi ? "@2x" : "");
     }
 
+    /** True when the map has something to draw: an online style, or a downloaded offline map. */
+    public boolean draws(String source) {
+        return !com.thecarlauncher.util.Prefs.TILES_OFF.equals(source) || offlineReady();
+    }
+
+    private boolean offlineReady() {
+        com.thecarlauncher.nav.OfflineMaps om = com.thecarlauncher.nav.OfflineMaps.get(app);
+        return om.enabled() && om.available();
+    }
+
+    private static String offlineKey(int z, int x, int y, boolean hiDpi) {
+        return "offline_" + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y;
+    }
+
+    /** Tiles inside a downloaded map are drawn on the unit, without internet. */
+    private Bitmap getOffline(final int z, final int x, final int y, final boolean hiDpi) {
+        final String key = offlineKey(z, x, y, hiDpi);
+        Bitmap b = memory.get(key);
+        if (b != null || pending.contains(key) || failed.contains(key)) return b;
+        pending.add(key);
+        offlinePool.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Drawn tiles are kept on disk too: drawing is the slow part on a head unit.
+                File f = new File(dir, key + ".png");
+                Bitmap d = f.exists() ? BitmapFactory.decodeFile(f.getAbsolutePath()) : null;
+                if (d == null) {
+                    d = com.thecarlauncher.nav.OfflineMaps.get(app).render(z, x, y, hiDpi ? 512 : 256, hiDpi ? 2f : 1f);
+                    if (d != null) {
+                        try {
+                            FileOutputStream fo = new FileOutputStream(f);
+                            d.compress(Bitmap.CompressFormat.PNG, 100, fo);
+                            fo.close();
+                        } catch (Exception ignored) {
+                        }
+                    }
+                }
+                final Bitmap drawn = d;
+                main.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pending.remove(key);
+                        if (drawn != null) {
+                            memory.put(key, drawn);
+                            for (Listener l : listeners.toArray(new Listener[0])) l.onTileLoaded();
+                        } else {
+                            failed.add(key);
+                        }
+                    }
+                });
+            }
+        });
+        return null;
+    }
+
+    /** Drops drawn offline tiles (after a map was added or removed). */
+    public void clearOffline() {
+        for (String k : memory.snapshot().keySet()) if (k.startsWith("offline_")) memory.remove(k);
+        failed.clear();
+        offlinePool.execute(new Runnable() {
+            @Override
+            public void run() {
+                File[] files = dir.listFiles();
+                if (files != null) for (File f : files) if (f.getName().startsWith("offline_")) f.delete();
+            }
+        });
+    }
+
     /** Returns the tile if cached in memory; otherwise schedules a load and returns null. */
     public Bitmap get(final String source, final int z, final int x, final int y, final boolean hiDpi) {
+        if (offlineReady() && com.thecarlauncher.nav.OfflineMaps.get(app).covers(z, x, y)) {
+            return getOffline(z, x, y, hiDpi);
+        }
+        if (com.thecarlauncher.util.Prefs.TILES_OFF.equals(source)) return null;
         final String key = source + "_" + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y;
         Bitmap b = memory.get(key);
         if (b != null) return b;
@@ -110,6 +186,8 @@ public final class TileCache {
 
     /** Memory-only lookup used for drawing lower-zoom placeholders. */
     public Bitmap peek(String source, int z, int x, int y, boolean hiDpi) {
+        Bitmap off = memory.get(offlineKey(z, x, y, hiDpi));
+        if (off != null) return off;
         return memory.get(source + "_" + (hiDpi ? "h" : "l") + "_" + z + "_" + x + "_" + y);
     }
 

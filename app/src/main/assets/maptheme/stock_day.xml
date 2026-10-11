@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Offline map style for TheCarLauncher: soft day colours like a factory car navigation map.
+     No symbols or patterns, so it needs no extra files. -->
+<rendertheme xmlns="http://mapsforge.org/renderTheme" map-background="#EEEBE4"
+    map-background-outside="#E2DFD8" version="5">
+
+    <!-- sea / land -->
+    <rule e="way" k="natural" v="issea|sea">
+        <area fill="#A9CBE3" />
+    </rule>
+    <rule e="way" k="natural" v="nosea">
+        <area fill="#EEEBE4" stroke="#EEEBE4" stroke-width="1.0" />
+    </rule>
+    <rule e="way" k="natural" v="land">
+        <area fill="#EEEBE4" stroke="#EEEBE4" stroke-width="0.1" />
+    </rule>
+
+    <!-- land use -->
+    <rule e="way" k="landuse" v="residential|retail|commercial" zoom-min="12">
+        <area fill="#E6E2DA" />
+    </rule>
+    <rule e="way" k="landuse" v="industrial|railway|garages|construction|brownfield" zoom-min="12">
+        <area fill="#E3DEE2" />
+    </rule>
+    <rule e="way" k="landuse|natural" v="forest|wood" zoom-min="8">
+        <area fill="#CFE0C3" />
+    </rule>
+    <rule e="way" k="leisure|landuse" v="park|garden|recreation_ground|village_green|cemetery|golf_course|pitch" zoom-min="11">
+        <area fill="#D9E8CC" />
+    </rule>
+    <rule e="way" k="landuse|natural" v="grass|meadow|heath|scrub|grassland|orchard|vineyard" zoom-min="11">
+        <area fill="#E1EAD3" />
+    </rule>
+    <rule e="way" k="landuse" v="farmland|farm|farmyard|allotments" zoom-min="11">
+        <area fill="#EDEADF" />
+    </rule>
+    <rule e="way" k="amenity" v="school|college|university|hospital" zoom-min="14">
+        <area fill="#EBE3D6" />
+    </rule>
+    <rule e="way" k="aeroway" v="aerodrome" zoom-min="11">
+        <area fill="#E4E1E8" />
+    </rule>
+    <rule e="way" k="natural" v="beach|sand" zoom-min="11">
+        <area fill="#F3E9C9" />
+    </rule>
+
+    <!-- water -->
+    <rule e="way" k="natural|landuse|waterway" v="water|reservoir|basin|riverbank|dock" zoom-min="6">
+        <area fill="#A9CBE3" />
+    </rule>
+    <rule e="way" k="waterway" v="river|canal" zoom-min="8">
+        <line stroke="#A9CBE3" stroke-width="1.6" stroke-linecap="round" />
+    </rule>
+    <rule e="way" k="waterway" v="stream|ditch|drain" zoom-min="14">
+        <line stroke="#A9CBE3" stroke-width="0.6" stroke-linecap="round" />
+    </rule>
+
+    <!-- buildings -->
+    <rule e="way" k="building" v="*" zoom-min="15">
+        <area fill="#DCD7CE" stroke="#CEC8BD" stroke-width="0.2" />
+    </rule>
+
+    <!-- borders -->
+    <rule e="way" k="admin_level" v="2">
+        <line stroke="#B8A3C7" stroke-width="1.0" stroke-dasharray="12,4" />
+    </rule>
+    <rule e="way" k="admin_level" v="4" zoom-min="9">
+        <line stroke="#CBBFD3" stroke-width="0.6" stroke-dasharray="8,4" />
+    </rule>
+
+    <!-- railways -->
+    <rule e="way" k="railway" v="rail" zoom-min="11">
+        <line stroke="#B5B1AA" stroke-width="0.8" />
+    </rule>
+    <rule e="way" k="railway" v="tram|light_rail|subway" zoom-min="14">
+        <line stroke="#C3BFB8" stroke-width="0.5" />
+    </rule>
+
+    <!-- runways -->
+    <rule e="way" k="aeroway" v="runway|taxiway" zoom-min="12">
+        <line stroke="#D3D0D8" stroke-width="3.0" stroke-linecap="butt" />
+    </rule>
+
+    <!-- road casings (all below the road fills) -->
+    <rule e="way" k="area" v="~|no|false">
+        <rule e="way" k="highway" v="track|path|footway|cycleway|bridleway|steps|pedestrian" zoom-min="15">
+            <line stroke="#D6D0C4" stroke-width="0.9" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="service" zoom-min="15">
+            <line stroke="#D0CABE" stroke-width="1.4" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="residential|unclassified|living_street|road" zoom-min="13">
+            <line stroke="#D0CABE" stroke-width="2.2" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="tertiary|tertiary_link" zoom-min="11">
+            <line stroke="#CFC6B6" stroke-width="2.6" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="secondary|secondary_link" zoom-min="9">
+            <line stroke="#D2BF8A" stroke-width="2.8" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="primary|primary_link" zoom-min="8">
+            <line stroke="#D9B66A" stroke-width="3.0" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="trunk|trunk_link|motorway_link">
+            <line stroke="#D8A04E" stroke-width="3.2" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="motorway">
+            <line stroke="#C98936" stroke-width="3.6" stroke-linecap="round" />
+        </rule>
+    </rule>
+
+    <!-- road fills -->
+    <rule e="way" k="area" v="~|no|false">
+        <rule e="way" k="highway" v="track|path|footway|cycleway|bridleway|steps|pedestrian" zoom-min="15">
+            <line stroke="#F7F5F0" stroke-width="0.5" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="service" zoom-min="15">
+            <line stroke="#FFFFFF" stroke-width="1.0" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="residential|unclassified|living_street|road" zoom-min="13">
+            <line stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="tertiary|tertiary_link" zoom-min="11">
+            <line stroke="#FFFFFF" stroke-width="2.0" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="secondary|secondary_link" zoom-min="9">
+            <line stroke="#FFF6D2" stroke-width="2.2" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="primary|primary_link" zoom-min="8">
+            <line stroke="#FCE7A8" stroke-width="2.4" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="trunk|trunk_link|motorway_link">
+            <line stroke="#F9D27E" stroke-width="2.5" stroke-linecap="round" />
+        </rule>
+        <rule e="way" k="highway" v="motorway">
+            <line stroke="#F4B85C" stroke-width="2.9" stroke-linecap="round" />
+        </rule>
+    </rule>
+
+    <!-- road names and numbers -->
+    <rule e="way" k="highway" v="residential|unclassified|living_street|road|service|pedestrian|tertiary" zoom-min="16">
+        <pathText fill="#5A5650" font-size="11" k="name" priority="-7" stroke="#FFFFFF" stroke-width="2.0" />
+    </rule>
+    <rule e="way" k="highway" v="secondary|primary|trunk" zoom-min="14">
+        <pathText fill="#4A463F" font-size="12" font-style="bold" k="name" priority="-6" stroke="#FFFFFF" stroke-width="2.0" />
+    </rule>
+    <rule e="way" k="highway" v="motorway|trunk|primary" zoom-min="10">
+        <pathText fill="#6B4A10" font-size="12" font-style="bold" k="ref" priority="-4" stroke="#FFF2CF" stroke-width="2.5" />
+    </rule>
+
+    <!-- water names -->
+    <rule e="way" k="waterway" v="river|canal" zoom-min="12">
+        <pathText fill="#4C7EA6" font-size="12" font-style="italic" k="name" priority="-5" stroke="#FFFFFF" stroke-width="2.0" />
+    </rule>
+
+    <!-- house numbers -->
+    <rule e="any" k="addr:housenumber" v="*" zoom-min="18">
+        <caption fill="#8A847A" font-size="9" k="addr:housenumber" priority="-10" />
+    </rule>
+
+    <!-- places -->
+    <rule e="node" k="place" v="*">
+        <rule e="node" k="place" v="neighbourhood|hamlet|isolated_dwelling" zoom-min="15">
+            <caption fill="#5E5A54" font-size="12" k="name" priority="5" stroke="#FFFFFF" stroke-width="2.0" />
+        </rule>
+        <rule e="node" k="place" v="suburb|quarter" zoom-min="13">
+            <caption fill="#5E5A54" font-size="13" font-style="bold" k="name" priority="15" stroke="#FFFFFF" stroke-width="2.0" />
+        </rule>
+        <rule e="node" k="place" v="village" zoom-min="11">
+            <caption fill="#3F3B36" font-size="13" font-style="bold" k="name" priority="20" stroke="#FFFFFF" stroke-width="2.0" />
+        </rule>
+        <rule e="node" k="place" v="town" zoom-min="8">
+            <caption fill="#33302B" font-size="15" font-style="bold" k="name" priority="30" stroke="#FFFFFF" stroke-width="2.5" />
+        </rule>
+        <rule e="node" k="place" v="city" zoom-min="5" zoom-max="9">
+            <caption fill="#2B2824" font-size="16" font-style="bold" k="name" priority="40" stroke="#FFFFFF" stroke-width="2.5" />
+        </rule>
+        <rule e="node" k="place" v="city" zoom-min="10" zoom-max="13">
+            <caption fill="#2B2824" font-size="19" font-style="bold" k="name" priority="40" stroke="#FFFFFF" stroke-width="2.5" />
+        </rule>
+        <rule e="node" k="place" v="country" zoom-max="6">
+            <caption fill="#6E5F7D" font-size="16" font-style="bold" k="name" priority="50" stroke="#FFFFFF" stroke-width="2.5" />
+        </rule>
+    </rule>
+</rendertheme>

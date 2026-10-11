@@ -310,7 +310,7 @@ public class MapTileView extends View implements TileCache.Listener {
 
         drawGrid(c, left, top, w, h);
 
-        if (cache != null && !Prefs.TILES_OFF.equals(source)) {
+        if (cache != null && cache.draws(source)) {
             int n = 1 << zoom;
             int x0 = (int) Math.floor(left / tileSize), x1 = (int) Math.floor((left + w) / tileSize);
             int y0 = (int) Math.floor(top / tileSize), y1 = (int) Math.floor((top + h) / tileSize);
