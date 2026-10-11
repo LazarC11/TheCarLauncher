@@ -41,6 +41,11 @@ public final class GocBluetooth {
     private int playing = -1;
     private long posMs = -1, lenMs = -1, posAt;
     private volatile String lastMi, lastMp;
+    /** Last song broadcast / progress update from the factory BT app (it owns the serial line). */
+    private volatile long appFedAt;
+    private volatile String appSong;
+    private volatile int appSongs;
+    private volatile long serialPosAt;
     private volatile boolean phoneGone;
     private int signal = -1, battery = -1;
     private long updated;
@@ -53,14 +58,134 @@ public final class GocBluetooth {
         return sInstance;
     }
 
-    private GocBluetooth(Context c) { app = c; }
+    private GocBluetooth(Context c) {
+        app = c;
+        // The factory BT app reads the same serial line and may take the module's song lines
+        // before we see them. It republishes the song as a broadcast and the progress as a
+        // system property, so both are read as well.
+        try {
+            android.content.IntentFilter f = new android.content.IntentFilter("com.qf.action.BT.MUSIC.INFO");
+            if (android.os.Build.VERSION.SDK_INT >= 33) {
+                c.registerReceiver(appInfo, f, Context.RECEIVER_EXPORTED);
+            } else {
+                c.registerReceiver(appInfo, f);
+            }
+        } catch (Exception ignored) {
+        }
+        main.postDelayed(progressPoll, 1000);
+    }
+
+    private final android.content.BroadcastReceiver appInfo = new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(Context c, android.content.Intent i) {
+            String t = i.getStringExtra("songName");
+            if (t == null || t.trim().isEmpty()) return;
+            String a = i.getStringExtra("songSinger"), al = i.getStringExtra("songAlbum");
+            synchronized (GocBluetooth.this) {
+                if (!t.trim().equals(title)) {
+                    posMs = 0;
+                    posAt = System.currentTimeMillis();
+                    lenMs = -1;
+                }
+                title = t.trim();
+                artist = a == null ? "" : a.trim();
+                album = al == null || al.trim().isEmpty() ? null : al.trim();
+                updated = System.currentTimeMillis();
+            }
+            appFedAt = System.currentTimeMillis();
+            appSong = t.trim() + (a != null && !a.trim().isEmpty() ? " — " + a.trim() : "");
+            appSongs++;
+            MediaHub.get(app).radioChanged();
+        }
+    };
+
+    /**
+     * The factory BT app is a persistent system app that reads the same serial line, so our own
+     * reads only get pieces of its lines. While it publishes the song itself, its data wins.
+     */
+    private boolean appFeeds() { return appFedAt > 0 && System.currentTimeMillis() - appFedAt < 30_000; }
+
+    private String lastProgress = "";
+    private String lastConnect;
+    private long progressChangedAt;
+
+    /** "position,length" in ms, published by the factory BT app while a song plays. */
+    private final Runnable progressPoll = new Runnable() {
+        @Override
+        public void run() {
+            main.postDelayed(this, 1000);
+            String v = prop("sys.qf.bt.music.progress");
+            long now = System.currentTimeMillis();
+            // The BT app's own connection flag: phone gone → no song; phone back → BT audio.
+            String conn = prop("sys.qf.bt.is.connect");
+            if ("true".equals(conn) && !"true".equals(lastConnect)) {
+                // Also when the phone is already connected as the launcher starts.
+                main.postDelayed(new Runnable() {
+                    public void run() { MediaHub.get(app).onPhoneConnected(); }
+                }, 1500);
+            }
+            if (conn != null) lastConnect = conn;
+            if ("false".equals(conn) && title != null) {
+                synchronized (GocBluetooth.this) {
+                    title = artist = album = null;
+                    posMs = lenMs = -1;
+                    playing = 0;
+                }
+                MediaHub.get(app).radioChanged();
+            }
+            if (v == null) return;
+            if (v.isEmpty()) {
+                // The BT app clears it when the phone disconnects: forget the song too.
+                if (!lastProgress.isEmpty()) {
+                    lastProgress = "";
+                    synchronized (GocBluetooth.this) {
+                        title = artist = album = null;
+                        posMs = lenMs = -1;
+                        playing = 0;
+                    }
+                    MediaHub.get(app).radioChanged();
+                }
+                return;
+            }
+            if (!v.equals(lastProgress)) {
+                lastProgress = v;
+                progressChangedAt = now;
+                appFedAt = now;
+                String[] pl = v.split(",");
+                if (pl.length == 2) {
+                    long p = number(pl[0]), l = songLength(number(pl[1]));
+                    synchronized (GocBluetooth.this) {
+                        if (p >= 0) {
+                            posMs = p;
+                            posAt = now;
+                        }
+                        if (l > 0) lenMs = l;
+                        playing = 1;
+                    }
+                    MediaHub.get(app).radioChanged();
+                }
+            } else if (playing == 1 && progressChangedAt > 0 && now - progressChangedAt > 3000
+                    && now - serialPosAt > 3000) {
+                // No progress for a while and no module lines of our own: treat as paused.
+                freezePosition();
+                playing = 0;
+                MediaHub.get(app).radioChanged();
+            }
+        }
+    };
+
+    private static String prop(String key) {
+        try {
+            Class<?> sp = Class.forName("android.os.SystemProperties");
+            return (String) sp.getMethod("get", String.class).invoke(null, key);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
 
     /** Starts the background connection (no-op on units without the daemon). */
     public synchronized void start() {
-        if (running || !enabled()) {
-            if (!enabled()) status = "isključeno (Podešavanja → Bluetooth audio)";
-            return;
-        }
+        if (running) return;
         running = true;
         new Thread(new Runnable() {
             @Override
@@ -73,6 +198,10 @@ public final class GocBluetooth {
     private void loop() {
         int fails = 0;
         while (running) {
+            if (!enabled()) {
+                writeOnly();
+                continue;
+            }
             Conn c = open();
             if (c == null) {
                 if (++fails > 5) {
@@ -103,7 +232,7 @@ public final class GocBluetooth {
             int n = 0;
             long lastAsk = System.currentTimeMillis();
             try {
-                while (running) {
+                while (running && enabled()) {
                     int r;
                     try {
                         r = c.in.read(buf);
@@ -148,6 +277,37 @@ public final class GocBluetooth {
             sleep(3000);
         }
     }
+
+    /** Only sends commands (song info requests); the factory BT app reads the answers. */
+    private void writeOnly() {
+        File serial = new File("/dev/goc_serial");
+        OutputStream o = null;
+        try {
+            if (serial.canWrite()) o = new FileOutputStream(serial);
+        } catch (Exception e) {
+            lastError = e.getClass().getSimpleName();
+        }
+        if (o == null) {
+            status = "samo slanje: /dev/goc_serial nije dostupan";
+            sleep(10000);
+            return;
+        }
+        endpoint = "/dev/goc_serial";
+        out = o;
+        status = "samo slanje (liniju čita BT aplikacija)";
+        while (running && !enabled() && out == o) {
+            if (!send("MK")) break;
+            sleep(5000);
+        }
+        if (out == o) out = null;
+        try {
+            o.close();
+        } catch (Exception ignored) {
+        }
+    }
+
+    /** True while we read the module's lines ourselves (not only write commands). */
+    public boolean reading() { return out != null && enabled(); }
 
     private static final class Conn {
         InputStream in;
@@ -201,9 +361,23 @@ public final class GocBluetooth {
     }
 
     /** Opt-in: reading the shared serial port may take messages away from the factory BT app. */
-    public static final String PREF = "goc_direct";
+    public static final String PREF = "goc_read";
 
-    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, true); }
+    /**
+     * Reading the line: off by default when the factory BT app is installed. It is a persistent
+     * system app that owns the line, and every byte we read is lost to it (it then thinks the
+     * phone is gone, ignores play / next, and publishes no song). Commands are still written.
+     */
+    public boolean enabled() { return com.thecarlauncher.util.Prefs.bool(app, PREF, !factoryApp()); }
+
+    private boolean factoryApp() {
+        try {
+            app.getPackageManager().getPackageInfo("com.qf.bluetooth", 0);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public synchronized void stop() {
         running = false;
@@ -263,6 +437,9 @@ public final class GocBluetooth {
         if (first.length() < 2) return;
         String code = first.substring(0, 2);
         boolean changed = false;
+        if ("MT".equals(code) || "MP".equals(code) || "ML".equals(code)) serialPosAt = System.currentTimeMillis();
+        // Song and position lines may be fragments while the factory app shares the line.
+        if (appFeeds() && ("MI".equals(code) || "MP".equals(code) || "MT".equals(code) || "ML".equals(code))) return;
         if ("MI".equals(code)) {
             List<String> v = new ArrayList<>(f);
             v.set(0, first.substring(2));
@@ -331,6 +508,11 @@ public final class GocBluetooth {
                 phoneGone = true;
             }
             changed = true;
+        } else if ("IB".equals(code) && first.length() == 2) {
+            // Phone connected (hands-free): BT audio becomes the source.
+            main.postDelayed(new Runnable() {
+                public void run() { MediaHub.get(app).onPhoneConnected(); }
+            }, 1500);
         } else if ("PS".equals(code) && first.length() >= 6) {
             try {
                 signal = Integer.parseInt(first.substring(2, 4));
@@ -417,6 +599,19 @@ public final class GocBluetooth {
     }
 
     public String lastMi() { return lastMi; }
+
+    /** Diagnostics: what the factory BT app last published. */
+    public String appSongInfo() {
+        if (appSong == null) return null;
+        return appSong + "  (" + appSongs + "×, " + (System.currentTimeMillis() - appFedAt) / 1000 + " s)";
+    }
+
+    public String connectProp() { return prop("sys.qf.bt.is.connect"); }
+
+    public String progressProp() {
+        String v = prop("sys.qf.bt.music.progress");
+        return v == null ? null : v;
+    }
     public String lastMp() { return lastMp; }
 
     private static long number(String s) {

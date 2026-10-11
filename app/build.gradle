@@ -10,8 +10,8 @@ android {
         applicationId 'com.thecarlauncher'
         minSdk 21
         targetSdk 34
-        versionCode 55
-        versionName '4.2.0'
+        versionCode 60
+        versionName '4.2.5'
     }
 
     signingConfigs {

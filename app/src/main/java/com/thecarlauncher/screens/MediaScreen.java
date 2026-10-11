@@ -288,6 +288,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     public void onShow() {
         MediaHub.get(act).connectExternal();
         MediaHub.get(act).addListener(this);
+        MediaHub.get(act).resumeBluetooth();
         main.post(ticker);
         if (MusicLibrary.hasPermission(act)) MusicService.start(act);
     }

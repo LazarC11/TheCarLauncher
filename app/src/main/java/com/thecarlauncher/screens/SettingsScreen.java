@@ -243,7 +243,8 @@ public class SettingsScreen extends Screen {
         sub(s("Mediji", "Media"), new Page() { public void build() { buildMedia(); } });
         sub("Radio", new Page() { public void build() { buildRadio(); } });
         sub("Bluetooth audio", new Page() { public void build() { buildBluetooth(); } });
-        sub(s("Telefon", "Phone"), new Page() { public void build() { buildPhone(); } });
+        sub("App-Connect", new Page() { public void build() { buildAppConnect(); } });
+        sub(s("Telefon i radio", "Phone and radio"), new Page() { public void build() { buildPhoneRadio(); } });
         sub(s("Vozilo", "Vehicle"), new Page() { public void build() { buildVehicle(); } });
         sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
         sub(s("Informacije o sistemu", "System information"), new Page() { public void build() { buildAbout(); } });
@@ -487,6 +488,9 @@ public class SettingsScreen extends Screen {
 
     private void buildMedia() {
         toggle(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, false);
+        action(s("Duboki - Srednji - Visoki", "Bass - Mid - Treble"), toneSummary(), new Runnable() {
+            public void run() { act.show(LauncherActivity.SOUND, true); }
+        });
         action(s("Muzička biblioteka", "Music library"), MusicLibrary.hasPermission(act)
                 ? s("Ponovo skeniraj", "Rescan") : s("Dozvoli pristup", "Allow access"), new Runnable() {
             public void run() {
@@ -518,60 +522,287 @@ public class SettingsScreen extends Screen {
     private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
-        toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
-            public void run() { MediaHub.get(act).radioChanged(); }
-        });
-        toggle(s("Otvori BT aplikaciju na trenutak (ako nema zvuka)", "Open the BT app briefly (if there is no sound)"),
-                Prefs.BT_OPEN_APP, false, new Runnable() {
-                    public void run() { refresh(); }
+        AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
+        String pkg = MediaHub.get(act).bluetooth().appPackage();
+        action(s("Aplikacija za BT audio", "BT audio app"), screen != null ? screen.label
+                        : pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
+                new Runnable() {
+                    public void run() {
+                        push(s("Aplikacija za BT audio", "BT audio app"), new Page() {
+                            public void build() { buildBtAppChoice(); }
+                        });
+                    }
                 });
-        if (Prefs.bool(act, Prefs.BT_OPEN_APP, false) && !com.thecarlauncher.util.BringBack.canOverlay(act)) {
+        toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
+                Prefs.BT_AUTO_SELECT, true, false);
+        toggle(s("Otvori BT aplikaciju na trenutak pri izboru BT audio", "Open the BT app briefly when choosing BT audio"),
+                Prefs.BT_OPEN_APP, false, false);
+        if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
             action(s("Dozvoli povratak iz BT aplikacije", "Allow returning from the BT app"),
                     s("Prikaz preko drugih aplikacija: isključeno", "Display over other apps: off"), new Runnable() {
                         public void run() { com.thecarlauncher.util.BringBack.requestOverlay(act); }
                     });
         }
-        action(s("Dijagnostika", "Diagnostics"), null, new Runnable() {
+        toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
+            public void run() { MediaHub.get(act).radioChanged(); }
+        });
+        toggle(s("Vrati se u launcher posle pokretanja BT aplikacije", "Return to the launcher after starting the BT app"),
+                Prefs.BT_WAKE, true, false);
+        final int[] waits = {800, 1200, 2000, 3000};
+        int w = Prefs.integer(act, Prefs.BT_WAKE_MS, 1200);
+        action(s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), String.format(java.util.Locale.US, "%.1f s", w / 1000f),
+                new Runnable() {
+                    public void run() {
+                        String[] o = {"0.8 s", "1.2 s", "2 s", "3 s"};
+                        int c = 1;
+                        for (int i = 0; i < waits.length; i++) if (waits[i] == Prefs.integer(act, Prefs.BT_WAKE_MS, 1200)) c = i;
+                        Dialogs.choose(act, s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), o, c,
+                                new Dialogs.Chosen() {
+                                    public void onChosen(int i) {
+                                        Prefs.put(act, Prefs.BT_WAKE_MS, waits[i]);
+                                        refresh();
+                                    }
+                                });
+                    }
+                });
+        int bc = Prefs.integer(act, Prefs.BT_CHANNEL, 0), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
+        String bcText = bc == 0 ? s("Isključeno", "Off") : bc > 0 ? s("Kanal ", "Channel ") + bc
+                : s("Automatski", "Automatic") + (learned > 0 ? " (" + learned + ")" : s(" (još nije naučen)", " (not learned yet)"));
+        action(s("MCU kanal za BT zvuk", "MCU channel for BT audio"), bcText, new Runnable() {
+            public void run() {
+                final String[] opts = {s("Automatski (uči iz fabričke BT aplikacije)", "Automatic (learn from the factory BT app)"),
+                        s("Isključeno (ne menjaj kanal)", "Off (leave the channel alone)"),
+                        "1", "3", "5", "6", "7", "8"};
+                final int[] vals = {-1, 0, 1, 3, 5, 6, 7, 8};
+                int cur = 0;
+                for (int i = 0; i < vals.length; i++) if (vals[i] == Prefs.integer(act, Prefs.BT_CHANNEL, 0)) cur = i;
+                Dialogs.choose(act, s("MCU kanal za BT zvuk", "MCU channel for BT audio"), opts, cur, new Dialogs.Chosen() {
+                    public void onChosen(int i) {
+                        Prefs.put(act, Prefs.BT_CHANNEL, vals[i]);
+                        refresh();
+                    }
+                });
+            }
+        });
+        final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
+        checkRowWithAction(s("Čitaj BT modul direktno (bez fabričke BT aplikacije)", "Read the BT module directly (no factory BT app)"),
+                gocBt.enabled(), new Runnable() {
+                    public void run() {
+                        boolean on = !gocBt.enabled();
+                        Prefs.put(act, com.thecarlauncher.media.GocBluetooth.PREF, on);
+                        gocBt.start();
+                        if (on) {
+                            Ui.toast(act, s("Uključeno. Fabrička BT aplikacija tada gubi poruke modula (kontrole, pesma). Isključi ako ona postoji.",
+                                    "On. The factory BT app then loses module messages (controls, song). Switch off if it is installed."));
+                        }
+                        refresh();
+                    }
+                });
+        action(s("Dijagnostika (QF / Bluetooth)", "Diagnostics (QF / Bluetooth)"), null, new Runnable() {
             public void run() {
                 push(s("Dijagnostika", "Diagnostics"), new Page() {
                     public void build() { buildBtDiagnostics(); }
                 });
             }
         });
+        toggle(s("Šalji komande sistemski", "Send controls system-wide"), Prefs.BT_SYSTEM_KEYS, false, false);
     }
 
-    /** What the launcher sees from the phone and the Bluetooth module (for bug reports). */
+    /**
+     * BT audio app: exactly the entries shown in Aplikacije (same names and icons, hidden
+     * factory screens included), Bluetooth-looking ones first. Stored as "package/class".
+     */
+    private void buildBtAppChoice() {
+        final String cur = Prefs.str(act, Prefs.BT_PKG, null);
+        choice(s("Automatski (prepoznaj iz media sesije)", "Automatic (detect from media session)"), cur == null,
+                new Runnable() {
+                    public void run() {
+                        Prefs.put(act, Prefs.BT_PKG, (String) null);
+                        onBack();
+                    }
+                });
+        BluetoothSource bt = MediaHub.get(act).bluetooth();
+        List<AppRepository.App> first = new ArrayList<>(), rest = new ArrayList<>();
+        for (AppRepository.App a : AppRepository.get(act).all()) {
+            if (a.pkg.startsWith("@")) continue;
+            String hay = (a.pkg + " " + a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
+            boolean btLike = a.hidden || bt.looksLikeBluetooth(a.pkg) || hay.contains("bluetooth") || hay.contains("btmusic")
+                    || hay.matches(".*\\bbt\\b.*") || hay.contains("a2dp");
+            (btLike ? first : rest).add(a);
+        }
+        first.addAll(rest);
+        for (final AppRepository.App a : first) {
+            boolean sel = cur != null && (cur.equals(a.key()) || (!cur.contains("/") && cur.equals(a.pkg) && !a.hidden));
+            LinearLayout row = choice(a.label, sel, new Runnable() {
+                public void run() {
+                    Prefs.put(act, Prefs.BT_PKG, a.key());
+                    onBack();
+                }
+            });
+            if (a.icon != null) {
+                ImageView iv = new ImageView(act);
+                iv.setImageDrawable(a.icon);
+                addLeading(row, iv);
+            }
+        }
+    }
+
+    /** What this unit exposes for Bluetooth music: QF packages, hidden screens, QF broadcasts. */
     private void buildBtDiagnostics() {
-        MediaHub hub = MediaHub.get(act);
+        com.thecarlauncher.media.QfMediaBridge qf = com.thecarlauncher.media.QfMediaBridge.get(act);
+        AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
+        info(s("BT ekran", "BT screen"), screen == null ? "—" : screen.key());
+        info(s("BT_STATE", "BT_STATE"), qf.btState() < 0 ? "—" : String.valueOf(qf.btState()));
+        final RadioController rc = RadioController.get(act);
+        int ch = rc.mcuChannel();
+        info(s("MCU audio kanal sada", "MCU audio channel now"), ch < 0 ? s("nedostupan", "unavailable") + " (" + rc.error() + ")"
+                : ch + (ch == 2 ? " (FM)" : ch == 4 ? " (Android)" : ""));
+        info(s("Naučen BT kanal", "Learned BT channel"), String.valueOf(Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0)));
+        // Try each input of the audio switch while the phone plays music; the one with sound is BT.
+        for (final int n : new int[]{1, 3, 5, 6, 7, 8, 4}) {
+            action(s("Testiraj kanal ", "Test channel ") + n + (n == 4 ? s(" (vrati Android)", " (back to Android)") : ""),
+                    s("dodirni i slušaj", "tap and listen"), new Runnable() {
+                        public void run() {
+                            boolean ok = rc.routeChannel(n);
+                            Ui.toast(act, ok ? s("MCU kanal → ", "MCU channel → ") + n
+                                    : s("MCU nije dostupan", "MCU not available"));
+                            refresh();
+                        }
+                    });
+        }
         com.thecarlauncher.media.PhoneStatus ps = com.thecarlauncher.media.PhoneStatus.get(act);
         info(s("Telefon (baterija / signal)", "Phone (battery / signal)"), (ps.connected() ? "BT ✓  " : "BT ✗  ")
                 + ps.battery() + " / " + ps.signal());
+        String last = qf.lastBroadcast();
+        if (last == null) {
+            info(s("Poslednja QF poruka", "Last QF broadcast"), s("još nijedna — pusti BT muziku", "none yet — play BT music"));
+        } else {
+            for (String line : last.split("\n")) info(line.trim(), null);
+        }
+        MediaHub hub = MediaHub.get(act);
         if (hub.hasNotificationAccess()) {
             info(s("Pristup obaveštenjima", "Notification access"), "✓");
         } else {
+            final MediaHub h = hub;
             action(s("Pristup obaveštenjima", "Notification access"), s("✗ — dodirni da uključiš", "✗ — tap to enable"),
                     new Runnable() {
-                        public void run() { MediaHub.get(act).openNotificationAccess(); }
+                        public void run() { h.openNotificationAccess(); }
                     });
         }
-        info(s("Trenutni izvor / naslov", "Current source / title"), hub.packageName() + " / " + hub.title());
+        info(s("BT paket (iz media sesije)", "BT package (from media session)"), Prefs.str(act, Prefs.BT_SESSION_PKG, "—"));
         for (String p : hub.sessionPackages()) info(s("Media sesija", "Media session"), p);
+        String ni = hub.notificationInfo();
+        info(s("Media obaveštenje", "Media notification"), ni == null ? "—" : (ni.length() > 60 ? ni.substring(0, 60) + "…" : ni));
+        info(s("Trenutni izvor / naslov", "Current source / title"), hub.packageName() + " / " + hub.title());
+        for (AppRepository.App a : AppRepository.get(act).all()) {
+            if (a.hidden) info((a.label.length() > 28 ? a.label.substring(0, 28) : a.label), a.key());
+        }
+        // ---- Direct sources: MCU packets, system services, BT app components ----
         final com.thecarlauncher.media.GocBluetooth goc = com.thecarlauncher.media.GocBluetooth.get(act);
-        info(s("BT modul", "BT module"), goc.status());
-        info(s("BT pesma", "BT song"), goc.hasSong() ? goc.title() + " — " + goc.artist() : "—");
-        info(s("BT trajanje / pozicija", "BT length / position"), Ui.time(Math.max(0, goc.lengthMs())) + " / " + Ui.time(Math.max(0, goc.positionMs())));
-        action(s("Zatraži podatke o pesmi", "Ask for song info"), null, new Runnable() {
+        info(s("GOC Bluetooth servis", "GOC Bluetooth daemon"), goc.status());
+        info("/dev/goc_serial", goc.serialInfo());
+        String tr = goc.traffic();
+        for (int i = 0; i < tr.length(); i += 56) info((i == 0 ? s("GOC primljeno: ", "GOC received: ") : "") + tr.substring(i, Math.min(tr.length(), i + 56)), null);
+        info(s("GOC pesma", "GOC song"), goc.hasSong() ? goc.title() + " — " + goc.artist() : "—");
+        action(s("GOC: zatraži podatke o pesmi", "GOC: ask for song info"), "AT#MK", new Runnable() {
             public void run() {
                 goc.start();
                 boolean ok = goc.send("MK") & goc.send("VI");
                 Ui.toast(act, ok ? s("Poslato — osveži za 2 s", "Sent — refresh in 2 s")
-                        : s("BT modul nije povezan: ", "BT module not connected: ") + goc.status());
+                        : s("GOC nije povezan: ", "GOC not connected: ") + goc.status());
             }
         });
-        for (String l : goc.lastLines()) info("← " + l, null);
+        String fed = goc.appSongInfo();
+        info(s("Pesma od BT aplikacije (broadcast)", "Song from BT app (broadcast)"), fed != null ? fed : s("ništa nije stiglo", "nothing received"));
+        String cp = goc.connectProp();
+        info("sys.qf.bt.is.connect", cp == null ? s("nečitljivo", "unreadable") : cp.isEmpty() ? s("prazno", "empty") : cp);
+        String pp = goc.progressProp();
+        info("sys.qf.bt.music.progress", pp == null ? s("nečitljivo", "unreadable") : pp.isEmpty() ? s("prazno", "empty") : pp);
+        info(s("GOC brojevi uz pesmu (MI)", "GOC song numbers (MI)"), goc.lastMi() != null ? goc.lastMi() : "—");
+        info(s("GOC pozicija (MP)", "GOC position (MP)"), goc.lastMp() != null ? goc.lastMp() : "—");
+        info(s("GOC trajanje / pozicija", "GOC length / position"), Ui.time(Math.max(0, goc.lengthMs())) + " / " + Ui.time(Math.max(0, goc.positionMs())));
+        for (String l : goc.lastLines()) info("GOC ← " + l, null);
+        action(s("Proba BT servisa (pusti muziku)", "Probe BT daemon (play music)"), s("traje ~10 s", "takes ~10 s"), new Runnable() {
+            public void run() {
+                Ui.toast(act, s("Proba traje desetak sekundi…", "Probing for about ten seconds…"));
+                new Thread(new Runnable() {
+                    public void run() {
+                        final java.util.List<String> res = com.thecarlauncher.media.BtProbe.run();
+                        act.runOnUiThread(new Runnable() {
+                            public void run() {
+                                push(s("Proba BT servisa", "BT daemon probe"), new Page() {
+                                    public void build() {
+                                        if (res.isEmpty()) info(s("Ništa nije pronađeno", "Nothing found"), null);
+                                        for (String l : res) {
+                                            // Long results are split over several rows.
+                                            for (int i = 0; i < l.length(); i += 56) info(l.substring(i, Math.min(l.length(), i + 56)), null);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }, "bt-probe").start();
+            }
+        });
+        info(s("— MCU poruke (ne-radio) —", "— MCU packets (non-radio) —"), null);
+        java.util.List<String> sum = com.thecarlauncher.radio.McuSniffer.get().summary();
+        if (sum.isEmpty()) info(s("nijedna još", "none yet"), null);
+        for (String l : sum) info(l, null);
+        for (String t : com.thecarlauncher.radio.McuSniffer.get().texts()) info(s("Tekst ", "Text ") + t, null);
+        info(s("— Sistemski servisi (BT / QF) —", "— System services (BT / QF) —"), null);
+        try {
+            String[] services = (String[]) Class.forName("android.os.ServiceManager").getMethod("listServices").invoke(null);
+            if (services != null) {
+                for (String sv : services) {
+                    String l = sv.toLowerCase(java.util.Locale.ROOT);
+                    if (l.contains("bt") || l.contains("blue") || l.contains("qf") || l.contains("music") || l.contains("avrcp")
+                            || l.contains("a2dp") || l.contains("mcu") || l.contains("car")) info(sv, null);
+                }
+            }
+        } catch (Throwable t) {
+            info(s("lista servisa nedostupna", "service list unavailable"), t.getClass().getSimpleName());
+        }
+        String btPkg = Prefs.str(act, Prefs.BT_PKG, null);
+        if (btPkg != null && btPkg.contains("/")) btPkg = btPkg.substring(0, btPkg.indexOf('/'));
+        if (btPkg != null) {
+            info(s("— Delovi BT aplikacije —", "— BT app components —"), btPkg);
+            try {
+                android.content.pm.PackageInfo pi = act.getPackageManager().getPackageInfo(btPkg,
+                        android.content.pm.PackageManager.GET_SERVICES | android.content.pm.PackageManager.GET_PROVIDERS
+                                | android.content.pm.PackageManager.GET_RECEIVERS);
+                if (pi.services != null) for (android.content.pm.ServiceInfo si : pi.services)
+                    info("S " + si.name.replace(btPkg, ""), si.exported ? "exported" : "—");
+                if (pi.providers != null) for (android.content.pm.ProviderInfo pr : pi.providers)
+                    info("P " + pr.authority, pr.exported ? "exported" : "—");
+                if (pi.receivers != null) for (android.content.pm.ActivityInfo ri : pi.receivers)
+                    info("R " + ri.name.replace(btPkg, ""), ri.exported ? "exported" : "—");
+            } catch (Exception e) {
+                info(s("nedostupno", "unavailable"), e.getClass().getSimpleName());
+            }
+        }
+        java.util.List<String> qfPkgs = new ArrayList<>();
+        try {
+            for (android.content.pm.ApplicationInfo ai : act.getPackageManager().getInstalledApplications(0)) {
+                if (ai.packageName.startsWith("com.qf") || ai.packageName.contains("bluetooth")) qfPkgs.add(ai.packageName);
+            }
+        } catch (Exception ignored) {
+        }
+        java.util.Collections.sort(qfPkgs);
+        for (String p : qfPkgs) info(p, appLabel(p));
     }
 
-    private void buildPhone() {
+    private void buildAppConnect() {
+        String pkg = Projection.find(act);
+        action(s("Aplikacija (ZLink, CarPlay…)", "App (ZLink, CarPlay…)"), pkg == null ? s("Nije pronađena", "Not found")
+                : appLabel(pkg), new Runnable() {
+            public void run() {
+                appChoice("App-Connect", Projection.candidates(act), Prefs.PROJECTION_PKG, true);
+            }
+        });
+    }
+
+    private void buildPhoneRadio() {
         String phone = Prefs.str(act, Prefs.PHONE_PKG, null);
         action(s("Aplikacija za telefon", "Phone app"), phone == null ? s("Sistemski telefon", "System dialer") : appLabel(phone),
                 new Runnable() {
@@ -579,50 +810,60 @@ public class SettingsScreen extends Screen {
                         appChoice(s("Aplikacija za telefon", "Phone app"), new ArrayList<String>(), Prefs.PHONE_PKG, true);
                     }
                 });
+        String radio = LauncherActivity.radioPackage(act);
+        action(s("Aplikacija za radio", "Radio app"), radio == null ? s("Nije pronađena", "Not found") : appLabel(radio),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
+                    }
+                });
     }
 
     private void buildRadio() {
         final RadioController radio = RadioController.get(act);
         boolean ok = radio.available();
-        info(s("FM tjuner", "FM tuner"), ok ? s("Dostupan", "Available") : radio.error());
+        info(s("FM tjuner", "FM tuner"), ok ? "K706 / QuickFish MCU" : radio.error());
         toggle(s("Ugrađeni radio u launcheru", "Built-in launcher radio"), Prefs.RADIO_INTERNAL, true, new Runnable() {
             public void run() {
                 if (!Prefs.bool(act, Prefs.RADIO_INTERNAL, true)) radio.stop();
                 refresh();
             }
         });
-        if (Prefs.bool(act, Prefs.RADIO_INTERNAL, true)) {
-            toggle(s("Samo jake stanice (LOC)", "Strong stations only (LOC)"), Prefs.RADIO_LOC, false, new Runnable() {
-                public void run() { radio.setLocal(Prefs.bool(act, Prefs.RADIO_LOC, false)); }
-            });
-            toggle("RDS", Prefs.RADIO_RDS, true, new Runnable() {
-                public void run() { radio.setRds(Prefs.bool(act, Prefs.RADIO_RDS, true)); }
-            });
-            final com.thecarlauncher.radio.RadioLogos logos = com.thecarlauncher.radio.RadioLogos.get(act);
-            toggle(s("Logotipi stanica sa interneta", "Station logos from the internet"), com.thecarlauncher.radio.RadioLogos.P_ON, true, null);
-            action(s("Preuzmi logotipe pronađenih stanica", "Download logos for found stations"),
-                    logos.count() + s(" sačuvano", " saved"), new Runnable() {
-                        public void run() {
-                            logos.downloadAll(radio, new Runnable() {
-                                public void run() { refreshKeep(); }
-                            });
-                        }
-                    });
-            action(s("Obriši memorisane stanice", "Clear presets"), null, new Runnable() {
-                public void run() {
-                    radio.clearPresets();
-                    Ui.toast(act, s("Memorisane stanice obrisane", "Presets cleared"));
-                }
-            });
-        } else {
-            String app = LauncherActivity.radioPackage(act);
-            action(s("Fabrička radio aplikacija", "Factory radio app"), app == null ? s("Nije pronađena", "Not found") : appLabel(app),
-                    new Runnable() {
-                        public void run() {
-                            appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
-                        }
-                    });
-        }
+        toggle(s("Samo jake stanice (LOC)", "Strong stations only (LOC)"), Prefs.RADIO_LOC, false, new Runnable() {
+            public void run() { radio.setLocal(Prefs.bool(act, Prefs.RADIO_LOC, false)); }
+        });
+        toggle("RDS", Prefs.RADIO_RDS, true, new Runnable() {
+            public void run() { radio.setRds(Prefs.bool(act, Prefs.RADIO_RDS, true)); }
+        });
+        final com.thecarlauncher.radio.RadioLogos logos = com.thecarlauncher.radio.RadioLogos.get(act);
+        toggle(s("Logotipi stanica sa interneta", "Station logos from the internet"), com.thecarlauncher.radio.RadioLogos.P_ON, true, null);
+        action(s("Preuzmi logotipe pronađenih stanica", "Download logos for found stations"),
+                logos.count() + s(" sačuvano", " saved"), new Runnable() {
+                    public void run() {
+                        logos.downloadAll(radio, new Runnable() {
+                            public void run() { refreshKeep(); }
+                        });
+                    }
+                });
+        action(s("Obriši memorisane stanice", "Clear presets"), null, new Runnable() {
+            public void run() {
+                radio.clearPresets();
+                Ui.toast(act, s("Memorisane stanice obrisane", "Presets cleared"));
+            }
+        });
+        if (radio.isActive()) action(s("Isključi radio", "Turn radio off"), null, new Runnable() {
+            public void run() {
+                radio.stop();
+                refresh();
+            }
+        });
+        String app = LauncherActivity.radioPackage(act);
+        action(s("Fabrička radio aplikacija", "Factory radio app"), app == null ? s("Nije pronađena", "Not found") : appLabel(app),
+                new Runnable() {
+                    public void run() {
+                        appChoice(s("Aplikacija za radio", "Radio app"), LauncherActivity.radioCandidates(act), Prefs.RADIO_PKG, true);
+                    }
+                });
     }
 
     private void buildVehicle() {
@@ -709,7 +950,23 @@ public class SettingsScreen extends Screen {
         info(s("Uređaj", "Head unit"), Build.MANUFACTURER + " " + Build.MODEL + " · Android " + Build.VERSION.RELEASE);
         info(s("Ekran", "Screen"), act.getResources().getDisplayMetrics().widthPixels + "×"
                 + act.getResources().getDisplayMetrics().heightPixels + " · " + act.getResources().getDisplayMetrics().densityDpi + " dpi");
-        info(s("Podaci mape", "Map data"), "© OpenStreetMap");
+        MediaHub hub = MediaHub.get(act);
+        BluetoothSource bt = hub.bluetooth();
+        info(s("BT servis za medije", "BT media service"), bt.systemServiceFound()
+                ? (bt.systemConnected() ? s("Povezan", "Connected") : s("Povezivanje…", "Connecting…"))
+                : s("Nije dostupan", "Not available"));
+        String btPkg = bt.appPackage();
+        info(s("BT audio aplikacija", "BT audio app"), btPkg == null ? "—" : btPkg);
+        info(s("Pristup medijima", "Media access"), hub.hasNotificationAccess() ? s("Da", "Yes") : s("Ne", "No"));
+        StringBuilder sb = new StringBuilder();
+        for (String k : hub.sources()) {
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(k.equals(MediaHub.BLUETOOTH) ? "BT" : k);
+        }
+        info(s("Izvori", "Sources"), sb.toString());
+        String proj = Projection.find(act);
+        info("App-Connect", proj == null ? "—" : proj);
+        info(s("Podaci mape", "Map data"), "© OpenStreetMap, © CARTO");
     }
 
     // ---- Choice helpers ----------------------------------------------------------------------

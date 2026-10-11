@@ -39,6 +39,8 @@ public final class Prefs {
     public static final String BT_CHANNEL_LEARNED = "bt_channel_learned";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_OPEN_APP = "bt_open_app";
+    /** Phone connects over Bluetooth → BT audio becomes the source (default on). */
+    public static final String BT_AUTO_SELECT = "bt_auto_select";
     public static final String ONLINE_COVER = "online_cover";
     public static final String BT_SYSTEM_KEYS = "bt_system_keys";
     public static final String PROJECTION_PKG = "projection_pkg";
