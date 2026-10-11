@@ -41,6 +41,11 @@ public final class GocBluetooth {
     private int playing = -1;
     private long posMs = -1, lenMs = -1, posAt;
     private volatile String lastMi, lastMp;
+    /** Last song broadcast / progress update from the factory BT app (it owns the serial line). */
+    private volatile long appFedAt;
+    private volatile String appSong;
+    private volatile int appSongs;
+    private volatile long serialPosAt;
     private volatile boolean phoneGone;
     private int signal = -1, battery = -1;
     private long updated;
@@ -87,9 +92,18 @@ public final class GocBluetooth {
                 album = al == null || al.trim().isEmpty() ? null : al.trim();
                 updated = System.currentTimeMillis();
             }
+            appFedAt = System.currentTimeMillis();
+            appSong = t.trim() + (a != null && !a.trim().isEmpty() ? " — " + a.trim() : "");
+            appSongs++;
             MediaHub.get(app).radioChanged();
         }
     };
+
+    /**
+     * The factory BT app is a persistent system app that reads the same serial line, so our own
+     * reads only get pieces of its lines. While it publishes the song itself, its data wins.
+     */
+    private boolean appFeeds() { return appFedAt > 0 && System.currentTimeMillis() - appFedAt < 30_000; }
 
     private String lastProgress = "";
     private long progressChangedAt;
@@ -118,6 +132,7 @@ public final class GocBluetooth {
             if (!v.equals(lastProgress)) {
                 lastProgress = v;
                 progressChangedAt = now;
+                appFedAt = now;
                 String[] pl = v.split(",");
                 if (pl.length == 2) {
                     long p = number(pl[0]), l = songLength(number(pl[1]));
@@ -131,7 +146,8 @@ public final class GocBluetooth {
                     }
                     MediaHub.get(app).radioChanged();
                 }
-            } else if (playing == 1 && progressChangedAt > 0 && now - progressChangedAt > 3000 && lastMp == null) {
+            } else if (playing == 1 && progressChangedAt > 0 && now - progressChangedAt > 3000
+                    && now - serialPosAt > 3000) {
                 // No progress for a while and no module lines of our own: treat as paused.
                 freezePosition();
                 playing = 0;
@@ -357,6 +373,9 @@ public final class GocBluetooth {
         if (first.length() < 2) return;
         String code = first.substring(0, 2);
         boolean changed = false;
+        if ("MT".equals(code) || "MP".equals(code) || "ML".equals(code)) serialPosAt = System.currentTimeMillis();
+        // Song and position lines may be fragments while the factory app shares the line.
+        if (appFeeds() && ("MI".equals(code) || "MP".equals(code) || "MT".equals(code) || "ML".equals(code))) return;
         if ("MI".equals(code)) {
             List<String> v = new ArrayList<>(f);
             v.set(0, first.substring(2));
@@ -511,6 +530,17 @@ public final class GocBluetooth {
     }
 
     public String lastMi() { return lastMi; }
+
+    /** Diagnostics: what the factory BT app last published. */
+    public String appSongInfo() {
+        if (appSong == null) return null;
+        return appSong + "  (" + appSongs + "×, " + (System.currentTimeMillis() - appFedAt) / 1000 + " s)";
+    }
+
+    public String progressProp() {
+        String v = prop("sys.qf.bt.music.progress");
+        return v == null ? null : v;
+    }
     public String lastMp() { return lastMp; }
 
     private static long number(String s) {

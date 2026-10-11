@@ -712,6 +712,10 @@ public class SettingsScreen extends Screen {
                         : s("GOC nije povezan: ", "GOC not connected: ") + goc.status());
             }
         });
+        String fed = goc.appSongInfo();
+        info(s("Pesma od BT aplikacije (broadcast)", "Song from BT app (broadcast)"), fed != null ? fed : s("ništa nije stiglo", "nothing received"));
+        String pp = goc.progressProp();
+        info("sys.qf.bt.music.progress", pp == null ? s("nečitljivo", "unreadable") : pp.isEmpty() ? s("prazno", "empty") : pp);
         info(s("GOC brojevi uz pesmu (MI)", "GOC song numbers (MI)"), goc.lastMi() != null ? goc.lastMi() : "—");
         info(s("GOC pozicija (MP)", "GOC position (MP)"), goc.lastMp() != null ? goc.lastMp() : "—");
         info(s("GOC trajanje / pozicija", "GOC length / position"), Ui.time(Math.max(0, goc.lengthMs())) + " / " + Ui.time(Math.max(0, goc.positionMs())));
