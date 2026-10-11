@@ -55,6 +55,9 @@ public final class MediaHub {
     private boolean externalConnected;
     private final BluetoothSource bt;
     private boolean btSelected, btPlaying, btRouted, playWhenConnected;
+    /** BT audio was switched on since the launcher started (sound routed, play sent). */
+    private boolean btActivated;
+    private long btAutoAt;
 
     private final MediaSessionManager.OnActiveSessionsChangedListener sessionsListener =
             new MediaSessionManager.OnActiveSessionsChangedListener() {
@@ -380,6 +383,7 @@ public final class MediaHub {
         int ch = radio().bluetoothChannel();
         if (ch > 0) btRouted = radio().routeChannel(ch);
         btSelected = true;
+        btActivated = true;
         active = btController();
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
@@ -410,6 +414,21 @@ public final class MediaHub {
         goc().send("MK");
         goc().send("VI");
         notifyChanged();
+    }
+
+    /**
+     * Opening the media screen with BT audio as the last source switches the sound to Bluetooth
+     * and starts it, as if BT audio had been chosen: once after the launcher starts, and again
+     * after the phone was gone. A song the user paused on the phone is left alone.
+     */
+    public void resumeBluetooth() {
+        if (!btSelected || isRadio()) return;
+        long now = System.currentTimeMillis();
+        if (now - btAutoAt < 8000) return;
+        boolean idle = !goc().hasSong() && !isPlaying();
+        if (btActivated && !idle) return;
+        btAutoAt = now;
+        selectBluetooth();
     }
 
     /** Our own player (USB / flash) becomes the source: radio and Bluetooth stop. */
