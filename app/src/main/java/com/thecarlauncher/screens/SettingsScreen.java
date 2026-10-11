@@ -139,6 +139,7 @@ public class SettingsScreen extends Screen {
         Entry e = stack.get(stack.size() - 1);
         title.setText(e.title);
         back.setVisibility(stack.size() > 1 ? View.VISIBLE : View.GONE);
+        act.updateBackArrow();
         content.removeAllViews();
         e.page.build();
         // Pages fade in like the rest of the launcher (not when only refreshing values).
@@ -160,6 +161,9 @@ public class SettingsScreen extends Screen {
         quietRender = true;
         render();
     }
+
+    @Override
+    public boolean hasOwnBack() { return stack.size() > 1; }
 
     @Override
     public boolean onBack() {

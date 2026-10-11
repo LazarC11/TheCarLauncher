@@ -79,6 +79,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private FrameLayout content;
     private TextView timeView, tagView, rightView, streetView;
     private View statusBar, statusRule;
+    private ImageView backArrow;
     private ImageView btIcon, battIcon, signalIcon, msgIcon;
     private ImageView globe;
 
@@ -198,6 +199,19 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 show(MENU, true);
             }
         });
+        // Back arrow for pages that have no back key of their own.
+        backArrow = Mib.icon(this, R.drawable.ui_ic_back, SB_GREY);
+        backArrow.setBackground(Mib.keyPressed());
+        backArrow.setPadding(Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4));
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        LinearLayout.LayoutParams bal = new LinearLayout.LayoutParams(Mib.px(this, 44), Mib.px(this, 40));
+        bal.rightMargin = Mib.px(this, 14);
+        left.addView(backArrow, bal);
         ImageView compass = Mib.icon(this, R.drawable.ui_sb_compass, SB_GREY);
         left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 24), Mib.px(this, 24)));
         streetView = Mib.text(this, "", 20, Mib.regular(this), SB_GREY);
@@ -354,6 +368,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (current != MENU) show(MENU, true);
     }
 
+    /** Shows the status-bar back arrow unless the page has its own back key. */
+    public void updateBackArrow() {
+        if (backArrow == null) return;
+        boolean own = current >= 0 && screens[current] != null && screens[current].hasOwnBack();
+        backArrow.setVisibility(current == MENU || own ? View.GONE : View.VISIBLE);
+    }
+
     /** Kept for screens that still ask for an accent colour. */
     public int accent() { return Mib.BLUE; }
 
@@ -374,6 +395,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         int bar = idx == MENU ? View.GONE : View.VISIBLE;
         statusBar.setVisibility(bar);
         statusRule.setVisibility(bar);
+        updateBackArrow();
         Screen s = screens[idx];
         View v = s.view(content);
         if (v.getParent() == null) {

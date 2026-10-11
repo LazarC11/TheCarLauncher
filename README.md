@@ -54,14 +54,21 @@ Text is in Serbian (Latin) by default; English can be picked under
 - **Bluetooth music without the factory app on screen**: song title, artist, album, position
   and length are read straight from the unit's Bluetooth module. Cover art is looked up
   online.
-- **Built-in FM radio** that drives the unit's tuner through the MCU: presets, RDS names, a
-  station list scan and the factory manual dial.
+- **Built-in FM radio** that drives the unit's tuner through the MCU: presets with station
+  logos, RDS names, a station list scan and the factory manual dial.
+- **App-Connect** page in the factory style that drives the unit's ZLink app (Android Auto,
+  CarPlay, mirroring) and shows the connection live.
 - **Navigation on OpenStreetMap**: address search, routing, turn-by-turn voice
   prompts, re-routing, nearby places, and **offline maps** of whole countries drawn on the unit.
 - **Vehicle page** in the style of a factory *Vehicle status* screen, with a picture of the car, GPS trip
   computer, fuel log and service reminders. No OBD adapter needed.
 - **Ambient lighting** and **Bass – Mid – Treble** pages modelled on the factory ones.
-- **Phone status in the top bar**: Bluetooth, phone battery, signal and a notifications envelope.
+- **Phone status in the top bar**: Bluetooth, phone battery, signal, a notifications envelope and
+  the outside temperature.
+- **Drop-down loading banner** for anything that takes a moment (radio scan, reading USB, maps,
+  route, phone connecting), soft fade-in on every page, and a back arrow wherever a page has no
+  back key of its own.
+- **Own car pictures**: brand, model and the car / interior pictures can be set from storage.
 - **True fullscreen** (no Android bars) and a smooth, GPU-accelerated MENU pager.
 
 ---
@@ -70,8 +77,8 @@ Text is in Serbian (Latin) by default; English can be picked under
 
 ### MENU
 
-Eight tiles in a 4×2 grid: **Radio, Media, Apps, App-Connect, Phone, Vehicle, Navigation,
-Setup**. Swipe left for a second page of pinned apps.
+Eight nearly black tiles in a 4×2 grid, with no status bar, like the factory MENU: **Radio, Media,
+Apps, App-Connect, Phone, Vehicle, Navigation, Setup**. Swipe left for a second page of pinned apps.
 
 - The page follows your finger 1:1 and glides to rest. It turns only in the direction you dragged:
   a quarter of the screen or a quick flick. It never stretches past the first or last page.
@@ -129,12 +136,9 @@ Related settings (*Setup → Bluetooth audio*):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| Song straight from the BT module | On | Reads song info from `/dev/goc_serial`. Turn it off if the factory app stops getting calls or songs. |
-| Open the BT app briefly when choosing BT audio | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
-| BT audio app | Automatic | Which app is the Bluetooth player (the factory one is hidden from the app list). |
-| MCU channel for BT audio | Off | Advanced: forces an MCU audio channel. Normally not needed. |
-| Diagnostics | – | Shows what the module sends (`GOC ←` lines), media sessions, factory broadcasts, MCU packets and more. |
+| Open the BT app briefly (if there is no sound) | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
+| Diagnostics | – | Phone battery / signal, media sessions, the song as the Bluetooth module reports it and the module's last lines. |
 
 ### Radio
 
@@ -147,14 +151,16 @@ A built-in FM radio that controls the unit's real tuner through the MCU service.
   logo and its name under the tile.
 - Station logos come from the free [Radio Browser](https://www.radio-browser.info) database by RDS
   name: fetched automatically when a station is shown, or all at once with *Setup → Radio →
-  Download logos for found stations*. They are kept on the unit; none are bundled in the APK. Tap a preset to tune, long-press to store; an
-  empty slot says *Empty*.
+  Download logos for found stations*. They are kept on the unit; none are bundled in the APK.
+- Tap a preset to tune, long-press to store; an empty slot says *Empty*.
 - **Stations** scans the band into a station list.
 - **Manual** shows the factory FM dial for drag-tuning; the arrows then step 0.1 MHz.
 - Steering-wheel next/previous seek to the next station while the radio is the source.
 - On a unit without `mcu_service`, the Radio tile opens the factory radio app instead.
 
-![Radio station list](docs/screenshots/radio-stations.png)
+| Presets | Station list |
+| --- | --- |
+| ![Radio](docs/screenshots/radio.png) | ![Radio station list](docs/screenshots/radio-stations.png) |
 
 ### Navigation
 
@@ -180,6 +186,14 @@ offline (see [Offline maps](#offline-maps)); address search and routing need int
 | Route | Nearby | My destinations |
 | --- | --- | --- |
 | ![Route](docs/screenshots/nav-route.png) | ![Nearby](docs/screenshots/nav-nearby.png) | ![Destinations](docs/screenshots/nav-destinations.png) |
+
+**Media while navigating.** *Media* opens a small widget over the map with the cover, song and
+previous / play / next; it hides itself after 10 seconds. Its split button keeps the media in a
+column beside the map (remembered); long-press *Media* for the full Media screen.
+
+| Media widget | Split screen |
+| --- | --- |
+| ![Media widget](docs/screenshots/nav-media-widget.png) | ![Split screen](docs/screenshots/nav-media-split.png) |
 
 #### Offline maps
 
@@ -215,6 +229,10 @@ with the three phone-mode logos along the bottom (Android Auto, Apple CarPlay, M
 - *Setup* opens ZLink's own settings. Without ZLink, the page falls back to any other projection
   app found on the unit.
 
+| Waiting for a phone | Connecting | Connected |
+| --- | --- | --- |
+| ![App-Connect](docs/screenshots/appconnect.png) | ![Connecting](docs/screenshots/appconnect-connecting.png) | ![Connected](docs/screenshots/appconnect-connected.png) |
+
 ### Vehicle (CAR)
 
 Paged with the **<** **>** boxes like the factory menu. Everything comes from GPS and what you
@@ -232,6 +250,10 @@ enter; no diagnostic adapter is needed.
 | Status | Since refuelling | Fuel log | Service |
 | --- | --- | --- | --- |
 | ![Status](docs/screenshots/vehicle-status.png) | ![Refuel](docs/screenshots/vehicle-refuel.png) | ![Fuel](docs/screenshots/vehicle-fuel.png) | ![Service](docs/screenshots/vehicle-service.png) |
+
+*Setup → Vehicle* sets the brand and model and lets you pick your own car picture (Vehicle status)
+and interior picture (Ambient lighting) from the unit's storage; *Back to built-in* restores the
+originals.
 
 ### Ambient lighting
 
@@ -257,18 +279,30 @@ with a **Bluetooth audio** tile that switches the media player to BT.
 
 ### Settings
 
-*System settings*: screen, ambient lighting, time and date, language,
-units, navigation (map style, voice), media, Bluetooth audio, App-Connect, phone and radio, vehicle,
-Android settings and system information.
+*System settings*: screen, ambient lighting, time and date, language, units, navigation (offline
+maps, map style, voice, home / work), sound, media (library, All files access, other media apps),
+radio (LOC, RDS, station logos), Bluetooth audio, phone app, vehicle (brand, model, pictures),
+Android settings and system information. Options that no longer did anything useful were removed.
 
-| Settings | Media settings | Diagnostics |
-| --- | --- | --- |
-| ![Settings](docs/screenshots/settings.png) | ![Media settings](docs/screenshots/settings-media.png) | ![Diagnostics](docs/screenshots/diagnostics.png) |
+| Settings | Vehicle | Bluetooth audio | Radio |
+| --- | --- | --- | --- |
+| ![Settings](docs/screenshots/settings.png) | ![Vehicle](docs/screenshots/settings-vehicle.png) | ![Bluetooth](docs/screenshots/settings-bluetooth.png) | ![Radio](docs/screenshots/settings-radio.png) |
+
+### Loading banner
+
+Anything that takes a moment drops a black banner, two status bars tall, from the top: the factory
+spinner (in the ambient colour, turning clockwise) and a line saying what is happening, e.g.
+*Searching for radio stations… 4 · 94.8 MHz*, *Reading music from USB…*, *Downloading map: 34 %*,
+*Calculating the route…* or *Connecting: Apple CarPlay…*. It slides away when done and never
+blocks taps.
+
+![Loading banner](docs/screenshots/loading-banner.png)
 
 ### Status bar
 
 From left to right:
 
+- **Back arrow** on pages that have no back key of their own.
 - **Compass and street name**: the current street from GPS and reverse geocoding. Tap it to go
   to MENU.
 - **Globe**: shown dimmed when there is no internet.
@@ -276,7 +310,8 @@ From left to right:
 - **Phone icons**: FM while the radio plays, the **Bluetooth** icon, phone **battery**,
   **signal**, and an **envelope** when the phone has notifications. Tap the envelope to list
   them.
-- **Speed**: shown on the right.
+- **Outside temperature** on the right: the current weather at the car's position (Open-Meteo,
+  refreshed every 15 minutes).
 
 The text and icons are a touch dimmer than the screen content, like the factory screen.
 
@@ -307,8 +342,8 @@ Requires Android 5.0 or newer.
 
 Then, in *Setup*:
 
-- **Bluetooth audio**: leave *Song straight from the BT module* on, and play something on the
-  phone to check that the title shows.
+- **Bluetooth audio**: choose *BT-audio* in Media and play something on the phone to check that
+  the title shows.
 - **Radio**: check that *FM tuner* says it is available.
 - **Vehicle → Service**: enter the odometer, the oil-change interval and the registration
   date so the reminders work.
@@ -411,10 +446,10 @@ information shows *robolectric*.
 
 | Problem | What to try |
 | --- | --- |
-| BT music plays but no title shows | *Setup → Bluetooth audio*: make sure *Song straight from the BT module* is on. Open *Diagnostics* and tap *GOC: ask for song info*; the `GOC ←` lines should show `MI…`. |
-| No sound after choosing BT-audio | Turn on *Open the BT app briefly when choosing BT audio* as a fallback. |
+| BT music plays but no title shows | *Setup → Bluetooth audio → Diagnostics* → *Ask for song info*; the `←` lines should show `MI…`. Send a photo of that page with a bug report. |
+| No sound after choosing BT-audio | Turn on *Open the BT app briefly (if there is no sound)* as a fallback. |
 | The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
-| Calls stop working in the factory app | Turn off *Song straight from the BT module* and report it. |
+| Calls stop working in the factory app | Report it with the *Potential issue* form. |
 | No cover art | The unit needs internet. Songs whose "artist" is a video channel name may not be found. |
 | Radio tile opens another app | `mcu_service` wasn't found. *Setup → Radio* shows the tuner status. |
 | Other apps' songs don't show | Enable notification access: *Media → Source → Connect apps*. |
@@ -429,7 +464,9 @@ information shows *robolectric*.
 | BT song title / artist / album from the module | Confirmed |
 | BT position, length and full progress bar | Confirmed |
 | UI, MENU, status bar, fullscreen | In daily use |
-| BT-audio: app opens briefly, launcher comes back | New in 3.2.1, needs testing |
+| BT-audio through the factory app's control broadcast (no screen) | New in 3.7.0, needs testing |
+| App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
+| Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |
 | Cover art lookup | New, needs testing on the unit's connection |
 | Clearing the song on phone disconnect | New, relies on the module's `MY`/`IA` lines |
 | Calls in the factory app while reading the module | Needs confirming |

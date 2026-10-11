@@ -41,6 +41,9 @@ public class AmbientScreen extends Screen {
     }
 
     @Override
+    public boolean hasOwnBack() { return true; }
+
+    @Override
     public String title() { return s("Ambijentalno osvetljenje", "Ambient lighting"); }
 
     private String s(String sr, String en) { return Mib.t(act, sr, en); }
