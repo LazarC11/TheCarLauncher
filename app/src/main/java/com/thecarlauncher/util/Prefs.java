@@ -98,8 +98,13 @@ public final class Prefs {
         return !"mph".equals(str(c, UNITS, "kmh"));
     }
 
+    public static final String VEHICLE_BRAND = "vehicle_brand", VEHICLE_MODEL = "vehicle_model";
+
+    /** "Brand Model" when set in Setup, else the older free-text name. */
     public static String vehicle(Context c) {
-        return str(c, VEHICLE, "Opel Corsa C");
+        String b = str(c, VEHICLE_BRAND, ""), m = str(c, VEHICLE_MODEL, "");
+        String bm = (b.trim() + " " + m.trim()).trim();
+        return bm.isEmpty() ? str(c, VEHICLE, "Opel Corsa C") : bm;
     }
 
     public static String tiles(Context c) {

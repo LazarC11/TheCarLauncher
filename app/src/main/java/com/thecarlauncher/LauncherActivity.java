@@ -388,6 +388,34 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         s.onShow();
     }
 
+    public interface ImagePicked { void onPicked(android.net.Uri uri); }
+    private static final int REQ_IMAGE = 4711;
+    private ImagePicked imagePicked;
+
+    /** Lets the owner choose a picture from the unit's storage. */
+    public void pickImage(ImagePicked cb) {
+        imagePicked = cb;
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("image/*");
+        try {
+            startActivityForResult(i, REQ_IMAGE);
+        } catch (Exception e) {
+            try {
+                startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), REQ_IMAGE);
+            } catch (Exception e2) {
+                Ui.toast(this, Mib.t(this, "Nema aplikacije za izbor slike", "No app to choose a picture"));
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req == REQ_IMAGE && res == RESULT_OK && data != null && data.getData() != null && imagePicked != null) {
+            imagePicked.onPicked(data.getData());
+        }
+        imagePicked = null;
+    }
+
     public void showSettings(int page) {
         show(SETTINGS, true);
         ((SettingsScreen) screens[SETTINGS]).open(page);

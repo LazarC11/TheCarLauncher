@@ -33,7 +33,7 @@ import java.util.List;
 
 /** MIB "Podešavanje sistema": title, blue rule, light bars, nested pages. */
 public class SettingsScreen extends Screen {
-    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3;
+    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3, PAGE_VEHICLE = 4;
 
     private interface Page { void build(); }
 
@@ -188,6 +188,9 @@ public class SettingsScreen extends Screen {
         });
         else if (page == PAGE_RADIO) push("Radio", new Page() {
             public void build() { buildRadio(); }
+        });
+        else if (page == PAGE_VEHICLE) push(s("Vozilo", "Vehicle"), new Page() {
+            public void build() { buildVehicle(); }
         });
         else render();
     }
@@ -619,14 +622,59 @@ public class SettingsScreen extends Screen {
     }
 
     private void buildVehicle() {
-        action(s("Naziv vozila", "Vehicle name"), Prefs.vehicle(act), new Runnable() {
+        textRow(s("Marka", "Brand"), Prefs.VEHICLE_BRAND, "Opel");
+        textRow(s("Model", "Model"), Prefs.VEHICLE_MODEL, "Corsa C");
+        pictureRow(s("Slika vozila (Status vozila)", "Car picture (Vehicle status)"), com.thecarlauncher.util.CarImages.EXTERIOR);
+        pictureRow(s("Slika unutrašnjosti (Ambijentalno)", "Interior picture (Ambient lighting)"), com.thecarlauncher.util.CarImages.INTERIOR);
+    }
+
+    private void textRow(final String label, final String key, String hint) {
+        String v = Prefs.str(act, key, "");
+        final String h = hint;
+        action(label, v.isEmpty() ? "—" : v, new Runnable() {
             public void run() {
-                Dialogs.text(act, s("Naziv vozila", "Vehicle name"), "Opel Corsa C", Prefs.vehicle(act), new Dialogs.TextEntered() {
+                Dialogs.text(act, label, h, Prefs.str(act, key, ""), new Dialogs.TextEntered() {
                     public void onText(String text) {
-                        Prefs.put(act, Prefs.VEHICLE, text);
+                        Prefs.put(act, key, text == null ? "" : text.trim());
                         refresh();
                     }
                 });
+            }
+        });
+    }
+
+    /** Choose a picture from storage, or go back to the built-in one. */
+    private void pictureRow(String label, final int which) {
+        final boolean custom = com.thecarlauncher.util.CarImages.isCustom(act, which);
+        action(label, custom ? s("Sopstvena slika", "Own picture") : s("Ugrađena", "Built-in"), new Runnable() {
+            public void run() {
+                if (!custom) {
+                    pick(which);
+                    return;
+                }
+                Dialogs.choose(act, s("Slika", "Picture"), new String[]{s("Izaberi drugu sliku", "Choose another picture"),
+                        s("Vrati ugrađenu", "Back to built-in")}, -1, new Dialogs.Chosen() {
+                    public void onChosen(int i) {
+                        if (i == 0) pick(which);
+                        else {
+                            com.thecarlauncher.util.CarImages.reset(act, which);
+                            act.restartUi();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void pick(final int which) {
+        act.pickImage(new LauncherActivity.ImagePicked() {
+            public void onPicked(android.net.Uri uri) {
+                if (com.thecarlauncher.util.CarImages.set(act, which, uri)) {
+                    Ui.toast(act, s("Slika je sačuvana", "Picture saved"));
+                    act.restartUi();
+                } else {
+                    Ui.toast(act, s("Slika ne može da se otvori", "The picture can't be opened"));
+                }
             }
         });
     }

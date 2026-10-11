@@ -204,7 +204,7 @@ public class AmbientScreen extends Screen {
 
         InteriorView(Context c) {
             super(c);
-            photo = BitmapFactory.decodeResource(c.getResources(), R.drawable.car_interior);
+            photo = com.thecarlauncher.util.CarImages.get(c, com.thecarlauncher.util.CarImages.INTERIOR);
         }
 
         @Override
