@@ -112,9 +112,11 @@ same daemon directly over `/dev/goc_serial`:
 - disconnects. When the phone drops, the old song details are cleared and the Bluetooth picture
   is shown until the phone plays again.
 
-Choosing **BT-audio** opens the factory Bluetooth app for about a second (the unit only switches
-the audio over once its screen has opened), then brings the launcher back and tells the phone to
-play. Allow **Display over other apps** for Car Launcher so Android lets it come back. Play/pause, next and previous are sent to the module as AT commands.
+Choosing **BT-audio** never shows the factory Bluetooth app. The launcher makes sure the app runs
+in the background and sends it the app's own music-control broadcast
+(`com.qf.action.BT.MUSIC.CONTROL`, `command` 1 previous · 2 next · 3 play/pause · 4 play · 5 pause).
+The app's "play" also takes Android's audio focus, and that is what switches the unit's sound to
+Bluetooth. Song details still come straight from the Bluetooth module.
 
 **Cover art.** The module only sends text, so the launcher looks the song up by artist and title in
 two public music catalogues (one as a fallback for the other). Found covers are cached on the unit. This needs an internet
@@ -127,7 +129,7 @@ Related settings (*Setup → Bluetooth audio*):
 | Setting | Default | What it does |
 | --- | --- | --- |
 | Song straight from the BT module | On | Reads song info from `/dev/goc_serial`. Turn it off if the factory app stops getting calls or songs. |
-| Open the BT app briefly when choosing BT audio | On | The unit only plays BT audio once the factory app's screen has opened, so it is shown for about a second and the launcher comes back. Coming back needs **Display over other apps** for Car Launcher (Android blocks background starts otherwise). |
+| Open the BT app briefly when choosing BT audio | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
 | BT audio app | Automatic | Which app is the Bluetooth player (the factory one is hidden from the app list). |
 | MCU channel for BT audio | Off | Advanced: forces an MCU audio channel. Normally not needed. |
@@ -386,7 +388,7 @@ information shows *robolectric*.
 | Problem | What to try |
 | --- | --- |
 | BT music plays but no title shows | *Setup → Bluetooth audio*: make sure *Song straight from the BT module* is on. Open *Diagnostics* and tap *GOC: ask for song info*; the `GOC ←` lines should show `MI…`. |
-| No sound after choosing BT-audio | Make sure *Open the BT app briefly when choosing BT audio* is on. |
+| No sound after choosing BT-audio | Turn on *Open the BT app briefly when choosing BT audio* as a fallback. |
 | The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
 | Calls stop working in the factory app | Turn off *Song straight from the BT module* and report it. |
 | No cover art | The unit needs internet. Songs whose "artist" is a video channel name may not be found. |

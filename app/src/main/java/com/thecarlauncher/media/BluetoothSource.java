@@ -210,6 +210,28 @@ public final class BluetoothSource {
         }
     }
 
+    /** The unit's factory Bluetooth app (QF units). */
+    static final String QF_PKG = "com.qf.bluetooth";
+    public static final int QF_PREVIOUS = 1, QF_NEXT = 2, QF_PLAY_PAUSE = 3, QF_PLAY = 4, QF_PAUSE = 5;
+
+    /**
+     * Sends a music command to the factory Bluetooth app through its own control broadcast.
+     * Unlike a command straight to the Bluetooth module, "play" here also makes the app take
+     * the audio focus, which is what switches the unit's sound over to Bluetooth, without
+     * showing its screen. Returns false when that app is not installed.
+     */
+    boolean qfCommand(int command) {
+        if (!installed(QF_PKG)) return false;
+        try {
+            app.sendBroadcast(new Intent("com.qf.action.BT.MUSIC.CONTROL").setPackage(QF_PKG).putExtra("command", command));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    boolean hasQfApp() { return installed(QF_PKG); }
+
     /**
      * Starts the Bluetooth music app without its screen: binds its media service and starts
      * its exported services, so it can switch the audio to Bluetooth from the background.

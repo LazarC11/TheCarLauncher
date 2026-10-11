@@ -384,12 +384,13 @@ public final class MediaHub {
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
         // background, start playback, and show what it is playing.
-        if (!Prefs.bool(app, Prefs.BT_OPEN_APP, true)) {
-            // Never show the BT app: start it in the background (it switches the audio over),
-            // read the song from the BT module and tell the phone to play.
-            bt.startInBackground(this, bt.appPackage());
+        if (!Prefs.bool(app, Prefs.BT_OPEN_APP, false)) {
+            // Never show the BT app: make sure it runs in the background, then send it "play"
+            // through its control broadcast. Its play also takes the audio focus, which switches
+            // the unit's sound to Bluetooth. The song itself is read from the BT module.
+            bt.startInBackground(this, bt.hasQfApp() ? BluetoothSource.QF_PKG : bt.appPackage());
             playWhenConnected = true;
-            goc().send("MS");
+            main.postDelayed(playBluetooth, 500);
             main.postDelayed(playBluetoothRetry, 2500);
         } else {
             // The unit only plays BT audio once the app's screen has opened: open it briefly
@@ -432,6 +433,10 @@ public final class MediaHub {
     }
 
     private void pauseBluetooth() {
+        if (bt.qfCommand(BluetoothSource.QF_PAUSE)) {
+            btPlaying = false;
+            return;
+        }
         if (goc().connected()) {
             goc().send("MJ");
             btPlaying = false;
@@ -501,6 +506,13 @@ public final class MediaHub {
         public void run() {
             if (!btSelected) return;
             MediaController mc = btController();
+            if (bt.qfCommand(BluetoothSource.QF_PLAY)) {
+                if (mc != null) active = mc;
+                playWhenConnected = false;
+                goc().send("MK");
+                notifyChanged();
+                return;
+            }
             if (goc().connected()) {
                 if (goc().playing() != 1) goc().send("MS");
                 if (mc != null) active = mc;
@@ -803,7 +815,7 @@ public final class MediaHub {
             radio().stop();
             return;
         }
-        if (btSelected && goc().send("MA")) {
+        if (btSelected && (bt.qfCommand(BluetoothSource.QF_PLAY_PAUSE) || goc().send("MA"))) {
             goc().send("VI");
             return;
         }
@@ -826,7 +838,7 @@ public final class MediaHub {
     public void next() {
         if (isRadio()) {
             radio().seekUp();
-        } else if (btSelected && goc().send("MD")) {
+        } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_NEXT) || goc().send("MD"))) {
             goc().send("MK");
         } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_NEXT);
@@ -841,7 +853,7 @@ public final class MediaHub {
     public void previous() {
         if (isRadio()) {
             radio().seekDown();
-        } else if (btSelected && goc().send("ME")) {
+        } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_PREVIOUS) || goc().send("ME"))) {
             goc().send("MK");
         } else if (btFallback()) {
             bt.sendKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
