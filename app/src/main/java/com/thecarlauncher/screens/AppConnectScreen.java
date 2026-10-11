@@ -34,16 +34,23 @@ public class AppConnectScreen extends Screen {
     /** Last ZLink status ("CONNECTED", "DISCONNECT", …) and mode ("carplay_wireless", …). */
     private static String status, mode;
 
-    private TextView message;
+    private TextView message, deviceName;
+    private View deviceBox;
+    private android.widget.ImageView boxBg, boxLogo;
+    /** Phone being connected (ZLink reported a mode, not yet "CONNECTED"). */
+    private static boolean connecting;
+    private final android.os.Handler ui = new android.os.Handler(android.os.Looper.getMainLooper());
+    private final Runnable autoOpen = new Runnable() {
+        public void run() {
+            if ("CONNECTED".equals(status)) open(activeMode());
+        }
+    };
     private android.widget.ImageView[] modes = new android.widget.ImageView[3];
 
     private final BroadcastReceiver zlinkStatus = new BroadcastReceiver() {
         @Override
         public void onReceive(Context c, Intent i) {
-            String st = i.getStringExtra("status"), md = i.getStringExtra("phoneMode");
-            if ("CONNECTED".equals(st) || "DISCONNECT".equals(st)) status = st;
-            if (md != null) mode = md;
-            refresh();
+            onStatus(i.getStringExtra("status"), i.getStringExtra("phoneMode"));
         }
     };
 
@@ -88,6 +95,42 @@ public class AppConnectScreen extends Screen {
                 if ("CONNECTED".equals(status)) open(activeMode());
             }
         });
+
+        // Centre: the phone being connected, its name above a framed box with the mode's logo.
+        // Black box while connecting; white box with a dark logo once connected.
+        LinearLayout dev = new LinearLayout(act);
+        dev.setOrientation(LinearLayout.VERTICAL);
+        dev.setGravity(Gravity.CENTER_HORIZONTAL);
+        deviceName = Mib.text(act, "", 28, Mib.regular(act), Mib.WHITE);
+        deviceName.setGravity(Gravity.CENTER);
+        dev.addView(deviceName, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        FrameLayout box = new FrameLayout(act);
+        int bw = Mib.px(act, 427), bh = Mib.px(act, 111);
+        boxBg = new android.widget.ImageView(act);
+        boxBg.setImageResource(R.drawable.ui_box_device);
+        boxBg.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
+        box.addView(boxBg, new FrameLayout.LayoutParams(bw, bh));
+        // The framed area of the artwork: x 47..340 of 388, y 7..58 of 101.
+        boxLogo = new android.widget.ImageView(act);
+        boxLogo.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+        FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(bw * 263 / 388, bh * 41 / 101);
+        ll.leftMargin = bw * 62 / 388;
+        ll.topMargin = bh * 12 / 101;
+        box.addView(boxLogo, ll);
+        LinearLayout.LayoutParams boxLp = new LinearLayout.LayoutParams(bw, bh);
+        boxLp.topMargin = Mib.px(act, 10);
+        dev.addView(box, boxLp);
+        box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open(activeMode());
+            }
+        });
+        deviceBox = dev;
+        FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+        dl.bottomMargin = Mib.px(act, 40);
+        body.addView(dev, dl);
 
         // The three modes, written like the factory logos, along the bottom of the page.
         LinearLayout row = new LinearLayout(act);
@@ -213,10 +256,67 @@ public class AppConnectScreen extends Screen {
             message.setText(s("Dobrodošli u App-Connect.\nPovežite uređaj preko USB-a.",
                     "Welcome to App-Connect.\nPlease connect a device using the USB."));
         }
+        boolean showBox = connected || connecting;
+        deviceBox.setVisibility(showBox ? View.VISIBLE : View.GONE);
+        message.setVisibility(showBox ? View.GONE : View.VISIBLE);
+        if (showBox) {
+            deviceName.setText(phoneName(active));
+            boxBg.setImageResource(connected ? R.drawable.ui_box_device_on : R.drawable.ui_box_device);
+            boxLogo.setImageResource(active == 1 ? R.drawable.ui_logo_carplay
+                    : active == 2 ? R.drawable.ui_logo_mirrorlink : R.drawable.ui_logo_aauto);
+            // Flipped colours on the white box.
+            boxLogo.setColorFilter(tint(connected ? 0xFF16161A : 0xFFF2F2F4, connected ? 1.8f : 1f));
+        }
         for (int i = 0; i < modes.length; i++) {
             boolean on = connected && i == active;
             modes[i].setColorFilter(tint(on ? Mib.BLUE : 0xFFF2F2F4, connected && !on ? 0.4f : 1f));
         }
+    }
+
+    private String modeName(int m) {
+        return m == 1 ? "Apple CarPlay" : m == 2 ? "MirrorLink" : "Android Auto";
+    }
+
+    /** Name of the phone: the connected Bluetooth phone if Android knows it, else by mode. */
+    private String phoneName(int m) {
+        try {
+            android.bluetooth.BluetoothAdapter a = android.bluetooth.BluetoothAdapter.getDefaultAdapter();
+            if (a != null) {
+                for (android.bluetooth.BluetoothDevice d : a.getBondedDevices()) {
+                    Object on = d.getClass().getMethod("isConnected").invoke(d);
+                    if (Boolean.TRUE.equals(on) && d.getName() != null) return d.getName();
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return m == 1 ? "iPhone" : s("Telefon", "Phone");
+    }
+
+    /** ZLink status: drives the centre box, the loading banner and opening the phone screen. */
+    private void onStatus(String st, String md) {
+        if (md != null) mode = md;
+        String name = modeName(activeMode());
+        if ("CONNECTED".equals(st)) {
+            status = st;
+            connecting = false;
+            // Same banner line turns from "connecting" into "connected", then goes away.
+            com.thecarlauncher.mib.LoadingBanner.flash("appconnect", name + s(" je povezan", " connected"), 2500);
+            // Like the factory unit: the phone's screen opens by itself.
+            ui.removeCallbacks(autoOpen);
+            ui.postDelayed(autoOpen, 1200);
+        } else if ("DISCONNECT".equals(st) || "none".equals(md)) {
+            boolean was = "CONNECTED".equals(status) || connecting;
+            status = "DISCONNECT";
+            connecting = false;
+            ui.removeCallbacks(autoOpen);
+            if (was) com.thecarlauncher.mib.LoadingBanner.flash("appconnect", s("Telefon je odvojen", "Phone disconnected"), 2000);
+            else com.thecarlauncher.mib.LoadingBanner.stop("appconnect");
+        } else if (md != null && st != null && !st.startsWith("PHONE_CALL") && !st.startsWith("MAIN_PAGE")
+                && !"CONNECTED".equals(status)) {
+            connecting = true;
+            com.thecarlauncher.mib.LoadingBanner.start("appconnect", s("Povezivanje: ", "Connecting: ") + name + "…");
+        }
+        refresh();
     }
 
     private void showInfo() {

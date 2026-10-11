@@ -202,6 +202,10 @@ with the three phone-mode logos along the bottom (Android Auto, Apple CarPlay, M
   service running while the page is open and starts the chosen mode through ZLink's public screens.
 - ZLink's status broadcast (`com.zjinnova.zlink`, extras `status` and `phoneMode`) shows which
   phone is connected; the page then highlights that mode and a tap shows the phone.
+- While a phone connects, a framed box appears in the middle with the phone's name above it and
+  the mode's logo inside; the loading banner says "Connecting: Apple CarPlay…". Once connected the
+  box turns white with the logo in dark, the banner says "… connected", and the phone's screen
+  opens by itself.
 - *Setup* opens ZLink's own settings. Without ZLink, the page falls back to any other projection
   app found on the unit.
 

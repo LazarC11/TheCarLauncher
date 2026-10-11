@@ -98,6 +98,15 @@ public class LoadingBanner extends FrameLayout {
         });
     }
 
+    /** Shows a message for a moment (e.g. "connected"), then removes it. */
+    public static void flash(final String key, String message, long ms) {
+        start(key, message);
+        MAIN.postDelayed(new Runnable() {
+            @Override
+            public void run() { stop(key); }
+        }, ms);
+    }
+
     public static void stop(final String key) {
         MAIN.post(new Runnable() {
             @Override
