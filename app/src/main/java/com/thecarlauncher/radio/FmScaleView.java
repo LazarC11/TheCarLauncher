@@ -30,7 +30,7 @@ public class FmScaleView extends View {
 
     public FmScaleView(Context c) {
         super(c);
-        scale = c.getResources().getDrawable(R.drawable.vw_radio_scale_fm);
+        scale = c.getResources().getDrawable(R.drawable.ui_radio_scale_fm);
     }
 
     public void setListener(Listener l) { listener = l; }

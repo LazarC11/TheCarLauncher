@@ -19,7 +19,7 @@ body:
         - Apps
         - Settings
         - Status bar
-        - Looks / MIB design
+        - Looks / design
         - New screen or feature
         - Other
     validations:
@@ -43,7 +43,7 @@ body:
     id: reference
     attributes:
       label: Reference
-      description: Photos of the factory VW MIB screen, mock-ups or examples from other units.
+      description: Photos of the factory screen, mock-ups or examples from other units.
 
   - type: dropdown
     id: priority

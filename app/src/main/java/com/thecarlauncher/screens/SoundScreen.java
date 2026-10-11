@@ -59,7 +59,7 @@ public class SoundScreen extends Screen {
         head.addView(reset, new LinearLayout.LayoutParams(Mib.px(act, 290), Mib.px(act, 58)));
         FrameLayout back = new FrameLayout(act);
         back.setBackground(Mib.box(act));
-        back.addView(Mib.icon(act, R.drawable.vw_ic_back, Mib.WHITE),
+        back.addView(Mib.icon(act, R.drawable.ui_ic_back, Mib.WHITE),
                 new FrameLayout.LayoutParams(Mib.px(act, 40), Mib.px(act, 40), Gravity.CENTER));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
