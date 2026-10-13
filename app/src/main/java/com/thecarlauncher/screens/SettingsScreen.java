@@ -78,7 +78,7 @@ public class SettingsScreen extends Screen {
         backBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBack();
+                if (!onBack()) act.goBack();
             }
         });
         back = backBox;
@@ -168,6 +168,14 @@ public class SettingsScreen extends Screen {
     @Override
     public boolean onBack() {
         if (stack.size() <= 1) return false;
+        // Opened straight on a page from another screen: back returns to that screen.
+        if (jumped && stack.size() == 2) {
+            jumped = false;
+            stack.remove(stack.size() - 1);
+            quietRender = true;
+            render();
+            return false;
+        }
         stack.remove(stack.size() - 1);
         render();
         return true;
@@ -175,8 +183,12 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void onShow() {
+        jumped = false;
         render();
     }
+
+    /** True while the page was opened directly from another screen (Setup soft keys). */
+    private boolean jumped;
 
     /** Jumps straight to a page (used by the Setup soft keys). */
     public void open(int page) {
@@ -197,6 +209,7 @@ public class SettingsScreen extends Screen {
             public void build() { buildVehicle(); }
         });
         else render();
+        jumped = stack.size() == 2;
     }
 
     private void updateThumb() {

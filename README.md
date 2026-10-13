@@ -30,6 +30,7 @@ Text is in Serbian (Latin) by default; English can be picked under
   - [Bass – Mid – Treble](#bass--mid--treble)
   - [Apps](#apps)
   - [Settings](#settings)
+  - [Back](#back)
   - [Status bar](#status-bar)
 - [Install on the head unit](#install-on-the-head-unit)
 - [First-time setup](#first-time-setup)
@@ -316,6 +317,13 @@ App-Connect, phone and radio apps, Android settings, diagnostics and system info
 | --- | --- | --- | --- |
 | ![Settings](docs/screenshots/settings.png) | ![Vehicle](docs/screenshots/settings-vehicle.png) | ![Bluetooth](docs/screenshots/settings-bluetooth.png) | ![Radio](docs/screenshots/settings-radio.png) |
 
+### Back
+
+Back (the hardware key, the arrow in the status bar or a page's own back box) always returns to the
+screen shown before, like a phone: Media → Setup → back lands on Media again, Navigation → Media →
+back lands on Navigation. Inside a screen it first closes what is open there (a settings sub-page, the
+media browser, the station list). MENU clears the trail.
+
 ### Loading banner
 
 Anything that takes a moment drops a black banner, two status bars tall, from the top: the factory
@@ -494,6 +502,7 @@ information shows *robolectric*.
 | BT controls through the factory control broadcast | Confirmed (4.2.3) |
 | BT audio when the phone connects / when opening Media | Confirmed (4.2.5) |
 | Bluetooth devices: list, connect, pair a new phone | New in 4.3.0, needs testing |
+| Back to the previous screen | New in 4.3.1 |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

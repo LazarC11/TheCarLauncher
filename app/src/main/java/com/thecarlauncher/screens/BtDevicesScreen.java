@@ -63,7 +63,7 @@ public class BtDevicesScreen extends Screen implements BtDevices.Listener {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!onBack()) act.show(LauncherActivity.MEDIA, true);
+                if (!onBack()) act.goBack();
             }
         });
         LinearLayout.LayoutParams bl = new LinearLayout.LayoutParams(Mib.px(act, 62), Mib.px(act, 54));
@@ -141,8 +141,7 @@ public class BtDevicesScreen extends Screen implements BtDevices.Listener {
             render(true);
             return true;
         }
-        act.show(LauncherActivity.MEDIA, true);
-        return true;
+        return false;
     }
 
     @Override
