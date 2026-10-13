@@ -67,13 +67,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[10];
+    private final Screen[] screens = new Screen[11];
     private int current = -1;
 
     private FrameLayout content;
@@ -158,6 +158,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[AMBIENT] = new AmbientScreen(this);
         screens[SOUND] = new SoundScreen(this);
         screens[APPCONNECT] = new com.thecarlauncher.screens.AppConnectScreen(this);
+        screens[BTDEVICES] = new com.thecarlauncher.screens.BtDevicesScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);

@@ -103,6 +103,85 @@ public final class GocBluetooth {
      * The factory BT app is a persistent system app that reads the same serial line, so our own
      * reads only get pieces of its lines. While it publishes the song itself, its data wins.
      */
+    /** Raw module lines ("MX0A1B2C3D4E5F6Phone"), for the device list and search. */
+    public interface LineListener { void onLine(String line); }
+
+    private final List<LineListener> lineListeners = new java.util.concurrent.CopyOnWriteArrayList<>();
+    private volatile long listenUntil;
+
+    public void addLineListener(LineListener l) { if (!lineListeners.contains(l)) lineListeners.add(l); }
+
+    public void removeLineListener(LineListener l) { lineListeners.remove(l); }
+
+    private void dispatch(String line) {
+        for (LineListener l : lineListeners) {
+            try {
+                l.onLine(line);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    /**
+     * Reads the module's lines for a short while (device list, search) even when the line is
+     * otherwise left to the factory BT app. Short windows only: the app misses what we read.
+     */
+    public void listen(long ms) {
+        final long until = System.currentTimeMillis() + ms;
+        if (until <= listenUntil) return;
+        boolean running = listenUntil > System.currentTimeMillis();
+        listenUntil = until;
+        if (running || enabled()) return;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.io.FileInputStream in = null;
+                try {
+                    in = new java.io.FileInputStream("/dev/goc_serial");
+                    byte[] buf = new byte[1024];
+                    byte[] line = new byte[2048];
+                    int n = 0;
+                    while (System.currentTimeMillis() < listenUntil) {
+                        int r = in.read(buf);
+                        if (r < 0) break;
+                        for (int i = 0; i < r; i++) {
+                            byte b = buf[i];
+                            if (b == '\n') continue;
+                            if (b == '\r') {
+                                if (n > 0) dispatch(decode(line, n));
+                                n = 0;
+                            } else if (n < line.length) {
+                                line[n++] = b;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    lastError = "listen: " + e.getClass().getSimpleName();
+                } finally {
+                    try {
+                        if (in != null) in.close();
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+        }, "goc-listen").start();
+        // A harmless question at the end wakes the reader so it can stop.
+        main.postDelayed(new Runnable() {
+            public void run() {
+                if (System.currentTimeMillis() >= listenUntil) send("CY");
+            }
+        }, ms + 100);
+    }
+
+    private static String decode(byte[] b, int n) {
+        try {
+            for (int i = 0; i < n; i++) if ((b[i] & 0xFF) == 0xFF) b[i] = '|';
+            return new String(b, 0, n, "UTF-8");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     private boolean appFeeds() { return appFedAt > 0 && System.currentTimeMillis() - appFedAt < 30_000; }
 
     private String lastProgress = "";
@@ -420,6 +499,7 @@ public final class GocBluetooth {
             }
         }
         String first = f.get(0);
+        if (!lineListeners.isEmpty()) dispatch(decode(b.clone(), n));
         synchronized (lines) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < f.size(); i++) sb.append(i == 0 ? "" : " | ").append(f.get(i));

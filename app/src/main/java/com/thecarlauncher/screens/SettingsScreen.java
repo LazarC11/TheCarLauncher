@@ -533,6 +533,9 @@ public class SettingsScreen extends Screen {
                         });
                     }
                 });
+        action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
+            public void run() { act.show(LauncherActivity.BTDEVICES, true); }
+        });
         toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
                 Prefs.BT_AUTO_SELECT, true, false);
         toggle(s("Otvori BT aplikaciju na trenutak pri izboru BT audio", "Open the BT app briefly when choosing BT audio"),
