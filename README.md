@@ -30,6 +30,7 @@ Text is in Serbian (Latin) by default; English can be picked under
   - [Bass – Mid – Treble](#bass--mid--treble)
   - [Apps](#apps)
   - [Settings](#settings)
+  - [Back](#back)
   - [Status bar](#status-bar)
 - [Install on the head unit](#install-on-the-head-unit)
 - [First-time setup](#first-time-setup)
@@ -53,7 +54,8 @@ Text is in Serbian (Latin) by default; English can be picked under
   steering-wheel key support.
 - **Bluetooth music without the factory app on screen**: song title, artist, album, position
   and length come from the factory Bluetooth service running in the background. BT audio becomes
-  the source as soon as the phone connects, and opening Media starts it. Cover art is looked up
+  the source as soon as the phone connects, and opening Media starts it. Pick, connect and pair
+  phones from the launcher's own *Bluetooth devices* screen. Cover art is looked up
   online.
 - **Built-in FM radio** that drives the unit's tuner through the MCU: presets with station
   logos, RDS names, a station list scan and the factory manual dial.
@@ -134,6 +136,20 @@ persistent system service that runs from boot. The factory app's screen is never
   answer and republishes it. Reading the module directly is still available as a setting for units
   without the factory app.
 
+**Bluetooth devices.** Choosing **BT-audio** with no phone connected opens *Bluetooth devices*
+instead: the phones the unit remembers, with a check mark on the left of the connected one. Tap a
+phone to connect (the loading banner shows *Connecting to …* until it is connected, then BT audio
+starts); tap the connected one to disconnect; long-press to forget a phone. **New device** in the
+corner searches for nearby phones; tap one to pair and connect, or pick the unit's Bluetooth name on
+the phone. Everything runs in the launcher through the module's own commands (`AT#MX` paired list,
+`AT#CC` connect, `AT#CD` disconnect, `AT#SD`/`AT#ST` search, `AT#DB` pair); the launcher listens to
+the module's answers only for those few seconds. Also under *Setup → Bluetooth audio → Bluetooth
+devices*.
+
+| Bluetooth devices | New device |
+| --- | --- |
+| ![Bluetooth devices](docs/screenshots/bt-devices.png) | ![New device](docs/screenshots/bt-new-device.png) |
+
 **Cover art.** The module only sends text, so the launcher looks the song up by artist and title in
 two public music catalogues (one as a fallback for the other). Found covers are cached on the unit. This needs an internet
 connection (for example a phone hotspot) and can be switched off in Settings.
@@ -144,6 +160,7 @@ Related settings (*Setup → Bluetooth audio*):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
+| Bluetooth devices | – | Remembered phones, connect / disconnect, pair a new device. |
 | BT audio as soon as the phone connects | On | A connecting phone makes BT audio the source, like pressing its key. |
 | BT audio app | Bluetooth Music | Which app receives the controls (normally the factory one). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
@@ -299,6 +316,13 @@ App-Connect, phone and radio apps, Android settings, diagnostics and system info
 | Settings | Vehicle | Bluetooth audio | Radio |
 | --- | --- | --- | --- |
 | ![Settings](docs/screenshots/settings.png) | ![Vehicle](docs/screenshots/settings-vehicle.png) | ![Bluetooth](docs/screenshots/settings-bluetooth.png) | ![Radio](docs/screenshots/settings-radio.png) |
+
+### Back
+
+Back (the hardware key, the arrow in the status bar or a page's own back box) always returns to the
+screen shown before, like a phone: Media → Setup → back lands on Media again, Navigation → Media →
+back lands on Navigation. Inside a screen it first closes what is open there (a settings sub-page, the
+media browser, the station list). MENU clears the trail.
 
 ### Loading banner
 
@@ -477,6 +501,8 @@ information shows *robolectric*.
 | BT song title / artist / album / position from the factory service | Confirmed (4.2.3) |
 | BT controls through the factory control broadcast | Confirmed (4.2.3) |
 | BT audio when the phone connects / when opening Media | Confirmed (4.2.5) |
+| Bluetooth devices: list, connect, pair a new phone | New in 4.3.0, needs testing |
+| Back to the previous screen | New in 4.3.1 |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

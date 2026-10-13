@@ -67,13 +67,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[10];
+    private final Screen[] screens = new Screen[11];
     private int current = -1;
 
     private FrameLayout content;
@@ -158,6 +158,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[AMBIENT] = new AmbientScreen(this);
         screens[SOUND] = new SoundScreen(this);
         screens[APPCONNECT] = new com.thecarlauncher.screens.AppConnectScreen(this);
+        screens[BTDEVICES] = new com.thecarlauncher.screens.BtDevicesScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
@@ -365,7 +366,30 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     public void onBackPressed() {
         if (current >= 0 && screens[current].onBack()) return;
-        if (current != MENU) show(MENU, true);
+        goBack();
+    }
+
+    /** Screens visited before the current one (MENU clears it). */
+    private final java.util.ArrayList<Integer> history = new java.util.ArrayList<>();
+    private boolean goingBack;
+
+    /** Back to the screen we came from (MENU when there is none). */
+    public void goBack() {
+        if (current == MENU) return;
+        int prev = MENU;
+        while (!history.isEmpty()) {
+            int h = history.remove(history.size() - 1);
+            if (h != current && h >= 0 && h < screens.length && screens[h] != null) {
+                prev = h;
+                break;
+            }
+        }
+        goingBack = true;
+        try {
+            show(prev, true);
+        } finally {
+            goingBack = false;
+        }
     }
 
     /** Shows the status-bar back arrow unless the page has its own back key. */
@@ -384,6 +408,19 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         if (idx < 0 || idx >= screens.length || screens[idx] == null) return;
         hideKeyboard();
         if (idx == current) return;
+        if (!goingBack) {
+            if (idx == MENU) {
+                history.clear();
+            } else {
+                // Each page is in the trail once: back always goes to the page shown before.
+                history.remove(Integer.valueOf(idx));
+                if (current >= 0) {
+                    history.remove(Integer.valueOf(current));
+                    history.add(current);
+                    if (history.size() > 20) history.remove(0);
+                }
+            }
+        }
         // Every page fades in softly (not on the very first page after start).
         animate = current >= 0;
         if (current >= 0) {

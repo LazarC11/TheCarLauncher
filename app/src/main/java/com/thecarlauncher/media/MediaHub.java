@@ -433,6 +433,7 @@ public final class MediaHub {
 
     /** The phone just connected over Bluetooth: BT audio becomes the source, like its key. */
     public void onPhoneConnected() {
+        BtDevices.get(app).known(); // remembers the phone
         if (!Prefs.bool(app, Prefs.BT_AUTO_SELECT, true)) return;
         btAutoAt = System.currentTimeMillis();
         select(BLUETOOTH);

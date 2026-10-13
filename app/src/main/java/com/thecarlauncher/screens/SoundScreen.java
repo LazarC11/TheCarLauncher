@@ -67,7 +67,7 @@ public class SoundScreen extends Screen {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBack();
+                if (!onBack()) act.goBack();
             }
         });
         LinearLayout.LayoutParams bl = new LinearLayout.LayoutParams(Mib.px(act, 66), Mib.px(act, 58));
@@ -165,10 +165,7 @@ public class SoundScreen extends Screen {
     }
 
     @Override
-    public boolean onBack() {
-        act.showSettings(SettingsScreen.PAGE_MEDIA);
-        return true;
-    }
+    public boolean onBack() { return false; }
 
     // ---- Slider ------------------------------------------------------------------------------
 

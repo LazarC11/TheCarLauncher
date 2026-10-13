@@ -403,6 +403,12 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         p.add("BT-audio", R.drawable.ui_ic_bt, hub.isBluetooth(), new Runnable() {
             @Override
             public void run() {
+                // No phone connected: pick one first (the list of remembered phones).
+                if (com.thecarlauncher.media.BtDevices.get(act).knowsState()
+                        && !com.thecarlauncher.media.BtDevices.get(act).isConnected()) {
+                    act.show(LauncherActivity.BTDEVICES, true);
+                    return;
+                }
                 hub.select(MediaHub.BLUETOOTH);
             }
         });
