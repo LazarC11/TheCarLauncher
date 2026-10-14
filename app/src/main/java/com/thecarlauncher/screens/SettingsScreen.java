@@ -905,27 +905,10 @@ public class SettingsScreen extends Screen {
         });
     }
 
-    /** Choose a picture from storage, or go back to the built-in one. */
+    /** Opens the picture page: built-in Corsa C, no picture, or one imported from storage. */
     private void pictureRow(String label, final int which) {
-        final boolean custom = com.thecarlauncher.util.CarImages.isCustom(act, which);
-        action(label, custom ? s("Sopstvena slika", "Own picture") : s("Ugrađena", "Built-in"), new Runnable() {
-            public void run() {
-                if (!custom) {
-                    pick(which);
-                    return;
-                }
-                Dialogs.choose(act, s("Slika", "Picture"), new String[]{s("Izaberi drugu sliku", "Choose another picture"),
-                        s("Vrati ugrađenu", "Back to built-in")}, -1, new Dialogs.Chosen() {
-                    public void onChosen(int i) {
-                        if (i == 0) pick(which);
-                        else {
-                            com.thecarlauncher.util.CarImages.reset(act, which);
-                            act.carPicturesChanged();
-                            refreshKeep();
-                        }
-                    }
-                });
-            }
+        action(label, com.thecarlauncher.util.CarImages.label(act, which), new Runnable() {
+            public void run() { pick(which); }
         });
     }
 
@@ -984,6 +967,36 @@ public class SettingsScreen extends Screen {
                 }
             });
         }
+        final String mode = com.thecarlauncher.util.CarImages.mode(act, which);
+        // Built-in set, then "none", then importing.
+        LinearLayout corsa = choice(s("Corsa C (ugrađena)", "Corsa C (built-in)"),
+                com.thecarlauncher.util.CarImages.BUILTIN.equals(mode), new Runnable() {
+                    public void run() {
+                        com.thecarlauncher.util.CarImages.useBuiltin(act, which);
+                        pictureApplied();
+                    }
+                });
+        ImageView ct = new ImageView(act);
+        ct.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ct.setBackgroundColor(0xFF2A2A30);
+        ct.setImageBitmap(builtinThumb(which));
+        LinearLayout.LayoutParams ctl = new LinearLayout.LayoutParams(Mib.px(act, 88), Mib.px(act, 62));
+        ctl.rightMargin = Mib.px(act, 18);
+        corsa.addView(ct, 0, ctl);
+        choice(s("Bez slike", "No picture"), com.thecarlauncher.util.CarImages.NONE.equals(mode), new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.CarImages.reset(act, which);
+                pictureApplied();
+            }
+        });
+        TextView imp = Mib.text(act, s("Uvezi sliku sa uređaja ili USB-a:", "Import a picture from the unit or USB:"),
+                24, Mib.regular(act), Mib.GREY);
+        LinearLayout.LayoutParams il = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        il.leftMargin = Mib.px(act, 30);
+        il.topMargin = Mib.px(act, 10);
+        il.bottomMargin = Mib.px(act, 10);
+        content.addView(imp, il);
         action(s("Druga aplikacija (galerija, fajl menadžer)", "Another app (gallery, file manager)"), null, new Runnable() {
             public void run() {
                 act.pickImage(which, new LauncherActivity.ImagePicked() {
@@ -1030,6 +1043,25 @@ public class SettingsScreen extends Screen {
         }
     }
 
+    private final android.util.SparseArray<android.graphics.Bitmap> builtinThumbs = new android.util.SparseArray<>();
+
+    private android.graphics.Bitmap builtinThumb(int which) {
+        android.graphics.Bitmap b = builtinThumbs.get(which);
+        if (b == null) {
+            android.graphics.Bitmap full = com.thecarlauncher.util.CarImages.builtin(act, which);
+            b = android.graphics.Bitmap.createScaledBitmap(full, 176, Math.max(1, 176 * full.getHeight() / full.getWidth()), true);
+            builtinThumbs.put(which, b);
+        }
+        return b;
+    }
+
+    /** A choice was made: say so, go back to the vehicle page, rebuild the screens showing it. */
+    private void pictureApplied() {
+        com.thecarlauncher.mib.LoadingBanner.flash("picture-ok", s("Slika je postavljena", "Picture set"), 2000);
+        onBack();
+        act.carPicturesChanged();
+    }
+
     private void usePicture(final int which, final android.net.Uri uri) {
         com.thecarlauncher.mib.LoadingBanner.start("picture-save", s("Čuvanje slike…", "Saving the picture…"));
         new Thread(new Runnable() {
@@ -1042,10 +1074,7 @@ public class SettingsScreen extends Screen {
                             com.thecarlauncher.mib.LoadingBanner.flash("picture-fail", s("Slika ne može da se otvori", "The picture can't be opened"), 2500);
                             return;
                         }
-                        com.thecarlauncher.mib.LoadingBanner.flash("picture-ok", s("Slika je postavljena", "Picture set"), 2000);
-                        // Back to the vehicle page; screens showing the picture are rebuilt.
-                        onBack();
-                        act.carPicturesChanged();
+                        pictureApplied();
                     }
                 });
             }
