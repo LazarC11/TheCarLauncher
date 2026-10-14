@@ -50,6 +50,13 @@ public class MapTileView extends View implements TileCache.Listener {
     private boolean follow = true, interactive, hasFix, hasPosition;
     private double myLat, myLon;
     private float bearing, accuracyM;
+    // Smooth marker: glides from the shown position to each new fix over about one fix interval.
+    private double fromLat, fromLon, toLat, toLon;
+    private float fromBearing, toBearing;
+    private long glideStart, glideMs = 1;
+    private long lastFixAt;
+    /** Map turns so the car points up (only while following). */
+    private boolean headingUp;
     private int accent = Theme.ACCENTS[0];
     private Listener listener;
     private GestureDetector gestures;
@@ -145,10 +152,8 @@ public class MapTileView extends View implements TileCache.Listener {
                 @Override
                 public void onLongPress(MotionEvent e) {
                     if (longPress == null) return;
-                    double world = tileSize * Math.pow(2, zoom);
-                    double x = lonToX(centerLon) * world + (e.getX() - getWidth() / 2.0);
-                    double y = latToY(centerLat) * world + (e.getY() - getHeight() / 2.0);
-                    longPress.onLongPress(yToLat(y / world), xToLon(x / world));
+                    double[] p = screenToLatLon(e.getX(), e.getY());
+                    longPress.onLongPress(p[0], p[1]);
                 }
 
                 @Override
@@ -245,18 +250,109 @@ public class MapTileView extends View implements TileCache.Listener {
 
     /** Updates the vehicle marker; recentres when following. */
     public void setMyLocation(double lat, double lon, float bearing, float accuracy, boolean fix) {
-        myLat = lat;
-        myLon = lon;
-        this.bearing = bearing;
+        long now = android.os.SystemClock.uptimeMillis();
+        // On the route: ride on the line instead of the raw (noisy) GPS point.
+        double[] snapped = snapToRoute(lat, lon);
+        if (snapped != null) {
+            lat = snapped[0];
+            lon = snapped[1];
+            if (snapped[2] >= 0) bearing = (float) snapped[2];
+        }
         this.accuracyM = accuracy;
         hasFix = fix;
+        if (!hasPosition || distanceM(myLat, myLon, lat, lon) > 300) {
+            // First fix or a jump (tunnel exit): no glide.
+            myLat = fromLat = toLat = lat;
+            myLon = fromLon = toLon = lon;
+            this.bearing = fromBearing = toBearing = bearing;
+            glideMs = 1;
+        } else {
+            fromLat = myLat;
+            fromLon = myLon;
+            fromBearing = this.bearing;
+            toLat = lat;
+            toLon = lon;
+            toBearing = bearing;
+            glideMs = Math.max(250, Math.min(1500, now - lastFixAt));
+        }
+        glideStart = now;
+        lastFixAt = now;
         hasPosition = true;
         if (follow) {
-            centerLat = lat;
-            centerLon = lon;
+            centerLat = myLat;
+            centerLon = myLon;
         }
+        postInvalidateOnAnimation();
+    }
+
+    /** Advances the glide; true while still moving. */
+    private boolean stepGlide() {
+        float t = Math.min(1f, (android.os.SystemClock.uptimeMillis() - glideStart) / (float) glideMs);
+        myLat = fromLat + (toLat - fromLat) * t;
+        myLon = fromLon + (toLon - fromLon) * t;
+        float d = ((toBearing - fromBearing) % 360 + 540) % 360 - 180; // shortest way round
+        bearing = (fromBearing + d * t + 360) % 360;
+        return t < 1f;
+    }
+
+    public void setHeadingUp(boolean on) {
+        headingUp = on;
         invalidate();
     }
+
+    public boolean isHeadingUp() { return headingUp; }
+
+    /** The angle the map is turned by (0 = north up). */
+    public float mapRotation() { return headingUp && follow && hasPosition ? bearing : 0f; }
+
+    /** Nearest point on the remaining route within 25 m, with that segment's direction. */
+    private double[] snapToRoute(double lat, double lon) {
+        if (routeLat == null || routeLat.length < 2) return null;
+        double cos = Math.cos(Math.toRadians(lat));
+        double best = 25, bl = 0, bo = 0, bb = -1;
+        int from = Math.max(0, routeFrom - 2), to = Math.min(routeLat.length - 1, routeFrom + 400);
+        for (int i = from; i < to; i++) {
+            double ax = (routeLon[i] - lon) * 111320 * cos, ay = (routeLat[i] - lat) * 110540;
+            double bx = (routeLon[i + 1] - lon) * 111320 * cos, by = (routeLat[i + 1] - lat) * 110540;
+            double dx = bx - ax, dy = by - ay, len2 = dx * dx + dy * dy;
+            if (len2 < 0.01) continue;
+            double u = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2));
+            double px = ax + u * dx, py = ay + u * dy;
+            double d = Math.sqrt(px * px + py * py);
+            if (d < best) {
+                best = d;
+                bl = lat + py / 110540;
+                bo = lon + px / (111320 * cos);
+                bb = (Math.toDegrees(Math.atan2(dx, dy)) + 360) % 360;
+            }
+        }
+        return best < 25 ? new double[]{bl, bo, bb} : null;
+    }
+
+    private static double distanceM(double la1, double lo1, double la2, double lo2) {
+        double x = (lo2 - lo1) * 111320 * Math.cos(Math.toRadians((la1 + la2) / 2)), y = (la2 - la1) * 110540;
+        return Math.sqrt(x * x + y * y);
+    }
+
+    /** Screen point → map position, taking a turned map into account. */
+    private double[] screenToLatLon(float sx, float sy) {
+        int w = getWidth(), h = getHeight();
+        float ax = w / 2f, ay = anchorY(h);
+        float rot = mapRotation();
+        double dx = sx - ax, dy = sy - ay;
+        if (rot != 0) {
+            double r = Math.toRadians(rot), cs = Math.cos(r), sn = Math.sin(r);
+            double rx = dx * cs - dy * sn, ry = dx * sn + dy * cs;
+            dx = rx;
+            dy = ry;
+        }
+        double world = tileSize * Math.pow(2, zoom);
+        double x = lonToX(centerLon) * world + dx, y = latToY(centerLat) * world + dy;
+        return new double[]{yToLat(y / world), xToLon(x / world)};
+    }
+
+    /** Where the car sits on screen: lower down when the map turns, to see more road ahead. */
+    private float anchorY(int h) { return mapRotation() != 0 ? h * 0.68f : h / 2f; }
 
     private void panBy(float dx, float dy) {
         double world = tileSize * Math.pow(2, zoom);
@@ -303,17 +399,28 @@ public class MapTileView extends View implements TileCache.Listener {
     protected void onDraw(Canvas c) {
         int w = getWidth(), h = getHeight();
         c.drawColor(background);
+        boolean gliding = hasPosition && stepGlide();
+        if (follow && hasPosition) {
+            centerLat = myLat;
+            centerLon = myLon;
+        }
+        float rot = mapRotation();
+        float ax = w / 2f, ay = anchorY(h);
         double world = tileSize * Math.pow(2, zoom);
         double cx = lonToX(centerLon) * world;
         double cy = latToY(centerLat) * world;
-        double left = cx - w / 2.0, top = cy - h / 2.0;
+        double left = cx - ax, top = cy - ay;
+        // A turned map must cover the corners too: draw the circle around the anchor.
+        double reach = rot != 0 ? Math.hypot(Math.max(ax, w - ax), Math.max(ay, h - ay)) : 0;
 
-        drawGrid(c, left, top, w, h);
+        c.save();
+        if (rot != 0) c.rotate(-rot, ax, ay);
+        drawGrid(c, left, top, (float) -reach, (float) -reach, (float) (w + reach), (float) (h + reach));
 
         if (cache != null && cache.draws(source)) {
             int n = 1 << zoom;
-            int x0 = (int) Math.floor(left / tileSize), x1 = (int) Math.floor((left + w) / tileSize);
-            int y0 = (int) Math.floor(top / tileSize), y1 = (int) Math.floor((top + h) / tileSize);
+            int x0 = (int) Math.floor((left - reach) / tileSize), x1 = (int) Math.floor((left + w + reach) / tileSize);
+            int y0 = (int) Math.floor((top - reach) / tileSize), y1 = (int) Math.floor((top + h + reach) / tileSize);
             for (int ty = y0; ty <= y1; ty++) {
                 if (ty < 0 || ty >= n) continue;
                 for (int tx = x0; tx <= x1; tx++) {
@@ -331,7 +438,9 @@ public class MapTileView extends View implements TileCache.Listener {
         }
 
         drawRoute(c, left, top, world);
-        if (hasPosition) drawMarker(c, left, top, world);
+        c.restore();
+        if (hasPosition) drawMarker(c, left, top, world, rot, ax, ay);
+        if (gliding) postInvalidateOnAnimation();
     }
 
     private void drawRoute(Canvas c, double left, double top, double world) {
@@ -392,18 +501,26 @@ public class MapTileView extends View implements TileCache.Listener {
         }
     }
 
-    private void drawGrid(Canvas c, double left, double top, int w, int h) {
+    /** Background grid; lines are drawn over the view range [min, max] (wider when the map turns). */
+    private void drawGrid(Canvas c, double left, double top, float minX, float minY, float maxX, float maxY) {
         float step = 64f * density;
-        float ox = (float) (-(left % step));
-        float oy = (float) (-(top % step));
-        for (float x = ox; x < w; x += step) c.drawLine(x, 0, x, h, gridPaint);
-        for (float y = oy; y < h; y += step) c.drawLine(0, y, w, y, gridPaint);
+        for (double x = Math.ceil((left + minX) / step) * step - left; x < maxX; x += step) {
+            c.drawLine((float) x, minY, (float) x, maxY, gridPaint);
+        }
+        for (double y = Math.ceil((top + minY) / step) * step - top; y < maxY; y += step) {
+            c.drawLine(minX, (float) y, maxX, (float) y, gridPaint);
+        }
     }
 
     /** Factory-style position marker: red arrowhead inside a red ellipse ring. */
-    private void drawMarker(Canvas c, double left, double top, double world) {
+    private void drawMarker(Canvas c, double left, double top, double world, float rot, float ax, float ay) {
         float mx = (float) (lonToX(myLon) * world - left);
         float my = (float) (latToY(myLat) * world - top);
+        if (rot != 0) {
+            // Map turned around the anchor: the car is the anchor (it is being followed).
+            mx = ax;
+            my = ay;
+        }
         float rx = 30f * density, ry = 20f * density;
         int red = hasFix ? 0xFFD3202B : 0xFF8A8A8A;
         accuracyPaint.setStyle(Paint.Style.STROKE);
@@ -412,16 +529,17 @@ public class MapTileView extends View implements TileCache.Listener {
         ring.set(mx - rx, my - ry, mx + rx, my + ry);
         c.drawOval(ring, accuracyPaint);
 
-        float s = 13f * density;
+        // The arrow is built around its own middle so it turns on the spot, centred in the ring.
+        float s = 13f * density, k = 0.125f * s;
         arrow.reset();
-        arrow.moveTo(0, -s);
-        arrow.lineTo(s * 0.7f, s * 0.75f);
-        arrow.lineTo(0, s * 0.42f);
-        arrow.lineTo(-s * 0.7f, s * 0.75f);
+        arrow.moveTo(0, -s + k);
+        arrow.lineTo(s * 0.7f, s * 0.75f + k);
+        arrow.lineTo(0, s * 0.42f + k);
+        arrow.lineTo(-s * 0.7f, s * 0.75f + k);
         arrow.close();
         c.save();
         c.translate(mx, my);
-        c.rotate(bearing);
+        c.rotate(bearing - rot);
         markerFill.setColor(red);
         c.drawPath(arrow, markerFill);
         markerStroke.setColor(hasFix ? 0xFF7A0E14 : 0xFF555555);
@@ -429,9 +547,9 @@ public class MapTileView extends View implements TileCache.Listener {
         c.drawPath(arrow, markerStroke);
         // Lighter right half gives the arrow its 3-D facet.
         arrow.reset();
-        arrow.moveTo(0, -s);
-        arrow.lineTo(s * 0.7f, s * 0.75f);
-        arrow.lineTo(0, s * 0.42f);
+        arrow.moveTo(0, -s + k);
+        arrow.lineTo(s * 0.7f, s * 0.75f + k);
+        arrow.lineTo(0, s * 0.42f + k);
         arrow.close();
         glowPaint.setShader(null);
         glowPaint.setColor(0x40FFFFFF);

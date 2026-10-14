@@ -39,6 +39,8 @@ public final class Prefs {
     public static final String BT_CHANNEL_LEARNED = "bt_channel_learned";
     public static final String BT_WAKE = "bt_wake";
     public static final String BT_OPEN_APP = "bt_open_app";
+    /** Navigation map turns so the driving direction points up (default: north up). */
+    public static final String NAV_HEADING_UP = "nav_heading_up";
     /** Phone connects over Bluetooth → BT audio becomes the source (default on). */
     public static final String BT_AUTO_SELECT = "bt_auto_select";
     public static final String ONLINE_COVER = "online_cover";

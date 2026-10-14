@@ -212,6 +212,17 @@ offline (see [Offline maps](#offline-maps)); address search and routing need int
 - Spoken prompts use Android text-to-speech, and the route recalculates if you leave it.
 - Long-press the map to drive to that point.
 
+**Position arrow.** The arrow turns on its own centre inside the red ring and glides smoothly between
+GPS fixes instead of jumping; during guidance it rides on the route line (within 25 m), pointing
+along the road. The compass key in the top-right corner first brings the map back to the car; tapped
+again it switches between **north up** and **driving direction up** (the map turns so the car always
+points forward, with the car lower on the screen to show more road ahead; the compass needle then
+shows where north is). The choice is remembered and is also in *Setup → Navigation*.
+
+**Street name offline.** The street in the top-left corner comes from the downloaded offline maps
+first (the nearest named road, preferring one that runs the way the car drives), so it keeps working
+with no internet. Without a map for the area it falls back to the online lookup.
+
 | Route | Nearby | My destinations |
 | --- | --- | --- |
 | ![Route](docs/screenshots/nav-route.png) | ![Nearby](docs/screenshots/nav-nearby.png) | ![Destinations](docs/screenshots/nav-destinations.png) |
@@ -503,6 +514,7 @@ information shows *robolectric*.
 | BT audio when the phone connects / when opening Media | Confirmed (4.2.5) |
 | Bluetooth devices: list, connect, pair a new phone | New in 4.3.0, needs testing |
 | Back to the previous screen | New in 4.3.1 |
+| Smooth arrow, driving direction up, offline street names | New in 4.4.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

@@ -191,6 +191,77 @@ public final class OfflineMaps {
         }
     }
 
+    /**
+     * Name of the street at a point, from the downloaded maps (works with no internet): the
+     * nearest named road within ~40 m. A road running the way the car drives is preferred.
+     * Blocking: call on a worker thread. Null when no map covers the point.
+     */
+    public synchronized String streetAt(double lat, double lon, float bearing, boolean hasBearing, String lang) {
+        if (store == null) return null;
+        try {
+            final byte z = 16;
+            double n = 1 << z, lr = Math.toRadians(lat);
+            double tx = (lon + 180.0) / 360.0 * n;
+            double ty = (1 - Math.log(Math.tan(lr) + 1 / Math.cos(lr)) / Math.PI) / 2 * n;
+            int x0 = (int) Math.floor(tx), y0 = (int) Math.floor(ty);
+            int x1 = tx - x0 < 0.5 ? x0 - 1 : x0 + 1, y1 = ty - y0 < 0.5 ? y0 - 1 : y0 + 1;
+            String best = null;
+            double bestScore = 40;
+            double cosLat = Math.cos(Math.toRadians(lat));
+            for (int[] t : new int[][]{{x0, y0}, {x1, y0}, {x0, y1}, {x1, y1}}) {
+                org.mapsforge.map.datastore.MapReadResult r = store.readMapData(new Tile(t[0], t[1], z, 256));
+                if (r == null || r.ways == null) continue;
+                for (org.mapsforge.map.datastore.Way w : r.ways) {
+                    String name = null;
+                    boolean road = false;
+                    for (org.mapsforge.core.model.Tag tag : w.tags) {
+                        if ("name".equals(tag.key)) name = tag.value;
+                        else if ("highway".equals(tag.key)) road = true;
+                    }
+                    if (!road || name == null || name.isEmpty() || w.latLongs == null) continue;
+                    for (org.mapsforge.core.model.LatLong[] line : w.latLongs) {
+                        for (int i = 0; i + 1 < line.length; i++) {
+                            // Local metres around the car.
+                            double ax = (line[i].longitude - lon) * 111320 * cosLat, ay = (line[i].latitude - lat) * 110540;
+                            double bx = (line[i + 1].longitude - lon) * 111320 * cosLat, by = (line[i + 1].latitude - lat) * 110540;
+                            double dx = bx - ax, dy = by - ay, len2 = dx * dx + dy * dy;
+                            double u = len2 == 0 ? 0 : Math.max(0, Math.min(1, -(ax * dx + ay * dy) / len2));
+                            double px = ax + u * dx, py = ay + u * dy;
+                            double d = Math.sqrt(px * px + py * py);
+                            if (hasBearing && len2 > 1) {
+                                double seg = Math.toDegrees(Math.atan2(dx, dy));
+                                double diff = Math.abs(((seg - bearing) % 180 + 270) % 180 - 90);
+                                d += diff / 90.0 * 12; // crossing roads count as a bit further away
+                            }
+                            if (d < bestScore) {
+                                bestScore = d;
+                                best = name;
+                            }
+                        }
+                    }
+                }
+            }
+            return best == null ? null : localName(best, lang);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    /** Map files keep translations as "default\rlang\bname…": pick the language when present. */
+    private static String localName(String raw, String lang) {
+        String[] parts = raw.split("\r");
+        String def = parts[0];
+        for (int i = 1; i < parts.length; i++) {
+            int b = parts[i].indexOf('\b');
+            if (b <= 0) continue;
+            String l = parts[i].substring(0, b);
+            if (lang != null && (l.equalsIgnoreCase(lang) || l.toLowerCase(Locale.ROOT).startsWith(lang + "-"))) {
+                return parts[i].substring(b + 1);
+            }
+        }
+        return def;
+    }
+
     // ---- Download server ---------------------------------------------------------------------
 
     private static final Pattern ENTRY = Pattern.compile("href=\"([^\"]+)\"");

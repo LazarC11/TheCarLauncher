@@ -176,6 +176,8 @@ public final class LocationTracker implements LocationListener {
     public Location location() { return last; }
     public boolean hasFix() { return fix; }
     public float bearing() { return (bearing + 360f) % 360f; }
+
+    public float speedMps() { return speedMps; }
     public int satsUsed() { return satsUsed; }
     public int satsVisible() { return satsVisible; }
 
