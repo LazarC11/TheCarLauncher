@@ -452,8 +452,10 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private ImagePicked imagePicked;
 
     /** Lets the owner choose a picture from the unit's storage. */
-    public void pickImage(ImagePicked cb) {
+    public void pickImage(int which, ImagePicked cb) {
         imagePicked = cb;
+        // Remembered too: if the launcher is rebuilt while the picker is open, the result still applies.
+        Prefs.put(this, "pending_picture", which);
         Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("image/*");
         try {
             startActivityForResult(i, REQ_IMAGE);
@@ -469,10 +471,16 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onActivityResult(int req, int res, Intent data) {
         super.onActivityResult(req, res, data);
-        if (req == REQ_IMAGE && res == RESULT_OK && data != null && data.getData() != null && imagePicked != null) {
-            imagePicked.onPicked(data.getData());
+        if (req == REQ_IMAGE && res == RESULT_OK && data != null && data.getData() != null) {
+            if (imagePicked != null) {
+                imagePicked.onPicked(data.getData());
+            } else {
+                int which = Prefs.integer(this, "pending_picture", -1);
+                if (which >= 0 && com.thecarlauncher.util.CarImages.set(this, which, data.getData())) carPicturesChanged();
+            }
         }
         imagePicked = null;
+        Prefs.put(this, "pending_picture", -1);
     }
 
     public void showSettings(int page) {
@@ -534,6 +542,19 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     }
 
     /** Rebuilds the UI after language / map / full-screen changes. */
+    /** A car picture changed: rebuild the screens that show one (Vehicle, Ambient). */
+    public void carPicturesChanged() {
+        for (int i : new int[]{VEHICLE, AMBIENT}) {
+            Screen old = screens[i];
+            if (old == null || !old.isCreated()) continue;
+            View v = old.view(content);
+            if (i == current) continue; // never the page on screen
+            old.onDestroy();
+            content.removeView(v);
+            screens[i] = i == VEHICLE ? new VehicleScreen(this) : new AmbientScreen(this);
+        }
+    }
+
     public void restartUi() {
         Mib.resetScale();
         recreate();
