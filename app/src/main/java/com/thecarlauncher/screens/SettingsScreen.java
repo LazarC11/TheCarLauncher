@@ -920,7 +920,8 @@ public class SettingsScreen extends Screen {
                         if (i == 0) pick(which);
                         else {
                             com.thecarlauncher.util.CarImages.reset(act, which);
-                            act.restartUi();
+                            act.carPicturesChanged();
+                            refreshKeep();
                         }
                     }
                 });
@@ -928,17 +929,127 @@ public class SettingsScreen extends Screen {
         });
     }
 
+    // ---- Picture chooser (inside the launcher: unit pickers often never return a result) ------
+
+    private java.util.List<com.thecarlauncher.util.ImageFinder.Image> pictures;
+    private boolean picturesLoading;
+    private int pictureFor;
+    private final android.util.LruCache<String, android.graphics.Bitmap> thumbs = new android.util.LruCache<>(60);
+    private final java.util.concurrent.ExecutorService thumbPool = java.util.concurrent.Executors.newFixedThreadPool(2);
+
     private void pick(final int which) {
-        act.pickImage(new LauncherActivity.ImagePicked() {
-            public void onPicked(android.net.Uri uri) {
-                if (com.thecarlauncher.util.CarImages.set(act, which, uri)) {
-                    Ui.toast(act, s("Slika je sačuvana", "Picture saved"));
-                    act.restartUi();
-                } else {
-                    Ui.toast(act, s("Slika ne može da se otvori", "The picture can't be opened"));
+        pictureFor = which;
+        pictures = null;
+        push(s("Izaberi sliku", "Choose a picture"), new Page() {
+            public void build() { buildPictures(); }
+        });
+        loadPictures();
+    }
+
+    private void loadPictures() {
+        if (picturesLoading) return;
+        picturesLoading = true;
+        com.thecarlauncher.mib.LoadingBanner.start("pictures", s("Traženje slika…", "Looking for pictures…"));
+        new Thread(new Runnable() {
+            public void run() {
+                final java.util.List<com.thecarlauncher.util.ImageFinder.Image> found = com.thecarlauncher.util.ImageFinder.find(act);
+                ui.post(new Runnable() {
+                    public void run() {
+                        picturesLoading = false;
+                        pictures = found;
+                        com.thecarlauncher.mib.LoadingBanner.stop("pictures");
+                        if (onPicturePage()) refreshKeep();
+                    }
+                });
+            }
+        }, "pictures").start();
+    }
+
+    private boolean onPicturePage() {
+        return !stack.isEmpty() && stack.get(stack.size() - 1).title.equals(s("Izaberi sliku", "Choose a picture"));
+    }
+
+    @Override
+    public void onPermissionsChanged() {
+        if (onPicturePage()) loadPictures();
+    }
+
+    private void buildPictures() {
+        final int which = pictureFor;
+        if (!com.thecarlauncher.util.ImageFinder.hasPermission(act)) {
+            action(s("Dozvoli pristup slikama", "Allow access to pictures"), s("potrebno", "needed"), new Runnable() {
+                public void run() {
+                    act.requestPermissions(new String[]{com.thecarlauncher.util.ImageFinder.permission()}, 42);
+                    if (com.thecarlauncher.util.Storage.needsAllFiles()) com.thecarlauncher.util.Storage.requestAllFiles(act);
                 }
+            });
+        }
+        action(s("Druga aplikacija (galerija, fajl menadžer)", "Another app (gallery, file manager)"), null, new Runnable() {
+            public void run() {
+                act.pickImage(which, new LauncherActivity.ImagePicked() {
+                    public void onPicked(android.net.Uri uri) { usePicture(which, uri); }
+                });
             }
         });
+        if (pictures == null) {
+            info(s("Učitavanje…", "Loading…"), null);
+            return;
+        }
+        if (pictures.isEmpty()) {
+            info(s("Nema slika na uređaju ni na USB-u", "No pictures on the unit or on USB"), null);
+            return;
+        }
+        for (final com.thecarlauncher.util.ImageFinder.Image im : pictures) {
+            LinearLayout row = bar(im.name, im.folder);
+            final ImageView th = new ImageView(act);
+            th.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            th.setBackgroundColor(0xFF2A2A30);
+            LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(Mib.px(act, 88), Mib.px(act, 62));
+            tl.rightMargin = Mib.px(act, 18);
+            row.addView(th, 0, tl);
+            final String key = im.uri.toString();
+            android.graphics.Bitmap cached = thumbs.get(key);
+            if (cached != null) th.setImageBitmap(cached);
+            else {
+                th.setTag(key);
+                thumbPool.execute(new Runnable() {
+                    public void run() {
+                        final android.graphics.Bitmap b = com.thecarlauncher.util.ImageFinder.thumb(act, im.uri, 176);
+                        if (b == null) return;
+                        thumbs.put(key, b);
+                        ui.post(new Runnable() {
+                            public void run() { if (key.equals(th.getTag())) th.setImageBitmap(b); }
+                        });
+                    }
+                });
+            }
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) { usePicture(which, im.uri); }
+            });
+        }
+    }
+
+    private void usePicture(final int which, final android.net.Uri uri) {
+        com.thecarlauncher.mib.LoadingBanner.start("picture-save", s("Čuvanje slike…", "Saving the picture…"));
+        new Thread(new Runnable() {
+            public void run() {
+                final boolean ok = com.thecarlauncher.util.CarImages.set(act, which, uri);
+                ui.post(new Runnable() {
+                    public void run() {
+                        com.thecarlauncher.mib.LoadingBanner.stop("picture-save");
+                        if (!ok) {
+                            com.thecarlauncher.mib.LoadingBanner.flash("picture-fail", s("Slika ne može da se otvori", "The picture can't be opened"), 2500);
+                            return;
+                        }
+                        com.thecarlauncher.mib.LoadingBanner.flash("picture-ok", s("Slika je postavljena", "Picture set"), 2000);
+                        // Back to the vehicle page; screens showing the picture are rebuilt.
+                        onBack();
+                        act.carPicturesChanged();
+                    }
+                });
+            }
+        }, "picture-save").start();
     }
 
     private void buildAndroid() {

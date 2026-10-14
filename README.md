@@ -292,8 +292,11 @@ enter; no diagnostic adapter is needed.
 | ![Status](docs/screenshots/vehicle-status.png) | ![Refuel](docs/screenshots/vehicle-refuel.png) | ![Fuel](docs/screenshots/vehicle-fuel.png) | ![Service](docs/screenshots/vehicle-service.png) |
 
 *Setup → Vehicle* sets the brand and model and lets you pick your own car picture (Vehicle status)
-and interior picture (Ambient lighting) from the unit's storage; *Back to built-in* restores the
-originals.
+and interior picture (Ambient lighting). The launcher lists the pictures itself, with previews,
+from the unit and from USB sticks (newest first), because many head units have no system picker
+that returns a result to a home app; *Another app* still opens the gallery or a file manager. The
+picture is applied straight away and the screens that show it are rebuilt; *Back to built-in*
+restores the original.
 
 ### Ambient lighting
 
@@ -515,6 +518,7 @@ information shows *robolectric*.
 | Bluetooth devices: list, connect, pair a new phone | New in 4.3.0, needs testing |
 | Back to the previous screen | New in 4.3.1 |
 | Smooth arrow, driving direction up, offline street names | New in 4.4.0, needs testing |
+| Choosing car / interior pictures inside the launcher | New in 4.4.1 |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |
