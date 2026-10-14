@@ -101,6 +101,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         map.setSource(Prefs.tiles(act));
         map.setInteractive(true);
         map.setZoom(Prefs.integer(act, Prefs.MAP_ZOOM, 16));
+        map.setHeadingUp(Prefs.bool(act, Prefs.NAV_HEADING_UP, false));
         map.setLongPressListener(new MapTileView.LongPressListener() {
             @Override
             public void onLongPress(final double lat, final double lon) {
@@ -127,7 +128,17 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         followBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                map.setFollow(true);
+                // First tap: follow the car again. Tap while following: north up ↔ driving direction up.
+                if (!map.isFollowing()) {
+                    map.setFollow(true);
+                } else {
+                    boolean up = !map.isHeadingUp();
+                    map.setHeadingUp(up);
+                    Prefs.put(act, Prefs.NAV_HEADING_UP, up);
+                    com.thecarlauncher.mib.LoadingBanner.flash("nav-heading", up
+                            ? s("Smer vožnje gore", "Driving direction up") : s("Sever gore", "North up"), 1500);
+                }
+                updateCompass();
             }
         });
         side.addView(followBox, new LinearLayout.LayoutParams(box, box));
@@ -150,6 +161,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
             @Override
             public void onFollowChanged(boolean f) {
                 follow.setImageTintList(android.content.res.ColorStateList.valueOf(f ? Mib.WHITE : Mib.BLUE));
+                updateCompass();
             }
         });
 
@@ -723,6 +735,8 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     @Override
     public void onShow() {
+        map.setHeadingUp(Prefs.bool(act, Prefs.NAV_HEADING_UP, false));
+        updateCompass();
         MediaHub.get(act).addListener(mediaListener);
         if (splitPanel != null && splitPanel.getVisibility() == View.VISIBLE) {
             ui.removeCallbacks(mediaTick);
@@ -759,7 +773,14 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
     public void onLocationUpdate(LocationTracker t) {
         Location l = t.location();
         if (l != null) map.setMyLocation(l.getLatitude(), l.getLongitude(), t.bearing(), l.getAccuracy(), t.hasFix());
+        updateCompass();
         updateStatus();
+    }
+
+    /** The compass key's needle shows where north is when the map turns. */
+    private void updateCompass() {
+        if (follow == null) return;
+        follow.setRotation(-map.mapRotation());
     }
 
     // ---- Glyphs -------------------------------------------------------------------------------

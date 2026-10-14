@@ -21,15 +21,17 @@ import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Current street name for the status bar. Uses Android's Geocoder when the unit has one,
- * otherwise OpenStreetMap Nominatim (rate-limited: only after moving and at most every 10 s).
+ * Current street name for the status bar. First from the downloaded offline maps (no internet
+ * needed, checked every few seconds), then Android's Geocoder when the unit has one, otherwise
+ * OpenStreetMap Nominatim (rate-limited: only after moving and at most every 10 s).
  * The last known street is kept so something sensible is always shown.
  */
 public final class StreetName implements LocationTracker.Listener {
     public interface Listener { void onStreet(String street); }
 
     private static final String PREF = "last_street";
-    private static final long MIN_INTERVAL_MS = 10000;
+    private static final long MIN_INTERVAL_MS = 10000, OFFLINE_INTERVAL_MS = 2500;
+    private static final float OFFLINE_MOVE_M = 8f;
     private static final float MIN_MOVE_M = 25f;
     private static StreetName sInstance;
 
@@ -66,15 +68,22 @@ public final class StreetName implements LocationTracker.Listener {
         final Location l = t.location();
         if (l == null || busy) return;
         long now = SystemClock.elapsedRealtime();
-        if (now - lastQueryAt < MIN_INTERVAL_MS) return;
-        if (lastQueried != null && lastQueried.distanceTo(l) < MIN_MOVE_M && street.length() > 0) return;
+        final boolean offline = OfflineMaps.get(app).available();
+        if (now - lastQueryAt < (offline ? OFFLINE_INTERVAL_MS : MIN_INTERVAL_MS)) return;
+        if (lastQueried != null && lastQueried.distanceTo(l) < (offline ? OFFLINE_MOVE_M : MIN_MOVE_M) && street.length() > 0) return;
         busy = true;
         lastQueryAt = now;
         lastQueried = l;
+        final float bearing = t.bearing();
+        final boolean moving = t.speedMps() > 1.5f;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final String s = lookup(l.getLatitude(), l.getLongitude());
+                String o = offline ? OfflineMaps.get(app).streetAt(l.getLatitude(), l.getLongitude(), bearing, moving,
+                        "en".equals(Prefs.str(app, Prefs.LANGUAGE, "sr")) ? "en" : "sr") : null;
+                // Online only now and then (rate limits), and only when the maps have no name.
+                final String s = o != null ? o
+                        : SystemClock.elapsedRealtime() - lastOnlineAt >= MIN_INTERVAL_MS ? online(l) : null;
                 main.post(new Runnable() {
                     @Override
                     public void run() {
@@ -87,6 +96,13 @@ public final class StreetName implements LocationTracker.Listener {
                 });
             }
         }, "street-lookup").start();
+    }
+
+    private volatile long lastOnlineAt = -MIN_INTERVAL_MS;
+
+    private String online(Location l) {
+        lastOnlineAt = SystemClock.elapsedRealtime();
+        return lookup(l.getLatitude(), l.getLongitude());
     }
 
     private String lookup(double lat, double lon) {

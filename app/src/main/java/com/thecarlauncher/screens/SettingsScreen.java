@@ -345,6 +345,7 @@ public class SettingsScreen extends Screen {
                 appChoice(s("Aplikacija za navigaciju", "Navigation app"), NavHelper.navApps(act), Prefs.NAV_PKG, false);
             }
         });
+        toggle(s("Mapa okrenuta u smeru vožnje", "Map turns with the driving direction"), Prefs.NAV_HEADING_UP, false, false);
         final com.thecarlauncher.nav.OfflineMaps om = com.thecarlauncher.nav.OfflineMaps.get(act);
         int nMaps = om.files().size();
         action(s("Offline mape", "Offline maps"), nMaps == 0 ? s("Nijedna preuzeta", "None downloaded")
