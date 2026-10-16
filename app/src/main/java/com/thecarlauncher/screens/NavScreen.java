@@ -160,7 +160,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         map.setListener(new MapTileView.Listener() {
             @Override
             public void onFollowChanged(boolean f) {
-                follow.setImageTintList(android.content.res.ColorStateList.valueOf(f ? Mib.WHITE : Mib.BLUE));
+                follow.setImageTintList(Mib.pressTint(f ? Mib.WHITE : Mib.BLUE));
                 updateCompass();
             }
         });
@@ -305,7 +305,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     private View zoomCell(int icon, final int delta) {
         FrameLayout f = new FrameLayout(act);
-        f.setBackground(Mib.keyPressed());
+        f.setBackground(Mib.keyPlain());
         f.addView(Mib.icon(act, icon, Mib.WHITE), new FrameLayout.LayoutParams(Mib.px(act, 80), Mib.px(act, 60),
                 Gravity.CENTER));
         f.setOnClickListener(new View.OnClickListener() {

@@ -50,7 +50,7 @@ Text is in Serbian (Latin) by default; English can be picked under
 - **Factory-style look**: factory icons, MENU tiles, soft-key bars, popups and settings bars, with
   layouts tested at 800×480, 1024×600 and 1280×720 in landscape.
 - **Media player** for USB / SD / internal storage, with song, album, artist and folder browsing,
-  a seekable progress bar, a soft glow under the cover while a song plays, and
+  a seekable progress bar, a glow in the ambient colour under the cover while a song plays, and
   steering-wheel key support.
 - **Bluetooth music without the factory app on screen**: song title, artist, album, position
   and length come from the factory Bluetooth service running in the background. BT audio becomes
@@ -69,8 +69,8 @@ Text is in Serbian (Latin) by default; English can be picked under
 - **Phone status in the top bar**: Bluetooth, phone battery, signal, a notifications envelope and
   the outside temperature.
 - **Drop-down loading banner** for anything that takes a moment (radio scan, reading USB, maps,
-  route, phone connecting), soft fade-in on every page, and a back arrow wherever a page has no
-  back key of its own.
+  route, phone connecting) and a soft fade-in on every page. Like the factory keys, a pressed key
+  keeps its look and only its icon (or caption) turns the ambient colour.
 - **Own car pictures**: brand, model and the car / interior pictures: the built-in Corsa C set or pictures imported from the unit or USB.
 - **True fullscreen** (no Android bars) and a smooth, GPU-accelerated MENU pager.
 
@@ -359,7 +359,7 @@ and more of the unit's settings itself:
 
 ### Back
 
-Back (the hardware key, the arrow in the status bar or a page's own back box) always returns to the
+Back (the hardware key, or a page's own back box in its corner) always returns to the
 screen shown before, like a phone: Media → Setup → back lands on Media again, Navigation → Media →
 back lands on Navigation. Inside a screen it first closes what is open there (a settings sub-page, the
 media browser, the station list). MENU clears the trail.

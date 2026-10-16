@@ -172,7 +172,7 @@ public class AppConnectScreen extends Screen {
         v.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         int pad = Mib.px(act, 12);
         v.setPadding(pad, pad, pad, pad);
-        v.setBackground(Mib.keyPressed());
+        v.setBackground(Mib.keyPlain());
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -26,7 +26,7 @@ public class MibBar extends LinearLayout {
             super(c);
             setOrientation(VERTICAL);
             setGravity(Gravity.CENTER);
-            setBackground(Mib.keyPressed());
+            setBackground(Mib.keyPlain());
             label = Mib.text(c, text, 25, Mib.semibold(c), Mib.WHITE);
             label.setGravity(Gravity.CENTER);
             addView(label, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -55,7 +55,7 @@ public class MibBar extends LinearLayout {
 
         public Key setIcon(int res) {
             icon.setImageResource(res);
-            icon.setImageTintList(ColorStateList.valueOf(Mib.WHITE));
+            icon.setImageTintList(Mib.pressTint(Mib.WHITE));
             return this;
         }
 
@@ -69,7 +69,7 @@ public class MibBar extends LinearLayout {
         public Key setActive(boolean on) {
             label.setTextColor(on ? Mib.BLUE : Mib.WHITE);
             icon.setImageTintList(icon.getImageTintList() == null ? null
-                    : ColorStateList.valueOf(on ? Mib.BLUE : Mib.WHITE));
+                    : Mib.pressTint(on ? Mib.BLUE : Mib.WHITE));
             return this;
         }
 

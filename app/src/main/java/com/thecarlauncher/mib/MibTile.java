@@ -31,7 +31,13 @@ public class MibTile extends ViewGroup {
         icon = new ImageView(c);
         icon.setImageDrawable(d);
         icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        if (!appIcon) icon.setImageTintList(android.content.res.ColorStateList.valueOf(Mib.WHITE));
+        if (!appIcon) {
+            icon.setImageTintList(Mib.pressTint(Mib.WHITE));
+        } else {
+            // Artwork and app icons keep their colours; pressed they take on the ambient colour.
+            icon.setImageTintMode(android.graphics.PorterDuff.Mode.MULTIPLY);
+            icon.setImageTintList(Mib.pressTint(Mib.WHITE));
+        }
         box.addView(icon, new FrameLayout.LayoutParams(0, 0, Gravity.CENTER));
         addView(box);
         line = new View(c);

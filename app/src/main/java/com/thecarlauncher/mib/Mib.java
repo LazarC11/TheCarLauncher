@@ -159,9 +159,44 @@ public final class Mib {
         ImageView v = new ImageView(c);
         v.setImageResource(res);
         v.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        v.setImageTintList(ColorStateList.valueOf(color));
+        v.setImageTintList(pressTint(color));
         return v;
     }
+
+    /**
+     * Factory key feedback: a pressed key keeps its background and only its icon (or text) turns
+     * the ambient colour. Icons get the pressed state from their key automatically.
+     */
+    public static ColorStateList pressTint(int color) {
+        return new ColorStateList(new int[][]{{android.R.attr.state_pressed}, {}}, new int[]{BLUE, color});
+    }
+
+    /** Text keys (framed boxes without an icon): the caption turns the ambient colour. */
+    public static void pressText(TextView t) {
+        t.setTextColor(pressTint(t.getCurrentTextColor()));
+    }
+
+    /** Framed key background (marker class so captions inside can get the press colour). */
+    public static final class KeyBox extends StateListDrawable {}
+
+    /** Gives every caption inside framed keys the press colour (call after building a page). */
+    public static void keyFeedback(android.view.View v) {
+        if (v.getBackground() instanceof KeyBox) applyText(v);
+        if (v instanceof android.view.ViewGroup) {
+            android.view.ViewGroup g = (android.view.ViewGroup) v;
+            for (int i = 0; i < g.getChildCount(); i++) keyFeedback(g.getChildAt(i));
+        }
+    }
+
+    private static void applyText(android.view.View v) {
+        // Re-applying is harmless: the colour shown when not pressed stays the same.
+        if (v instanceof TextView && !v.isPressed()) pressText((TextView) v);
+        if (v instanceof android.view.ViewGroup) {
+            android.view.ViewGroup g = (android.view.ViewGroup) v;
+            for (int i = 0; i < g.getChildCount(); i++) applyText(g.getChildAt(i));
+        }
+    }
+
 
     // ---- Drawables --------------------------------------------------------------------------
 
@@ -180,12 +215,8 @@ public final class Mib {
         haze.setGradientRadius(px(c, 170));
         haze.setColors(new int[]{0x14C8C8D2, 0x00000000});
         LayerDrawable normal = new LayerDrawable(new Drawable[]{base, haze});
-        GradientDrawable pressed = grad(shade(BLUE, 1.0f, 0xFF), shade(BLUE, 0.55f, 0xFF));
-        pressed.setStroke(Math.max(1, px(c, 1)), shade(BLUE, 1.25f, 0xFF));
-        StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, pressed);
-        s.addState(new int[]{}, normal);
-        return s;
+        // Pressing a tile colours its icon (MibTile), the tile itself stays as it is.
+        return normal;
     }
 
     /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
@@ -200,11 +231,17 @@ public final class Mib {
         return new TopBand(l, Math.max(2, px(c, 2)));
     }
 
+    /** List rows and popup cells: a blue highlight while pressed. */
     public static Drawable keyPressed() {
         StateListDrawable s = new StateListDrawable();
         s.addState(new int[]{android.R.attr.state_pressed}, grad(shade(BLUE, 1f, 0xAA), shade(BLUE, 0.6f, 0x66)));
         s.addState(new int[]{}, new GradientDrawable());
         return s;
+    }
+
+    /** Keys (soft keys, icon buttons): no background change, the icon colours instead. */
+    public static Drawable keyPlain() {
+        return new GradientDrawable();
     }
 
     /** Popup panel: near-black with a crisp white frame. */
@@ -220,11 +257,8 @@ public final class Mib {
         GradientDrawable n = new GradientDrawable();
         n.setColor(0xFF000000);
         n.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
-        GradientDrawable p = new GradientDrawable();
-        p.setColor(shade(BLUE, 0.7f, 0xFF));
-        p.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
-        StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, p);
+        // Pressed looks the same: the icon / caption inside turns the ambient colour.
+        KeyBox s = new KeyBox();
         s.addState(new int[]{}, n);
         return s;
     }

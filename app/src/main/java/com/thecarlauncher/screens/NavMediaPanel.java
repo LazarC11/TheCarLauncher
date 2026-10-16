@@ -130,7 +130,7 @@ final class NavMediaPanel extends LinearLayout {
 
         ImageButtonish(Context c, int res, int size) {
             super(c);
-            setBackground(Mib.keyPressed());
+            setBackground(Mib.keyPlain());
             icon = Mib.icon(c, res, Mib.WHITE);
             addView(icon, new LayoutParams(size * 2 / 3, size * 2 / 3, Gravity.CENTER));
         }

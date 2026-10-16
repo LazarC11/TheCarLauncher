@@ -350,6 +350,7 @@ public class SettingsScreen extends Screen {
             g.setStroke(Math.max(1, Mib.px(act, 1.5f)), Mib.BAR_VALUE);
             g.setCornerRadius(Mib.px(act, 4));
             k.setBackground(g);
+            Mib.pressText(k);
             LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
             kl.leftMargin = Mib.px(act, 12);
             row.addView(k, kl);

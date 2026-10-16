@@ -79,7 +79,6 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private FrameLayout content;
     private TextView timeView, tagView, rightView, streetView;
     private View statusBar, statusRule;
-    private ImageView backArrow;
     private ImageView btIcon, battIcon, signalIcon, msgIcon;
     private ImageView globe;
 
@@ -195,7 +194,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
         LinearLayout left = new LinearLayout(this);
         left.setGravity(Gravity.CENTER_VERTICAL);
-        left.setBackground(Mib.keyPressed());
+        left.setBackground(Mib.keyPlain());
         left.setPadding(pad, 0, Mib.px(this, 10), 0);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,19 +202,6 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 show(MENU, true);
             }
         });
-        // Back arrow for pages that have no back key of their own.
-        backArrow = Mib.icon(this, R.drawable.ui_ic_back, SB_GREY);
-        backArrow.setBackground(Mib.keyPressed());
-        backArrow.setPadding(Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4), Mib.px(this, 4));
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        LinearLayout.LayoutParams bal = new LinearLayout.LayoutParams(Mib.px(this, 44), Mib.px(this, 40));
-        bal.rightMargin = Mib.px(this, 14);
-        left.addView(backArrow, bal);
         ImageView compass = Mib.icon(this, R.drawable.ui_sb_compass, SB_GREY);
         left.addView(compass, new LinearLayout.LayoutParams(Mib.px(this, 24), Mib.px(this, 24)));
         streetView = Mib.text(this, "", 20, Mib.regular(this), SB_GREY);
@@ -251,7 +237,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         battIcon = statusIcon(rightSlot, R.drawable.ui_sb_batt_4, 38, 26);
         signalIcon = statusIcon(rightSlot, R.drawable.ui_sb_sig_5, 54, 25);
         msgIcon = statusIcon(rightSlot, R.drawable.ui_sb_msg, 38, 26);
-        msgIcon.setBackground(Mib.keyPressed());
+        msgIcon.setBackground(Mib.keyPlain());
         msgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,9 +385,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     /** Shows the status-bar back arrow unless the page has its own back key. */
     public void updateBackArrow() {
-        if (backArrow == null) return;
-        boolean own = current >= 0 && screens[current] != null && screens[current].hasOwnBack();
-        backArrow.setVisibility(current == MENU || own ? View.GONE : View.VISIBLE);
+        // The factory has no back key in the status bar: pages show their own in the corner
+        // (settings pages, Sound, Ambient, lists) when there is somewhere to go back to.
     }
 
     /** Kept for screens that still ask for an accent colour. */
@@ -450,6 +435,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             v.animate().alpha(1f).setDuration(220).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();
         }
         s.onShow();
+        Mib.keyFeedback(v);
     }
 
     public interface ImagePicked { void onPicked(android.net.Uri uri); }

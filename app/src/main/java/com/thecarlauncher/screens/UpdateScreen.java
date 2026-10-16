@@ -334,6 +334,7 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         TextView key = Mib.text(act, failed || done ? s("Nazad", "Back") : s("Otkaži", "Cancel"), 28, Mib.regular(act), Mib.WHITE);
         key.setGravity(Gravity.CENTER);
         key.setBackground(Mib.box(act));
+        Mib.pressText(key);
         key.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (Updater.busy()) Updater.cancel();
