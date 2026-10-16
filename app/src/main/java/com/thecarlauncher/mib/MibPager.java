@@ -70,11 +70,42 @@ public class MibPager extends ViewGroup {
         }
     }
 
+    // The glide runs on the display's frame clock itself, not through Android's animators:
+    // many head units ship with "Animator duration scale" off, which makes animators jump to
+    // their end, and the page would just snap over without a transition.
+    private boolean gliding;
+    private float glideFrom;
+    private long glideStart, glideDur;
+
+    private final Runnable frame = new Runnable() {
+        @Override
+        public void run() {
+            if (!gliding) return;
+            float t = Math.min(1f, (android.os.SystemClock.uptimeMillis() - glideStart) / (float) glideDur);
+            // Decelerate (same curve as DecelerateInterpolator(1.4)).
+            float e = (float) (1 - Math.pow(1 - t, 2 * 1.4));
+            offset = glideFrom * (1 - e);
+            position();
+            if (t < 1f) {
+                postOnAnimation(this);
+            } else {
+                gliding = false;
+                offset = 0;
+                position();
+                setLayers(false);
+            }
+        }
+    };
+
     private void stopAnimation() {
         if (anim != null) {
             anim.removeAllListeners();
             anim.cancel();
             anim = null;
+        }
+        if (gliding) {
+            gliding = false;
+            removeCallbacks(frame);
         }
     }
 
@@ -85,7 +116,7 @@ public class MibPager extends ViewGroup {
                 downX = lastX = e.getX();
                 downY = e.getY();
                 // Catch a page that is still gliding: grab it where it is.
-                boolean moving = anim != null;
+                boolean moving = anim != null || gliding;
                 stopAnimation();
                 dragging = moving;
                 if (moving) {
@@ -160,7 +191,9 @@ public class MibPager extends ViewGroup {
     /** Animates to the target page; a faster fling gives a shorter, snappier glide. */
     private void glide(int target, float velocity) {
         stopAnimation();
-        final float from = offset + (page - target) * getWidth();
+        // Keep the pages where they are on screen: relative to the new page the offset is the
+        // distance still to travel (x = -page * width + offset stays the same).
+        final float from = offset + (target - page) * getWidth();
         boolean changed = target != page;
         page = target;
         offset = from;
@@ -175,26 +208,12 @@ public class MibPager extends ViewGroup {
             if (velocity > minFling) dur = Math.min(dur, (long) (dist / velocity * 1000 * 1.8f));
             dur = Math.max(180, Math.min(320, dur));
             setLayers(true);
-            anim = ValueAnimator.ofFloat(from, 0f);
-            anim.setDuration(dur);
-            anim.setInterpolator(new DecelerateInterpolator(1.4f));
-            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator va) {
-                    offset = (Float) va.getAnimatedValue();
-                    position();
-                }
-            });
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator a) {
-                    anim = null;
-                    offset = 0;
-                    position();
-                    setLayers(false);
-                }
-            });
-            anim.start();
+            glideFrom = from;
+            glideDur = dur;
+            glideStart = android.os.SystemClock.uptimeMillis();
+            gliding = true;
+            removeCallbacks(frame);
+            postOnAnimation(frame);
         }
         if (changed && listener != null) listener.onPage(page);
     }

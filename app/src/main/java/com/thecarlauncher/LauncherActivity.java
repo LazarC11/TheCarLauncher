@@ -116,6 +116,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         mf.addDataScheme("file");
         registerReceiver(mediaMount, mf);
         Mib.loadAmbient(this);
+        enableAnimations();
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
         com.thecarlauncher.media.GocBluetooth.get(this).start();
@@ -539,6 +540,21 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public void applyDisplay() {
         com.thecarlauncher.util.DisplayControl.applyWindow(this);
         if (rootView != null) com.thecarlauncher.util.DisplayControl.applyColors(rootView);
+    }
+
+    /**
+     * Many head units ship with Android's "Animator duration scale" at 0 (animations off), which
+     * makes every page fade, slide and banner jump straight to the end. The launcher's own
+     * animations are part of the factory look, so inside the launcher they run at normal speed.
+     */
+    private static void enableAnimations() {
+        try {
+            float scale = Build.VERSION.SDK_INT >= 26 ? android.animation.ValueAnimator.getDurationScale() : 0f;
+            if (scale > 0f) return;
+            java.lang.reflect.Method m = android.animation.ValueAnimator.class.getMethod("setDurationScale", float.class);
+            m.invoke(null, 1f);
+        } catch (Throwable ignored) {
+        }
     }
 
     /** A car picture changed: rebuild the screens that show one (Vehicle, Ambient). */
