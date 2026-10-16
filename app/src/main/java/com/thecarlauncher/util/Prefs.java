@@ -94,6 +94,18 @@ public final class Prefs {
         of(c).edit().putInt(key, value).apply();
     }
 
+    public static long longVal(Context c, String key, long def) {
+        try {
+            return of(c).getLong(key, def);
+        } catch (ClassCastException e) {
+            return def;
+        }
+    }
+
+    public static void put(Context c, String key, long value) {
+        of(c).edit().putLong(key, value).apply();
+    }
+
     public static boolean use24h(Context c) {
         return of(c).getBoolean(CLOCK_24, DateFormat.is24HourFormat(c));
     }

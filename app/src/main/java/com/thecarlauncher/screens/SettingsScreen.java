@@ -30,6 +30,7 @@ import com.thecarlauncher.util.HotspotControl;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.WifiControl;
 import com.thecarlauncher.util.Ui;
+import com.thecarlauncher.util.Updater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,6 +267,66 @@ public class SettingsScreen extends Screen {
         sub(s("Hotspot", "Hotspot"), new Page() { public void build() { buildHotspot(); } });
         sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
         sub(s("Informacije o sistemu", "System information"), new Page() { public void build() { buildAbout(); } });
+        sub(s("Ažuriranje softvera", "Software update"), new Page() { public void build() { buildUpdate(); } });
+    }
+
+    // ---- Software update (GitHub releases) ----------------------------------------------------
+
+    private String updateError;
+    private boolean updateChecking;
+
+    private void buildUpdate() {
+        final Updater.Release r = Updater.lastFound();
+        versionRow(s("Instalirana verzija", "Installed version"), Updater.installedName(act) + "  (" + Updater.installedCode(act) + ")");
+        if (updateChecking) {
+            versionRow(s("Najnovija verzija", "Latest version"), s("Provera…", "Checking…"));
+        } else if (r != null) {
+            versionRow(s("Najnovija verzija", "Latest version"), r.versionName + "  (" + r.versionCode + ")"
+                    + (r.test ? s(" · test", " · test") : "") + (r.date.isEmpty() ? "" : " · " + r.date));
+        } else {
+            versionRow(s("Najnovija verzija", "Latest version"), updateError != null ? s("Greška: ", "Error: ") + updateError : "—");
+        }
+        long last = Prefs.longVal(act, Updater.P_LAST, 0);
+        versionRow(s("Poslednja provera", "Last check"), last == 0 ? "—"
+                : new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", java.util.Locale.US).format(new java.util.Date(last)));
+        if (r != null && Updater.isNewer(act, r)) {
+            action(s("Ažuriraj na ", "Update to ") + r.versionName, Updater.silent(act) ? s("bez pitanja", "silently")
+                    : s("Android traži potvrdu", "Android asks to confirm"), new Runnable() {
+                public void run() { Updater.install(act, r); }
+            });
+            if (r.notes != null && !r.notes.isEmpty()) note(r.notes.length() > 600 ? r.notes.substring(0, 600) + "…" : r.notes);
+        } else if (r != null) {
+            note(s("Softver je ažuran.", "The software is up to date."));
+        }
+        action(s("Proveri sada", "Check now"), null, new Runnable() {
+            public void run() { checkUpdate(); }
+        });
+        if (!Updater.mayInstall(act)) {
+            action(s("Dozvoli instaliranje ažuriranja", "Allow installing updates"), s("potrebno jednom", "needed once"), new Runnable() {
+                public void run() { Updater.askInstallPermission(act); }
+            });
+        }
+        toggle(s("Automatska provera (jednom dnevno)", "Automatic check (once a day)"), Updater.P_AUTO, true, false);
+        toggle(s("Test verzije (svaki build, i sa drugih grana)", "Test builds (every build, other branches too)"), Updater.P_BETA, false,
+                new Runnable() { public void run() { checkUpdate(); } });
+        note(s("Ažuriranja dolaze iz GitHub izdanja projekta (" + Updater.REPO + "). Kao sistemska aplikacija launcher ih instalira sam, bez pitanja.",
+                "Updates come from the project's GitHub releases (" + Updater.REPO + "). As a system app the launcher installs them on its own, without asking."));
+        if (r == null && !updateChecking && updateError == null) checkUpdate();
+    }
+
+    private void checkUpdate() {
+        updateChecking = true;
+        updateError = null;
+        if (onPage(s("Ažuriranje softvera", "Software update"))) refreshKeep();
+        com.thecarlauncher.mib.LoadingBanner.start("update-check", s("Provera ažuriranja…", "Checking for updates…"));
+        Updater.check(act, new Updater.Checked() {
+            public void onChecked(Updater.Release r, String error) {
+                updateChecking = false;
+                updateError = error;
+                com.thecarlauncher.mib.LoadingBanner.stop("update-check");
+                if (onPage(s("Ažuriranje softvera", "Software update"))) refreshKeep();
+            }
+        });
     }
 
     private void buildDisplay() {

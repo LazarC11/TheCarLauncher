@@ -326,6 +326,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         hadAllFiles = files;
         com.thecarlauncher.nav.OfflineMaps.get(this).finishDownloads();
         Weather.get(this).update(LocationTracker.get(this));
+        com.thecarlauncher.util.Updater.autoCheck(this);
         MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }

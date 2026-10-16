@@ -26,27 +26,76 @@ jobs:
           yes | "$SDKM" --licenses > /dev/null || true
           "$SDKM" "platforms;android-34" "build-tools;34.0.0"
 
+      # The release key comes from repository secrets when they are set (KEYSTORE_BASE64,
+      # KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD); otherwise the key in keystore/ is used.
+      - name: Signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          fi
+
       - name: Build release APK
+        env:
+          RELEASE_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/release/app-release.apk TheCarLauncher.apk
+          echo "VNAME=$(grep -oP "versionName '\K[^']+" app/build.gradle)" >> "$GITHUB_ENV"
+          echo "VCODE=$(grep -oP 'versionCode \K[0-9]+' app/build.gradle)" >> "$GITHUB_ENV"
+          # Magisk module that installs this APK as a privileged system app.
+          bash scripts/build-magisk.sh TheCarLauncher.apk
+          cp build/TheCarLauncher-magisk.zip TheCarLauncher-magisk.zip
 
       - uses: actions/upload-artifact@v5
         with:
           name: TheCarLauncher-apk
-          path: TheCarLauncher.apk
+          path: |
+            TheCarLauncher.apk
+            TheCarLauncher-magisk.zip
 
-      # Every push to a branch also publishes a GitHub release, so the APK can be
-      # downloaded straight onto the head unit from the Releases page.
-      - name: Publish release
-        if: github.event_name == 'push'
+      # main publishes the release the launcher updates to ("v4.5.1", marked latest).
+      # Other branches publish test builds (pre-releases), offered only with "Test builds" on.
+      # The launcher reads versionCode / versionName from the release text.
+      - name: Publish release (main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VNAME }}
+          name: Car Launcher ${{ env.VNAME }}
+          target_commitish: ${{ github.sha }}
+          files: |
+            TheCarLauncher.apk
+            TheCarLauncher-magisk.zip
+          prerelease: false
+          make_latest: true
+          body: |
+            ${{ github.event.head_commit.message }}
+
+            versionName: ${{ env.VNAME }}
+            versionCode: ${{ env.VCODE }}
+            Download **TheCarLauncher.apk** below, or update from Setup → Software update on the head unit.
+
+      - name: Publish test build (other branches)
+        if: github.event_name == 'push' && github.ref != 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Car Launcher build ${{ github.run_number }}
+          name: Car Launcher ${{ env.VNAME }} test build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
-          files: TheCarLauncher.apk
+          files: |
+            TheCarLauncher.apk
+            TheCarLauncher-magisk.zip
+          prerelease: true
+          make_latest: false
           body: |
-            Automatic build of `${{ github.ref_name }}` at ${{ github.sha }}.
+            Test build of `${{ github.ref_name }}` at ${{ github.sha }}.
+
+            versionName: ${{ env.VNAME }}
+            versionCode: ${{ env.VCODE }}
             Download **TheCarLauncher.apk** below and open it on the head unit to install.

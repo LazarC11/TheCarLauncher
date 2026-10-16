@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Privileged permissions for Car Launcher as a system app. Every signature|privileged permission
+  in the app's manifest must be here: firmwares with ro.control_privapp_permissions=enforce refuse
+  to boot otherwise. Keep this list in step with app/src/main/AndroidManifest.xml.
+-->
+<permissions>
+    <privapp-permissions package="com.thecarlauncher">
+        <permission name="android.permission.INSTALL_PACKAGES" />
+        <permission name="android.permission.ACCESS_FM_RADIO" />
+        <permission name="hcn.permission.FM_PLUG_SERVICE" />
+        <permission name="android.permission.MEDIA_CONTENT_CONTROL" />
+        <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
+        <permission name="android.permission.WRITE_SECURE_SETTINGS" />
+        <permission name="android.permission.TETHER_PRIVILEGED" />
+        <permission name="android.permission.OVERRIDE_WIFI_CONFIG" />
+        <permission name="android.permission.CONTROL_DISPLAY_COLOR_TRANSFORMS" />
+        <permission name="android.permission.CONTROL_DISPLAY_SATURATION" />
+        <permission name="android.permission.CHANGE_CONFIGURATION" />
+        <permission name="android.permission.SET_TIME" />
+        <permission name="android.permission.SET_TIME_ZONE" />
+    </privapp-permissions>
+</permissions>
