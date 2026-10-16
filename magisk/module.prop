@@ -1,0 +1,6 @@
+id=thecarlauncher
+name=Car Launcher (system app)
+version=1.0
+versionCode=1
+author=TheCarLauncher
+description=Installs Car Launcher as a privileged system app: silent updates, Wi-Fi / hotspot / display control. The launcher still updates itself from GitHub.

@@ -10,17 +10,19 @@ android {
         applicationId 'com.thecarlauncher'
         minSdk 21
         targetSdk 34
-        versionCode 66
-        versionName '4.5.0'
+        versionCode 67
+        versionName '4.6.0'
     }
 
     signingConfigs {
         // A fixed key so every build (local or CI) installs as an update over the last one.
+        // CI passes the key from repository secrets; without them the key in keystore/ is used.
         release {
-            storeFile rootProject.file('keystore/release.jks')
-            storePassword 'carlauncher'
-            keyAlias 'carlauncher'
-            keyPassword 'carlauncher'
+            def ks = System.getenv('RELEASE_KEYSTORE')
+            storeFile ks ? file(ks) : rootProject.file('keystore/release.jks')
+            storePassword System.getenv('RELEASE_STORE_PASSWORD') ?: 'carlauncher'
+            keyAlias System.getenv('RELEASE_KEY_ALIAS') ?: 'carlauncher'
+            keyPassword System.getenv('RELEASE_KEY_PASSWORD') ?: 'carlauncher'
         }
     }
 

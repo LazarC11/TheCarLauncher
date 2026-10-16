@@ -327,7 +327,7 @@ with a **Bluetooth audio** tile that switches the media player to BT.
 *System settings*: screen, ambient lighting, time and date, language, units, navigation (offline
 maps, map style, voice, home / work), sound, media (library, All files access, other media apps),
 radio (LOC, RDS, station logos), Bluetooth audio, App-Connect, phone and radio apps, vehicle (brand,
-model, pictures), Wi-Fi, hotspot, Android settings and system information. The launcher runs more
+model, pictures), Wi-Fi, hotspot, Android settings, system information and software update. The launcher runs more
 and more of the unit's settings itself:
 
 - **Screen**: brightness with − / + keys (the unit's own brightness once *Modify system settings* is
@@ -398,13 +398,52 @@ The text and icons are a touch dimmer than the screen content, like the factory 
 ## Install on the head unit
 
 1. Download **TheCarLauncher.apk** from the latest release on the [Releases page](../../releases).
-   Every push builds one automatically (`build-N`).
+   Builds of `main` are published as releases (`v4.6.0`); other branches publish test builds
+   (pre-releases, `build-N`).
 2. Copy it to a USB stick, or download it on the unit, and open it. Allow *Install unknown apps*
    if Android asks.
 3. Press the unit's Home button and pick **Car Launcher** → *Always*
    (or *Setup → Android system → Default launcher*).
 
 Requires Android 5.0 or newer.
+
+### Software updates
+
+*Setup → Software update* opens a screen modelled on the factory *SW download* page: **Versions**
+lists the installed software (SW Train and MU version, part number, software version, the newest
+available release); **Update** shows the newest release with its notes and *Start update*, and while
+it runs, the factory-style *Software update in progress…* page with OK / N/A / NOK / Remaining and a
+bar per step (download, verify, install) and *Cancel*. The APK is downloaded from the project's GitHub releases with the loading banner
+showing progress, then handed to Android's installer: as an ordinary app Android shows its
+*Update this app?* dialog (allow *Install unknown apps* for Car Launcher once); as a system app the
+update installs silently. The launcher checks once a day on its own (it can be switched off), and
+*Test builds* also offers builds from other branches.
+
+| Versions | Update in progress |
+| --- | --- |
+| ![Software update](docs/screenshots/settings-update.png) | ![Update in progress](docs/screenshots/settings-update-progress.png) |
+
+### As a system app (Magisk module)
+
+Each release also carries **TheCarLauncher-magisk.zip**, a Magisk module that installs the launcher
+as a privileged system app (`/system/priv-app`), mounted by Magisk at boot without changing the
+system partition. As a system app it updates itself silently and can use the privileged permissions
+listed in `magisk/system/etc/permissions/privapp-permissions-com.thecarlauncher.xml` (installing
+packages, secure settings, tethering, display colour transforms, media control, background starts).
+
+1. Make sure you can recover the unit: have the full firmware (`.pac` for UIS7862 units) and know
+   how to reflash it with the vendor's flashing tool.
+2. Root the unit with Magisk (patch the unit's boot image in the Magisk app and flash it).
+3. Magisk → *Modules* → *Install from storage* → `TheCarLauncher-magisk.zip` → reboot.
+4. Keep updating from *Setup → Software update*; updates stay privileged as long as they are signed
+   with the same key. Removing the module in Magisk undoes it.
+
+Build it locally with `scripts/build-magisk.sh build/TheCarLauncher.apk`. Every privileged
+permission in the manifest must be in the module's permission list: firmwares that enforce the list
+refuse to boot otherwise.
+
+**Signing key.** CI signs with the key from repository secrets when `KEYSTORE_BASE64`,
+`KEYSTORE_PASSWORD`, `KEY_ALIAS` and `KEY_PASSWORD` are set, otherwise with `keystore/release.jks`.
 
 ## First-time setup
 
@@ -544,6 +583,7 @@ information shows *robolectric*.
 | Smooth arrow, driving direction up, offline street names | New in 4.4.0, needs testing |
 | Car / interior pictures: placeholder, built-in Corsa C, import inside the launcher | New in 4.4.2 |
 | Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
+| Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

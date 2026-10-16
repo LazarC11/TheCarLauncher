@@ -30,6 +30,7 @@ import com.thecarlauncher.util.HotspotControl;
 import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.util.WifiControl;
 import com.thecarlauncher.util.Ui;
+import com.thecarlauncher.util.Updater;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,6 +267,10 @@ public class SettingsScreen extends Screen {
         sub(s("Hotspot", "Hotspot"), new Page() { public void build() { buildHotspot(); } });
         sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
         sub(s("Informacije o sistemu", "System information"), new Page() { public void build() { buildAbout(); } });
+        action(s("Ažuriranje softvera", "Software update"), Updater.isNewer(act, Updater.lastFound())
+                ? s("dostupna ", "available: ") + Updater.lastFound().versionName : null, new Runnable() {
+            public void run() { act.show(LauncherActivity.SOFTWARE, true); }
+        });
     }
 
     private void buildDisplay() {
