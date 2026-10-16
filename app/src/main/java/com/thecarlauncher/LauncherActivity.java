@@ -147,6 +147,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 Gravity.TOP));
         LoadingBanner.attach(banner);
         setContentView(root);
+        rootView = root;
+        applyDisplay();
 
         screens[MENU] = new MenuScreen(this);
         screens[NAV] = new NavScreen(this);
@@ -314,6 +316,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onResume() {
         super.onResume();
         applyImmersive();
+        applyDisplay();
         // Came back from the "All files access" page with it switched on: rescan.
         boolean files = Storage.hasAllFiles();
         if (files && !hadAllFiles) {
@@ -542,6 +545,14 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     }
 
     /** Rebuilds the UI after language / map / full-screen changes. */
+    private View rootView;
+
+    /** Brightness (window part) and the colour profile over the whole launcher. */
+    public void applyDisplay() {
+        com.thecarlauncher.util.DisplayControl.applyWindow(this);
+        if (rootView != null) com.thecarlauncher.util.DisplayControl.applyColors(rootView);
+    }
+
     /** A car picture changed: rebuild the screens that show one (Vehicle, Ambient). */
     public void carPicturesChanged() {
         for (int i : new int[]{VEHICLE, AMBIENT}) {

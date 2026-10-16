@@ -36,6 +36,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <!-- Bring the launcher back after opening the factory BT music app (background start). -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Wi-Fi page inside the launcher. -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- System brightness from the launcher's Screen page ("Modify system settings"). -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
     <uses-feature
