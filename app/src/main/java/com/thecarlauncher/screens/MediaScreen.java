@@ -95,7 +95,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
 
         // Soft glow under the cover while a song plays (sits behind the cover).
         glow = new CoverGlow(act);
-        int glowW = (int) (box * 1.25f), glowH = (int) (box * 0.34f);
+        int glowW = (int) (box * 1.35f), glowH = (int) (box * 0.40f);
         FrameLayout.LayoutParams gl = new FrameLayout.LayoutParams(glowW, glowH, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         gl.rightMargin = boxRight - (glowW - box) / 2;
         glow.setTranslationY(box / 2f - glowH * 0.12f);

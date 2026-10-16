@@ -9,9 +9,8 @@ import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.view.View;
 
-/** Very soft light pool under the cover art; fades in while a song is playing. */
+/** Soft light pool under the cover art in the ambient colour; fades in while a song is playing. */
 public class CoverGlow extends View {
-    private static final int COLOR = 0x406E8CFF;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Matrix m = new Matrix();
     private RadialGradient shader;
@@ -39,8 +38,9 @@ public class CoverGlow extends View {
     @Override
     protected void onSizeChanged(int w, int h, int ow, int oh) {
         // A circle gradient stretched into a flat ellipse.
-        shader = new RadialGradient(0, 0, 1f, new int[]{COLOR, COLOR & 0x18FFFFFF, 0},
-                new float[]{0f, 0.55f, 1f}, Shader.TileMode.CLAMP);
+        int rgb = Mib.BLUE & 0x00FFFFFF;
+        shader = new RadialGradient(0, 0, 1f, new int[]{0x99000000 | rgb, 0x40000000 | rgb, 0x12000000 | rgb, 0},
+                new float[]{0f, 0.38f, 0.72f, 1f}, Shader.TileMode.CLAMP);
         m.reset();
         m.setScale(w / 2f, h / 2f);
         m.postTranslate(w / 2f, h / 2f);
