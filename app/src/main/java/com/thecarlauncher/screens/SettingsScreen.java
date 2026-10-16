@@ -25,7 +25,10 @@ import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.nav.NavHelper;
 import com.thecarlauncher.radio.RadioController;
+import com.thecarlauncher.util.DisplayControl;
+import com.thecarlauncher.util.HotspotControl;
 import com.thecarlauncher.util.Prefs;
+import com.thecarlauncher.util.WifiControl;
 import com.thecarlauncher.util.Ui;
 
 import java.util.ArrayList;
@@ -259,13 +262,235 @@ public class SettingsScreen extends Screen {
         sub("App-Connect", new Page() { public void build() { buildAppConnect(); } });
         sub(s("Telefon i radio", "Phone and radio"), new Page() { public void build() { buildPhoneRadio(); } });
         sub(s("Vozilo", "Vehicle"), new Page() { public void build() { buildVehicle(); } });
+        sub("Wi-Fi", new Page() { public void build() { buildWifi(); } });
+        sub(s("Hotspot", "Hotspot"), new Page() { public void build() { buildHotspot(); } });
         sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
         sub(s("Informacije o sistemu", "System information"), new Page() { public void build() { buildAbout(); } });
     }
 
     private void buildDisplay() {
+        final android.app.Activity a = act;
+        stepper(s("Osvetljenost", "Brightness"), DisplayControl.brightness(act) + " %", new Runnable() {
+            public void run() { DisplayControl.setBrightness(a, DisplayControl.brightness(a) - 10); refreshKeep(); }
+        }, new Runnable() {
+            public void run() { DisplayControl.setBrightness(a, DisplayControl.brightness(a) + 10); refreshKeep(); }
+        });
+        if (!DisplayControl.canWrite(act)) {
+            action(s("Dozvoli menjanje osvetljenosti sistema", "Allow changing the system brightness"),
+                    s("sada važi samo u launcheru", "now only inside the launcher"), new Runnable() {
+                        public void run() { DisplayControl.requestWrite(act); }
+                    });
+        } else {
+            checkRowWithAction(s("Automatska osvetljenost", "Automatic brightness"), DisplayControl.autoBrightness(act), new Runnable() {
+                public void run() {
+                    DisplayControl.setAuto(act, !DisplayControl.autoBrightness(act));
+                    refreshKeep();
+                }
+            });
+        }
+        int pi = DisplayControl.profile(act);
+        action(s("Profil boja", "Colour profile"), pi < 0 ? s("Sopstveni", "Custom")
+                : s((String) DisplayControl.PROFILES[pi][0], (String) DisplayControl.PROFILES[pi][1]), new Runnable() {
+            public void run() {
+                String[] names = new String[DisplayControl.PROFILES.length];
+                for (int i = 0; i < names.length; i++) names[i] = s((String) DisplayControl.PROFILES[i][0], (String) DisplayControl.PROFILES[i][1]);
+                Dialogs.choose(act, s("Profil boja", "Colour profile"), names, DisplayControl.profile(act), new Dialogs.Chosen() {
+                    public void onChosen(int i) {
+                        DisplayControl.setProfile(act, i);
+                        act.applyDisplay();
+                        refreshKeep();
+                    }
+                });
+            }
+        });
+        colorStepper(s("Zasićenost", "Saturation"), 0, 10);
+        colorStepper(s("Kontrast", "Contrast"), 1, 5);
+        colorStepper(s("Toplina boja", "Warmth"), 2, 1);
         toggle(s("Pun ekran (sakrij Android trake)", "Full screen (hide Android bars)"), Prefs.IMMERSIVE, false, true);
-        action(s("Osvetljenost", "Brightness"), null, intent(Settings.ACTION_DISPLAY_SETTINGS));
+        note(s("Profil boja menja sliku launchera (sve njegove ekrane, i mapu). Boje drugih aplikacija mogu se menjati tek kada launcher postane sistemska aplikacija.",
+                "The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app."));
+    }
+
+    /** Saturation (0), contrast (1) or warmth (2) with − / + keys. */
+    private void colorStepper(String label, final int which, final int step) {
+        int[] v = {DisplayControl.saturation(act), DisplayControl.contrast(act), DisplayControl.warmth(act)};
+        String text = which == 2 ? (v[2] > 0 ? "+" + v[2] : String.valueOf(v[2])) : v[which] + " %";
+        stepper(label, text, new Runnable() {
+            public void run() { bumpColor(which, -step); }
+        }, new Runnable() {
+            public void run() { bumpColor(which, step); }
+        });
+    }
+
+    private void bumpColor(int which, int d) {
+        int sat = DisplayControl.saturation(act), con = DisplayControl.contrast(act), warm = DisplayControl.warmth(act);
+        if (which == 0) sat += d;
+        else if (which == 1) con += d;
+        else warm += d;
+        DisplayControl.set(act, sat, con, warm);
+        act.applyDisplay();
+        refreshKeep();
+    }
+
+    /** A settings bar with − and + keys on the right. */
+    private void stepper(String text, String value, final Runnable minus, final Runnable plus) {
+        LinearLayout row = bar(text, value);
+        row.setClickable(false);
+        for (int i = 0; i < 2; i++) {
+            final Runnable r = i == 0 ? minus : plus;
+            TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
+            k.setGravity(Gravity.CENTER);
+            GradientDrawable g = new GradientDrawable();
+            g.setColor(0x00000000);
+            g.setStroke(Math.max(1, Mib.px(act, 1.5f)), Mib.BAR_VALUE);
+            g.setCornerRadius(Mib.px(act, 4));
+            k.setBackground(g);
+            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
+            kl.leftMargin = Mib.px(act, 12);
+            row.addView(k, kl);
+            k.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) { r.run(); }
+            });
+        }
+    }
+
+    /** Grey explanatory text between bars. */
+    private void note(String text) {
+        TextView t = Mib.text(act, text, 22, Mib.regular(act), Mib.GREY);
+        t.setSingleLine(false);
+        t.setMaxLines(4);
+        t.setLineSpacing(0, 1.15f);
+        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        l.leftMargin = Mib.px(act, 30);
+        l.rightMargin = Mib.px(act, 58);
+        l.topMargin = Mib.px(act, 6);
+        l.bottomMargin = Mib.px(act, 12);
+        content.addView(t, l);
+    }
+
+    // ---- Wi-Fi --------------------------------------------------------------------------------
+
+    private final WifiControl.Listener wifiListener = new WifiControl.Listener() {
+        public void onWifiChanged() { if (onPage("Wi-Fi")) refreshKeep(); }
+    };
+
+    private boolean onPage(String title) {
+        return !stack.isEmpty() && stack.get(stack.size() - 1).title.equals(title);
+    }
+
+    private void buildWifi() {
+        final WifiControl w = WifiControl.get(act);
+        w.addListener(wifiListener);
+        if (!w.available()) {
+            info(s("Wi-Fi nije dostupan", "Wi-Fi not available"), null);
+            return;
+        }
+        final boolean on = w.isOn();
+        checkRowWithAction("Wi-Fi", on, new Runnable() {
+            public void run() {
+                if (!w.setOn(!on)) Ui.start(act, w.systemPanel()); // Android 10+: only the system may switch it
+                ui.postDelayed(new Runnable() { public void run() { if (onPage("Wi-Fi")) refreshKeep(); } }, 1500);
+            }
+        });
+        if (!on) {
+            note(s("Wi-Fi je isključen.", "Wi-Fi is off."));
+            return;
+        }
+        String cur = w.connectedSsid();
+        if (cur != null) {
+            LinearLayout row = bar(cur, s("Povezano", "Connected") + (w.connectionDetails() != null ? " · " + w.connectionDetails() : ""));
+            row.setClickable(false);
+            addLeading(row, wifiIcon(w.connectedLevel(), false, true));
+        }
+        action(s("Traži mreže", "Search for networks"), null, new Runnable() {
+            public void run() {
+                w.scan();
+                com.thecarlauncher.mib.LoadingBanner.flash("wifi-scan", s("Traženje Wi-Fi mreža…", "Searching for Wi-Fi networks…"), 3000);
+            }
+        });
+        List<WifiControl.Network> nets = w.networks();
+        if (nets.isEmpty()) {
+            if (cur == null) w.scan();
+            note(s("Nema pronađenih mreža (potrebna je dozvola za lokaciju).", "No networks found (location permission is needed)."));
+        }
+        for (final WifiControl.Network n : nets) {
+            if (n.connected) continue;
+            LinearLayout row = bar(n.ssid, n.secure ? s("zaštićena", "secured") : s("otvorena", "open"));
+            addLeading(row, wifiIcon(n.level, n.secure, false));
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!n.secure) joinWifi(n, null);
+                    else Dialogs.text(act, n.ssid, s("Lozinka", "Password"), "", new Dialogs.TextEntered() {
+                        public void onText(String text) { if (text != null && !text.isEmpty()) joinWifi(n, text); }
+                    });
+                }
+            });
+        }
+        action(s("Sistemska Wi-Fi podešavanja", "System Wi-Fi settings"), s("zaboravi mrežu, napredno", "forget a network, advanced"),
+                intent(Settings.ACTION_WIFI_SETTINGS));
+    }
+
+    private void joinWifi(WifiControl.Network n, String password) {
+        WifiControl w = WifiControl.get(act);
+        WifiControl.Join j = w.join(n, password);
+        if (j == WifiControl.Join.ASKS_SYSTEM) {
+            // Android 11+: the system saves the network after one confirmation.
+            android.content.Intent i = w.addNetworksIntent(n, password);
+            if (i == null || !Ui.start(act, i)) j = WifiControl.Join.FAILED;
+            else {
+                com.thecarlauncher.mib.LoadingBanner.flash("wifi-join", s("Potvrdi mrežu u sistemskom prozoru", "Confirm the network in the system window"), 3000);
+                return;
+            }
+        }
+        if (j == WifiControl.Join.CONNECTING) {
+            com.thecarlauncher.mib.LoadingBanner.flash("wifi-join", s("Povezivanje sa ", "Connecting to ") + n.ssid + "…", 4000);
+        } else {
+            com.thecarlauncher.mib.LoadingBanner.flash("wifi-join", s("Povezivanje nije uspelo", "Could not connect"), 3000);
+        }
+    }
+
+    /** Wi-Fi fan with level 0..4 (lock dot when secured), drawn so it needs no artwork. */
+    private View wifiIcon(final int level, final boolean secure, final boolean connected) {
+        return new View(act) {
+            final android.graphics.Paint p = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+
+            @Override
+            protected void onDraw(android.graphics.Canvas c) {
+                float w = getWidth(), h = getHeight(), cx = w / 2f, by = h * 0.92f;
+                p.setStyle(android.graphics.Paint.Style.STROKE);
+                p.setStrokeWidth(h * 0.1f);
+                p.setStrokeCap(android.graphics.Paint.Cap.ROUND);
+                for (int i = 1; i <= 3; i++) {
+                    p.setColor(level >= i + 1 ? Mib.BAR_TEXT : 0x55303038);
+                    float r = h * 0.28f * i;
+                    c.drawArc(new android.graphics.RectF(cx - r, by - r, cx + r, by + r), 225, 90, false, p);
+                }
+                p.setStyle(android.graphics.Paint.Style.FILL);
+                p.setColor(level >= 1 ? Mib.BAR_TEXT : 0x55303038);
+                c.drawCircle(cx, by - h * 0.04f, h * 0.08f, p);
+                if (secure) {
+                    p.setColor(Mib.BAR_VALUE);
+                    c.drawRect(w * 0.78f, h * 0.55f, w * 0.98f, h * 0.85f, p);
+                }
+            }
+        };
+    }
+
+    // ---- Hotspot ------------------------------------------------------------------------------
+
+    private void buildHotspot() {
+        Boolean on = HotspotControl.isOn(act);
+        info(s("Hotspot", "Hotspot"), on == null ? s("stanje nepoznato", "state unknown") : on ? s("Uključen", "On") : s("Isključen", "Off"));
+        action(s("Uključi / isključi hotspot", "Turn the hotspot on / off"), null, new Runnable() {
+            public void run() {
+                if (!HotspotControl.openSystem(act)) Ui.toast(act, s("Podešavanje hotspota nije pronađeno", "Hotspot settings not found"));
+            }
+        });
+        note(s("Android ne dozvoljava običnoj aplikaciji da sama pali hotspot: otvara se sistemski ekran za hotspot (naziv, lozinka, uključivanje). Kada launcher postane sistemska aplikacija, ovo ide direktno odavde.",
+                "Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here."));
     }
 
     /** 30 colours for the UI accent ("ambient lighting"); the whole UI follows the choice. */
@@ -536,85 +761,14 @@ public class SettingsScreen extends Screen {
     private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
-        AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
-        String pkg = MediaHub.get(act).bluetooth().appPackage();
-        action(s("Aplikacija za BT audio", "BT audio app"), screen != null ? screen.label
-                        : pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg),
-                new Runnable() {
-                    public void run() {
-                        push(s("Aplikacija za BT audio", "BT audio app"), new Page() {
-                            public void build() { buildBtAppChoice(); }
-                        });
-                    }
-                });
         action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
             public void run() { act.show(LauncherActivity.BTDEVICES, true); }
         });
         toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
                 Prefs.BT_AUTO_SELECT, true, false);
-        toggle(s("Otvori BT aplikaciju na trenutak pri izboru BT audio", "Open the BT app briefly when choosing BT audio"),
-                Prefs.BT_OPEN_APP, false, false);
-        if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
-            action(s("Dozvoli povratak iz BT aplikacije", "Allow returning from the BT app"),
-                    s("Prikaz preko drugih aplikacija: isključeno", "Display over other apps: off"), new Runnable() {
-                        public void run() { com.thecarlauncher.util.BringBack.requestOverlay(act); }
-                    });
-        }
         toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
             public void run() { MediaHub.get(act).radioChanged(); }
         });
-        toggle(s("Vrati se u launcher posle pokretanja BT aplikacije", "Return to the launcher after starting the BT app"),
-                Prefs.BT_WAKE, true, false);
-        final int[] waits = {800, 1200, 2000, 3000};
-        int w = Prefs.integer(act, Prefs.BT_WAKE_MS, 1200);
-        action(s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), String.format(java.util.Locale.US, "%.1f s", w / 1000f),
-                new Runnable() {
-                    public void run() {
-                        String[] o = {"0.8 s", "1.2 s", "2 s", "3 s"};
-                        int c = 1;
-                        for (int i = 0; i < waits.length; i++) if (waits[i] == Prefs.integer(act, Prefs.BT_WAKE_MS, 1200)) c = i;
-                        Dialogs.choose(act, s("Koliko dugo ostaje BT aplikacija", "How long the BT app stays open"), o, c,
-                                new Dialogs.Chosen() {
-                                    public void onChosen(int i) {
-                                        Prefs.put(act, Prefs.BT_WAKE_MS, waits[i]);
-                                        refresh();
-                                    }
-                                });
-                    }
-                });
-        int bc = Prefs.integer(act, Prefs.BT_CHANNEL, 0), learned = Prefs.integer(act, Prefs.BT_CHANNEL_LEARNED, 0);
-        String bcText = bc == 0 ? s("Isključeno", "Off") : bc > 0 ? s("Kanal ", "Channel ") + bc
-                : s("Automatski", "Automatic") + (learned > 0 ? " (" + learned + ")" : s(" (još nije naučen)", " (not learned yet)"));
-        action(s("MCU kanal za BT zvuk", "MCU channel for BT audio"), bcText, new Runnable() {
-            public void run() {
-                final String[] opts = {s("Automatski (uči iz fabričke BT aplikacije)", "Automatic (learn from the factory BT app)"),
-                        s("Isključeno (ne menjaj kanal)", "Off (leave the channel alone)"),
-                        "1", "3", "5", "6", "7", "8"};
-                final int[] vals = {-1, 0, 1, 3, 5, 6, 7, 8};
-                int cur = 0;
-                for (int i = 0; i < vals.length; i++) if (vals[i] == Prefs.integer(act, Prefs.BT_CHANNEL, 0)) cur = i;
-                Dialogs.choose(act, s("MCU kanal za BT zvuk", "MCU channel for BT audio"), opts, cur, new Dialogs.Chosen() {
-                    public void onChosen(int i) {
-                        Prefs.put(act, Prefs.BT_CHANNEL, vals[i]);
-                        refresh();
-                    }
-                });
-            }
-        });
-        final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
-        checkRowWithAction(s("Čitaj BT modul direktno (bez fabričke BT aplikacije)", "Read the BT module directly (no factory BT app)"),
-                gocBt.enabled(), new Runnable() {
-                    public void run() {
-                        boolean on = !gocBt.enabled();
-                        Prefs.put(act, com.thecarlauncher.media.GocBluetooth.PREF, on);
-                        gocBt.start();
-                        if (on) {
-                            Ui.toast(act, s("Uključeno. Fabrička BT aplikacija tada gubi poruke modula (kontrole, pesma). Isključi ako ona postoji.",
-                                    "On. The factory BT app then loses module messages (controls, song). Switch off if it is installed."));
-                        }
-                        refresh();
-                    }
-                });
         action(s("Dijagnostika (QF / Bluetooth)", "Diagnostics (QF / Bluetooth)"), null, new Runnable() {
             public void run() {
                 push(s("Dijagnostika", "Diagnostics"), new Page() {
@@ -622,7 +776,6 @@ public class SettingsScreen extends Screen {
                 });
             }
         });
-        toggle(s("Šalji komande sistemski", "Send controls system-wide"), Prefs.BT_SYSTEM_KEYS, false, false);
     }
 
     /**
@@ -666,6 +819,23 @@ public class SettingsScreen extends Screen {
 
     /** What this unit exposes for Bluetooth music: QF packages, hidden screens, QF broadcasts. */
     private void buildBtDiagnostics() {
+        final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
+        checkRowWithAction(s("Čitaj BT modul direktno (samo bez fabričke BT aplikacije)", "Read the BT module directly (only without the factory BT app)"),
+                gocBt.enabled(), new Runnable() {
+                    public void run() {
+                        Prefs.put(act, com.thecarlauncher.media.GocBluetooth.PREF, !gocBt.enabled());
+                        gocBt.start();
+                        refreshKeep();
+                    }
+                });
+        MediaHub hub0 = MediaHub.get(act);
+        info(s("Pristup medijima", "Media access"), hub0.hasNotificationAccess() ? s("Da", "Yes") : s("Ne", "No"));
+        StringBuilder srcs = new StringBuilder();
+        for (String k : hub0.sources()) {
+            if (srcs.length() > 0) srcs.append(", ");
+            srcs.append(k.equals(MediaHub.BLUETOOTH) ? "BT" : k);
+        }
+        info(s("Izvori", "Sources"), srcs.toString());
         com.thecarlauncher.media.QfMediaBridge qf = com.thecarlauncher.media.QfMediaBridge.get(act);
         AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
         info(s("BT ekran", "BT screen"), screen == null ? "—" : screen.key());
@@ -1082,8 +1252,6 @@ public class SettingsScreen extends Screen {
     }
 
     private void buildAndroid() {
-        action("Wi-Fi", null, intent(Settings.ACTION_WIFI_SETTINGS));
-        action("Bluetooth", null, intent(Settings.ACTION_BLUETOOTH_SETTINGS));
         action(s("Zvuk", "Sound"), null, intent(Settings.ACTION_SOUND_SETTINGS));
         action(s("Podrazumevani pokretač", "Default launcher"), null, new Runnable() {
             public void run() {
@@ -1096,34 +1264,106 @@ public class SettingsScreen extends Screen {
         action(s("Sva Android podešavanja", "All Android settings"), null, intent(Settings.ACTION_SETTINGS));
     }
 
+    /** Like the factory "Versions" page: a label, its value right-aligned under it. */
     private void buildAbout() {
-        String version = "";
+        String version = "", built = "";
+        long code = 0;
         try {
             PackageInfo pi = act.getPackageManager().getPackageInfo(act.getPackageName(), 0);
             version = pi.versionName;
+            code = Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
+            built = new java.text.SimpleDateFormat("yyyyMMddHHmm", java.util.Locale.US).format(new java.util.Date(pi.lastUpdateTime));
         } catch (Exception ignored) {
         }
-        info("Car Launcher", version);
-        info(s("Uređaj", "Head unit"), Build.MANUFACTURER + " " + Build.MODEL + " · Android " + Build.VERSION.RELEASE);
-        info(s("Ekran", "Screen"), act.getResources().getDisplayMetrics().widthPixels + "×"
-                + act.getResources().getDisplayMetrics().heightPixels + " · " + act.getResources().getDisplayMetrics().densityDpi + " dpi");
-        MediaHub hub = MediaHub.get(act);
-        BluetoothSource bt = hub.bluetooth();
-        info(s("BT servis za medije", "BT media service"), bt.systemServiceFound()
-                ? (bt.systemConnected() ? s("Povezan", "Connected") : s("Povezivanje…", "Connecting…"))
-                : s("Nije dostupan", "Not available"));
-        String btPkg = bt.appPackage();
-        info(s("BT audio aplikacija", "BT audio app"), btPkg == null ? "—" : btPkg);
-        info(s("Pristup medijima", "Media access"), hub.hasNotificationAccess() ? s("Da", "Yes") : s("Ne", "No"));
-        StringBuilder sb = new StringBuilder();
-        for (String k : hub.sources()) {
-            if (sb.length() > 0) sb.append(", ");
-            sb.append(k.equals(MediaHub.BLUETOOTH) ? "BT" : k);
+        section(s("Softver", "Software"));
+        versionRow(s("Verzija softvera", "Software version"), "TCL_" + version + "_" + (s("SR", "EN")));
+        versionRow(s("Osnova softvera", "Software base"), "TCL" + version + "-" + built);
+        versionRow(s("Broj izdanja", "Build number"), String.valueOf(code));
+        section(s("Uređaj", "Head unit"));
+        versionRow(s("Model", "Model"), Build.MANUFACTURER + " " + Build.MODEL);
+        String platform = sysProp("ro.qf.platform");
+        String board = sysProp("ro.board.platform");
+        versionRow(s("Hardver", "Hardware"), Build.HARDWARE + (board != null ? " / " + board : "")
+                + (platform != null ? " / " + platform : ""));
+        versionRow("Android", Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")");
+        versionRow(s("Verzija sistema", "System version"), Build.DISPLAY);
+        versionRow(s("Datum sistema", "System date"),
+                new java.text.SimpleDateFormat("yyyyMMddHHmm", java.util.Locale.US).format(new java.util.Date(Build.TIME)));
+        String mcu = firstProp("persist.sys.qf.mcu.version", "sys.qf.mcu.version", "ro.qf.mcu.version", "persist.sys.mcu.version",
+                "sys.mcu.version", "ro.mcu.version", "persist.mcu.version");
+        if (mcu != null) versionRow(s("MCU verzija", "MCU version"), mcu);
+        String fw = firstProp("ro.qf.version", "ro.qf.sw.version", "persist.sys.qf.version", "ro.build.version.incremental");
+        if (fw != null) versionRow(s("Verzija fabričkog softvera", "Factory software version"), fw);
+        versionRow("Kernel", System.getProperty("os.version", "—"));
+        String btName = sysProp("persist.sys.qf.bt.local.name"), btAddr = sysProp("persist.sys.qf.bt.local.addr");
+        if (btName != null || btAddr != null) {
+            versionRow("Bluetooth", (btName != null ? btName : "") + (btAddr != null ? (btName != null ? " · " : "") + btAddr : ""));
         }
-        info(s("Izvori", "Sources"), sb.toString());
+        android.util.DisplayMetrics dm = act.getResources().getDisplayMetrics();
+        versionRow(s("Ekran", "Screen"), dm.widthPixels + "×" + dm.heightPixels + " · " + dm.densityDpi + " dpi");
+        try {
+            android.app.ActivityManager am = (android.app.ActivityManager) act.getSystemService(android.content.Context.ACTIVITY_SERVICE);
+            android.app.ActivityManager.MemoryInfo mi = new android.app.ActivityManager.MemoryInfo();
+            am.getMemoryInfo(mi);
+            android.os.StatFs st = new android.os.StatFs(android.os.Environment.getDataDirectory().getPath());
+            versionRow(s("Memorija", "Memory"), String.format(java.util.Locale.US, "RAM %.1f GB · %s %.1f / %.1f GB",
+                    mi.totalMem / 1e9, s("slobodno", "free"), st.getAvailableBytes() / 1e9, st.getTotalBytes() / 1e9));
+        } catch (Exception ignored) {
+        }
         String proj = Projection.find(act);
-        info("App-Connect", proj == null ? "—" : proj);
-        info(s("Podaci mape", "Map data"), "© OpenStreetMap, © CARTO");
+        if (proj != null) versionRow("App-Connect", proj);
+        versionRow(s("Podaci mape", "Map data"), "© OpenStreetMap, © CARTO");
+    }
+
+    private void section(String text) {
+        TextView t = Mib.text(act, text, 24, Mib.semibold(act), Mib.GREY);
+        LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        l.leftMargin = Mib.px(act, 30);
+        l.topMargin = Mib.px(act, 10);
+        l.bottomMargin = Mib.px(act, 4);
+        content.addView(t, l);
+    }
+
+    /** Factory "Versions" row: white label, the value right-aligned below, a thin rule. */
+    private void versionRow(String label, String value) {
+        LinearLayout box = new LinearLayout(act);
+        box.setOrientation(LinearLayout.VERTICAL);
+        box.setPadding(Mib.px(act, 30), Mib.px(act, 10), Mib.px(act, 60), Mib.px(act, 10));
+        box.addView(Mib.text(act, label, 28, Mib.regular(act), Mib.WHITE));
+        TextView v = Mib.text(act, value == null || value.isEmpty() ? "—" : value, 28, Mib.regular(act), Mib.WHITE);
+        v.setSingleLine(false);
+        v.setMaxLines(3);
+        v.setGravity(Gravity.RIGHT);
+        LinearLayout.LayoutParams vl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        vl.topMargin = Mib.px(act, 6);
+        box.addView(v, vl);
+        content.addView(box, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        View rule = new View(act);
+        rule.setBackgroundColor(0xFF3A3B42);
+        LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(1, Mib.px(act, 1)));
+        rl.leftMargin = Mib.px(act, 26);
+        rl.rightMargin = Mib.px(act, 58);
+        content.addView(rule, rl);
+    }
+
+    private static String sysProp(String key) {
+        try {
+            Class<?> sp = Class.forName("android.os.SystemProperties");
+            String v = (String) sp.getMethod("get", String.class).invoke(null, key);
+            return v == null || v.trim().isEmpty() ? null : v.trim();
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    private static String firstProp(String... keys) {
+        for (String k : keys) {
+            String v = sysProp(k);
+            if (v != null) return v;
+        }
+        return null;
     }
 
     // ---- Choice helpers ----------------------------------------------------------------------

@@ -162,11 +162,8 @@ Related settings (*Setup → Bluetooth audio*):
 | --- | --- | --- |
 | Bluetooth devices | – | Remembered phones, connect / disconnect, pair a new device. |
 | BT audio as soon as the phone connects | On | A connecting phone makes BT audio the source, like pressing its key. |
-| BT audio app | Bluetooth Music | Which app receives the controls (normally the factory one). |
 | Cover art from the internet | On | Online lookup of the cover by artist and title. |
-| Open the BT app briefly (if there is no sound) | Off | Fallback for units where the control broadcast is not enough: shows the factory app for about a second and comes back (needs **Display over other apps** for Car Launcher). |
-| Read the BT module directly | Off with the factory app | Only for units without the factory BT app; with it, reading steals the app's messages. |
-| Return to launcher, BT app wait time, MCU channel | – | Fallbacks for other units. |
+| Diagnostics → Read the BT module directly | Off with the factory app | Only for units without the factory BT app; with it, reading steals the app's messages. |
 | Diagnostics | – | Phone battery / signal, media sessions, the song the factory app published, `sys.qf.bt.music.progress` and `sys.qf.bt.is.connect`, and the module's last lines. |
 
 ### Radio
@@ -329,12 +326,36 @@ with a **Bluetooth audio** tile that switches the media player to BT.
 
 *System settings*: screen, ambient lighting, time and date, language, units, navigation (offline
 maps, map style, voice, home / work), sound, media (library, All files access, other media apps),
-radio (LOC, RDS, station logos), Bluetooth audio, phone app, vehicle (brand, model, pictures),
-App-Connect, phone and radio apps, Android settings, diagnostics and system information.
+radio (LOC, RDS, station logos), Bluetooth audio, App-Connect, phone and radio apps, vehicle (brand,
+model, pictures), Wi-Fi, hotspot, Android settings and system information. The launcher runs more
+and more of the unit's settings itself:
+
+- **Screen**: brightness with − / + keys (the unit's own brightness once *Modify system settings* is
+  allowed for Car Launcher; until then it applies inside the launcher), automatic brightness, and
+  **colour profiles** (Standard, Vivid, Soft, Warm, Cool, Night) with saturation, contrast and
+  warmth. The profile colours everything the launcher shows, the map included; other apps' colours
+  need system rights.
+- **Wi-Fi**: on / off, the current network with IP and speed, nearby networks with signal and a lock
+  for secured ones, and joining a network with its password. Android 10+ only lets the system
+  switch Wi-Fi (its quick panel opens), and on Android 11+ the system confirms a new network once.
+- **Hotspot**: its state, and the system hotspot page for name, password and on / off (Android keeps
+  switching it to system apps).
+- **System information**: laid out like the factory *Versions* page: software version, software base
+  and build number of the launcher; model, hardware / platform, Android and system version, system
+  date, MCU and factory software versions when the firmware publishes them, kernel, the Bluetooth
+  module's name and address, screen and memory.
+- **Bluetooth audio** now only has what is still used: Bluetooth devices, BT audio when the phone
+  connects, cover art and diagnostics. The old workarounds for opening the factory BT app are gone,
+  since the launcher talks to the Bluetooth module and the factory service itself; Android's own
+  Bluetooth page is gone from *Android system* too.
 
 | Settings | Vehicle | Bluetooth audio | Radio |
 | --- | --- | --- | --- |
 | ![Settings](docs/screenshots/settings.png) | ![Vehicle](docs/screenshots/settings-vehicle.png) | ![Bluetooth](docs/screenshots/settings-bluetooth.png) | ![Radio](docs/screenshots/settings-radio.png) |
+
+| Screen | Wi-Fi | System information |
+| --- | --- | --- |
+| ![Screen](docs/screenshots/settings-screen.png) | ![Wi-Fi](docs/screenshots/settings-wifi.png) | ![System information](docs/screenshots/settings-about.png) |
 
 ### Back
 
@@ -503,8 +524,6 @@ information shows *robolectric*.
 | --- | --- |
 | BT music plays but no title shows | Check that *Read the BT module directly* is **off**, then restart the unit. *Diagnostics* should show the song under *Song from BT app (broadcast)*. Send a photo of that page with a bug report. |
 | BT audio doesn't start when the phone connects | *Diagnostics* → `sys.qf.bt.is.connect` should read `true`; check *BT audio as soon as the phone connects*. |
-| No sound after choosing BT-audio | Turn on *Open the BT app briefly (if there is no sound)* as a fallback. |
-| The BT app opens and stays on screen | Allow *Display over other apps* for Car Launcher (*Setup → Bluetooth audio → Allow returning from the BT app*). |
 | Calls stop working in the factory app | Report it with the *Potential issue* form. |
 | No cover art | The unit needs internet. Songs whose "artist" is a video channel name may not be found. |
 | Radio tile opens another app | `mcu_service` wasn't found. *Setup → Radio* shows the tuner status. |
@@ -524,6 +543,7 @@ information shows *robolectric*.
 | Back to the previous screen | New in 4.3.1 |
 | Smooth arrow, driving direction up, offline street names | New in 4.4.0, needs testing |
 | Car / interior pictures: placeholder, built-in Corsa C, import inside the launcher | New in 4.4.2 |
+| Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |
