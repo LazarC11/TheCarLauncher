@@ -409,14 +409,19 @@ Requires Android 5.0 or newer.
 
 ### Software updates
 
-*Setup → Software update* shows the installed and the latest version, the release notes and an
-**Update** key. The APK is downloaded from the project's GitHub releases with the loading banner
+*Setup → Software update* opens a screen modelled on the factory *SW download* page: **Versions**
+lists the installed software (SW Train and MU version, part number, software version, the newest
+available release); **Update** shows the newest release with its notes and *Start update*, and while
+it runs, the factory-style *Software update in progress…* page with OK / N/A / NOK / Remaining and a
+bar per step (download, verify, install) and *Cancel*. The APK is downloaded from the project's GitHub releases with the loading banner
 showing progress, then handed to Android's installer: as an ordinary app Android shows its
 *Update this app?* dialog (allow *Install unknown apps* for Car Launcher once); as a system app the
 update installs silently. The launcher checks once a day on its own (it can be switched off), and
 *Test builds* also offers builds from other branches.
 
-![Software update](docs/screenshots/settings-update.png)
+| Versions | Update in progress |
+| --- | --- |
+| ![Software update](docs/screenshots/settings-update.png) | ![Update in progress](docs/screenshots/settings-update-progress.png) |
 
 ### As a system app (Magisk module)
 

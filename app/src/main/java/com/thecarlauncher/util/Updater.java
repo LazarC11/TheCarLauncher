@@ -64,6 +64,59 @@ public final class Updater {
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
     private static Release lastFound;
     private static boolean busy;
+    private static volatile boolean cancelled;
+
+    /** Steps of an update, shown like the factory "Software update in progress" list. */
+    public static final String[] STEPS = {"launcher::download", "launcher::verify", "launcher::install"};
+    /** Progress per step 0..100, -1 = not started; failed step index or -1. */
+    private static final int[] progress = {-1, -1, -1};
+    private static int failedStep = -1;
+    private static String failMessage;
+
+    public interface Progress { void onUpdateProgress(); }
+
+    private static final java.util.List<Progress> watchers = new java.util.concurrent.CopyOnWriteArrayList<>();
+
+    public static void addWatcher(Progress p) { if (!watchers.contains(p)) watchers.add(p); }
+
+    public static void removeWatcher(Progress p) { watchers.remove(p); }
+
+    public static int progress(int step) { return progress[step]; }
+
+    public static int failedStep() { return failedStep; }
+
+    public static String failMessage() { return failMessage; }
+
+    /** True while a download / install runs or after one ended (until the screen resets it). */
+    public static boolean started() { return progress[0] >= 0; }
+
+    public static void cancel() { cancelled = true; }
+
+    public static void reset() {
+        if (busy) return;
+        progress[0] = progress[1] = progress[2] = -1;
+        failedStep = -1;
+        failMessage = null;
+        notifyWatchers();
+    }
+
+    private static void step(int i, int pct) {
+        progress[i] = pct;
+        notifyWatchers();
+    }
+
+    private static void fail(int i, String msg) {
+        failedStep = i;
+        failMessage = msg;
+        busy = false;
+        notifyWatchers();
+    }
+
+    private static void notifyWatchers() {
+        MAIN.post(new Runnable() {
+            public void run() { for (Progress p : watchers) p.onUpdateProgress(); }
+        });
+    }
 
     private Updater() {}
 
@@ -204,20 +257,36 @@ public final class Updater {
             return;
         }
         busy = true;
+        cancelled = false;
+        progress[0] = 0;
+        progress[1] = progress[2] = -1;
+        failedStep = -1;
+        failMessage = null;
+        notifyWatchers();
         final Context app = c.getApplicationContext();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 File f = new File(app.getCacheDir(), "update.apk");
+                int at = 0;
                 try {
                     download(r.apkUrl, f);
+                    if (cancelled) throw new java.io.InterruptedIOException("cancelled");
+                    step(0, 100);
+                    at = 1;
+                    step(1, 0);
+                    verify(app, f);
+                    step(1, 100);
+                    at = 2;
+                    step(2, 10);
                     LoadingBanner.start("update", LoadingBanner.t("Instaliranje ", "Installing ") + r.versionName + "…");
                     commit(app, f);
+                    step(2, 60);
                 } catch (Exception e) {
-                    busy = false;
                     LoadingBanner.stop("update");
-                    LoadingBanner.flash("update-fail", LoadingBanner.t("Ažuriranje nije uspelo: ", "Update failed: ")
-                            + e.getClass().getSimpleName(), 4000);
+                    String msg = cancelled ? LoadingBanner.t("Otkazano", "Cancelled") : e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+                    fail(at, msg);
+                    LoadingBanner.flash("update-fail", LoadingBanner.t("Ažuriranje nije uspelo: ", "Update failed: ") + msg, 4000);
                 }
             }
         }, "update-install").start();
@@ -240,9 +309,11 @@ public final class Updater {
             while ((r = in.read(buf)) > 0) {
                 o.write(buf, 0, r);
                 got += r;
+                if (cancelled) break;
                 int pct = total > 0 ? (int) (got * 100 / total) : -1;
                 if (pct != lastPct) {
                     lastPct = pct;
+                    if (pct >= 0) step(0, pct);
                     LoadingBanner.start("update", LoadingBanner.t("Preuzimanje ažuriranja… ", "Downloading the update… ")
                             + (pct >= 0 ? pct + " %" : (got / 1024) + " KB"));
                 }
@@ -252,6 +323,15 @@ public final class Updater {
         } finally {
             con.disconnect();
         }
+    }
+
+    /** The download must be this launcher, newer than the installed one. */
+    private static void verify(Context c, File apk) throws Exception {
+        PackageInfo pi = c.getPackageManager().getPackageArchiveInfo(apk.getPath(), 0);
+        if (pi == null) throw new java.io.IOException(LoadingBanner.t("Preuzeti fajl nije ispravan", "The download is not a valid APK"));
+        if (!c.getPackageName().equals(pi.packageName)) throw new java.io.IOException(LoadingBanner.t("Pogrešan paket", "Wrong package"));
+        long code = Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
+        if (code <= installedCode(c)) throw new java.io.IOException(LoadingBanner.t("Verzija nije novija", "Not a newer version"));
     }
 
     private static void commit(final Context c, File apk) throws Exception {
@@ -284,6 +364,7 @@ public final class Updater {
                         }
                     }
                     LoadingBanner.stop("update");
+                    step(2, 80);
                     return;
                 }
                 busy = false;
@@ -292,6 +373,8 @@ public final class Updater {
                     ctx.unregisterReceiver(this);
                 } catch (Exception ignored) {
                 }
+                if (status == PackageInstaller.STATUS_SUCCESS) step(2, 100);
+                else fail(2, i.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE));
                 if (status != PackageInstaller.STATUS_SUCCESS) {
                     String msg = i.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
                     LoadingBanner.flash("update-fail", LoadingBanner.t("Ažuriranje nije instalirano", "Update not installed")
