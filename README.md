@@ -34,6 +34,7 @@ Text is in Serbian (Latin) by default; English can be picked under
   - [Status bar](#status-bar)
 - [Install on the head unit](#install-on-the-head-unit)
 - [First-time setup](#first-time-setup)
+- [Other head units](#other-head-units)
 - [How it talks to the head unit](#how-it-talks-to-the-head-unit)
 - [Building](#building)
 - [Project layout](#project-layout)
@@ -465,6 +466,26 @@ Then, in *Setup*:
 
 ---
 
+## Other head units
+
+The direct radio and Bluetooth paths were built on a UIS7862 unit with the QF firmware (MCU tuner,
+the QF Bluetooth app, the Goodocom module). On other units (for example Allwinner T3 boards from
+NWD / TopWay) the launcher detects that and works through the unit's factory apps
+(*Setup → Android system → Head unit platform*, automatic by default):
+
+- **Radio** opens the factory radio app instead of the built-in tuner screen.
+- **BT-audio** opens the factory Bluetooth music app for a moment, which puts the sound on the
+  speakers, and comes back; song, cover and controls come from Android's media session.
+- **Audio focus**: when the launcher's own player pauses, it gives the audio focus back, so the
+  factory radio or Bluetooth app is not kept quiet.
+- The QF-only Bluetooth pages (Bluetooth devices, BT audio on connect) are hidden.
+
+To add proper support for a new unit, run *Setup → Android system → Device report*. It saves
+`Download/TheCarLauncher-report.txt` (and shows it): build and firmware, framework classes
+(e.g. TopWay's `TWUtil`), system services, `/dev` nodes, car-related properties, the factory radio /
+Bluetooth / MCU packages with their services and receivers, audio and Bluetooth state, and the
+media sources the launcher sees. Attach it to a *Bug report*.
+
 ## How it talks to the head unit
 
 | Part | How |
@@ -584,6 +605,7 @@ information shows *robolectric*.
 | Car / interior pictures: placeholder, built-in Corsa C, import inside the launcher | New in 4.4.2 |
 | Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
 | Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
+| Other head units (factory radio / BT app), device report | New in 4.7.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

@@ -767,11 +767,34 @@ public class SettingsScreen extends Screen {
     private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
-        action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
-            public void run() { act.show(LauncherActivity.BTDEVICES, true); }
-        });
-        toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
-                Prefs.BT_AUTO_SELECT, true, false);
+        boolean qf = com.thecarlauncher.util.Platform.qf(act);
+        if (qf) {
+            action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
+                public void run() { act.show(LauncherActivity.BTDEVICES, true); }
+            });
+            toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
+                    Prefs.BT_AUTO_SELECT, true, false);
+        } else {
+            // Other units: the factory BT music app plays the sound; the launcher opens it briefly.
+            AppRepository.App screen = MediaHub.get(act).bluetooth().appScreen();
+            String pkg = MediaHub.get(act).bluetooth().appPackage();
+            action(s("Aplikacija za BT muziku", "BT music app"), screen != null ? screen.label
+                    : pkg == null ? s("Nije pronađena", "Not found") : appLabel(pkg), new Runnable() {
+                public void run() {
+                    push(s("Aplikacija za BT muziku", "BT music app"), new Page() {
+                        public void build() { buildBtAppChoice(); }
+                    });
+                }
+            });
+            toggle(s("Otvori BT aplikaciju na trenutak (pušta zvuk)", "Open the BT app briefly (plays the sound)"),
+                    Prefs.BT_OPEN_APP, true, false);
+            if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
+                action(s("Dozvoli povratak iz BT aplikacije", "Allow returning from the BT app"),
+                        s("Prikaz preko drugih aplikacija: isključeno", "Display over other apps: off"), new Runnable() {
+                            public void run() { com.thecarlauncher.util.BringBack.requestOverlay(act); }
+                        });
+            }
+        }
         toggle(s("Omot pesme sa interneta", "Cover art from the internet"), Prefs.ONLINE_COVER, true, new Runnable() {
             public void run() { MediaHub.get(act).radioChanged(); }
         });
@@ -824,7 +847,47 @@ public class SettingsScreen extends Screen {
     }
 
     /** What this unit exposes for Bluetooth music: QF packages, hidden screens, QF broadcasts. */
+    private String reportText;
+
+    /** Builds the device report, saves it and shows it. */
+    private void deviceReport() {
+        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT <= 28
+                && act.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            act.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 43);
+        }
+        com.thecarlauncher.mib.LoadingBanner.start("report", s("Pravljenje izveštaja o uređaju…", "Building the device report…"));
+        new Thread(new Runnable() {
+            public void run() {
+                final String text = com.thecarlauncher.util.DeviceReport.build(act);
+                final String path = com.thecarlauncher.util.DeviceReport.save(act, text);
+                ui.post(new Runnable() {
+                    public void run() {
+                        com.thecarlauncher.mib.LoadingBanner.stop("report");
+                        com.thecarlauncher.mib.LoadingBanner.flash("report-ok", path != null ? s("Sačuvano: ", "Saved: ") + path
+                                : s("Izveštaj nije sačuvan", "Report not saved"), 5000);
+                        reportText = (path != null ? path + "\n\n" : "") + text;
+                        push(s("Izveštaj o uređaju", "Device report"), new Page() {
+                            public void build() {
+                                TextView t = Mib.text(act, reportText, 18, Mib.regular(act), Mib.WHITE);
+                                t.setSingleLine(false);
+                                t.setMaxLines(Integer.MAX_VALUE);
+                                t.setEllipsize(null);
+                                t.setTypeface(android.graphics.Typeface.MONOSPACE);
+                                t.setTextIsSelectable(true);
+                                t.setPadding(Mib.px(act, 30), Mib.px(act, 6), Mib.px(act, 40), Mib.px(act, 20));
+                                content.addView(t);
+                            }
+                        });
+                    }
+                });
+            }
+        }, "device-report").start();
+    }
+
     private void buildBtDiagnostics() {
+        action(s("Izveštaj o uređaju", "Device report"), s("sačuvaj i prikaži", "save and show"), new Runnable() {
+            public void run() { deviceReport(); }
+        });
         final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
         checkRowWithAction(s("Čitaj BT modul direktno (samo bez fabričke BT aplikacije)", "Read the BT module directly (only without the factory BT app)"),
                 gocBt.enabled(), new Runnable() {
@@ -1258,6 +1321,25 @@ public class SettingsScreen extends Screen {
     }
 
     private void buildAndroid() {
+        final int cur = "qf".equals(Prefs.str(act, com.thecarlauncher.util.Platform.P_PLATFORM, "auto")) ? 1
+                : "other".equals(Prefs.str(act, com.thecarlauncher.util.Platform.P_PLATFORM, "auto")) ? 2 : 0;
+        action(s("Platforma uređaja", "Head unit platform"),
+                (cur == 0 ? s("Automatski: ", "Automatic: ") : "") + com.thecarlauncher.util.Platform.name(act,
+                        com.thecarlauncher.util.Platform.current(act)), new Runnable() {
+                    public void run() {
+                        String[] o = {s("Automatski", "Automatic"), com.thecarlauncher.util.Platform.name(act, com.thecarlauncher.util.Platform.QF),
+                                com.thecarlauncher.util.Platform.name(act, com.thecarlauncher.util.Platform.OTHER)};
+                        Dialogs.choose(act, s("Platforma uređaja", "Head unit platform"), o, cur, new Dialogs.Chosen() {
+                            public void onChosen(int i) {
+                                Prefs.put(act, com.thecarlauncher.util.Platform.P_PLATFORM, i == 1 ? "qf" : i == 2 ? "other" : "auto");
+                                refreshKeep();
+                            }
+                        });
+                    }
+                });
+        action(s("Izveštaj o uređaju", "Device report"), s("za podršku novih uređaja", "to support new units"), new Runnable() {
+            public void run() { deviceReport(); }
+        });
         action(s("Zvuk", "Sound"), null, intent(Settings.ACTION_SOUND_SETTINGS));
         action(s("Podrazumevani pokretač", "Default launcher"), null, new Runnable() {
             public void run() {
