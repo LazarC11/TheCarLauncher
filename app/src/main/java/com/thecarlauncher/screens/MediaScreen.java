@@ -151,6 +151,46 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 progH, Gravity.BOTTOM);
         np.addView(pr, pl);
 
+        // Music video: its picture where the cover is; tap for the whole screen.
+        videoBox = box;
+        videoRight = boxRight;
+        videoBottom = progH;
+        // TextureView cannot have a background: a black frame holds it (bars around the picture).
+        videoFrame = new FrameLayout(act);
+        videoFrame.setBackgroundColor(0xFF000000);
+        videoFrame.setVisibility(View.GONE);
+        video = new android.view.TextureView(act);
+        videoFrame.addView(video, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        video.setSurfaceTextureListener(new android.view.TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(android.graphics.SurfaceTexture st, int w, int h) {
+                videoSurface = new android.view.Surface(st);
+                surfaceFor = null;
+                attachVideo();
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(android.graphics.SurfaceTexture st, int w, int h) { fitVideo(); }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(android.graphics.SurfaceTexture st) {
+                MusicService s = MusicService.get();
+                if (s != null) s.setVideoSurface(null);
+                if (videoSurface != null) videoSurface.release();
+                videoSurface = null;
+                surfaceFor = null;
+                return true;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(android.graphics.SurfaceTexture st) {}
+        });
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { setVideoFull(!videoFull); }
+        });
+        content.addView(videoFrame, videoParams(false));
+
         // "Uređaj nije povezan."-style centred message when there is nothing to show.
         message = Mib.text(act, "", 38, Mib.regular(act), Mib.WHITE);
         message.setGravity(Gravity.CENTER);
@@ -299,8 +339,71 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         main.removeCallbacks(ticker);
     }
 
+    // ---- Music video ---------------------------------------------------------------------------
+
+    private android.view.TextureView video;
+    private FrameLayout videoFrame;
+    private android.view.Surface videoSurface;
+    private MusicService surfaceFor;
+    private boolean videoFull;
+    private int videoBox, videoRight, videoBottom;
+
+    private FrameLayout.LayoutParams videoParams(boolean full) {
+        if (full) return new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(videoBox, videoBox, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+        l.rightMargin = videoRight;
+        l.bottomMargin = videoBottom;
+        return l;
+    }
+
+    private void setVideoFull(boolean full) {
+        videoFull = full;
+        videoFrame.setLayoutParams(videoParams(full));
+        video.post(new Runnable() {
+            public void run() { fitVideo(); }
+        });
+    }
+
+    /** Hands the picture surface to the player (once per player instance). */
+    private void attachVideo() {
+        MusicService s = MusicService.get();
+        if (s == null || videoSurface == null || s == surfaceFor) return;
+        s.setVideoSurface(videoSurface);
+        surfaceFor = s;
+    }
+
+    /** Keeps the video's own shape inside the box (black bars), whatever the box is. */
+    private void fitVideo() {
+        MusicService s = MusicService.get();
+        int vw = s == null ? 0 : s.videoWidth(), vh = s == null ? 0 : s.videoHeight();
+        float w = video.getWidth(), h = video.getHeight();
+        if (vw <= 0 || vh <= 0 || w <= 0 || h <= 0) return;
+        float k = Math.min(w / vw, h / vh);
+        android.graphics.Matrix m = new android.graphics.Matrix();
+        m.setScale(vw * k / w, vh * k / h, w / 2f, h / 2f);
+        video.setTransform(m);
+    }
+
+    /** Shows the picture while the own player plays a music video. */
+    private void updateVideo(MediaHub hub) {
+        MusicService s = MusicService.get();
+        Track t = s == null ? null : s.current();
+        boolean on = hub.isOwn() && t != null && t.video && nowPlaying.getVisibility() == View.VISIBLE;
+        videoFrame.setVisibility(on ? View.VISIBLE : View.GONE);
+        art.setVisibility(on ? View.INVISIBLE : View.VISIBLE);
+        if (!on && videoFull) setVideoFull(false);
+        if (on) {
+            attachVideo();
+            fitVideo();
+        }
+    }
+
     @Override
     public boolean onBack() {
+        if (videoFull) {
+            setVideoFull(false);
+            return true;
+        }
         if (browser.getVisibility() != View.VISIBLE) return false;
         if (openGroup != null) {
             openGroup = null;
@@ -344,6 +447,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         glow.setOn(playing && hub.hasTrackInfo());
         art.setCover(fm ? R.drawable.ui_cover_radio : btIdle ? R.drawable.ui_cover_bt : usbIdle ? R.drawable.ui_cover_usb : R.drawable.ui_cover_music);
         art.setBitmap(hub.art());
+        updateVideo(hub);
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
         if (t == null) {
@@ -453,6 +557,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     private void openBrowser() {
         if (!MusicLibrary.hasPermission(act)) act.requestMissingPermissions(true);
         nowPlaying.setVisibility(View.GONE);
+        updateVideo(MediaHub.get(act));
         bar.setVisibility(View.GONE);
         browser.setVisibility(View.VISIBLE);
         browseBar.setVisibility(View.VISIBLE);
@@ -463,6 +568,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         browser.setVisibility(View.GONE);
         browseBar.setVisibility(View.GONE);
         nowPlaying.setVisibility(View.VISIBLE);
+        updateVideo(MediaHub.get(act));
         bar.setVisibility(View.VISIBLE);
     }
 

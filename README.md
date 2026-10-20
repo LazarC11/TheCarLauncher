@@ -107,6 +107,13 @@ Soft keys: **Source · Browse · Previous · Play/Pause · Next · Setup**.
   picture is shown.
 - Picking a source pauses the previous one and starts the new one, like the factory unit.
 
+- **Music folders** (*Setup → Media → Music folders*): by default the launcher finds music in storage
+  and on USB itself; choose one or more folders with the built-in folder browser and only those
+  (with subfolders) are read. *Rescan* reads the library at once and says how many songs and
+  videos it found.
+- **Music videos** (MP4, MKV, AVI, MOV, WebM…) are part of the library (can be switched off). While
+  one plays, its picture is shown where the cover is; tap it for the whole screen, Back returns.
+
 | Playing | Source popup | Browsing |
 | --- | --- | --- |
 | ![Media playing](docs/screenshots/media-playing.png) | ![Sources](docs/screenshots/media-sources.png) | ![Browse](docs/screenshots/media-browse.png) |
@@ -606,6 +613,7 @@ information shows *robolectric*.
 | Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
 | Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
 | Other head units (factory radio / BT app), device report | New in 4.7.0, needs testing |
+| Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
 | Station logos (Radio Browser) | New in 4.0.0, needs testing on the unit's connection |

@@ -9,6 +9,8 @@ public final class Track {
     public final String title, artist, album, folder;
     /** File path for songs read straight from a USB stick / SD card (not in MediaStore). */
     public final String path;
+    /** Music video (MP4 …): played with its picture where the cover is. */
+    public final boolean video;
 
     public Track(long id, String title, String artist, String album, long albumId, long artistId,
                  long duration, String folder) {
@@ -18,6 +20,7 @@ public final class Track {
     public Track(long id, String title, String artist, String album, long albumId, long artistId,
                  long duration, String folder, String path) {
         this.path = path;
+        this.video = path != null && MusicLibrary.isVideo(path);
         this.id = id;
         this.title = title;
         this.artist = artist;
