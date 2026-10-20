@@ -155,8 +155,12 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         videoBox = box;
         videoRight = boxRight;
         videoBottom = progH;
+        // TextureView cannot have a background: a black frame holds it (bars around the picture).
+        videoFrame = new FrameLayout(act);
+        videoFrame.setBackgroundColor(0xFF000000);
+        videoFrame.setVisibility(View.GONE);
         video = new android.view.TextureView(act);
-        video.setVisibility(View.GONE);
+        videoFrame.addView(video, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         video.setSurfaceTextureListener(new android.view.TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(android.graphics.SurfaceTexture st, int w, int h) {
@@ -185,7 +189,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             @Override
             public void onClick(View v) { setVideoFull(!videoFull); }
         });
-        content.addView(video, videoParams(false));
+        content.addView(videoFrame, videoParams(false));
 
         // "Uređaj nije povezan."-style centred message when there is nothing to show.
         message = Mib.text(act, "", 38, Mib.regular(act), Mib.WHITE);
@@ -338,6 +342,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     // ---- Music video ---------------------------------------------------------------------------
 
     private android.view.TextureView video;
+    private FrameLayout videoFrame;
     private android.view.Surface videoSurface;
     private MusicService surfaceFor;
     private boolean videoFull;
@@ -353,7 +358,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
 
     private void setVideoFull(boolean full) {
         videoFull = full;
-        video.setLayoutParams(videoParams(full));
+        videoFrame.setLayoutParams(videoParams(full));
         video.post(new Runnable() {
             public void run() { fitVideo(); }
         });
@@ -384,8 +389,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         MusicService s = MusicService.get();
         Track t = s == null ? null : s.current();
         boolean on = hub.isOwn() && t != null && t.video && nowPlaying.getVisibility() == View.VISIBLE;
-        video.setVisibility(on ? View.VISIBLE : View.GONE);
-        video.setBackgroundColor(0xFF000000);
+        videoFrame.setVisibility(on ? View.VISIBLE : View.GONE);
         art.setVisibility(on ? View.INVISIBLE : View.VISIBLE);
         if (!on && videoFull) setVideoFull(false);
         if (on) {
