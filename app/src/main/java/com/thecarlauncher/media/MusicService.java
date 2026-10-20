@@ -97,6 +97,14 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
         player.setWakeMode(this, android.os.PowerManager.PARTIAL_WAKE_LOCK);
+        player.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+            @Override
+            public void onVideoSizeChanged(MediaPlayer mp, int w, int h) {
+                videoW = w;
+                videoH = h;
+                updateState();
+            }
+        });
 
         session = new MediaSession(this, "CarLauncher");
         session.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
@@ -174,6 +182,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     public List<Track> queue() { return queue; }
     public Track current() { return index >= 0 && index < queue.size() ? queue.get(index) : null; }
+
+    // ---- Music videos: the picture goes to whichever surface the media screen offers --------
+
+    private android.view.Surface videoSurface;
+    private int videoW, videoH;
+
+    public void setVideoSurface(android.view.Surface s) {
+        videoSurface = s;
+        try {
+            player.setSurface(s);
+        } catch (Exception ignored) {
+        }
+    }
+
+    /** Width / height of the playing video, or 0 / 0. */
+    public int videoWidth() { return videoW; }
+
+    public int videoHeight() { return videoH; }
     public boolean hasQueue() { return !queue.isEmpty(); }
     public boolean isShuffle() { return shuffle; }
     public int repeatMode() { return repeat; }
@@ -199,7 +225,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         final Track t = queue.get(i);
         try {
             player.reset();
+            videoW = videoH = 0;
             player.setDataSource(this, t.uri());
+            if (videoSurface != null && t.video) player.setSurface(videoSurface);
             player.prepareAsync();
         } catch (Exception e) {
             onError(player, 0, 0);

@@ -731,20 +731,149 @@ public class SettingsScreen extends Screen {
         });
     }
 
+    /** Reads the library again now and says what it found. */
+    private void rescanLibrary() {
+        MusicLibrary.invalidate();
+        new Thread(new Runnable() {
+            public void run() {
+                java.util.List<com.thecarlauncher.media.Track> all = MusicLibrary.all(act);
+                int vids = 0;
+                for (com.thecarlauncher.media.Track t : all) if (t.video) vids++;
+                final int songs = all.size() - vids, v = vids;
+                ui.post(new Runnable() {
+                    public void run() {
+                        com.thecarlauncher.mib.LoadingBanner.flash("library-done", s("Pronađeno: ", "Found: ") + songs
+                                + s(" pesama", " songs") + (v > 0 ? ", " + v + s(" spotova", " videos") : ""), 3500);
+                        act.onLibraryChanged();
+                    }
+                });
+            }
+        }, "library-rescan").start();
+    }
+
+    private void buildMusicFolders() {
+        final java.util.List<String> mf = MusicLibrary.musicFolders(act);
+        choice(s("Automatski (memorija i USB)", "Automatic (storage and USB)"), mf.isEmpty(), new Runnable() {
+            public void run() {
+                MusicLibrary.setFolders(act, new java.util.ArrayList<String>());
+                refreshKeep();
+                rescanLibrary();
+            }
+        });
+        for (final String f : mf) {
+            action(f, s("ukloni", "remove"), new Runnable() {
+                public void run() {
+                    java.util.List<String> l = new java.util.ArrayList<>(MusicLibrary.musicFolders(act));
+                    l.remove(f);
+                    MusicLibrary.setFolders(act, l);
+                    refreshKeep();
+                    rescanLibrary();
+                }
+            });
+        }
+        action("+ " + s("Dodaj folder", "Add a folder"), null, new Runnable() {
+            public void run() {
+                browseDir = null;
+                push(s("Izaberi folder", "Choose a folder"), new Page() {
+                    public void build() { buildFolderBrowser(); }
+                });
+            }
+        });
+        note(s("Sa izabranim folderima launcher čita samo njih (i podfoldere), kao obične fajlove. Bez njih sam traži muziku u memoriji i na USB-u.",
+                "With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself."));
+    }
+
+    private java.io.File browseDir;
+
+    /** Folder browser: storage roots first, then into folders; "Use this folder" adds it. */
+    private void buildFolderBrowser() {
+        if (browseDir == null) {
+            java.util.LinkedHashSet<String> roots = new java.util.LinkedHashSet<>();
+            for (java.io.File r : com.thecarlauncher.util.Storage.removableRoots(act)) roots.add(r.getPath());
+            roots.add(android.os.Environment.getExternalStorageDirectory().getPath());
+            for (String base : new String[]{"/storage", "/mnt", "/mnt/media_rw", "/mnt/usbhost", "/udisk"}) {
+                java.io.File[] fs = new java.io.File(base).listFiles();
+                if (fs == null) continue;
+                for (java.io.File f : fs) {
+                    String n = f.getName();
+                    if (!f.isDirectory() || !f.canRead() || n.equals("self") || n.equals("emulated") || n.equals("runtime")
+                            || n.equals("secure") || n.equals("asec") || n.equals("obb") || n.equals("user") || n.equals("appfuse")) continue;
+                    roots.add(f.getPath());
+                }
+            }
+            for (final String r : roots) {
+                action(r, s("otvori", "open"), new Runnable() {
+                    public void run() {
+                        browseDir = new java.io.File(r);
+                        refreshKeep();
+                    }
+                });
+            }
+            note(s("USB je obično u /storage/… ili /mnt/… (npr. usbhost, udisk).", "USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk)."));
+            return;
+        }
+        final java.io.File dir = browseDir;
+        action(s("✓ Koristi ovaj folder", "✓ Use this folder"), dir.getPath(), new Runnable() {
+            public void run() {
+                java.util.List<String> l = new java.util.ArrayList<>(MusicLibrary.musicFolders(act));
+                if (!l.contains(dir.getPath())) l.add(dir.getPath());
+                MusicLibrary.setFolders(act, l);
+                onBack();
+                refreshKeep();
+                rescanLibrary();
+            }
+        });
+        action("..", s("nazad", "up"), new Runnable() {
+            public void run() {
+                java.io.File p = dir.getParentFile();
+                browseDir = p == null || !p.canRead() ? null : p;
+                refreshKeep();
+            }
+        });
+        java.io.File[] fs = dir.listFiles();
+        int files = 0;
+        java.util.List<java.io.File> subs = new java.util.ArrayList<>();
+        if (fs != null) {
+            for (java.io.File f : fs) {
+                if (f.getName().startsWith(".")) continue;
+                if (f.isDirectory()) subs.add(f);
+                else if (f.getName().matches("(?i).+\\.(mp3|m4a|aac|flac|ogg|opus|wav|wma|mp4|m4v|mkv|avi|mov|webm)$")) files++;
+            }
+        }
+        java.util.Collections.sort(subs);
+        if (files > 0) note(files + s(" muzičkih / video fajlova u ovom folderu", " music / video files in this folder"));
+        for (final java.io.File f : subs) {
+            action(f.getName(), null, new Runnable() {
+                public void run() {
+                    browseDir = f;
+                    refreshKeep();
+                }
+            });
+        }
+        if (fs == null) note(s("Folder nije čitljiv (dozvola za pristup fajlovima?)", "Folder not readable (file access permission?)"));
+    }
+
     private void buildMedia() {
         toggle(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, false);
         action(s("Duboki - Srednji - Visoki", "Bass - Mid - Treble"), toneSummary(), new Runnable() {
             public void run() { act.show(LauncherActivity.SOUND, true); }
         });
+        java.util.List<String> mf = MusicLibrary.musicFolders(act);
+        action(s("Folderi za muziku", "Music folders"), mf.isEmpty() ? s("Automatski (memorija i USB)", "Automatic (storage and USB)")
+                : mf.size() == 1 ? mf.get(0) : mf.size() + s(" foldera", " folders"), new Runnable() {
+            public void run() {
+                push(s("Folderi za muziku", "Music folders"), new Page() {
+                    public void build() { buildMusicFolders(); }
+                });
+            }
+        });
+        toggle(s("Spotovi (MP4 i drugi video fajlovi)", "Music videos (MP4 and other video files)"), MusicLibrary.P_VIDEOS, true,
+                new Runnable() { public void run() { rescanLibrary(); } });
         action(s("Muzička biblioteka", "Music library"), MusicLibrary.hasPermission(act)
                 ? s("Ponovo skeniraj", "Rescan") : s("Dozvoli pristup", "Allow access"), new Runnable() {
             public void run() {
-                if (MusicLibrary.hasPermission(act)) {
-                    MusicLibrary.invalidate();
-                    Ui.toast(act, s("Biblioteka će biti ponovo skenirana", "Library will be rescanned"));
-                } else {
-                    act.requestMissingPermissions(true);
-                }
+                if (MusicLibrary.hasPermission(act)) rescanLibrary();
+                else act.requestMissingPermissions(true);
             }
         });
         if (com.thecarlauncher.util.Storage.needsAllFiles()) {

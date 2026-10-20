@@ -562,6 +562,11 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
     }
 
+    /** The music library was read again: pages showing it reload. */
+    public void onLibraryChanged() {
+        for (Screen sc : screens) if (sc != null && sc.isCreated()) sc.onPermissionsChanged();
+    }
+
     /** A car picture changed: rebuild the screens that show one (Vehicle, Ambient). */
     public void carPicturesChanged() {
         for (int i : new int[]{VEHICLE, AMBIENT}) {

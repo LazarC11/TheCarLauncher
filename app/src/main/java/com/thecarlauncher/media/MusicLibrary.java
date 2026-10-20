@@ -77,6 +77,14 @@ public final class MusicLibrary {
                 MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.DATA
         };
         indexed.clear();
+        paths.clear();
+        java.util.List<String> chosen = musicFolders(c);
+        if (!chosen.isEmpty()) {
+            // Only the folders chosen in Setup, read as plain folders.
+            int[] count = {0};
+            for (String f : chosen) walk(c, new java.io.File(f), 0, out, count);
+            return sortAndKeep(out);
+        }
         Cursor cur = null;
         try {
             cur = c.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, proj,
@@ -99,7 +107,48 @@ public final class MusicLibrary {
         } finally {
             if (cur != null) cur.close();
         }
+        if (videos(c)) scanVideoIndex(c, out);
         scanRemovable(c, out);
+        return sortAndKeep(out);
+    }
+
+    /** Music videos Android's media index knows (internal storage, SD). */
+    private static void scanVideoIndex(Context c, List<Track> out) {
+        Cursor cur = null;
+        try {
+            cur = c.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, new String[]{
+                    MediaStore.Video.Media._ID, MediaStore.Video.Media.TITLE, MediaStore.Video.Media.ARTIST,
+                    MediaStore.Video.Media.DURATION, MediaStore.Video.Media.DATA}, null, null, null);
+            while (cur != null && cur.moveToNext()) {
+                String data = cur.getString(4);
+                if (data == null || indexed.contains(data)) continue;
+                indexed.add(data);
+                java.io.File f = new java.io.File(data);
+                String folder = f.getParent() == null ? "" : f.getParent();
+                String[] at = artistTitle(f.getName());
+                String artist = cur.getString(2) != null && !"<unknown>".equals(cur.getString(2)) ? cur.getString(2) : at[0];
+                long id = -1 - (data.hashCode() & 0x7fffffffL);
+                paths.put(id, data);
+                out.add(new Track(id, at[1], artist, f.getParentFile() != null ? f.getParentFile().getName() : "",
+                        -1 - (folder.hashCode() & 0x7fffffffL), -1 - (artist.toLowerCase().hashCode() & 0x7fffffffL),
+                        cur.getLong(3), folder, data));
+            }
+        } catch (Exception ignored) {
+        } finally {
+            if (cur != null) cur.close();
+        }
+    }
+
+    /** "Artist - Title.mp4" → {artist, title}. */
+    private static String[] artistTitle(String name) {
+        int dot = name.lastIndexOf('.');
+        String base = dot > 0 ? name.substring(0, dot) : name;
+        int dash = base.indexOf(" - ");
+        if (dash > 0) return new String[]{base.substring(0, dash).trim(), base.substring(dash + 3).trim()};
+        return new String[]{"Unknown artist", base};
+    }
+
+    private static List<Track> sortAndKeep(List<Track> out) {
         final Collator col = Collator.getInstance();
         Collections.sort(out, new Comparator<Track>() {
             @Override
@@ -117,6 +166,32 @@ public final class MusicLibrary {
     private static final Map<Long, String> paths = new java.util.HashMap<>();
     private static final java.util.regex.Pattern AUDIO =
             java.util.regex.Pattern.compile("(?i).+\\.(mp3|m4a|aac|flac|ogg|oga|opus|wav|wma|amr|3gp|mka)$");
+    private static final java.util.regex.Pattern VIDEO =
+            java.util.regex.Pattern.compile("(?i).+\\.(mp4|m4v|mkv|avi|mov|webm|mpg|mpeg|ts|flv|wmv)$");
+
+    /** Music folders chosen in Setup (one per line); empty = find music automatically. */
+    public static final String P_FOLDERS = "music_folders", P_VIDEOS = "music_videos";
+
+    public static boolean isVideo(String path) { return VIDEO.matcher(path).matches(); }
+
+    public static java.util.List<String> musicFolders(Context c) {
+        java.util.List<String> out = new ArrayList<>();
+        for (String s : com.thecarlauncher.util.Prefs.str(c, P_FOLDERS, "").split("\n")) if (!s.trim().isEmpty()) out.add(s.trim());
+        return out;
+    }
+
+    public static void setFolders(Context c, java.util.List<String> f) {
+        StringBuilder b = new StringBuilder();
+        for (String s : f) b.append(s).append('\n');
+        com.thecarlauncher.util.Prefs.put(c, P_FOLDERS, b.toString());
+        invalidate();
+    }
+
+    private static boolean videos(Context c) { return com.thecarlauncher.util.Prefs.bool(c, P_VIDEOS, true); }
+
+    private static boolean wanted(Context c, String name) {
+        return AUDIO.matcher(name).matches() || (videos(c) && VIDEO.matcher(name).matches());
+    }
     private static final int MAX_FILES = 20000, MAX_DEPTH = 12;
 
     /**
@@ -126,14 +201,13 @@ public final class MusicLibrary {
      */
     private static void scanRemovable(Context c, List<Track> out) {
         if (com.thecarlauncher.util.Storage.needsAllFiles() && !com.thecarlauncher.util.Storage.hasAllFiles()) return;
-        paths.clear();
         int[] count = {0};
         for (java.io.File root : com.thecarlauncher.util.Storage.removableRoots(c)) {
-            walk(root, 0, out, count);
+            walk(c, root, 0, out, count);
         }
     }
 
-    private static void walk(java.io.File dir, int depth, List<Track> out, int[] count) {
+    private static void walk(Context c, java.io.File dir, int depth, List<Track> out, int[] count) {
         if (depth > MAX_DEPTH || count[0] >= MAX_FILES) return;
         java.io.File[] files = dir.listFiles();
         if (files == null) return;
@@ -141,8 +215,8 @@ public final class MusicLibrary {
             String name = f.getName();
             if (name.startsWith(".") || name.equals("LOST.DIR") || name.equals("Android")) continue;
             if (f.isDirectory()) {
-                walk(f, depth + 1, out, count);
-            } else if (AUDIO.matcher(name).matches() && !indexed.contains(f.getPath())) {
+                walk(c, f, depth + 1, out, count);
+            } else if (wanted(c, name) && !indexed.contains(f.getPath())) {
                 String folder = dir.getPath();
                 String base = name.substring(0, name.lastIndexOf('.'));
                 String artist = "Unknown artist", title = base;
@@ -168,6 +242,11 @@ public final class MusicLibrary {
             r.setDataSource(path);
             byte[] pic = r.getEmbeddedPicture();
             if (pic != null) return decodeSampled(pic, size);
+            if (isVideo(path)) {
+                // Music video: a frame from a few seconds in stands for the cover.
+                Bitmap f = r.getFrameAtTime(8_000_000, android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                if (f != null) return f;
+            }
         } catch (Throwable ignored) {
         } finally {
             try {
