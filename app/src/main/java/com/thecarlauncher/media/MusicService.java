@@ -256,6 +256,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         updateState();
         leaveForeground();
         saveState();
+        // Paused by the user or another source: give the audio back, so other players (the factory
+        // radio, Bluetooth) are not kept quiet ("ducked") by a launcher that is not playing.
+        if (!focusPaused) audio.abandonAudioFocus(this);
     }
 
     public void toggle() {

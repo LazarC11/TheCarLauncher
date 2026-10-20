@@ -10,6 +10,10 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <!-- Device report saved to Download/ on Android 6-9. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <!-- Own car / cabin pictures chosen inside the launcher (Android 13+). -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <!-- USB sticks that Android's media index skips are read as folders (Android 11+). -->
