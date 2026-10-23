@@ -139,13 +139,22 @@ public final class Updater {
 
     public static Release lastFound() { return lastFound; }
 
-    public static boolean isNewer(Context c, Release r) { return r != null && r.versionCode > installedCode(c); }
+    /** Newer, or the build for this unit while another unit's build is installed (same version is fine). */
+    public static boolean isNewer(Context c, Release r) {
+        return r != null && (r.versionCode > installedCode(c) || (switching(c) && r.versionCode >= installedCode(c)));
+    }
+
+    /** The installed build is not the one made for this unit (e.g. the QF build on an hzbhd unit). */
+    public static boolean switching(Context c) {
+        return !com.thecarlauncher.unit.Unit.ID.equals(com.thecarlauncher.util.UnitKind.detect(c));
+    }
 
     public static boolean busy() { return busy; }
 
     /** Looks for the newest release (in the background); the answer comes on the main thread. */
     public static void check(final Context c, final Checked done) {
         final boolean beta = Prefs.bool(c, P_BETA, false);
+        final String want = com.thecarlauncher.util.UnitKind.assetName(com.thecarlauncher.util.UnitKind.detect(c));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -157,13 +166,13 @@ public final class Updater {
                     if (beta) {
                         JSONArray a = new JSONArray(json);
                         for (int i = 0; i < a.length(); i++) {
-                            Release r = parse(a.getJSONObject(i));
+                            Release r = parse(a.getJSONObject(i), want);
                             if (r != null && (found == null || r.versionCode > found.versionCode)) found = r;
                         }
                     } else {
-                        found = parse(new JSONObject(json));
+                        found = parse(new JSONObject(json), want);
                     }
-                    if (found == null) err = "no release with an APK";
+                    if (found == null) err = LoadingBanner.t("nema verzije za ovaj uređaj", "no build for this unit");
                 } catch (Exception e) {
                     err = e.getClass().getSimpleName() + (e.getMessage() != null ? ": " + e.getMessage() : "");
                 }
@@ -183,13 +192,14 @@ public final class Updater {
     private static final Pattern CODE = Pattern.compile("versionCode[:= ]+(\\d+)");
     private static final Pattern NAME = Pattern.compile("versionName[:= ]+([0-9][0-9A-Za-z.\\-]*)");
 
-    private static Release parse(JSONObject o) {
+    /** A release, with the APK built for this unit ("TheCarLauncher-hzbhd.apk" …); null without one. */
+    private static Release parse(JSONObject o, String wantAsset) {
         String apk = null;
         JSONArray assets = o.optJSONArray("assets");
         if (assets != null) {
             for (int i = 0; i < assets.length(); i++) {
                 JSONObject a = assets.optJSONObject(i);
-                if (a != null && a.optString("name").endsWith(".apk")) {
+                if (a != null && a.optString("name").equals(wantAsset)) {
                     apk = a.optString("browser_download_url");
                     break;
                 }
@@ -331,7 +341,8 @@ public final class Updater {
         if (pi == null) throw new java.io.IOException(LoadingBanner.t("Preuzeti fajl nije ispravan", "The download is not a valid APK"));
         if (!c.getPackageName().equals(pi.packageName)) throw new java.io.IOException(LoadingBanner.t("Pogrešan paket", "Wrong package"));
         long code = Build.VERSION.SDK_INT >= 28 ? pi.getLongVersionCode() : pi.versionCode;
-        if (code <= installedCode(c)) throw new java.io.IOException(LoadingBanner.t("Verzija nije novija", "Not a newer version"));
+        boolean ok = code > installedCode(c) || (switching(c) && code >= installedCode(c));
+        if (!ok) throw new java.io.IOException(LoadingBanner.t("Verzija nije novija", "Not a newer version"));
     }
 
     private static void commit(final Context c, File apk) throws Exception {

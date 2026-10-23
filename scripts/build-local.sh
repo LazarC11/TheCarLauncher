@@ -5,8 +5,8 @@
 #   - an API 34 android.jar for compiling (e.g. Robolectric's android-all, from Maven Central)
 #   - the matching framework resources (AndroidManifest.xml + resources.arsc zipped up)
 #
-# Usage: ANDROID_JAR=... FRAMEWORK_RES=... scripts/build-local.sh
-# Output: build/TheCarLauncher.apk
+# Usage: ANDROID_JAR=... FRAMEWORK_RES=... [FLAVOR=qf|hzbhd] scripts/build-local.sh
+# Output: build/TheCarLauncher.apk (qf) or build/TheCarLauncher_<flavor>.apk
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -18,6 +18,8 @@ FRAMEWORK_RES="${FRAMEWORK_RES:?set FRAMEWORK_RES to a zip with the framework re
 PKG="com.thecarlauncher"
 VERSION_CODE="${VERSION_CODE:-$(grep -m1 versionCode "$ROOT/app/build.gradle" | grep -o '[0-9]\+')}"
 VERSION_NAME="${VERSION_NAME:-$(grep -m1 versionName "$ROOT/app/build.gradle" | grep -o "'[^']*'" | tr -d "'")}"
+FLAVOR="${FLAVOR:-qf}"
+if [ "$FLAVOR" = qf ]; then APK_NAME=TheCarLauncher.apk; else APK_NAME="TheCarLauncher_$FLAVOR.apk"; VERSION_NAME="$VERSION_NAME-$FLAVOR"; fi
 
 rm -rf "$OUT"
 mkdir -p "$OUT/gen" "$OUT/classes" "$OUT/compiled"
@@ -32,7 +34,7 @@ sed "s|<manifest |<manifest package=\"$PKG\" |" "$SRC/AndroidManifest.xml" > "$O
     "$OUT/compiled/res.zip"
 
 echo "> Compiling Java"
-find "$SRC/java" "$OUT/gen" -name '*.java' > "$OUT/sources.txt"
+find "$SRC/java" "$ROOT/app/src/$FLAVOR/java" "$OUT/gen" -name '*.java' > "$OUT/sources.txt"
 LIBS=$(ls "$ROOT"/app/libs/*.jar 2>/dev/null | tr '\n' ':')
 javac -nowarn -Xlint:none --release 8 -encoding UTF-8 \
     -classpath "$ANDROID_JAR:$LIBS" -d "$OUT/classes" @"$OUT/sources.txt" 2>&1 \
@@ -47,6 +49,6 @@ echo "> Aligning and signing"
 "$BT/zipalign" -f -p 4 "$OUT/app.unsigned.apk" "$OUT/app.aligned.apk"
 "$BT/apksigner" sign --ks "$ROOT/keystore/release.jks" --ks-pass pass:carlauncher \
     --ks-key-alias carlauncher --key-pass pass:carlauncher \
-    --out "$ROOT/build/TheCarLauncher.apk" "$OUT/app.aligned.apk" 2>&1 | grep -v JAVA_TOOL || true
-"$BT/apksigner" verify "$ROOT/build/TheCarLauncher.apk" 2>&1 | grep -v JAVA_TOOL || true
-echo "> Done: build/TheCarLauncher.apk ($(du -h "$ROOT/build/TheCarLauncher.apk" | cut -f1))"
+    --out "$ROOT/build/$APK_NAME" "$OUT/app.aligned.apk" 2>&1 | grep -v JAVA_TOOL || true
+"$BT/apksigner" verify "$ROOT/build/$APK_NAME" 2>&1 | grep -v JAVA_TOOL || true
+echo "> Done: build/$APK_NAME ($(du -h "$ROOT/build/$APK_NAME" | cut -f1), $VERSION_NAME)"

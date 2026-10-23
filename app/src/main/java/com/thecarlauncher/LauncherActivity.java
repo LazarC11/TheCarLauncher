@@ -498,7 +498,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     public void openRadio() {
         // The built-in radio needs the QF MCU tuner; elsewhere the factory radio app is the radio.
         boolean internal = Prefs.bool(this, Prefs.RADIO_INTERNAL, true)
-                && (com.thecarlauncher.util.Platform.qf(this) || com.thecarlauncher.radio.RadioController.get(this).available());
+                && (com.thecarlauncher.unit.Unit.QF || com.thecarlauncher.radio.RadioController.get(this).available());
         if (internal || radioPackage(this) == null) {
             show(RADIO, true);
             return;

@@ -178,6 +178,9 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         long last = Prefs.longVal(act, Updater.P_LAST, 0);
         row(s("Poslednja provera:", "Last check:"), last == 0 ? "—"
                 : new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new java.util.Date(last)));
+        row(s("Verzija za uređaj:", "Build for unit:"), com.thecarlauncher.unit.Unit.NAME
+                + (Updater.switching(act) ? s("  (uređaj: ", "  (this unit: ") + com.thecarlauncher.util.UnitKind.name(
+                com.thecarlauncher.util.UnitKind.detect(act)) + ")" : ""));
         row("Android:", Build.VERSION.RELEASE + "  ·  " + Build.DISPLAY);
     }
 
@@ -219,7 +222,8 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         } else if (!Updater.isNewer(act, r)) {
             row(s("Softver je ažuran", "The software is up to date"), Updater.installedName(act));
         } else {
-            row(s("Dostupno ažuriranje:", "Update available:"), r.versionName + (r.test ? s("  (test)", "  (test)") : "")
+            row(Updater.switching(act) && r.versionCode <= Updater.installedCode(act)
+                    ? s("Verzija za ovaj uređaj:", "Build for this unit:") : s("Dostupno ažuriranje:", "Update available:"), r.versionName + (r.test ? s("  (test)", "  (test)") : "")
                     + (r.date.isEmpty() ? "" : "  ·  " + r.date));
             if (r.notes != null && !r.notes.isEmpty()) {
                 TextView n = Mib.text(act, r.notes.length() > 700 ? r.notes.substring(0, 700) + "…" : r.notes, 24, Mib.regular(act), Mib.GREY);

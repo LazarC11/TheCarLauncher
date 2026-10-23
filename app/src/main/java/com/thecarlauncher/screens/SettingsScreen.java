@@ -896,7 +896,7 @@ public class SettingsScreen extends Screen {
     private static String sign(int v) { return v > 0 ? "+" + v : String.valueOf(v); }
 
     private void buildBluetooth() {
-        boolean qf = com.thecarlauncher.util.Platform.qf(act);
+        boolean qf = com.thecarlauncher.unit.Unit.QF;
         if (qf) {
             action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
                 public void run() { act.show(LauncherActivity.BTDEVICES, true); }
@@ -1013,9 +1013,34 @@ public class SettingsScreen extends Screen {
         }, "device-report").start();
     }
 
+    /** Copies the factory radio / BT / MCU apps to Download for a build made for this unit. */
+    private void exportApks() {
+        if (android.os.Build.VERSION.SDK_INT >= 23 && android.os.Build.VERSION.SDK_INT <= 28
+                && act.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            act.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 43);
+            return;
+        }
+        com.thecarlauncher.mib.LoadingBanner.start("apks", s("Kopiranje fabričkih aplikacija…", "Copying the factory apps…"));
+        new Thread(new Runnable() {
+            public void run() {
+                final String where = com.thecarlauncher.util.DeviceReport.exportApks(act);
+                ui.post(new Runnable() {
+                    public void run() {
+                        com.thecarlauncher.mib.LoadingBanner.stop("apks");
+                        com.thecarlauncher.mib.LoadingBanner.flash("apks-ok", where != null ? s("Sačuvano: ", "Saved: ") + where
+                                : s("Kopiranje nije uspelo", "Copying failed"), 6000);
+                    }
+                });
+            }
+        }, "export-apks").start();
+    }
+
     private void buildBtDiagnostics() {
         action(s("Izveštaj o uređaju", "Device report"), s("sačuvaj i prikaži", "save and show"), new Runnable() {
             public void run() { deviceReport(); }
+        });
+        action(s("Izvezi fabričke aplikacije (APK)", "Export the factory apps (APK)"), s("u Download", "to Download"), new Runnable() {
+            public void run() { exportApks(); }
         });
         final com.thecarlauncher.media.GocBluetooth gocBt = com.thecarlauncher.media.GocBluetooth.get(act);
         checkRowWithAction(s("Čitaj BT modul direktno (samo bez fabričke BT aplikacije)", "Read the BT module directly (only without the factory BT app)"),
@@ -1450,24 +1475,11 @@ public class SettingsScreen extends Screen {
     }
 
     private void buildAndroid() {
-        final int cur = "qf".equals(Prefs.str(act, com.thecarlauncher.util.Platform.P_PLATFORM, "auto")) ? 1
-                : "other".equals(Prefs.str(act, com.thecarlauncher.util.Platform.P_PLATFORM, "auto")) ? 2 : 0;
-        action(s("Platforma uređaja", "Head unit platform"),
-                (cur == 0 ? s("Automatski: ", "Automatic: ") : "") + com.thecarlauncher.util.Platform.name(act,
-                        com.thecarlauncher.util.Platform.current(act)), new Runnable() {
-                    public void run() {
-                        String[] o = {s("Automatski", "Automatic"), com.thecarlauncher.util.Platform.name(act, com.thecarlauncher.util.Platform.QF),
-                                com.thecarlauncher.util.Platform.name(act, com.thecarlauncher.util.Platform.OTHER)};
-                        Dialogs.choose(act, s("Platforma uređaja", "Head unit platform"), o, cur, new Dialogs.Chosen() {
-                            public void onChosen(int i) {
-                                Prefs.put(act, com.thecarlauncher.util.Platform.P_PLATFORM, i == 1 ? "qf" : i == 2 ? "other" : "auto");
-                                refreshKeep();
-                            }
-                        });
-                    }
-                });
         action(s("Izveštaj o uređaju", "Device report"), s("za podršku novih uređaja", "to support new units"), new Runnable() {
             public void run() { deviceReport(); }
+        });
+        action(s("Izvezi fabričke aplikacije (APK)", "Export the factory apps (APK)"), s("u Download", "to Download"), new Runnable() {
+            public void run() { exportApks(); }
         });
         action(s("Zvuk", "Sound"), null, intent(Settings.ACTION_SOUND_SETTINGS));
         action(s("Podrazumevani pokretač", "Default launcher"), null, new Runnable() {

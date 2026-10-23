@@ -43,8 +43,7 @@ public final class DeviceReport {
         r.append("android=").append(Build.VERSION.RELEASE).append(" sdk=").append(Build.VERSION.SDK_INT).append('\n');
         r.append("display=").append(Build.DISPLAY).append('\n').append("fingerprint=").append(Build.FINGERPRINT).append('\n');
         r.append("kernel=").append(System.getProperty("os.version")).append('\n');
-        r.append("platform (launcher)=").append(Platform.qf(c) ? "QF" : "OTHER").append(" detected=")
-                .append(Platform.detected(c) == Platform.QF ? "QF" : "OTHER").append(" topway=").append(Platform.hasTopWay()).append("\n\n");
+        r.append("launcher build=").append(com.thecarlauncher.unit.Unit.ID).append(" unit detected=").append(UnitKind.detect(c)).append("\n\n");
 
         r.append("== Framework classes ==\n");
         for (String k : new String[]{"android.tw.john.TWUtil", "android.tw.john.TWClient", "android.os.IMcuManager",
@@ -134,6 +133,47 @@ public final class DeviceReport {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
         return r.toString();
+    }
+
+    /** Factory apps worth studying for a unit build (radio, Bluetooth, MCU / car services). */
+    private static final Pattern FACTORY = Pattern.compile(
+            "(?i).*(radio|bluetooth|\\.bt|music|mcu|canbus|midware|gocsdk|goodocom|hzbhd|nwd|\\.tw\\.|qf\\.|syu|fyt|microntek).*");
+
+    /**
+     * Copies the unit's factory radio / Bluetooth / MCU apps (their APK files) to
+     * Download/TheCarLauncher-apks/, so they can be studied for a build made for this unit.
+     * Returns the folder and how many were copied. Blocking.
+     */
+    public static String exportApks(Context c) {
+        File dir = new File(new File(android.os.Environment.getExternalStorageDirectory(), "Download"), "TheCarLauncher-apks");
+        if (!dir.mkdirs() && !dir.isDirectory()) {
+            File own = c.getExternalFilesDir("apks");
+            if (own == null) return null;
+            dir = own;
+        }
+        int n = 0;
+        long total = 0;
+        try {
+            for (PackageInfo p : c.getPackageManager().getInstalledPackages(0)) {
+                ApplicationInfo ai = p.applicationInfo;
+                if (ai == null || (ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0 || ai.sourceDir == null) continue;
+                if (!FACTORY.matcher(p.packageName).matches()) continue;
+                if (p.packageName.startsWith("com.android.") && !p.packageName.equals("com.android.bluetooth")) continue;
+                File src = new File(ai.sourceDir);
+                if (!src.canRead() || src.length() > 60L * 1024 * 1024 || total + src.length() > 400L * 1024 * 1024) continue;
+                java.io.FileInputStream in = new java.io.FileInputStream(src);
+                FileOutputStream o = new FileOutputStream(new File(dir, p.packageName + ".apk"));
+                byte[] buf = new byte[65536];
+                int r;
+                while ((r = in.read(buf)) > 0) o.write(buf, 0, r);
+                o.close();
+                in.close();
+                total += src.length();
+                n++;
+            }
+        } catch (Exception ignored) {
+        }
+        return dir.getPath() + "  (" + n + " APK, " + (total / (1024 * 1024)) + " MB)";
     }
 
     /** Saves the report; returns the path shown to the user (or null). */

@@ -10,8 +10,21 @@ android {
         applicationId 'com.thecarlauncher'
         minSdk 21
         targetSdk 34
-        versionCode 71
-        versionName '4.8.0'
+        versionCode 72
+        versionName '4.9.0'
+    }
+
+    // One build per head-unit family (same app id, so a unit can switch between them).
+    // Software update installs the build matching the unit it runs on.
+    flavorDimensions 'unit'
+    productFlavors {
+        qf {
+            dimension 'unit'
+        }
+        hzbhd {
+            dimension 'unit'
+            versionNameSuffix '-hzbhd'
+        }
     }
 
     signingConfigs {
