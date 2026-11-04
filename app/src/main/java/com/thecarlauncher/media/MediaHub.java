@@ -352,8 +352,8 @@ public final class MediaHub {
     /** Switches source like the factory unit: the old source pauses, the new one plays. */
     public void select(String key) {
         if (RADIO.equals(key)) {
-            // No tuner the launcher can drive (other units): the factory radio app plays it.
-            if (!radio().start()) openFactoryRadio();
+            // QF: the launcher's own tuner. Other unit builds: the factory radio app plays it.
+            if (!radio().start() && !com.thecarlauncher.unit.Unit.QF) openFactoryRadio();
             return;
         }
         if (isRadio()) radio().stop();
@@ -399,7 +399,7 @@ public final class MediaHub {
         // background, start playback, and show what it is playing.
         // Other units (no QF Bluetooth app / Goodocom module): their factory BT music app routes
         // the sound to the speakers, so it is opened briefly, then the launcher comes back.
-        boolean openApp = Prefs.bool(app, Prefs.BT_OPEN_APP, !com.thecarlauncher.util.Platform.qf(app));
+        boolean openApp = Prefs.bool(app, Prefs.BT_OPEN_APP, !com.thecarlauncher.unit.Unit.QF);
         if (!openApp) {
             // Never show the BT app: make sure it runs in the background, then send it "play"
             // through its control broadcast. Its play also takes the audio focus, which switches

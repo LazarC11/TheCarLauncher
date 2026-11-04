@@ -475,23 +475,28 @@ Then, in *Setup*:
 
 ## Other head units
 
-The direct radio and Bluetooth paths were built on a UIS7862 unit with the QF firmware (MCU tuner,
-the QF Bluetooth app, the Goodocom module). On other units (for example Allwinner T3 boards from
-NWD / TopWay) the launcher detects that and works through the unit's factory apps
-(*Setup → Android system → Head unit platform*, automatic by default):
+Each supported head unit gets its own APK, built from the same code with a Gradle product flavor
+(`app/src/<unit>/java/.../unit/Unit.java`). Both use the same package name and signing key, so
+one installs over the other.
 
-- **Radio** opens the factory radio app instead of the built-in tuner screen.
-- **BT-audio** opens the factory Bluetooth music app for a moment, which puts the sound on the
-  speakers, and comes back; song, cover and controls come from Android's media session.
-- **Audio focus**: when the launcher's own player pauses, it gives the audio focus back, so the
-  factory radio or Bluetooth app is not kept quiet.
-- The QF-only Bluetooth pages (Bluetooth devices, BT audio on connect) are hidden.
+| Unit | APK | What differs |
+| --- | --- | --- |
+| UIS7862 / QF firmware (the main unit) | `TheCarLauncher.apk` | Built-in FM tuner via `mcu_service`, QF Bluetooth app broadcasts, Goodocom serial, Bluetooth devices page |
+| Allwinner T3 / hzbhd firmware | `TheCarLauncher_hzbhd.apk` | Radio opens the factory `com.hzbhd.radio` app; BT-audio briefly opens the factory BT app to route the sound, song info comes from Android's media session; the QF-only Bluetooth pages are hidden |
 
-To add proper support for a new unit, run *Setup → Android system → Device report*. It saves
-`Download/TheCarLauncher-report.txt` (and shows it): build and firmware, framework classes
-(e.g. TopWay's `TWUtil`), system services, `/dev` nodes, car-related properties, the factory radio /
-Bluetooth / MCU packages with their services and receivers, audio and Bluetooth state, and the
-media sources the launcher sees. Attach it to a *Bug report*.
+**Software update picks the right build.** The updater detects the unit (the hzbhd factory packages
+`com.hzbhd.midware.service` / `com.hzbhd.radio` / `com.hzbhd.bluetooth` mean hzbhd, anything else
+QF) and downloads the matching asset from the release. If the installed build is for a different
+unit, it offers the matching build even at the same version (*Software update → Versions* shows
+both). Versions before 4.9.0 always take `TheCarLauncher.apk`, so an older install on an hzbhd unit
+first updates to the QF 4.9.0 build and then switches to the hzbhd build on the next check.
+
+To add support for a new unit, run *Setup → Android system → Device report* and
+*Export the factory apps (APK)*. The report is saved to `Download/TheCarLauncher-report.txt`: build and
+firmware, framework classes, system services, `/dev` nodes, car-related properties, the factory
+radio / Bluetooth / MCU packages with their services and receivers, audio and Bluetooth state, and
+the media sources the launcher sees. The export copies the factory radio / Bluetooth / MCU apps to
+`Download/TheCarLauncher-apks/`. Attach both to a *Bug report*.
 
 ## How it talks to the head unit
 
@@ -510,8 +515,9 @@ media sources the launcher sees. Attach it to a *Bug report*.
 ### With Gradle (Android SDK installed)
 
 ```sh
-./gradlew assembleRelease
-# -> app/build/outputs/apk/release/app-release.apk
+./gradlew assembleQfRelease assembleHzbhdRelease
+# -> app/build/outputs/apk/qf/release/app-qf-release.apk
+# -> app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk
 ```
 
 GitHub Actions (*Build APK*) runs this on every push and publishes the APK as a release named
@@ -524,8 +530,8 @@ Uses Debian/Ubuntu packages only; see `scripts/build-local.sh`:
 ```sh
 sudo apt install aapt dalvik-exchange zipalign apksigner
 ANDROID_JAR=/path/to/android-all-14.jar FRAMEWORK_RES=/path/to/framework-res-34.zip \
-  scripts/build-local.sh
-# -> build/TheCarLauncher.apk
+  scripts/build-local.sh              # QF build -> build/TheCarLauncher.apk
+FLAVOR=hzbhd ... scripts/build-local.sh # -> build/TheCarLauncher_hzbhd.apk
 ```
 
 Both builds sign with `keystore/release.jks`, so either APK installs as an update over the other.
@@ -612,7 +618,7 @@ information shows *robolectric*.
 | Car / interior pictures: placeholder, built-in Corsa C, import inside the launcher | New in 4.4.2 |
 | Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
 | Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
-| Other head units (factory radio / BT app), device report | New in 4.7.0, needs testing |
+| Per-unit builds (QF, hzbhd) chosen by the updater, factory APK export | New in 4.9.0, needs testing |
 | Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
