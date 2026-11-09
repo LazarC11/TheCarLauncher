@@ -50,6 +50,8 @@ jobs:
           cp app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk TheCarLauncher_hzbhd.apk
           cp app/build/outputs/apk/carsvc/release/app-carsvc-release.apk TheCarLauncher_carsvc.apk
           cp app/build/outputs/apk/syu/release/app-syu-release.apk TheCarLauncher_syu.apk
+          # Unit rules: Software update reads them to pick the APK for the unit (also for units added later).
+          cp app/src/main/assets/units.json units.json
           echo "VNAME=$(grep -oP "versionName '\K[^']+" app/build.gradle)" >> "$GITHUB_ENV"
           echo "VCODE=$(grep -oP 'versionCode \K[0-9]+' app/build.gradle)" >> "$GITHUB_ENV"
           # Magisk module that installs this APK as a privileged system app.
@@ -64,6 +66,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            units.json
             TheCarLauncher-magisk.zip
 
       # main publishes the release the launcher updates to ("v4.5.1", marked latest).
@@ -81,6 +84,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            units.json
             TheCarLauncher-magisk.zip
           prerelease: false
           make_latest: true
@@ -103,6 +107,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            units.json
             TheCarLauncher-magisk.zip
           prerelease: true
           make_latest: false
