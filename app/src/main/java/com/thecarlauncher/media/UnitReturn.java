@@ -35,6 +35,9 @@ public final class UnitReturn {
                     @Override
                     public void run() {
                         com.thecarlauncher.util.BringBack.toMedia(app);
+                        // This firmware does open its app: coming back over it needs "Display over
+                        // other apps" on Android 10+, so ask for it now (once).
+                        askOverlayOnce(app);
                     }
                 });
                 return;
