@@ -202,10 +202,12 @@ public final class CarService implements UnitBackend {
             Thread.sleep(600);
         } catch (InterruptedException ignored) {
         }
-        // Still on radio / Bluetooth (older firmware): leave that source. Source ids are 0x1xxxx;
-        // 0x10003 is "no source".
+        // Still on radio / Bluetooth (older firmware): go to the empty source, as the car service
+        // itself does when another app takes the audio. Not request.app.exit_app: after that the
+        // MCU falls back to a mode of its own and the service opens that app (the factory Music).
+        // Source ids are 0x1xxxx; 0x10003 is "no source".
         int cur = currentSource();
-        if ((cur & 0xFFFF0000) == 0x10000 && cur != SRC_EMPTY && cur != SRC_MUSIC) exitSource(cur);
+        if ((cur & 0xFFFF0000) == 0x10000 && cur != SRC_EMPTY && cur != SRC_MUSIC) enterSource(SRC_EMPTY);
     }
 
     // ---- Radio ---------------------------------------------------------------------------------
@@ -248,7 +250,7 @@ public final class CarService implements UnitBackend {
 
     @Override
     public void exitRadio() {
-        if (currentSource() == SRC_RADIO) exitSource(SRC_RADIO);
+        if (currentSource() == SRC_RADIO) enterSource(SRC_EMPTY);
     }
 
     @Override
@@ -274,7 +276,7 @@ public final class CarService implements UnitBackend {
 
     @Override
     public void exitBluetooth() {
-        if (currentSource() == SRC_BT) exitSource(SRC_BT);
+        if (currentSource() == SRC_BT) enterSource(SRC_EMPTY);
     }
 
     @Override
