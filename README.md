@@ -15,8 +15,26 @@ Text is in Serbian (Latin) by default; English can be picked under
 
 ---
 
+## Compatibility
+
+Each head-unit family gets its own APK. *Setup → Software update* detects the unit and installs
+the matching one; on a first install, pick it from the [latest release](../../releases/latest).
+
+| Head unit | Firmware / how to recognise it | APK | Radio | Bluetooth music | Launcher's own music | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| UIS7862S (QF001 / Roco K706) | QF firmware (`com.qf.*` apps, `mcu_service`, `/dev/goc_serial`) | `TheCarLauncher.apk` | Built-in tuner screen (MCU) | Song, cover, controls, devices page | ✅ | In daily use |
+| Allwinner T3 | hzbhd firmware (`com.hzbhd.*` apps) | `TheCarLauncher_hzbhd.apk` | Opens the factory radio app | Factory BT app routes the sound, song via media session | ✅ | Needs testing |
+| Various (android.car firmware) | `android.car.app.radio`, `android.car.app.bt`, `car` system service | `TheCarLauncher_carsvc.apk` | Built-in tuner screen (car service) | Song, play state, controls via the car service | ✅ (takes the speakers from radio / BT) | New in 4.10.0, needs testing |
+| Any other Android 5.0+ unit | — | `TheCarLauncher.apk` | Not supported (use the factory radio app) | Android media session only | ✅ | Basic: launcher, apps, navigation, media |
+
+Unit not listed or something not working? Send a device report and the factory apps
+(see [Other head units](#other-head-units)).
+
+---
+
 ## Contents
 
+- [Compatibility](#compatibility)
 - [Highlights](#highlights)
 - [Screens](#screens)
   - [MENU](#menu)
