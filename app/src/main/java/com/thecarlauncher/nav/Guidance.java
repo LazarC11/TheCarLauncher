@@ -256,9 +256,11 @@ public final class Guidance implements LocationTracker.Listener {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.SUCCESS) return;
-                boolean en = "en".equals(Prefs.str(app, Prefs.LANGUAGE, "sr"));
-                Locale[] wanted = en ? new Locale[]{Locale.ENGLISH}
-                        : new Locale[]{new Locale("sr", "RS"), new Locale("sr"), new Locale("hr", "HR"), new Locale("bs")};
+                String lang = com.thecarlauncher.util.Lang.current(app);
+                Locale[] wanted = "sr".equals(lang)
+                        ? new Locale[]{new Locale("sr", "RS"), new Locale("sr"), new Locale("hr", "HR"), new Locale("bs")}
+                        : "en".equals(lang) ? new Locale[]{Locale.ENGLISH}
+                        : new Locale[]{com.thecarlauncher.util.Lang.locale(app), Locale.ENGLISH};
                 for (Locale loc : wanted) {
                     if (tts.isLanguageAvailable(loc) >= TextToSpeech.LANG_AVAILABLE) {
                         tts.setLanguage(loc);

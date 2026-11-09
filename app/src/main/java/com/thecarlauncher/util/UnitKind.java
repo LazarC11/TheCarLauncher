@@ -9,7 +9,7 @@ import android.content.Context;
 public final class UnitKind {
     private UnitKind() {}
 
-    /** Build id for this unit: "hzbhd", "carsvc" or "qf" (the default). */
+    /** Build id for this unit: "hzbhd", "carsvc", "syu" or "qf" (the default). */
     public static String detect(Context c) {
         for (String p : new String[]{"com.hzbhd.midware.service", "com.hzbhd.radio", "com.hzbhd.bluetooth"}) {
             if (installed(c, p)) return "hzbhd";
@@ -17,6 +17,8 @@ public final class UnitKind {
         for (String p : new String[]{"android.car.service.bt", "android.car.app.radio", "android.car.app.bt"}) {
             if (installed(c, p)) return "carsvc";
         }
+        // SYU / FYT: the MainServer that owns radio, Bluetooth and the audio source.
+        if (installed(c, "com.syu.ms")) return "syu";
         return "qf";
     }
 
@@ -29,6 +31,7 @@ public final class UnitKind {
     public static String name(String id) {
         if ("hzbhd".equals(id)) return "Allwinner T3 / hzbhd";
         if ("carsvc".equals(id)) return "android.car firmware";
+        if ("syu".equals(id)) return "SYU / FYT";
         return "UIS7862 / QF";
     }
 

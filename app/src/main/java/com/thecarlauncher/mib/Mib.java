@@ -80,9 +80,9 @@ public final class Mib {
 
     // ---- Language ---------------------------------------------------------------------------
 
-    /** Serbian (Latin) by default, like the factory unit; English as an option. */
+    /** Text in the launcher's language (see {@link com.thecarlauncher.util.Lang}) from a Serbian / English pair. */
     public static String t(Context c, String sr, String en) {
-        return "en".equals(Prefs.str(c, Prefs.LANGUAGE, "sr")) ? en : sr;
+        return com.thecarlauncher.util.Lang.text(c, sr, en);
     }
 
     // ---- Sizing -----------------------------------------------------------------------------

@@ -11,6 +11,8 @@ public final class Unit {
     public static final boolean QF = false;
     /** Radio and Bluetooth music through the unit's android.car "car" service. */
     public static final boolean CAR = true;
+    /** Radio and Bluetooth music through the SYU / FYT MainServer (com.syu.ms). */
+    public static final boolean SYU = false;
 
     private Unit() {}
 }

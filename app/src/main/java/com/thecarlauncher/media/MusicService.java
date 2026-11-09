@@ -344,6 +344,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         errorStreak = 0;
         if (pendingSeek > 0) mp.seekTo(pendingSeek);
         pendingSeek = 0;
+        // Songs read straight from a USB stick / SD card folder come without a length: the
+        // player knows it now, so the time and progress bar can show.
+        Track t = current();
+        if (t != null && t.duration <= 0) updateMetadata(t);
         if (playWhenReady) play();
         else updateState();
     }
@@ -393,17 +397,18 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @SuppressWarnings("deprecation")
     /**
-     * android.car units: their car service keeps the speakers on its radio / Bluetooth source until
-     * that source is left, so the launcher's music would play into nothing.
+     * android.car / SYU units: their own service keeps the speakers on its radio / Bluetooth source
+     * until the launcher's music asks for them, so it would otherwise play into nothing.
      */
     private void claimUnitAudio() {
-        if (!com.thecarlauncher.unit.Unit.CAR) return;
+        final UnitBackend unit = UnitBackend.Get.of(this);
+        if (unit == null) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CarService.get(MusicService.this).claimForMedia();
+                unit.claimForMedia();
             }
-        }, "car-claim").start();
+        }, "unit-claim").start();
     }
 
     private boolean requestFocus() {
@@ -441,12 +446,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     // ---- Session / notification ---------------------------------------------------------
 
+    private long playerDuration() {
+        try {
+            return prepared ? Math.max(0, player.getDuration()) : 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     private void updateMetadata(Track t) {
         MediaMetadata.Builder b = new MediaMetadata.Builder()
                 .putString(MediaMetadata.METADATA_KEY_TITLE, t.title)
                 .putString(MediaMetadata.METADATA_KEY_ARTIST, t.artist)
                 .putString(MediaMetadata.METADATA_KEY_ALBUM, t.album)
-                .putLong(MediaMetadata.METADATA_KEY_DURATION, t.duration);
+                .putLong(MediaMetadata.METADATA_KEY_DURATION, t.duration > 0 ? t.duration : playerDuration());
         if (art != null) b.putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, art);
         session.setMetadata(b.build());
     }

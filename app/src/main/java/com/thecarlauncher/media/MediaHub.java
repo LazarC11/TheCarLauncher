@@ -91,16 +91,16 @@ public final class MediaHub {
 
     public BluetoothSource bluetooth() { return bt; }
 
-    // ---- android.car units: Bluetooth music through the car service ------------------------
+    // ---- android.car / SYU units: Bluetooth music through the unit's own service ------------
 
     private Handler carWorker;
     private String[] carSong;
     private int carState = -1;
 
-    private CarService car() { return CarService.get(app); }
+    private UnitBackend car() { return UnitBackend.Get.of(app); }
 
-    /** BT audio on an android.car unit: song, state and controls come from its car service. */
-    private boolean carBt() { return com.thecarlauncher.unit.Unit.CAR && btSelected && car().available(); }
+    /** BT audio on an android.car / SYU unit: song, state and controls come from its service. */
+    private boolean carBt() { return car() != null && btSelected && car().available(); }
 
     private Handler carWorker() {
         if (carWorker == null) {
@@ -111,13 +111,8 @@ public final class MediaHub {
         return carWorker;
     }
 
-    private void carSend(final String request) {
-        carWorker().post(new Runnable() {
-            @Override
-            public void run() {
-                car().send(request);
-            }
-        });
+    private void carSend(final Runnable command) {
+        carWorker().post(command);
         main.removeCallbacks(carPoll);
         main.postDelayed(carPoll, 400);
     }
@@ -127,7 +122,7 @@ public final class MediaHub {
         carWorker().post(new Runnable() {
             @Override
             public void run() {
-                car().enterSource(CarService.SRC_BT);
+                car().enterBluetooth();
             }
         });
         main.postDelayed(new Runnable() {
@@ -136,8 +131,8 @@ public final class MediaHub {
                 carWorker().post(new Runnable() {
                     @Override
                     public void run() {
-                        final boolean onTop = CarService.PKG_BT.equals(car().currentAppPackage());
-                        if (car().btMusicState() != 1) car().send("request.bt.a2dp_play_pause");
+                        final boolean onTop = car().btPackage().equals(car().appOnTop());
+                        car().btPlay();
                         if (onTop) {
                             main.post(new Runnable() {
                                 @Override
@@ -156,12 +151,12 @@ public final class MediaHub {
 
     /** Leaving BT audio for another source: the unit's sound goes back to Android media. */
     private void leaveCarBluetooth() {
-        if (!com.thecarlauncher.unit.Unit.CAR) return;
+        if (car() == null) return;
         main.removeCallbacks(carPoll);
         carWorker().post(new Runnable() {
             @Override
             public void run() {
-                if (car().currentSource() == CarService.SRC_BT) car().exitSource(CarService.SRC_BT);
+                car().exitBluetooth();
             }
         });
     }
@@ -175,7 +170,7 @@ public final class MediaHub {
                 @Override
                 public void run() {
                     final String[] song = car().btSong();
-                    final int state = car().btMusicState();
+                    final int state = car().btPlaying();
                     main.post(new Runnable() {
                         @Override
                         public void run() {
@@ -584,7 +579,12 @@ public final class MediaHub {
 
     private void pauseBluetooth() {
         if (carBt()) {
-            if (carState == 1) carSend("request.bt.a2dp_play_pause");
+            if (carState == 1) carSend(new Runnable() {
+                @Override
+                public void run() {
+                    car().btPlayPause();
+                }
+            });
             btPlaying = false;
             return;
         }
@@ -979,7 +979,12 @@ public final class MediaHub {
             return;
         }
         if (carBt()) {
-            carSend("request.bt.a2dp_play_pause");
+            carSend(new Runnable() {
+                @Override
+                public void run() {
+                    car().btPlayPause();
+                }
+            });
             return;
         }
         if (btSelected && (bt.qfCommand(BluetoothSource.QF_PLAY_PAUSE) || goc().send("MA"))) {
@@ -1006,7 +1011,12 @@ public final class MediaHub {
         if (isRadio()) {
             radio().seekUp();
         } else if (carBt()) {
-            carSend("request.bt.a2dp_next");
+            carSend(new Runnable() {
+                @Override
+                public void run() {
+                    car().btNext();
+                }
+            });
         } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_NEXT) || goc().send("MD"))) {
             goc().send("MK");
         } else if (btFallback()) {
@@ -1023,7 +1033,12 @@ public final class MediaHub {
         if (isRadio()) {
             radio().seekDown();
         } else if (carBt()) {
-            carSend("request.bt.a2dp_prev");
+            carSend(new Runnable() {
+                @Override
+                public void run() {
+                    car().btPrevious();
+                }
+            });
         } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_PREVIOUS) || goc().send("ME"))) {
             goc().send("MK");
         } else if (btFallback()) {

@@ -164,7 +164,7 @@ public class UpdateScreen extends Screen implements Updater.Progress {
     private void buildVersions() {
         long code = Updater.installedCode(act);
         String name = Updater.installedName(act);
-        String lang = "en".equals(Prefs.str(act, Prefs.LANGUAGE, "sr")) ? "EN" : "SR";
+        String lang = com.thecarlauncher.util.Lang.current(act).toUpperCase(Locale.US);
         row(s("Instalirana SW Train verzija:", "Installed SW Train version:"),
                 String.format(Locale.US, "TCL_EU_%s_P%04d", lang, code));
         row(s("Instalirana SW MU verzija:", "Installed SW MU version:"), String.format(Locale.US, "%04d", code));

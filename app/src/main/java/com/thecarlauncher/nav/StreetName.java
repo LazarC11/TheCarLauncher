@@ -80,7 +80,7 @@ public final class StreetName implements LocationTracker.Listener {
             @Override
             public void run() {
                 String o = offline ? OfflineMaps.get(app).streetAt(l.getLatitude(), l.getLongitude(), bearing, moving,
-                        "en".equals(Prefs.str(app, Prefs.LANGUAGE, "sr")) ? "en" : "sr") : null;
+                        com.thecarlauncher.util.Lang.current(app)) : null;
                 // Online only now and then (rate limits), and only when the maps have no name.
                 final String s = o != null ? o
                         : SystemClock.elapsedRealtime() - lastOnlineAt >= MIN_INTERVAL_MS ? online(l) : null;
@@ -126,7 +126,7 @@ public final class StreetName implements LocationTracker.Listener {
     private String nominatim(double lat, double lon) {
         HttpURLConnection con = null;
         try {
-            String lang = "en".equals(Prefs.str(app, Prefs.LANGUAGE, "sr")) ? "en" : "sr-Latn,sr,hr,bs,en";
+            String lang = com.thecarlauncher.util.Lang.acceptLanguage(app);
             URL u = new URL(String.format(Locale.US,
                     "https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&addressdetails=1&lat=%.6f&lon=%.6f",
                     lat, lon));
@@ -156,6 +156,6 @@ public final class StreetName implements LocationTracker.Listener {
     }
 
     private Locale locale() {
-        return "en".equals(Prefs.str(app, Prefs.LANGUAGE, "sr")) ? Locale.ENGLISH : new Locale("sr", "RS");
+        return com.thecarlauncher.util.Lang.locale(app);
     }
 }
