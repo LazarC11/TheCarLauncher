@@ -123,9 +123,11 @@ public final class DeviceReport {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
 
-        r.append("\n== android.car service ==\n");
+        r.append("\n== Unit service (android.car / SYU) ==\n");
         try {
-            r.append(com.thecarlauncher.media.CarService.get(c).describe());
+            // Both probed on every build, so a report from an unknown unit shows which one it has.
+            r.append(" android.car:\n").append(com.thecarlauncher.media.CarService.get(c).describe());
+            r.append(" SYU MainServer:\n").append(com.thecarlauncher.media.SyuService.get(c).describe());
         } catch (Throwable e) {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }

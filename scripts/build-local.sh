@@ -5,7 +5,7 @@
 #   - an API 34 android.jar for compiling (e.g. Robolectric's android-all, from Maven Central)
 #   - the matching framework resources (AndroidManifest.xml + resources.arsc zipped up)
 #
-# Usage: ANDROID_JAR=... FRAMEWORK_RES=... [FLAVOR=qf|hzbhd|carsvc] scripts/build-local.sh
+# Usage: ANDROID_JAR=... FRAMEWORK_RES=... [FLAVOR=qf|hzbhd|carsvc|syu] scripts/build-local.sh
 # Output: build/TheCarLauncher.apk (qf) or build/TheCarLauncher_<flavor>.apk
 set -euo pipefail
 

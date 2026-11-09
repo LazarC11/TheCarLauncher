@@ -13,7 +13,7 @@ import android.os.Parcel;
  * The binder is spoken to directly, so no firmware classes are needed; nothing is sent unless the
  * service really is ICarService.
  */
-public final class CarService {
+public final class CarService implements UnitBackend {
     private static final String SERVICE = "car";
     private static final String DESCRIPTOR = "android.car.server.ICarService";
     private static final int TX_REQUEST_SYNC = 5, TX_REQUEST_ONEWAY = 6;
@@ -40,9 +40,11 @@ public final class CarService {
         app = c;
     }
 
+    @Override
     public String error() { return error; }
 
     /** True when the unit has the car service (looked up again after it restarts). */
+    @Override
     public synchronized boolean available() {
         if (binder != null && binder.isBinderAlive()) return true;
         binder = null;
@@ -184,6 +186,7 @@ public final class CarService {
      * The launcher's own player is about to play: a radio, Bluetooth or other unit source still
      * holding the speakers is left, so Android media is heard.
      */
+    @Override
     public void claimForMedia() {
         if (!available()) return;
         int cur = currentSource();
@@ -194,12 +197,14 @@ public final class CarService {
     // ---- Radio ---------------------------------------------------------------------------------
 
     /** Current FM frequency in 10 kHz units (9220 = 92.20 MHz), 0 when not FM / unknown. */
+    @Override
     public int radioFreq() {
         int c = getInt("data.radio.composite_main_freq", 0);
         int band = (c >> 24) & 0xFF;
         return band == 0 || band == 1 ? c & 0xFFFF : 0;
     }
 
+    @Override
     public void radioTune(int freq) {
         Bundle b = new Bundle();
         b.putInt("band", 0);
@@ -219,9 +224,76 @@ public final class CarService {
     public int btMusicState() { return getInt("state.bt.a2dp_state", -1); }
 
     /** {title, artist, ...} of the phone's song, or null. */
+    @Override
     public String[] btSong() { return getStringArray("state.bt.avrcp_info"); }
 
+    // ---- UnitBackend ---------------------------------------------------------------------------
+
+    @Override
+    public void enterRadio() { enterSource(SRC_RADIO); }
+
+    @Override
+    public void exitRadio() {
+        if (currentSource() == SRC_RADIO) exitSource(SRC_RADIO);
+    }
+
+    @Override
+    public String radioName() { return getString("data.radio.rds_ps_text"); }
+
+    @Override
+    public String radioText() { return getString("state.radio.rds_text"); }
+
+    @Override
+    public boolean radioSeeking() { return getInt("state.radio.seek_state", 0) != 0; }
+
+    @Override
+    public void radioSeek(boolean up) { send(up ? "request.radio.seek_next" : "request.radio.seek_prev"); }
+
+    @Override
+    public void radioLocal(boolean on) { radioOn("request.radio.loc_on", on); }
+
+    @Override
+    public void radioRds(boolean on) { radioOn("request.radio.af_on", on); }
+
+    @Override
+    public void enterBluetooth() { enterSource(SRC_BT); }
+
+    @Override
+    public void exitBluetooth() {
+        if (currentSource() == SRC_BT) exitSource(SRC_BT);
+    }
+
+    @Override
+    public int btPlaying() {
+        int s = btMusicState();
+        return s < 0 ? -1 : s == 1 ? 1 : 0;
+    }
+
+    @Override
+    public void btPlayPause() { send("request.bt.a2dp_play_pause"); }
+
+    @Override
+    public void btPlay() {
+        if (btMusicState() != 1) send("request.bt.a2dp_play_pause");
+    }
+
+    @Override
+    public void btNext() { send("request.bt.a2dp_next"); }
+
+    @Override
+    public void btPrevious() { send("request.bt.a2dp_prev"); }
+
+    @Override
+    public String appOnTop() { return currentAppPackage(); }
+
+    @Override
+    public String radioPackage() { return PKG_RADIO; }
+
+    @Override
+    public String btPackage() { return PKG_BT; }
+
     /** A few lines for the device report. */
+    @Override
     public String describe() {
         if (!available()) return "  not available (" + error + ")\n";
         StringBuilder r = new StringBuilder();

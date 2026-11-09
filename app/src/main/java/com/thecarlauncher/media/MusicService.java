@@ -393,17 +393,18 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @SuppressWarnings("deprecation")
     /**
-     * android.car units: their car service keeps the speakers on its radio / Bluetooth source until
-     * that source is left, so the launcher's music would play into nothing.
+     * android.car / SYU units: their own service keeps the speakers on its radio / Bluetooth source
+     * until the launcher's music asks for them, so it would otherwise play into nothing.
      */
     private void claimUnitAudio() {
-        if (!com.thecarlauncher.unit.Unit.CAR) return;
+        final UnitBackend unit = UnitBackend.Get.of(this);
+        if (unit == null) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CarService.get(MusicService.this).claimForMedia();
+                unit.claimForMedia();
             }
-        }, "car-claim").start();
+        }, "unit-claim").start();
     }
 
     private boolean requestFocus() {

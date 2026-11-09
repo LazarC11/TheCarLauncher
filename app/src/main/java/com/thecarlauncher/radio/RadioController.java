@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 
-import com.thecarlauncher.media.CarService;
+import com.thecarlauncher.media.UnitBackend;
 import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.util.Prefs;
 
@@ -20,8 +20,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * FM radio inside the launcher: tuner state, presets, station list and audio routing.
- * Drives the K706/QuickFish tuner through {@link K706Tuner}; on android.car units the tuner
- * belongs to the "car" service ({@link CarService}) and is driven through its radio requests.
+ * Drives the K706/QuickFish tuner through {@link K706Tuner}; on android.car and SYU units the tuner
+ * belongs to the unit's own service ({@link UnitBackend}) and is driven through it.
  */
 public final class RadioController implements K706Tuner.Listener {
     public interface Listener { void onRadioChanged(); }
@@ -56,8 +56,8 @@ public final class RadioController implements K706Tuner.Listener {
     private int scanLast, scanSteps;
     private long scanSettleAt;
     private AudioFocusRequest focusRequest;
-    /** android.car units: the tuner is the car service's, its state is polled while active. */
-    private final boolean car = com.thecarlauncher.unit.Unit.CAR;
+    /** android.car / SYU units: the tuner is the unit service's, its state is polled while active. */
+    private final boolean car;
     private Handler carWorker;
 
     private final AudioManager.OnAudioFocusChangeListener focus = new AudioManager.OnAudioFocusChangeListener() {
@@ -88,6 +88,7 @@ public final class RadioController implements K706Tuner.Listener {
     private RadioController(Context c) {
         app = c;
         tuner = new K706Tuner(c);
+        car = UnitBackend.Get.of(c) != null;
         audio = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
         freq = Prefs.integer(c, P_FREQ, FM_MIN);
         loadList(Prefs.str(c, P_PRESETS, ""), null);
@@ -111,13 +112,13 @@ public final class RadioController implements K706Tuner.Listener {
     /** True when this head unit's FM tuner can be driven from the launcher. */
     public boolean available() {
         if (!Prefs.bool(app, Prefs.RADIO_INTERNAL, true)) return false;
-        if (car) return cs().available();
+        if (car) return ub().available();
         return tuner.connect(this);
     }
 
-    public String error() { return car ? cs().error() : tuner.error(); }
+    public String error() { return car ? ub().error() : tuner.error(); }
 
-    private CarService cs() { return CarService.get(app); }
+    private UnitBackend ub() { return UnitBackend.Get.of(app); }
 
     // ---- MCU audio switch (shared with Bluetooth music) ----------------------------------------
 
@@ -241,7 +242,7 @@ public final class RadioController implements K706Tuner.Listener {
         f = Math.max(FM_MIN, Math.min(FM_MAX, f));
         if (!active) start();
         setFreq(f);
-        if (car) cs().radioTune(f);
+        if (car) ub().radioTune(f);
         else tuner.tune(f);
     }
 
@@ -257,7 +258,7 @@ public final class RadioController implements K706Tuner.Listener {
 
     private void seek(boolean up) {
         if (car) {
-            cs().send(up ? "request.radio.seek_next" : "request.radio.seek_prev");
+            ub().radioSeek(up);
             pollCarSoon();
         } else {
             tuner.cmd(up ? K706Tuner.SUB_SEEK_UP : K706Tuner.SUB_SEEK_DOWN, up ? 1 : 2, 0);
@@ -273,12 +274,12 @@ public final class RadioController implements K706Tuner.Listener {
     }
 
     public void setLocal(boolean local) {
-        if (car) cs().radioOn("request.radio.loc_on", local);
+        if (car) ub().radioLocal(local);
         else tuner.cmd(K706Tuner.SUB_LOC, local ? 1 : 0, 0);
     }
 
     public void setRds(boolean on) {
-        if (car) cs().radioOn("request.radio.af_on", on);
+        if (car) ub().radioRds(on);
         else tuner.send(K706Tuner.CMD_RDS, new byte[]{(byte) (on ? 1 : 0)});
     }
 
@@ -348,7 +349,7 @@ public final class RadioController implements K706Tuner.Listener {
         main.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (car) cs().radioTune(FM_MIN);
+                if (car) ub().radioTune(FM_MIN);
                 else tuner.tune(FM_MIN);
                 setFreq(FM_MIN);
                 main.postDelayed(scanStep, 600);
@@ -439,7 +440,7 @@ public final class RadioController implements K706Tuner.Listener {
         return sb.toString();
     }
 
-    // ---- android.car units -------------------------------------------------------------------
+    // ---- android.car / SYU units -------------------------------------------------------------------
 
     /** Radio becomes the unit's source; its app may come up, so the launcher is brought back. */
     private void startCar() {
@@ -449,11 +450,11 @@ public final class RadioController implements K706Tuner.Listener {
         worker().post(new Runnable() {
             @Override
             public void run() {
-                cs().enterSource(CarService.SRC_RADIO);
+                ub().enterRadio();
                 main.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        bringBackFrom(CarService.PKG_RADIO);
+                        bringBackFrom(ub().radioPackage());
                     }
                 }, 1200);
             }
@@ -466,7 +467,7 @@ public final class RadioController implements K706Tuner.Listener {
         worker().post(new Runnable() {
             @Override
             public void run() {
-                if (cs().currentSource() == CarService.SRC_RADIO) cs().exitSource(CarService.SRC_RADIO);
+                ub().exitRadio();
             }
         });
         abandonFocus();
@@ -478,7 +479,7 @@ public final class RadioController implements K706Tuner.Listener {
         worker().post(new Runnable() {
             @Override
             public void run() {
-                if (pkg.equals(cs().currentAppPackage())) {
+                if (pkg.equals(ub().appOnTop())) {
                     main.post(new Runnable() {
                         @Override
                         public void run() {
@@ -512,10 +513,10 @@ public final class RadioController implements K706Tuner.Listener {
             worker().post(new Runnable() {
                 @Override
                 public void run() {
-                    final int f = cs().radioFreq();
-                    final String name = cs().getString("data.radio.rds_ps_text");
-                    final String text = cs().getString("state.radio.rds_text");
-                    final boolean seek = cs().getInt("state.radio.seek_state", 0) != 0;
+                    final int f = ub().radioFreq();
+                    final String name = ub().radioName();
+                    final String text = ub().radioText();
+                    final boolean seek = ub().radioSeeking();
                     main.post(new Runnable() {
                         @Override
                         public void run() {

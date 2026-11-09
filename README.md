@@ -25,6 +25,7 @@ the matching one; on a first install, pick it from the [latest release](../../re
 | UIS7862S (QF001 / Roco K706) | QF firmware (`com.qf.*` apps, `mcu_service`, `/dev/goc_serial`) | `TheCarLauncher.apk` | Built-in tuner screen (MCU) | Song, cover, controls, devices page | ✅ | In daily use |
 | Allwinner T3 | hzbhd firmware (`com.hzbhd.*` apps) | `TheCarLauncher_hzbhd.apk` | Opens the factory radio app | Factory BT app routes the sound, song via media session | ✅ | Needs testing |
 | Various (android.car firmware) | `android.car.app.radio`, `android.car.app.bt`, `car` system service | `TheCarLauncher_carsvc.apk` | Built-in tuner screen (car service) | Song, play state, controls via the car service | ✅ (takes the speakers from radio / BT) | New in 4.10.0, needs testing |
+| SYU / FYT (e.g. Unisoc SP7731E) | `com.syu.*` apps, MainServer `com.syu.ms` | `TheCarLauncher_syu.apk` | Built-in tuner screen (MainServer) | Song, play state, controls via MainServer | ✅ (takes the speakers from radio / BT) | New in 4.11.0, needs testing |
 | Any other Android 5.0+ unit | — | `TheCarLauncher.apk` | Not supported (use the factory radio app) | Android media session only | ✅ | Basic: launcher, apps, navigation, media |
 
 Unit not listed or something not working? Send a device report and the factory apps
@@ -502,11 +503,12 @@ one installs over the other.
 | UIS7862 / QF firmware (the main unit) | `TheCarLauncher.apk` | Built-in FM tuner via `mcu_service`, QF Bluetooth app broadcasts, Goodocom serial, Bluetooth devices page |
 | Allwinner T3 / hzbhd firmware | `TheCarLauncher_hzbhd.apk` | Radio opens the factory `com.hzbhd.radio` app; BT-audio briefly opens the factory BT app to route the sound, song info comes from Android's media session; the QF-only Bluetooth pages are hidden |
 | android.car firmware (`android.car.app.radio`, `android.car.app.bt`) | `TheCarLauncher_carsvc.apk` | Radio, BT music and the audio source go through the unit's `car` system service (`android.car.server.ICarService`): radio tuning / seek / RDS, BT song, play state and controls, and the launcher's own player takes the speakers back from radio or BT before it plays |
+| SYU / FYT (`com.syu.*` apps, MainServer `com.syu.ms`) | `TheCarLauncher_syu.apk` | Radio, BT music and the audio source go through MainServer's `com.syu.ipc` toolkit (modules 0 main, 1 radio, 2 Bluetooth): tune / seek / LOC / RDS, BT song, play state and controls; the launcher's own player requests the audio-player source before it plays |
 
 **Software update picks the right build.** The updater detects the unit (the hzbhd factory packages
 `com.hzbhd.midware.service` / `com.hzbhd.radio` / `com.hzbhd.bluetooth` mean hzbhd,
-`android.car.service.bt` / `android.car.app.radio` / `android.car.app.bt` mean android.car, anything
-else QF) and downloads the matching asset from the release. If the installed build is for a different
+`android.car.service.bt` / `android.car.app.radio` / `android.car.app.bt` mean android.car,
+`com.syu.ms` means SYU / FYT, anything else QF) and downloads the matching asset from the release. If the installed build is for a different
 unit, it offers the matching build even at the same version (*Software update → Versions* shows
 both). Versions before 4.9.0 always take `TheCarLauncher.apk`, and 4.9.0 does not know android.car units
 yet, so an older install first updates to the QF build and then switches to its unit's build on the
@@ -540,10 +542,11 @@ the media sources the launcher sees. The export copies the factory radio / Bluet
 ### With Gradle (Android SDK installed)
 
 ```sh
-./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease
+./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease assembleSyuRelease
 # -> app/build/outputs/apk/qf/release/app-qf-release.apk
 # -> app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk
 # -> app/build/outputs/apk/carsvc/release/app-carsvc-release.apk
+# -> app/build/outputs/apk/syu/release/app-syu-release.apk
 ```
 
 GitHub Actions (*Build APK*) runs this on every push and publishes the APK as a release named
@@ -557,7 +560,7 @@ Uses Debian/Ubuntu packages only; see `scripts/build-local.sh`:
 sudo apt install aapt dalvik-exchange zipalign apksigner
 ANDROID_JAR=/path/to/android-all-14.jar FRAMEWORK_RES=/path/to/framework-res-34.zip \
   scripts/build-local.sh              # QF build -> build/TheCarLauncher.apk
-FLAVOR=hzbhd ... scripts/build-local.sh # -> build/TheCarLauncher_hzbhd.apk (carsvc likewise)
+FLAVOR=hzbhd ... scripts/build-local.sh # -> build/TheCarLauncher_hzbhd.apk (carsvc, syu likewise)
 ```
 
 Both builds sign with `keystore/release.jks`, so either APK installs as an update over the other.
@@ -646,6 +649,7 @@ information shows *robolectric*.
 | Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
 | Per-unit builds (QF, hzbhd) chosen by the updater, factory APK export | New in 4.9.0, needs testing |
 | android.car build (radio, BT music, audio source via the car service), crash log | New in 4.10.0, needs testing |
+| SYU / FYT build (radio, BT music, audio source via MainServer) | New in 4.11.0, needs testing |
 | Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |
