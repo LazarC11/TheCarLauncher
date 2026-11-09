@@ -5,9 +5,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Units whose firmware opens its own radio / Bluetooth app when that source is switched on: as
- * soon as that app is on top, the launcher's media screen comes back (checked every 150 ms for
- * three seconds, so the factory app is only seen for a moment).
+ * Fallback for firmware that still opens its own radio / Bluetooth app when that source is switched
+ * on (current android.car firmware does not, see CarService.enterSource): as soon as that app is on
+ * top, the launcher's media screen comes back (checked every 150 ms for three seconds).
  */
 public final class UnitReturn {
     private UnitReturn() {}

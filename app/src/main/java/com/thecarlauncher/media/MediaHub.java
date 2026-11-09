@@ -119,7 +119,6 @@ public final class MediaHub {
 
     /** Bluetooth becomes the unit's source; its app may come up, then the launcher returns and plays. */
     private void selectCarBluetooth() {
-        if (com.thecarlauncher.unit.Unit.CAR) UnitReturn.askOverlayOnce(app);
         carWorker().post(new Runnable() {
             @Override
             public void run() {

@@ -447,8 +447,6 @@ public final class RadioController implements K706Tuner.Listener {
         requestFocus();
         active = true;
         changed();
-        // android.car firmware opens its radio app when radio becomes the source.
-        if (com.thecarlauncher.unit.Unit.CAR) com.thecarlauncher.media.UnitReturn.askOverlayOnce(app);
         worker().post(new Runnable() {
             @Override
             public void run() {

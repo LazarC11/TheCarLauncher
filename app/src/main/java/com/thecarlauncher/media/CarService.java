@@ -170,8 +170,10 @@ public final class CarService implements UnitBackend {
     public int enterSource(int id) {
         Bundle b = new Bundle();
         b.putInt("app_id", id);
-        // The reasons the factory radio / BT apps give for the same request.
-        b.putString("reason", id == SRC_RADIO ? "radio" : id == SRC_BT ? "BT" : app.getPackageName());
+        // "self": the car service switches the source (MCU audio channel, source state, callbacks)
+        // without starting the source's own app (AppStack.enterSource skips the activity start
+        // for request.app.enter_app with this reason).
+        b.putString("reason", "self");
         return request("request.app.enter_app", b);
     }
 
