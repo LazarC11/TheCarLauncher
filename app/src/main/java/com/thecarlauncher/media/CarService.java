@@ -170,7 +170,8 @@ public final class CarService implements UnitBackend {
     public int enterSource(int id) {
         Bundle b = new Bundle();
         b.putInt("app_id", id);
-        b.putString("reason", app.getPackageName());
+        // The reasons the factory radio / BT apps give for the same request.
+        b.putString("reason", id == SRC_RADIO ? "radio" : id == SRC_BT ? "BT" : app.getPackageName());
         return request("request.app.enter_app", b);
     }
 
