@@ -146,7 +146,7 @@ public final class Updater {
 
     /** The installed build is not the one made for this unit (e.g. the QF build on an hzbhd unit). */
     public static boolean switching(Context c) {
-        return !com.thecarlauncher.unit.Unit.ID.equals(com.thecarlauncher.util.UnitKind.detect(c));
+        return !com.thecarlauncher.unit.Unit.ID.equals(UnitKind.detect(c));
     }
 
     public static boolean busy() { return busy; }
@@ -154,7 +154,6 @@ public final class Updater {
     /** Looks for the newest release (in the background); the answer comes on the main thread. */
     public static void check(final Context c, final Checked done) {
         final boolean beta = Prefs.bool(c, P_BETA, false);
-        final String want = com.thecarlauncher.util.UnitKind.assetName(com.thecarlauncher.util.UnitKind.detect(c));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -163,14 +162,17 @@ public final class Updater {
                 try {
                     String url = "https://api.github.com/repos/" + REPO + (beta ? "/releases?per_page=15" : "/releases/latest");
                     String json = new String(get(url), "UTF-8");
+                    JSONArray a = beta ? new JSONArray(json) : new JSONArray().put(new JSONObject(json));
+                    // The release's unit rules first: they may know units added after this version.
+                    fetchRules(c, a);
+                    String want = UnitKind.assetName(c, UnitKind.detect(c));
                     if (beta) {
-                        JSONArray a = new JSONArray(json);
                         for (int i = 0; i < a.length(); i++) {
                             Release r = parse(a.getJSONObject(i), want);
                             if (r != null && (found == null || r.versionCode > found.versionCode)) found = r;
                         }
                     } else {
-                        found = parse(new JSONObject(json), want);
+                        found = parse(a.getJSONObject(0), want);
                     }
                     if (found == null) err = LoadingBanner.t("nema verzije za ovaj uređaj", "no build for this unit");
                 } catch (Exception e) {
@@ -187,6 +189,23 @@ public final class Updater {
                 });
             }
         }, "update-check").start();
+    }
+
+    /** units.json from the newest release that has one (best effort: the launcher's own rules stay otherwise). */
+    private static void fetchRules(Context c, JSONArray releases) {
+        for (int i = 0; i < releases.length(); i++) {
+            JSONArray assets = releases.optJSONObject(i) == null ? null : releases.optJSONObject(i).optJSONArray("assets");
+            if (assets == null) continue;
+            for (int k = 0; k < assets.length(); k++) {
+                JSONObject a = assets.optJSONObject(k);
+                if (a == null || !"units.json".equals(a.optString("name"))) continue;
+                try {
+                    UnitKind.offerRules(c, new String(get(a.optString("browser_download_url")), "UTF-8"));
+                } catch (Exception ignored) {
+                }
+                return;
+            }
+        }
     }
 
     private static final Pattern CODE = Pattern.compile("versionCode[:= ]+(\\d+)");

@@ -23,8 +23,36 @@ translation. The screenshots below use English.
 Each head-unit family gets its own APK. *Setup → Software update* detects the unit and installs
 the matching one; on a first install, pick it from the [latest release](../../releases/latest).
 
-> **Updating from an older version: update twice.** An older launcher only knows the units that
-> existed when it was built, so on a newer unit family it first installs the QF build. Open
+### How Software update finds the right APK (4.12.0 and newer)
+
+Every release carries a small rules file, [`units.json`](app/src/main/assets/units.json). For each
+head-unit family it says **what to look for on the unit** and **which APK belongs to it**, e.g.:
+
+```json
+{"id": "syu", "asset": "TheCarLauncher_syu.apk", "match": [{"package": "com.syu.ms"}]}
+```
+
+On every update check (once a day, or when *Software update* is opened) the launcher:
+
+1. downloads `units.json` from the latest release on GitHub (its built-in copy is only used
+   offline, or when GitHub's copy is missing or older);
+2. checks the unit itself against the rules, top to bottom: is this app installed, does this
+   system service, system property or device file exist, does the hardware / maker / model name
+   contain this text. Each firmware family leaves its own fingerprints (SYU units have the
+   `com.syu.ms` app, android.car units the `android.car.app.radio` app, and so on). The first
+   matching family wins; a unit no rule matches gets the QF build;
+3. downloads that family's APK. If a different family's build is installed (for example the QF
+   build on a unit that has since got its own), it offers the matching build even at the same
+   version number, so the unit switches to it in one update.
+
+When a new head-unit family gets its build, only its rule is added to `units.json`, so every unit
+already on 4.12.0 or newer recognises itself on its next update check and gets the right APK. The
+rules are written from the [device report](#other-head-units) of that unit. Updates are offered,
+not forced: the user starts them (and Android asks to confirm, unless the launcher is installed as
+a system app).
+
+> **Updating from 4.11.0 or older: update twice.** Those versions only know the units that existed
+> when they were built, so on a newer unit family they first install the QF build. Open
 > *Software update* again right after: it now recognises the unit and offers the build for it
 > ("Version for this unit"), at the same version number. Installing the right APK from the
 > release directly skips this.
@@ -514,7 +542,12 @@ one installs over the other.
 | android.car firmware (`android.car.app.radio`, `android.car.app.bt`) | `TheCarLauncher_carsvc.apk` | Radio, BT music and the audio source go through the unit's `car` system service (`android.car.server.ICarService`): radio tuning / seek / RDS, BT song, play state and controls, and the launcher's own player takes the speakers back from radio or BT before it plays |
 | SYU / FYT (`com.syu.*` apps, MainServer `com.syu.ms`) | `TheCarLauncher_syu.apk` | Radio, BT music and the audio source go through MainServer's `com.syu.ipc` toolkit (modules 0 main, 1 radio, 2 Bluetooth): tune / seek / LOC / RDS, BT song, play state and controls; the launcher's own player requests the audio-player source before it plays |
 
-**Software update picks the right build.** The updater detects the unit (the hzbhd factory packages
+**Software update picks the right build** from the rules in `app/src/main/assets/units.json`
+(also attached to every release, and read from there first). Each unit lists ways to recognise it;
+an entry matches when all of its conditions hold: `package` (installed app), `service` (system
+service), `prop` (system property, optionally `equals` / `startsWith`), `file`, `hardware` /
+`manufacturer` / `model` (contains). Unknown conditions never match, so new kinds of checks are
+safe for older launchers. Raise `rulesVersion` when the file changes. Today the updater detects the unit (the hzbhd factory packages
 `com.hzbhd.midware.service` / `com.hzbhd.radio` / `com.hzbhd.bluetooth` mean hzbhd,
 `android.car.service.bt` / `android.car.app.radio` / `android.car.app.bt` mean android.car,
 `com.syu.ms` means SYU / FYT, anything else QF) and downloads the matching asset from the release. If the installed build is for a different
@@ -659,6 +692,7 @@ information shows *robolectric*.
 | Per-unit builds (QF, hzbhd) chosen by the updater, factory APK export | New in 4.9.0, needs testing |
 | android.car build (radio, BT music, audio source via the car service), crash log | New in 4.10.0, needs testing |
 | SYU / FYT build (radio, BT music, audio source via MainServer) | New in 4.11.0, needs testing |
+| Software update picks the APK from the release's unit rules | New in 4.12.0 |
 | Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |

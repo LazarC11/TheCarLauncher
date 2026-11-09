@@ -179,7 +179,7 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         row(s("Poslednja provera:", "Last check:"), last == 0 ? "—"
                 : new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new java.util.Date(last)));
         row(s("Verzija za uređaj:", "Build for unit:"), com.thecarlauncher.unit.Unit.NAME
-                + (Updater.switching(act) ? s("  (uređaj: ", "  (this unit: ") + com.thecarlauncher.util.UnitKind.name(
+                + (Updater.switching(act) ? s("  (uređaj: ", "  (this unit: ") + com.thecarlauncher.util.UnitKind.name(act,
                 com.thecarlauncher.util.UnitKind.detect(act)) + ")" : ""));
         row("Android:", Build.VERSION.RELEASE + "  ·  " + Build.DISPLAY);
     }
