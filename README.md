@@ -23,9 +23,33 @@ translation. The screenshots below use English.
 Each head-unit family gets its own APK. *Setup → Software update* detects the unit and installs
 the matching one; on a first install, pick it from the [latest release](../../releases/latest).
 
-From 4.12.0 on, Software update downloads the unit rules (`units.json`) from the release first,
-checks the unit against them and fetches the matching APK directly, so units added in later
-releases are recognised without an extra update.
+### How Software update finds the right APK (4.12.0 and newer)
+
+Every release carries a small rules file, [`units.json`](app/src/main/assets/units.json). For each
+head-unit family it says **what to look for on the unit** and **which APK belongs to it**, e.g.:
+
+```json
+{"id": "syu", "asset": "TheCarLauncher_syu.apk", "match": [{"package": "com.syu.ms"}]}
+```
+
+On every update check (once a day, or when *Software update* is opened) the launcher:
+
+1. downloads `units.json` from the latest release on GitHub (its built-in copy is only used
+   offline, or when GitHub's copy is missing or older);
+2. checks the unit itself against the rules, top to bottom: is this app installed, does this
+   system service, system property or device file exist, does the hardware / maker / model name
+   contain this text. Each firmware family leaves its own fingerprints (SYU units have the
+   `com.syu.ms` app, android.car units the `android.car.app.radio` app, and so on). The first
+   matching family wins; a unit no rule matches gets the QF build;
+3. downloads that family's APK. If a different family's build is installed (for example the QF
+   build on a unit that has since got its own), it offers the matching build even at the same
+   version number, so the unit switches to it in one update.
+
+When a new head-unit family gets its build, only its rule is added to `units.json`, so every unit
+already on 4.12.0 or newer recognises itself on its next update check and gets the right APK. The
+rules are written from the [device report](#other-head-units) of that unit. Updates are offered,
+not forced: the user starts them (and Android asks to confirm, unless the launcher is installed as
+a system app).
 
 > **Updating from 4.11.0 or older: update twice.** Those versions only know the units that existed
 > when they were built, so on a newer unit family they first install the QF build. Open
