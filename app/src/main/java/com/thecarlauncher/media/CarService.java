@@ -298,6 +298,26 @@ public final class CarService implements UnitBackend {
     public void btPrevious() { send("request.bt.a2dp_prev"); }
 
     @Override
+    public void btPowerOn() { send("request.bt.power_on"); }
+
+    @Override
+    public void btConnect(String address, String name) {
+        Bundle b = new Bundle();
+        b.putString("addr", address);
+        b.putString("name", name == null ? "" : name);
+        b.putString("password", "");
+        send("request.bt.connect", b);
+    }
+
+    @Override
+    public String[] btPhone() {
+        // hfp_state: 0 init, 1 idle, 2 connecting, 3 connected, 4+ calls (still connected).
+        if (getInt("state.bt.hfp_state", -1) < 3) return null;
+        String a = getString("state.bt.remote_addr");
+        return a == null || a.length() == 0 ? null : new String[]{a, getString("state.bt.remote_name")};
+    }
+
+    @Override
     public String appOnTop() { return currentAppPackage(); }
 
     @Override

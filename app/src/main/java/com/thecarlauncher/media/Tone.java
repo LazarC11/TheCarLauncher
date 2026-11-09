@@ -38,6 +38,34 @@ public final class Tone {
         bass = Prefs.integer(c, P_BASS, 0);
         mid = Prefs.integer(c, P_MID, 0);
         treble = Prefs.integer(c, P_TREBLE, 0);
+        // Other players (the unit's Bluetooth music app, Spotify…) announce their audio sessions:
+        // the tone follows them too, not only the launcher's own player.
+        android.content.IntentFilter f = new android.content.IntentFilter(
+                android.media.audiofx.AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+        f.addAction(android.media.audiofx.AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= 33) c.registerReceiver(sessions(), f, Context.RECEIVER_EXPORTED);
+            else c.registerReceiver(sessions(), f);
+        } catch (Exception ignored) {
+        }
+        if (!flat()) attachGlobal();
+    }
+
+    private android.content.BroadcastReceiver sessions() {
+        return new android.content.BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, android.content.Intent i) {
+                int id = i.getIntExtra(android.media.audiofx.AudioEffect.EXTRA_AUDIO_SESSION, -1);
+                if (id <= 0) return;
+                if (android.media.audiofx.AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION.equals(i.getAction())) detach(id);
+                else if (!sessions.contains(id) && !pending.contains(id)) attach(id);
+            }
+        };
+    }
+
+    /** Called at launcher start: with a tone set, the whole output (Bluetooth music too) gets it. */
+    public void init() {
+        if (!flat()) attachGlobal();
     }
 
     public int bass() { return bass; }
@@ -58,6 +86,7 @@ public final class Tone {
         if (!flat()) {
             for (Integer id : new ArrayList<>(pending)) create(id);
             pending.clear();
+            attachGlobal();
         }
         apply();
     }

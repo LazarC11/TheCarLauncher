@@ -31,8 +31,9 @@ public final class SyuService implements UnitBackend {
     private static final int R_FREQ_DIRECT_NEW = 3;
     private static final int R_U_BAND = 0, R_U_FREQ = 1, R_U_RDS_TEXT = 13, R_U_SEARCH_STATE = 22, R_U_PS_TEXT = 26;
     // Bluetooth module
-    private static final int BT_C_PREV = 0, BT_C_NEXT = 1, BT_C_PLAYPAUSE = 2, BT_C_PLAY = 27;
-    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_PLAY_STATE = 13;
+    private static final int BT_C_PREV = 0, BT_C_NEXT = 1, BT_C_PLAYPAUSE = 2, BT_C_PLAY = 27, BT_C_CONNECT = 24;
+    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7, BT_U_PHONE_STATE = 9,
+            BT_U_PLAY_STATE = 13;
 
     public static final String PKG_RADIO = "com.syu.radio", PKG_BT = "com.syu.bt";
 
@@ -46,7 +47,8 @@ public final class SyuService implements UnitBackend {
 
     private volatile int appId = -1, band = -1, freq, searchState;
     private volatile String ps, rdsText, btTitle, btArtist;
-    private volatile int btState = -1;
+    private volatile int btState = -1, phoneState = -1;
+    private volatile String phoneAddr, phoneName;
 
     public static synchronized SyuService get(Context c) {
         if (sInstance == null) sInstance = new SyuService(c.getApplicationContext());
@@ -110,7 +112,9 @@ public final class SyuService implements UnitBackend {
             }
             register(MOD_MAIN, MAIN_U_APP_ID);
             for (int u : new int[]{R_U_BAND, R_U_FREQ, R_U_RDS_TEXT, R_U_SEARCH_STATE, R_U_PS_TEXT}) register(MOD_RADIO, u);
-            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_PLAY_STATE}) register(MOD_BT, u);
+            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_PLAY_STATE, BT_U_PHONE_ADDR, BT_U_PHONE_NAME, BT_U_PHONE_STATE}) {
+                register(MOD_BT, u);
+            }
         } catch (Throwable t) {
             error = "attach: " + t.getClass().getSimpleName();
         }
@@ -149,7 +153,10 @@ public final class SyuService implements UnitBackend {
     }
 
     /** IRemoteModule.cmd(code, ints, null, null). */
-    private void cmd(int module, int code, int... ints) {
+    private void cmd(int module, int code, int... ints) { cmd(module, code, ints, null); }
+
+    /** IRemoteModule.cmd(code, ints, null, strings). */
+    private void cmd(int module, int code, int[] ints, String[] strs) {
         if (!available()) return;
         IBinder m = modules[module];
         if (m == null) return;
@@ -157,9 +164,9 @@ public final class SyuService implements UnitBackend {
         try {
             data.writeInterfaceToken(MODULE);
             data.writeInt(code);
-            data.writeIntArray(ints.length == 0 ? null : ints);
+            data.writeIntArray(ints == null || ints.length == 0 ? null : ints);
             data.writeFloatArray(null);
-            data.writeStringArray(null);
+            data.writeStringArray(strs);
             m.transact(1, data, null, IBinder.FLAG_ONEWAY);
         } catch (Throwable t) {
             error = "cmd " + module + "/" + code + ": " + t.getClass().getSimpleName();
@@ -215,6 +222,9 @@ public final class SyuService implements UnitBackend {
             if (code == BT_U_TITLE) btTitle = s;
             else if (code == BT_U_ARTIST) btArtist = s;
             else if (code == BT_U_PLAY_STATE && i != Integer.MIN_VALUE) btState = i;
+            else if (code == BT_U_PHONE_ADDR) phoneAddr = s;
+            else if (code == BT_U_PHONE_NAME) phoneName = s;
+            else if (code == BT_U_PHONE_STATE && i != Integer.MIN_VALUE) phoneState = i;
         }
     }
 
@@ -306,6 +316,20 @@ public final class SyuService implements UnitBackend {
 
     @Override
     public void btPrevious() { cmd(MOD_BT, BT_C_PREV); }
+
+    /** The SYU Bluetooth module is powered by MainServer itself. */
+    @Override
+    public void btPowerOn() {}
+
+    @Override
+    public void btConnect(String address, String name) { cmd(MOD_BT, BT_C_CONNECT, null, new String[]{address}); }
+
+    @Override
+    public String[] btPhone() {
+        // Phone state: 0 disconnected, 1 linking, 2 connected, 3+ calls (still connected).
+        String a = phoneAddr;
+        return phoneState >= 2 && a != null && a.length() > 0 ? new String[]{a, phoneName} : null;
+    }
 
     /** Switching the source does not open the SYU apps. */
     @Override

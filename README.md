@@ -693,6 +693,7 @@ information shows *robolectric*.
 | android.car build (radio, BT music, audio source via the car service), crash log | New in 4.10.0, needs testing |
 | SYU / FYT build (radio, BT music, audio source via MainServer) | New in 4.11.0, needs testing |
 | Software update picks the APK from the release's unit rules | New in 4.12.0 |
+| Start-up connections (Bluetooth / Wi-Fi on, connect phone / network, start CarPlay app), equalizer on Bluetooth and other apps | New in 4.13.0, needs testing |
 | Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |

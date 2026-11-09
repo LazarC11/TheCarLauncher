@@ -108,6 +108,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         com.thecarlauncher.util.CrashLog.install(this);
+        com.thecarlauncher.util.StartupConnect.onLauncherStart(this);
+        com.thecarlauncher.media.Tone.get(this).init();
         com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
         hadAllFiles = Storage.hasAllFiles();
         IntentFilter mf = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
@@ -304,6 +306,14 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onResume() {
         super.onResume();
+        // Remember the connected phone for "Start-up connections" (unit service calls: background).
+        final android.content.Context app = getApplicationContext();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                com.thecarlauncher.util.StartupConnect.learnPhone(app);
+            }
+        }, "learn-phone").start();
         applyImmersive();
         applyDisplay();
         // Came back from the "All files access" page with it switched on: rescan.

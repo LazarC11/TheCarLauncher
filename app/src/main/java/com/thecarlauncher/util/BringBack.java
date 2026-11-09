@@ -38,12 +38,17 @@ public final class BringBack {
         if (!Ui.start(c, i)) Ui.start(c, new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
     }
 
-    public static void toMedia(Context c) {
+    public static void toMedia(Context c) { to(c, "media"); }
+
+    /** Brings the launcher back as it was (no screen change). */
+    public static void toLauncher(Context c) { to(c, null); }
+
+    private static void to(Context c, String screen) {
         final Context app = c.getApplicationContext();
         final View pixel = canOverlay(app) ? addPixel(app) : null;
-        Intent back = new Intent(app, LauncherActivity.class)
-                .putExtra(LauncherActivity.EXTRA_SCREEN, "media")
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+        Intent back = new Intent(app, LauncherActivity.class);
+        if (screen != null) back.putExtra(LauncherActivity.EXTRA_SCREEN, screen);
+        back.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                         | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         Ui.start(app, back);
         // Second route: move our task to the front (allowed in the same situations).
