@@ -119,32 +119,15 @@ public final class MediaHub {
 
     /** Bluetooth becomes the unit's source; its app may come up, then the launcher returns and plays. */
     private void selectCarBluetooth() {
+        if (com.thecarlauncher.unit.Unit.CAR) UnitReturn.askOverlayOnce(app);
         carWorker().post(new Runnable() {
             @Override
             public void run() {
                 car().enterBluetooth();
+                UnitReturn.watch(app, car(), car().btPackage());
+                car().btPlay();
             }
         });
-        main.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                carWorker().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        final boolean onTop = car().btPackage().equals(car().appOnTop());
-                        car().btPlay();
-                        if (onTop) {
-                            main.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    com.thecarlauncher.util.BringBack.toMedia(app);
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        }, 1200);
         main.removeCallbacks(carPoll);
         main.post(carPoll);
     }
