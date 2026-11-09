@@ -123,6 +123,13 @@ public final class DeviceReport {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
 
+        r.append("\n== android.car service ==\n");
+        try {
+            r.append(com.thecarlauncher.media.CarService.get(c).describe());
+        } catch (Throwable e) {
+            r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
+        }
+
         r.append("\n== Media sources seen by the launcher ==\n");
         try {
             com.thecarlauncher.media.MediaHub hub = com.thecarlauncher.media.MediaHub.get(c);
@@ -132,12 +139,14 @@ public final class DeviceReport {
         } catch (Throwable e) {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
+        String crashes = CrashLog.read(c);
+        r.append("\n== Launcher crashes ==\n").append(crashes == null ? "  none\n" : crashes);
         return r.toString();
     }
 
     /** Factory apps worth studying for a unit build (radio, Bluetooth, MCU / car services). */
     private static final Pattern FACTORY = Pattern.compile(
-            "(?i).*(radio|bluetooth|\\.bt|music|mcu|canbus|midware|gocsdk|goodocom|hzbhd|nwd|\\.tw\\.|qf\\.|syu|fyt|microntek).*");
+            "(?i).*(radio|bluetooth|\\.bt|music|mcu|canbus|midware|gocsdk|goodocom|hzbhd|nwd|\\.tw\\.|qf\\.|syu|fyt|microntek|android\\.car\\.).*");
 
     /**
      * Copies the unit's factory radio / Bluetooth / MCU apps (their APK files) to

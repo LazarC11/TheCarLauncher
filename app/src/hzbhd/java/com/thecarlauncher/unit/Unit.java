@@ -10,5 +10,8 @@ public final class Unit {
     public static final String NAME = "Allwinner T3 / hzbhd";
     public static final boolean QF = false;
 
+    /** Radio and Bluetooth music through the unit's android.car "car" service. */
+    public static final boolean CAR = false;
+
     private Unit() {}
 }

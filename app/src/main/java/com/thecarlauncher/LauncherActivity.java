@@ -107,6 +107,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        com.thecarlauncher.util.CrashLog.install(this);
         com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
         hadAllFiles = Storage.hasAllFiles();
         IntentFilter mf = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
