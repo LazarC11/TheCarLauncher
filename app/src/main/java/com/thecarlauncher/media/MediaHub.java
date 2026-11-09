@@ -91,6 +91,110 @@ public final class MediaHub {
 
     public BluetoothSource bluetooth() { return bt; }
 
+    // ---- android.car units: Bluetooth music through the car service ------------------------
+
+    private Handler carWorker;
+    private String[] carSong;
+    private int carState = -1;
+
+    private CarService car() { return CarService.get(app); }
+
+    /** BT audio on an android.car unit: song, state and controls come from its car service. */
+    private boolean carBt() { return com.thecarlauncher.unit.Unit.CAR && btSelected && car().available(); }
+
+    private Handler carWorker() {
+        if (carWorker == null) {
+            android.os.HandlerThread t = new android.os.HandlerThread("car-bt");
+            t.start();
+            carWorker = new Handler(t.getLooper());
+        }
+        return carWorker;
+    }
+
+    private void carSend(final String request) {
+        carWorker().post(new Runnable() {
+            @Override
+            public void run() {
+                car().send(request);
+            }
+        });
+        main.removeCallbacks(carPoll);
+        main.postDelayed(carPoll, 400);
+    }
+
+    /** Bluetooth becomes the unit's source; its app may come up, then the launcher returns and plays. */
+    private void selectCarBluetooth() {
+        carWorker().post(new Runnable() {
+            @Override
+            public void run() {
+                car().enterSource(CarService.SRC_BT);
+            }
+        });
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                carWorker().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final boolean onTop = CarService.PKG_BT.equals(car().currentAppPackage());
+                        if (car().btMusicState() != 1) car().send("request.bt.a2dp_play_pause");
+                        if (onTop) {
+                            main.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    com.thecarlauncher.util.BringBack.toMedia(app);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }, 1200);
+        main.removeCallbacks(carPoll);
+        main.post(carPoll);
+    }
+
+    /** Leaving BT audio for another source: the unit's sound goes back to Android media. */
+    private void leaveCarBluetooth() {
+        if (!com.thecarlauncher.unit.Unit.CAR) return;
+        main.removeCallbacks(carPoll);
+        carWorker().post(new Runnable() {
+            @Override
+            public void run() {
+                if (car().currentSource() == CarService.SRC_BT) car().exitSource(CarService.SRC_BT);
+            }
+        });
+    }
+
+    /** Song and play state from the car service while BT audio is the source. */
+    private final Runnable carPoll = new Runnable() {
+        @Override
+        public void run() {
+            if (!carBt()) return;
+            carWorker().post(new Runnable() {
+                @Override
+                public void run() {
+                    final String[] song = car().btSong();
+                    final int state = car().btMusicState();
+                    main.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean ch = state != carState || !java.util.Arrays.equals(song, carSong);
+                            carSong = song;
+                            carState = state;
+                            if (ch) notifyChanged();
+                        }
+                    });
+                }
+            });
+            main.postDelayed(this, 1000);
+        }
+    };
+
+    private String carSongPart(int i) {
+        return carSong != null && carSong.length > i && carSong[i] != null && carSong[i].trim().length() > 0 ? carSong[i].trim() : null;
+    }
+
     // ---- Built-in radio -----------------------------------------------------------------
 
     private RadioController radio() { return RadioController.get(app); }
@@ -357,6 +461,7 @@ public final class MediaHub {
             return;
         }
         if (isRadio()) radio().stop();
+        if (btSelected && !BLUETOOTH.equals(key)) leaveCarBluetooth();
         // Leaving Bluetooth: give the MCU audio switch back to Android media.
         if (btSelected && !BLUETOOTH.equals(key) && btRouted) {
             radio().routeChannel(4);
@@ -395,6 +500,11 @@ public final class MediaHub {
         btActivated = true;
         active = btController();
         Prefs.put(app, Prefs.LAST_SOURCE, BLUETOOTH);
+        if (carBt()) {
+            selectCarBluetooth();
+            notifyChanged();
+            return;
+        }
         // Like the factory multimedia: start the unit's Bluetooth audio app, let it run in the
         // background, start playback, and show what it is playing.
         // Other units (no QF Bluetooth app / Goodocom module): their factory BT music app routes
@@ -459,6 +569,7 @@ public final class MediaHub {
             main.removeCallbacks(playBluetoothRetry);
             playWhenConnected = false;
             pauseBluetooth();
+            leaveCarBluetooth();
             if (btRouted) {
                 radio().routeChannel(4);
                 btRouted = false;
@@ -472,6 +583,11 @@ public final class MediaHub {
     }
 
     private void pauseBluetooth() {
+        if (carBt()) {
+            if (carState == 1) carSend("request.bt.a2dp_play_pause");
+            btPlaying = false;
+            return;
+        }
         if (bt.qfCommand(BluetoothSource.QF_PAUSE)) {
             btPlaying = false;
             return;
@@ -627,6 +743,7 @@ public final class MediaHub {
 
     public boolean isPlaying() {
         if (isRadio()) return true;
+        if (carBt()) return carState == 1;
         if (btSelected && goc().connected() && goc().playing() >= 0) return goc().playing() == 1;
         // Song info is arriving from the BT module but no play state: it is playing.
         if (gocSong() && goc().playing() < 0) return true;
@@ -654,6 +771,7 @@ public final class MediaHub {
 
     public boolean hasTrackInfo() {
         if (isRadio()) return true;
+        if (carBt()) return carSongPart(0) != null;
         if (gocSong()) return true;
         // The BT module is the truth when we read it: no song there means the phone is gone
         // or stopped, so old details from other sources are not shown.
@@ -669,6 +787,7 @@ public final class MediaHub {
 
     public String title() {
         if (isRadio()) return radio().label();
+        if (carBt() && carSongPart(0) != null) return carSongPart(0);
         if (gocSong()) return goc().title();
         MediaMetadata m = meta();
         String t = null;
@@ -683,6 +802,7 @@ public final class MediaHub {
     }
 
     public String artist() {
+        if (carBt() && carSongPart(1) != null) return carSongPart(1);
         if (gocSong() && goc().artist() != null && goc().artist().length() > 0) return goc().artist();
         if (isRadio()) return radio().rt().length() > 0 ? radio().rt() : "FM " + RadioController.format(radio().freq()) + " MHz";
         MediaMetadata m = meta();
@@ -718,6 +838,10 @@ public final class MediaHub {
 
     public Bitmap art() {
         if (isRadio()) return null;
+        if (carBt() && carSongPart(0) != null) {
+            if (notifUsable() && notifArt != null) return notifArt;
+            return onlineCover(carSongPart(1), carSongPart(0));
+        }
         // Song from the Bluetooth daemon: only a cover that belongs to that same song.
         if (gocSong()) {
             MediaMetadata gm = meta();
@@ -854,6 +978,10 @@ public final class MediaHub {
             radio().stop();
             return;
         }
+        if (carBt()) {
+            carSend("request.bt.a2dp_play_pause");
+            return;
+        }
         if (btSelected && (bt.qfCommand(BluetoothSource.QF_PLAY_PAUSE) || goc().send("MA"))) {
             goc().send("VI");
             return;
@@ -877,6 +1005,8 @@ public final class MediaHub {
     public void next() {
         if (isRadio()) {
             radio().seekUp();
+        } else if (carBt()) {
+            carSend("request.bt.a2dp_next");
         } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_NEXT) || goc().send("MD"))) {
             goc().send("MK");
         } else if (btFallback()) {
@@ -892,6 +1022,8 @@ public final class MediaHub {
     public void previous() {
         if (isRadio()) {
             radio().seekDown();
+        } else if (carBt()) {
+            carSend("request.bt.a2dp_prev");
         } else if (btSelected && (bt.qfCommand(BluetoothSource.QF_PREVIOUS) || goc().send("ME"))) {
             goc().send("MK");
         } else if (btFallback()) {

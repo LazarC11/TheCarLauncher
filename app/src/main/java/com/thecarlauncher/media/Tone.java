@@ -25,6 +25,8 @@ public final class Tone {
     private final List<Integer> sessions = new ArrayList<>();
     private int bass, mid, treble;
     private boolean globalTried;
+    /** Player sessions waiting for an equalizer until a tone is actually set. */
+    private final List<Integer> pending = new ArrayList<>();
 
     public static synchronized Tone get(Context c) {
         if (sInstance == null) sInstance = new Tone(c.getApplicationContext());
@@ -53,6 +55,10 @@ public final class Tone {
         this.mid = clamp(mid);
         this.treble = clamp(treble);
         Prefs.of(app).edit().putInt(P_BASS, this.bass).putInt(P_MID, this.mid).putInt(P_TREBLE, this.treble).apply();
+        if (!flat()) {
+            for (Integer id : new ArrayList<>(pending)) create(id);
+            pending.clear();
+        }
         apply();
     }
 
@@ -60,8 +66,21 @@ public final class Tone {
 
     private static int clamp(int v) { return Math.max(MIN, Math.min(MAX, v)); }
 
-    /** Hooks the tone control onto an audio session (the built-in player's). */
+    private boolean flat() { return bass == 0 && mid == 0 && treble == 0; }
+
+    /**
+     * Hooks the tone control onto an audio session (the built-in player's). With all tones at 0 no
+     * equalizer is created: some head-unit audio HALs fail or stall on one, and a flat one does nothing.
+     */
     public void attach(int sessionId) {
+        if (flat()) {
+            if (!pending.contains(sessionId)) pending.add(sessionId);
+            return;
+        }
+        create(sessionId);
+    }
+
+    private void create(int sessionId) {
         try {
             Equalizer e = new Equalizer(0, sessionId);
             eqs.add(e);
@@ -73,6 +92,7 @@ public final class Tone {
     }
 
     public void detach(int sessionId) {
+        pending.remove(Integer.valueOf(sessionId));
         for (int i = eqs.size() - 1; i >= 0; i--) {
             if (sessions.get(i) != sessionId) continue;
             try {

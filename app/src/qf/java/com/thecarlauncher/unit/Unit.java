@@ -12,5 +12,8 @@ public final class Unit {
     /** QF-specific paths: MCU tuner, QF Bluetooth app control, Goodocom serial line, BT devices. */
     public static final boolean QF = true;
 
+    /** Radio and Bluetooth music through the unit's android.car "car" service. */
+    public static final boolean CAR = false;
+
     private Unit() {}
 }

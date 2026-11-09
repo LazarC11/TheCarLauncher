@@ -84,6 +84,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onCreate() {
         super.onCreate();
+        com.thecarlauncher.util.CrashLog.install(this);
         sInstance = this;
         audio = (AudioManager) getSystemService(AUDIO_SERVICE);
         shuffle = Prefs.bool(this, Prefs.SHUFFLE, false);
@@ -267,6 +268,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
         if (!requestFocus()) return;
         session.setActive(true);
+        claimUnitAudio();
         if (!prepared) {
             playWhenReady = true;
             if (index < 0) load(0, 0, true);
@@ -390,6 +392,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     // ---- Audio focus -------------------------------------------------------------------
 
     @SuppressWarnings("deprecation")
+    /**
+     * android.car units: their car service keeps the speakers on its radio / Bluetooth source until
+     * that source is left, so the launcher's music would play into nothing.
+     */
+    private void claimUnitAudio() {
+        if (!com.thecarlauncher.unit.Unit.CAR) return;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CarService.get(MusicService.this).claimForMedia();
+            }
+        }, "car-claim").start();
+    }
+
     private boolean requestFocus() {
         return audio.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
                 == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;

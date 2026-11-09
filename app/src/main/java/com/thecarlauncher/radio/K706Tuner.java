@@ -56,6 +56,12 @@ final class K706Tuner {
     boolean connect(Listener l) {
         listener = l;
         if (isConnected()) return true;
+        // Other unit builds never touch an MCU service: their firmware's "mcu_service" (if any)
+        // speaks a different protocol, and raw MCU packets can upset the unit.
+        if (!com.thecarlauncher.unit.Unit.QF) {
+            error = "not a QF build";
+            return false;
+        }
         try {
             Class<?> sm = Class.forName("android.os.ServiceManager");
             IBinder binder = (IBinder) sm.getMethod("getService", String.class).invoke(null, SERVICE);
@@ -63,6 +69,13 @@ final class K706Tuner {
                 error = "mcu_service not found";
                 return false;
             }
+            // Only the QF MCU manager gets packets (and the 1001 handshake).
+            String d = binder.getInterfaceDescriptor();
+            if (!MANAGER.equals(d)) {
+                error = "mcu_service is " + d;
+                return false;
+            }
+            Class.forName(MANAGER + "$Stub");
             handshake(binder);
             Class<?> stub = Class.forName(MANAGER + "$Stub");
             manager = stub.getMethod("asInterface", IBinder.class).invoke(null, binder);

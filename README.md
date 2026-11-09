@@ -483,13 +483,20 @@ one installs over the other.
 | --- | --- | --- |
 | UIS7862 / QF firmware (the main unit) | `TheCarLauncher.apk` | Built-in FM tuner via `mcu_service`, QF Bluetooth app broadcasts, Goodocom serial, Bluetooth devices page |
 | Allwinner T3 / hzbhd firmware | `TheCarLauncher_hzbhd.apk` | Radio opens the factory `com.hzbhd.radio` app; BT-audio briefly opens the factory BT app to route the sound, song info comes from Android's media session; the QF-only Bluetooth pages are hidden |
+| android.car firmware (`android.car.app.radio`, `android.car.app.bt`) | `TheCarLauncher_carsvc.apk` | Radio, BT music and the audio source go through the unit's `car` system service (`android.car.server.ICarService`): radio tuning / seek / RDS, BT song, play state and controls, and the launcher's own player takes the speakers back from radio or BT before it plays |
 
 **Software update picks the right build.** The updater detects the unit (the hzbhd factory packages
-`com.hzbhd.midware.service` / `com.hzbhd.radio` / `com.hzbhd.bluetooth` mean hzbhd, anything else
-QF) and downloads the matching asset from the release. If the installed build is for a different
+`com.hzbhd.midware.service` / `com.hzbhd.radio` / `com.hzbhd.bluetooth` mean hzbhd,
+`android.car.service.bt` / `android.car.app.radio` / `android.car.app.bt` mean android.car, anything
+else QF) and downloads the matching asset from the release. If the installed build is for a different
 unit, it offers the matching build even at the same version (*Software update → Versions* shows
-both). Versions before 4.9.0 always take `TheCarLauncher.apk`, so an older install on an hzbhd unit
-first updates to the QF 4.9.0 build and then switches to the hzbhd build on the next check.
+both). Versions before 4.9.0 always take `TheCarLauncher.apk`, and 4.9.0 does not know android.car units
+yet, so an older install first updates to the QF build and then switches to its unit's build on the
+next check.
+
+Builds for other units never talk to an MCU service: the QF tuner code only connects when the
+service really is the QF `IMcuManager`. Crashes of the launcher are saved to
+`Download/TheCarLauncher-crash.txt` and included in the device report.
 
 To add support for a new unit, run *Setup → Android system → Device report* and
 *Export the factory apps (APK)*. The report is saved to `Download/TheCarLauncher-report.txt`: build and
@@ -515,9 +522,10 @@ the media sources the launcher sees. The export copies the factory radio / Bluet
 ### With Gradle (Android SDK installed)
 
 ```sh
-./gradlew assembleQfRelease assembleHzbhdRelease
+./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease
 # -> app/build/outputs/apk/qf/release/app-qf-release.apk
 # -> app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk
+# -> app/build/outputs/apk/carsvc/release/app-carsvc-release.apk
 ```
 
 GitHub Actions (*Build APK*) runs this on every push and publishes the APK as a release named
@@ -531,7 +539,7 @@ Uses Debian/Ubuntu packages only; see `scripts/build-local.sh`:
 sudo apt install aapt dalvik-exchange zipalign apksigner
 ANDROID_JAR=/path/to/android-all-14.jar FRAMEWORK_RES=/path/to/framework-res-34.zip \
   scripts/build-local.sh              # QF build -> build/TheCarLauncher.apk
-FLAVOR=hzbhd ... scripts/build-local.sh # -> build/TheCarLauncher_hzbhd.apk
+FLAVOR=hzbhd ... scripts/build-local.sh # -> build/TheCarLauncher_hzbhd.apk (carsvc likewise)
 ```
 
 Both builds sign with `keystore/release.jks`, so either APK installs as an update over the other.
@@ -619,6 +627,7 @@ information shows *robolectric*.
 | Wi-Fi, hotspot, brightness and colour profiles, system information in the launcher | New in 4.5.0, needs testing |
 | Software updates from GitHub, Magisk module (system app) | New in 4.6.0, needs testing |
 | Per-unit builds (QF, hzbhd) chosen by the updater, factory APK export | New in 4.9.0, needs testing |
+| android.car build (radio, BT music, audio source via the car service), crash log | New in 4.10.0, needs testing |
 | Music folders, music videos | New in 4.8.0, needs testing |
 | UI, MENU, status bar, fullscreen | In daily use |
 | App-Connect connection states and auto-open | New in 3.9.0, needs testing with a phone |

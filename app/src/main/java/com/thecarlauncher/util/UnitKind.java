@@ -9,10 +9,13 @@ import android.content.Context;
 public final class UnitKind {
     private UnitKind() {}
 
-    /** Build id for this unit: "hzbhd" or "qf" (the default). */
+    /** Build id for this unit: "hzbhd", "carsvc" or "qf" (the default). */
     public static String detect(Context c) {
         for (String p : new String[]{"com.hzbhd.midware.service", "com.hzbhd.radio", "com.hzbhd.bluetooth"}) {
             if (installed(c, p)) return "hzbhd";
+        }
+        for (String p : new String[]{"android.car.service.bt", "android.car.app.radio", "android.car.app.bt"}) {
+            if (installed(c, p)) return "carsvc";
         }
         return "qf";
     }
@@ -24,7 +27,9 @@ public final class UnitKind {
     }
 
     public static String name(String id) {
-        return "hzbhd".equals(id) ? "Allwinner T3 / hzbhd" : "UIS7862 / QF";
+        if ("hzbhd".equals(id)) return "Allwinner T3 / hzbhd";
+        if ("carsvc".equals(id)) return "android.car firmware";
+        return "UIS7862 / QF";
     }
 
     private static boolean installed(Context c, String pkg) {

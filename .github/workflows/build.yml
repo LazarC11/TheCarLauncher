@@ -45,9 +45,10 @@ jobs:
         run: |
           chmod +x gradlew
           # One APK per head-unit family; Software update on the unit picks the matching one.
-          ./gradlew assembleQfRelease assembleHzbhdRelease --no-daemon --stacktrace
+          ./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/qf/release/app-qf-release.apk TheCarLauncher.apk
           cp app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk TheCarLauncher_hzbhd.apk
+          cp app/build/outputs/apk/carsvc/release/app-carsvc-release.apk TheCarLauncher_carsvc.apk
           echo "VNAME=$(grep -oP "versionName '\K[^']+" app/build.gradle)" >> "$GITHUB_ENV"
           echo "VCODE=$(grep -oP 'versionCode \K[0-9]+' app/build.gradle)" >> "$GITHUB_ENV"
           # Magisk module that installs this APK as a privileged system app.
@@ -60,6 +61,7 @@ jobs:
           path: |
             TheCarLauncher.apk
             TheCarLauncher_hzbhd.apk
+            TheCarLauncher_carsvc.apk
             TheCarLauncher-magisk.zip
 
       # main publishes the release the launcher updates to ("v4.5.1", marked latest).
@@ -75,6 +77,7 @@ jobs:
           files: |
             TheCarLauncher.apk
             TheCarLauncher_hzbhd.apk
+            TheCarLauncher_carsvc.apk
             TheCarLauncher-magisk.zip
           prerelease: false
           make_latest: true
@@ -83,7 +86,7 @@ jobs:
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
-            Download **TheCarLauncher.apk** (UIS7862 / QF units) or **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units) below, or update from Setup → Software update on the head unit (it picks the right one).
+            Download **TheCarLauncher.apk** (UIS7862 / QF units), **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units) or **TheCarLauncher_carsvc.apk** (android.car firmware units) below, or update from Setup → Software update on the head unit (it picks the right one).
 
       - name: Publish test build (other branches)
         if: github.event_name == 'push' && github.ref != 'refs/heads/main'
@@ -95,6 +98,7 @@ jobs:
           files: |
             TheCarLauncher.apk
             TheCarLauncher_hzbhd.apk
+            TheCarLauncher_carsvc.apk
             TheCarLauncher-magisk.zip
           prerelease: true
           make_latest: false
@@ -103,4 +107,4 @@ jobs:
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
-            Download **TheCarLauncher.apk** (QF) or **TheCarLauncher_hzbhd.apk** (hzbhd) below and open it on the head unit to install.
+            Download **TheCarLauncher.apk** (QF), **TheCarLauncher_hzbhd.apk** (hzbhd) or **TheCarLauncher_carsvc.apk** (android.car) below and open it on the head unit to install.
