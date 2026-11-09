@@ -509,3 +509,24 @@ Cool white	Soğuk beyaz
 Automatic (by region)	Otomatik (bölgeye göre)
 Language/Jezik	Dil/Language
 Turn on "Display over other apps" for Car Launcher, so it can come back over the factory app.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, böylece fabrika uygulamasının üzerine geri dönebilir.
+ (last connected)	 (son bağlanan)
+Any saved network	Kayıtlı herhangi bir ağ
+App	Uygulama
+Connect the phone	Telefonu bağla
+Connects to	Bağlanır
+Network	Ağ
+Profile	Profil
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Launcher başladığında ve cihaz uyandığında (kontak açıldığında) çalışır. Telefon cihazla önceden eşleştirilmiş olmalıdır; bağlantı iki dakika boyunca denenir. Android 10'dan itibaren Wi-Fi'yi yalnızca bir sistem uygulaması (Magisk modülü) açabilir; Android kayıtlı ağlara kendisi bağlanır. Kablosuz CarPlay için telefon bir kez telefon uygulaması üzerinden bağlanmış olmalıdır.
+Start the phone app (ZLink…)	Telefon uygulamasını başlat (ZLink…)
+Start-up connections	Başlangıç bağlantıları
+Started	Başlatıldı
+The last connected phone	Son bağlanan telefon
+Try now	Şimdi dene
+Turn Bluetooth on	Bluetooth'u aç
+Turn Wi-Fi on	Wi-Fi'yi aç
+any saved network	kayıtlı herhangi bir ağ
+none found	bulunamadı
+the last connected (none yet)	son bağlanan (henüz yok)
+your choice below	aşağıdaki seçiminiz
+Bluetooth phone	Bluetooth telefon
+CarPlay / Android Auto	CarPlay / Android Auto

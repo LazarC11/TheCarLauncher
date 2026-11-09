@@ -55,6 +55,15 @@ public interface UnitBackend {
 
     void btPrevious();
 
+    /** Switches the unit's Bluetooth module on (best effort). */
+    void btPowerOn();
+
+    /** Connects a phone by its Bluetooth address. */
+    void btConnect(String address, String name);
+
+    /** {address, name} of the connected phone, or null when none is connected / unknown. */
+    String[] btPhone();
+
     /** Package of the unit app that may come up on top when a source is entered, or null. */
     String appOnTop();
 

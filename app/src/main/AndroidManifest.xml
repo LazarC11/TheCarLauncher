@@ -38,6 +38,12 @@
         tools:ignore="QueryAllPackagesPermission" />
     <!-- Phone connection, battery and signal in the status bar (Android 12+). -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- Start-up connections: switch Bluetooth on, connect the chosen phone (the latter as a
+         system app; most units connect it themselves once Bluetooth is on). -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" tools:ignore="ProtectedPermissions" />
     <!-- Bring the launcher back after opening the factory BT music app (background start). -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- Software updates from GitHub: Android confirms them; as a system app they install silently. -->

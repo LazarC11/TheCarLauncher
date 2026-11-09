@@ -263,6 +263,7 @@ public class SettingsScreen extends Screen {
         sub("App-Connect", new Page() { public void build() { buildAppConnect(); } });
         sub(s("Telefon i radio", "Phone and radio"), new Page() { public void build() { buildPhoneRadio(); } });
         sub(s("Vozilo", "Vehicle"), new Page() { public void build() { buildVehicle(); } });
+        sub(s("Povezivanje pri pokretanju", "Start-up connections"), new Page() { public void build() { buildStartup(); } });
         sub("Wi-Fi", new Page() { public void build() { buildWifi(); } });
         sub(s("Hotspot", "Hotspot"), new Page() { public void build() { buildHotspot(); } });
         sub(s("Android sistem", "Android system"), new Page() { public void build() { buildAndroid(); } });
@@ -533,6 +534,100 @@ public class SettingsScreen extends Screen {
             }
         });
         action(s("Datum i vreme (Android)", "Date and time (Android)"), null, intent(Settings.ACTION_DATE_SETTINGS));
+    }
+
+    /** Bluetooth / Wi-Fi / CarPlay when the launcher starts or the unit wakes up. */
+    private void buildStartup() {
+        section(s("Profil", "Profile"));
+        int pre = com.thecarlauncher.util.StartupConnect.preset(act);
+        for (int i = 0; i < com.thecarlauncher.util.StartupConnect.PRESETS.length; i++) {
+            final int idx = i;
+            Object[] p = com.thecarlauncher.util.StartupConnect.PRESETS[i];
+            choice(s((String) p[0], (String) p[1]), pre == i, new Runnable() {
+                public void run() {
+                    com.thecarlauncher.util.StartupConnect.applyPreset(act, idx);
+                    refresh();
+                }
+            });
+        }
+        if (pre < 0) info(s("Prilagođeno", "Custom"), s("vaš izbor ispod", "your choice below"));
+
+        Runnable again = new Runnable() { public void run() { refresh(); } };
+        section("Bluetooth");
+        toggle(s("Uključi Bluetooth", "Turn Bluetooth on"), com.thecarlauncher.util.StartupConnect.P_BT_ON, false, again);
+        toggle(s("Poveži telefon", "Connect the phone"), com.thecarlauncher.util.StartupConnect.P_BT_CONNECT, false, again);
+        String[] t = com.thecarlauncher.util.StartupConnect.target(act);
+        boolean chosen = Prefs.str(act, com.thecarlauncher.util.StartupConnect.P_BT_DEVICE, null) != null;
+        sub(s("Telefon", "Phone"), new Page() { public void build() { buildStartupPhone(); } });
+        info(s("Povezuje se", "Connects to"), t == null ? s("poslednji povezani (još nijedan)", "the last connected (none yet)")
+                : (t[1] != null && t[1].length() > 0 ? t[1] : t[0]) + (chosen ? "" : s(" (poslednji povezani)", " (last connected)")));
+
+        section("Wi-Fi");
+        toggle(s("Uključi Wi-Fi", "Turn Wi-Fi on"), com.thecarlauncher.util.StartupConnect.P_WIFI_ON, false, again);
+        String ssid = Prefs.str(act, com.thecarlauncher.util.StartupConnect.P_WIFI_SSID, null);
+        sub(s("Mreža", "Network"), new Page() { public void build() { buildStartupWifi(); } });
+        info(s("Povezuje se", "Connects to"), ssid == null ? s("bilo koja sačuvana mreža", "any saved network") : ssid);
+
+        section("CarPlay / Android Auto");
+        toggle(s("Pokreni aplikaciju za telefon (ZLink…)", "Start the phone app (ZLink…)"),
+                com.thecarlauncher.util.StartupConnect.P_PROJECTION, false, again);
+        String proj = com.thecarlauncher.util.StartupConnect.projectionPackage(act);
+        info(s("Aplikacija", "App"), proj == null ? s("nije pronađena", "none found") : appLabel(proj));
+
+        action(s("Probaj sada", "Try now"), null, new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.StartupConnect.runNow(act);
+                Ui.toast(act, s("Pokrenuto", "Started"));
+            }
+        });
+        note(s("Radi kada se launcher pokrene i kada se uređaj probudi (paljenje). Telefon mora biti već uparen sa uređajem; "
+                        + "povezivanje se pokušava dve minute. Od Androida 10 samo sistemska aplikacija (Magisk modul) sme da uključi "
+                        + "Wi-Fi; tada se Android sam poveže na sačuvane mreže. Za bežični CarPlay telefon mora jednom biti povezan "
+                        + "kroz aplikaciju za telefon.",
+                "Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired "
+                        + "with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) "
+                        + "may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have "
+                        + "been connected through the phone app once."));
+    }
+
+    private void buildStartupPhone() {
+        final String cur = Prefs.str(act, com.thecarlauncher.util.StartupConnect.P_BT_DEVICE, null);
+        choice(s("Poslednji povezani telefon", "The last connected phone"), cur == null, new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.StartupConnect.choose(act, null, null);
+                onBack();
+            }
+        });
+        for (final String[] p : com.thecarlauncher.util.StartupConnect.knownPhones(act)) {
+            boolean sel = cur != null && cur.startsWith(p[0] + "|");
+            choice(p[1] != null && p[1].length() > 0 ? p[1] : p[0], sel, new Runnable() {
+                public void run() {
+                    com.thecarlauncher.util.StartupConnect.choose(act, p[0], p[1]);
+                    onBack();
+                }
+            });
+        }
+    }
+
+    private void buildStartupWifi() {
+        final String cur = Prefs.str(act, com.thecarlauncher.util.StartupConnect.P_WIFI_SSID, null);
+        choice(s("Bilo koja sačuvana mreža", "Any saved network"), cur == null, new Runnable() {
+            public void run() {
+                Prefs.put(act, com.thecarlauncher.util.StartupConnect.P_WIFI_SSID, (String) null);
+                onBack();
+            }
+        });
+        java.util.List<String> names = new java.util.ArrayList<>();
+        if (cur != null) names.add(cur);
+        for (WifiControl.Network n : WifiControl.get(act).networks()) if (!names.contains(n.ssid)) names.add(n.ssid);
+        for (final String n : names) {
+            choice(n, n.equals(cur), new Runnable() {
+                public void run() {
+                    Prefs.put(act, com.thecarlauncher.util.StartupConnect.P_WIFI_SSID, n);
+                    onBack();
+                }
+            });
+        }
     }
 
     private void buildLanguage() {

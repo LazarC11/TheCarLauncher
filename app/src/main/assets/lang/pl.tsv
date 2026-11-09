@@ -509,3 +509,24 @@ Cool white	Zimna biel
 Automatic (by region)	Automatycznie (według regionu)
 Language/Jezik	Język/Language
 Turn on "Display over other apps" for Car Launcher, so it can come back over the factory app.	Włącz „Wyświetlanie nad innymi aplikacjami” dla Car Launcher, aby mógł wrócić nad aplikację fabryczną.
+ (last connected)	 (ostatnio połączony)
+Any saved network	Dowolna zapisana sieć
+App	Aplikacja
+Connect the phone	Połącz telefon
+Connects to	Łączy z
+Network	Sieć
+Profile	Profil
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Działa przy uruchomieniu launchera i przy wybudzeniu urządzenia (zapłon). Telefon musi być już sparowany z urządzeniem; łączenie jest ponawiane przez dwie minuty. Od Androida 10 tylko aplikacja systemowa (moduł Magisk) może włączyć Wi-Fi; Android sam łączy się wtedy z zapisanymi sieciami. Do bezprzewodowego CarPlay telefon musi być raz połączony przez aplikację telefonu.
+Start the phone app (ZLink…)	Uruchom aplikację telefonu (ZLink…)
+Start-up connections	Połączenia przy uruchomieniu
+Started	Uruchomiono
+The last connected phone	Ostatnio połączony telefon
+Try now	Wypróbuj teraz
+Turn Bluetooth on	Włącz Bluetooth
+Turn Wi-Fi on	Włącz Wi-Fi
+any saved network	dowolna zapisana sieć
+none found	nic nie znaleziono
+the last connected (none yet)	ostatnio połączony (jeszcze brak)
+your choice below	twój wybór poniżej
+Bluetooth phone	Telefon Bluetooth
+CarPlay / Android Auto	CarPlay / Android Auto
