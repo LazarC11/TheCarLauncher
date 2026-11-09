@@ -189,8 +189,19 @@ public final class CarService implements UnitBackend {
     @Override
     public void claimForMedia() {
         if (!available()) return;
+        // The firmware's own way for ordinary apps to get the speakers (the factory apps send it
+        // too); it opens nothing.
+        try {
+            app.sendBroadcast(new android.content.Intent("android.car.action.ENTER_EMPTY_SOURCE_GENERAL"));
+        } catch (Exception ignored) {
+        }
+        try {
+            Thread.sleep(600);
+        } catch (InterruptedException ignored) {
+        }
+        // Still on radio / Bluetooth (older firmware): leave that source. Source ids are 0x1xxxx;
+        // 0x10003 is "no source".
         int cur = currentSource();
-        // Source ids are 0x1xxxx; 0x10003 is "no source".
         if ((cur & 0xFFFF0000) == 0x10000 && cur != SRC_EMPTY && cur != SRC_MUSIC) exitSource(cur);
     }
 

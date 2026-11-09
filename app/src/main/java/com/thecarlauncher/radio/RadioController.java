@@ -447,16 +447,13 @@ public final class RadioController implements K706Tuner.Listener {
         requestFocus();
         active = true;
         changed();
+        // android.car firmware opens its radio app when radio becomes the source.
+        if (com.thecarlauncher.unit.Unit.CAR) com.thecarlauncher.media.UnitReturn.askOverlayOnce(app);
         worker().post(new Runnable() {
             @Override
             public void run() {
                 ub().enterRadio();
-                main.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        bringBackFrom(ub().radioPackage());
-                    }
-                }, 1200);
+                com.thecarlauncher.media.UnitReturn.watch(app, ub(), ub().radioPackage());
             }
         });
         pollCarSoon();
@@ -472,23 +469,6 @@ public final class RadioController implements K706Tuner.Listener {
         });
         abandonFocus();
         changed();
-    }
-
-    /** The car service opened its own app on top of the launcher: come back to the media screen. */
-    private void bringBackFrom(final String pkg) {
-        worker().post(new Runnable() {
-            @Override
-            public void run() {
-                if (pkg.equals(ub().appOnTop())) {
-                    main.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            com.thecarlauncher.util.BringBack.toMedia(app);
-                        }
-                    });
-                }
-            }
-        });
     }
 
     private Handler worker() {
