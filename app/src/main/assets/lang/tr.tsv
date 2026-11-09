@@ -1,0 +1,510 @@
+# English text <TAB> translation. Keys must match the English text in the code exactly.
+  (partial)	  (kısmi)
+  (test)	  (test)
+  (this unit: 	  (bu cihaz: 
+ (back to Android)	 (Android'e dön)
+ connected	 bağlandı
+ days	 gün
+ downloaded	 indirildi
+ folders	 klasör
+ is connected.\nTap to show the phone.	 bağlı.\nTelefonu göstermek için dokunun.
+ kilometres	 kilometre
+ metres	 metre
+ music / video files in this folder	 müzik / video dosyası bu klasörde
+ nearby	 yakında
+ saved	 kaydedildi
+ songs	 şarkı
+ videos	 video
+ · tap to delete	 · silmek için dokunun
++15,000 km / +1 yr	+15.000 km / +1 yıl
+24-hour format	24 saat biçimi
+A phone is connected. Disconnect it first to add a new device.	Bir telefon bağlı. Yeni cihaz eklemek için önce bağlantısını kesin.
+Add	Ekle
+Add a folder	Klasör ekle
+Add fill-up	Yakıt alımı ekle
+Add to MENU	MENÜ'ye ekle
+Albums	Albümler
+All	Tümü
+All Android settings	Tüm Android ayarları
+All files access (USB)	Tüm dosyalara erişim (USB)
+Allow "All files access" for Car Launcher so music on USB sticks can be read.	USB bellekteki müziklerin okunabilmesi için Car Launcher'a "Tüm dosyalara erişim" izni verin.
+Allow access	Erişime izin ver
+Allow access to music.	Müziğe erişime izin verin.
+Allow access to pictures	Resimlere erişime izin ver
+Allow changing the system brightness	Sistem parlaklığını değiştirmeye izin ver
+Allow installing apps for Car Launcher, then try again	Car Launcher için uygulama yüklemeye izin verin ve tekrar deneyin
+Allow installing updates	Güncelleme yüklemeye izin ver
+Allow location access	Konum erişimine izin ver
+Allow returning from the BT app	BT uygulamasından geri dönmeye izin ver
+Allowed	İzin verildi
+Altitude	Rakım
+Ambient lighting	Ambiyans aydınlatması
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android, sıradan bir uygulamanın hotspot'u kendisinin açmasına izin vermez: sistemin hotspot sayfası açılır (ad, şifre, aç/kapat). Launcher bir sistem uygulaması olduğunda bu doğrudan burada çalışır.
+Android system	Android sistemi
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android kurulumu onaylamanızı isteyecek. Sistem uygulaması olarak (Magisk modülü) launcher kendini günceller.
+Annual service	Yıllık bakım
+Annual service due now!	Yıllık bakım zamanı geldi!
+Another app (gallery, file manager)	Başka uygulama (galeri, dosya yöneticisi)
+App (ZLink, CarPlay…)	Uygulama (ZLink, CarPlay…)
+App info	Uygulama bilgisi
+App name	Uygulama adı
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect kullanılamıyor.\nBu cihazda ZLink uygulaması bulunamadı.
+Apps	Uygulamalar
+Artists	Sanatçılar
+At the end, left	Sonunda sola
+At the end, right	Sonunda sağa
+Automatic (detect from media session)	Otomatik (medya oturumundan algıla)
+Automatic (storage and USB)	Otomatik (depolama ve USB)
+Automatic brightness	Otomatik parlaklık
+Automatic check (once a day)	Otomatik kontrol (günde bir kez)
+Available version:	Mevcut sürüm:
+Average consumption	Ortalama tüketim
+Average speed	Ortalama hız
+Avg. consumption	Ort. tüketim
+Avg. fuel price	Ort. yakıt fiyatı
+BT audio as soon as the phone connects	Telefon bağlanır bağlanmaz BT ses
+BT daemon probe	BT servis testi
+BT music app	BT müzik uygulaması
+BT package (from media session)	BT paketi (medya oturumundan)
+BT screen	BT ekranı
+BT_STATE	BT_STATE
+Back	Geri
+Bass	Bas
+Bass - Mid - Treble	Bas - Orta - Tiz
+Bear left	Hafif sola
+Bear right	Hafif sağa
+Bluetooth devices	Bluetooth cihazları
+Brand	Marka
+Brightness	Parlaklık
+Browse	Gözat
+Build for this unit:	Bu cihaz için sürüm:
+Build for unit:	Cihaz sürümü:
+Build number	Derleme numarası
+Building the device report…	Cihaz raporu hazırlanıyor…
+Built-in launcher radio	Launcher'ın dahili radyosu
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API anahtarı (ücretsiz: carto.com/basemaps/apikey)
+CARTO key for the online map	Çevrimiçi harita için CARTO anahtarı
+Calculating route…	Rota hesaplanıyor…
+Cancel	İptal
+Cancelled	İptal edildi
+Car picture (Vehicle status)	Araç resmi (Araç durumu)
+Change home address	Ev adresini değiştir
+Change work address	İş adresini değiştir
+Check again	Tekrar kontrol et
+Checking for updates…	Güncellemeler kontrol ediliyor…
+Checking…	Kontrol ediliyor…
+Choose a folder	Klasör seçin
+Choose a phone app in Setup	Ayarlar'da bir telefon uygulaması seçin
+Choose a picture	Resim seçin
+Choose a radio app (long-press it in Apps)	Bir radyo uygulaması seçin (Uygulamalar'da basılı tutun)
+Clear presets	Kayıtlı istasyonları temizle
+Clear recent destinations	Son hedefleri temizle
+Cleared	Temizlendi
+Colour profile	Renk profili
+Confirm the network in the system window	Ağı sistem penceresinde onaylayın
+Connect a new device	Yeni cihaz bağla
+Connect apps	Uygulama bağla
+Connected	Bağlı
+Connected: 	Bağlı: 
+Connecting to 	Bağlanılıyor: 
+Connecting: 	Bağlanıyor: 
+Connecting…	Bağlanıyor…
+Continue	Devam
+Continue straight	Düz devam edin
+Contrast	Kontrast
+Copying failed	Kopyalama başarısız
+Copying the factory apps…	Fabrika uygulamaları kopyalanıyor…
+Corsa C (built-in)	Corsa C (dahili)
+Cost per 100 km	100 km maliyeti
+Could not calculate route	Rota hesaplanamadı
+Could not connect	Bağlanılamadı
+Could not connect — turn on Bluetooth on the phone	Bağlanılamadı — telefonda Bluetooth'u açın
+Countries and regions	Ülkeler ve bölgeler
+Cover art from the internet	İnternetten albüm kapakları
+Current odometer (km)	Güncel kilometre (km)
+Current source / title	Geçerli kaynak / başlık
+Current speed	Anlık hız
+Custom	Özel
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Veri: © OpenStreetMap katkıda bulunanlar (ODbL), dosyalar: mapsforge.org
+Date and time (Android)	Tarih ve saat (Android)
+Day	Gündüz
+Default launcher	Varsayılan launcher
+Delete	Sil
+Delete last fill-up	Son yakıt alımını sil
+Delete map?	Harita silinsin mi?
+Destination	Hedef
+Device report	Cihaz raporu
+Diagnostics	Tanılama
+Diagnostics (QF / Bluetooth)	Tanılama (QF / Bluetooth)
+Disconnect	Bağlantıyı kes
+Disconnect the current phone	Bağlı telefonun bağlantısını kes
+Disconnect the phone first	Önce telefonun bağlantısını kesin
+Display over other apps: off	Diğer uygulamaların üzerinde göster: kapalı
+Distance	Mesafe
+Download a map	Harita indir
+Download logos for found stations	Bulunan istasyonların logolarını indir
+Download started: 	İndirme başladı: 
+Downloading map: 	Harita indiriliyor: 
+Downloading station logos… 	İstasyon logoları indiriliyor… 
+Downloading the update… 	Güncelleme indiriliyor… 
+Downloading: 	İndiriliyor: 
+Driving direction up	Sürüş yönü yukarı
+Driving time	Sürüş süresi
+EN	TR
+Empty	Boş
+Enable "Car Launcher" so Spotify & other players show up here	Spotify ve diğer oynatıcıların burada görünmesi için "Car Launcher"ı etkinleştirin
+Error: 	Hata: 
+Exit	Çıkış
+Exit left	Soldan çıkın
+Exit right	Sağdan çıkın
+Export the factory apps (APK)	Fabrika uygulamalarını dışa aktar (APK)
+FM tuner	FM alıcı
+Factory radio app	Fabrika radyo uygulaması
+Factory software version	Fabrika yazılım sürümü
+Fill-up	Yakıt alımı
+Fill-up saved	Yakıt alımı kaydedildi
+Folder not readable (file access permission?)	Klasör okunamıyor (dosya erişim izni?)
+Folders	Klasörler
+Forget device	Cihazı unut
+Found: 	Bulunan: 
+Fuel	Yakıt
+Fuel tank	Yakıt deposu
+Fuel tank (l)	Yakıt deposu (l)
+Full screen (hide Android bars)	Tam ekran (Android çubuklarını gizle)
+Full tank	Depo dolu
+GOC Bluetooth daemon	GOC Bluetooth servisi
+GOC length / position	GOC süre / konum
+GOC not connected: 	GOC bağlı değil: 
+GOC position (MP)	GOC konum (MP)
+GOC received: 	GOC alındı: 
+GOC song	GOC şarkı
+GOC song numbers (MI)	GOC şarkı numaraları (MI)
+GOC: ask for song info	GOC: şarkı bilgisini iste
+Hardware	Donanım
+Head unit	Multimedya cihazı
+Heading	Yön
+Home	Ev
+Hotspot	Hotspot
+Hotspot settings not found	Hotspot ayarları bulunamadı
+Import a picture from the unit or USB:	Cihazdan veya USB'den resim içe aktarın:
+Imported picture	İçe aktarılan resim
+Installed SW MU version:	Yüklü SW MU sürümü:
+Installed SW Train version:	Yüklü SW Train sürümü:
+Installing 	Yükleniyor: 
+Interior picture (Ambient lighting)	İç mekan resmi (Ambiyans aydınlatması)
+Keep left	Solda kalın
+Keep right	Sağda kalın
+Kilometres (km/h)	Kilometre (km/s)
+Last QF broadcast	Son QF yayını
+Last check:	Son kontrol:
+Last fill-up	Son yakıt alımı
+Learned BT channel	Öğrenilen BT kanalı
+List not available (needs internet): 	Liste kullanılamıyor (internet gerekli): 
+Litres	Litre
+Loading the list of maps…	Harita listesi yükleniyor…
+Loading the list…	Liste yükleniyor…
+Loading…	Yükleniyor…
+Logos: 	Logolar: 
+Long-term	Uzun dönem
+Looking for pictures…	Resimler aranıyor…
+Low fuel: about 	Yakıt az: yaklaşık 
+MCU audio channel now	Şu anki MCU ses kanalı
+MCU channel → 	MCU kanalı → 
+MCU not available	MCU kullanılamıyor
+MCU version	MCU sürümü
+Make a U-turn	U dönüşü yapın
+Manual	Manuel
+Map data	Harita verisi
+Map style	Harita stili
+Map turns with the driving direction	Harita sürüş yönüyle döner
+Maps work without internet and are drawn on the unit.	Haritalar internetsiz çalışır ve cihazda çizilir.
+Media	Medya
+Media access	Medya erişimi
+Media notification	Medya bildirimi
+Media session	Medya oturumu
+Memory	Bellek
+Merge	Katılın
+Mid	Orta
+Miles (mph)	Mil (mph)
+Mode: 	Mod: 
+Model	Model
+Music folders	Müzik klasörleri
+Music library	Müzik kitaplığı
+Music videos (MP4 and other video files)	Müzik videoları (MP4 ve diğer video dosyaları)
+My dest.	Hedeflerim
+Nav app	Navigasyon uyg.
+Navigate to this point?	Bu noktaya gidilsin mi?
+Navigation	Navigasyon
+Navigation app	Navigasyon uygulaması
+Nearby	Yakındakiler
+New dest.	Yeni hedef
+New destination	Yeni hedef
+New device	Yeni cihaz
+Next	Sonraki
+Next oil change	Sonraki yağ değişimi
+Next service scheduled	Sonraki bakım planlandı
+Night	Gece
+No	Hayır
+No GPS position	GPS konumu yok
+No app to choose a picture	Resim seçecek uygulama yok
+No connection — try again	Bağlantı yok — tekrar deneyin
+No destinations yet	Henüz hedef yok
+No devices found. Tap "Search" in the corner.	Cihaz bulunamadı. Köşedeki "Ara"ya dokunun.
+No entries.	Kayıt yok.
+No media selected.\nTap Browse or Play.	Medya seçilmedi.\nGözat veya Oynat'a dokunun.
+No media.\nInsert a USB stick or SD card with music.	Medya yok.\nMüzik içeren bir USB bellek veya SD kart takın.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Medya yok.\nUSB belleklerin okunabilmesi için buraya dokunup "Tüm dosyalara erişim" izni verin.
+No music	Müzik yok
+No named stations — update the station list first	İsimli istasyon yok — önce istasyon listesini güncelleyin
+No networks found (location permission is needed).	Ağ bulunamadı (konum izni gerekli).
+No picture	Resim yok
+No picture selected	Resim seçilmedi
+No pictures on the unit or on USB	Cihazda veya USB'de resim yok
+No remembered devices. Connect a new phone:	Kayıtlı cihaz yok. Yeni bir telefon bağlayın:
+No results	Sonuç yok
+No track information.	Parça bilgisi yok.
+No update information	Güncelleme bilgisi yok
+None downloaded	İndirilen yok
+None found	Hiçbiri bulunamadı
+North up	Kuzey yukarı
+Not a newer version	Daha yeni bir sürüm değil
+Not allowed – tap	İzin yok – dokunun
+Not connected	Bağlı değil
+Not found	Bulunamadı
+Not selected	Seçilmedi
+Not set	Ayarlanmadı
+Not set – OpenStreetMap is used	Ayarlanmadı – OpenStreetMap kullanılıyor
+Nothing found	Hiçbir şey bulunamadı
+Nothing within 5 km	5 km içinde bir şey yok
+Notification access	Bildirim erişimi
+Now 	Şimdi 
+Odometer	Kilometre sayacı
+Off	Kapalı
+Off (no internet)	Kapalı (internet yok)
+Offline maps	Çevrimdışı haritalar
+Oil change at (km)	Yağ değişimi (km)
+Oil change due now!	Yağ değişimi zamanı geldi!
+Oil change in 	Yağ değişimine 
+On	Açık
+Open the BT app briefly (plays the sound)	BT uygulamasını kısa süre aç (sesi çalar)
+OpenStreetMap (dimmed)	OpenStreetMap (karartılmış)
+Other media apps	Diğer medya uygulamaları
+Pairing…	Eşleştiriliyor…
+Part number:	Parça numarası:
+Password	Şifre
+Pause	Duraklat
+Permissions	İzinler
+Phone	Telefon
+Phone (battery / signal)	Telefon (pil / sinyal)
+Phone and radio	Telefon ve radyo
+Phone app	Telefon uygulaması
+Phone disconnected	Telefon bağlantısı kesildi
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefonlar USB kablosuyla veya kablosuz bağlanır (Android Auto, Apple CarPlay, ekran yansıtma). Telefonun ekranını cihazın ZLink uygulaması gösterir.\n\nDurum: 
+Picture set	Resim ayarlandı
+Play	Oynat
+Point on map	Haritada nokta
+Presets cleared	Kayıtlı istasyonlar temizlendi
+Previous	Önceki
+Price per litre	Litre fiyatı
+Probe BT daemon (play music)	BT servisini test et (müzik çalın)
+Probing for about ten seconds…	Yaklaşık on saniye test ediliyor…
+Radio	Radyo
+Radio app	Radyo uygulaması
+Range	Menzil
+Read the BT module directly (only without the factory BT app)	BT modülünü doğrudan oku (yalnızca fabrika BT uygulaması yoksa)
+Reading music from USB and storage…	USB ve depolamadan müzik okunuyor…
+Recalculating.	Yeniden hesaplanıyor.
+Recent destinations	Son hedefler
+Registration expires	Ruhsat/muayene bitişi
+Registration expires in 	Ruhsat/muayene bitimine 
+Registration has expired!	Ruhsat/muayene süresi doldu!
+Remaining: 	Kalan: 
+Remove from MENU	MENÜ'den kaldır
+Report not saved	Rapor kaydedilmedi
+Rescan	Yeniden tara
+Reset	Sıfırla
+Resume playback on start	Başlangıçta çalmaya devam et
+Roundabout	Döner kavşak
+Route calculated.	Rota hesaplandı.
+SW download	Yazılım indirme
+Saturation	Doygunluk
+Saved: 	Kaydedildi: 
+Saving the picture…	Resim kaydediliyor…
+Scanning…	Taranıyor…
+Screen	Ekran
+Screen mirroring	Ekran yansıtma
+Search	Ara
+Search apps	Uygulama ara
+Search for networks	Ağ ara
+Search: 	Ara: 
+Searching for Wi-Fi networks…	Wi-Fi ağları aranıyor…
+Searching for devices…	Cihazlar aranıyor…
+Searching for radio stations…	Radyo istasyonları aranıyor…
+Searching for radio stations… 	Radyo istasyonları aranıyor… 
+Searching…	Aranıyor…
+Select	Seç
+Sent — refresh in 2 s	Gönderildi — 2 sn sonra yenileyin
+Service	Bakım
+Service done today	Bakım bugün yapıldı
+Service in 	Bakıma 
+Set	Ayarla
+Setup	Ayarlar
+Setup → Vehicle	Ayarlar → Araç
+Sharp left	Keskin sola
+Sharp right	Keskin sağa
+Since refuelling	Yakıt alımından beri
+Since start	Başlangıçtan beri
+Software	Yazılım
+Software base	Yazılım tabanı
+Software update	Yazılım güncelleme
+Software update failed	Yazılım güncellemesi başarısız
+Software update finished	Yazılım güncellemesi tamamlandı
+Software update in progress…	Yazılım güncellemesi sürüyor…
+Software version	Yazılım sürümü
+Software version:	Yazılım sürümü:
+Song from BT app (broadcast)	BT uygulamasından şarkı (yayın)
+Songs	Şarkılar
+Sound	Ses
+Source	Kaynak
+Sources	Kaynaklar
+Start	Başlat
+Start music on your phone.	Telefonunuzda müzik başlatın.
+Start update	Güncellemeyi başlat
+Station list	İstasyon listesi
+Station logos from the internet	İnternetten istasyon logoları
+Stations	İstasyonlar
+Stop	Durdur
+Stop scan	Taramayı durdur
+Street and number, city or place	Sokak ve numara, şehir veya yer
+Street, city	Sokak, şehir
+Strong stations only (LOC)	Yalnızca güçlü istasyonlar (LOC)
+System Wi-Fi settings	Sistem Wi-Fi ayarları
+System date	Sistem tarihi
+System dialer	Sistem çevirici
+System information	Sistem bilgisi
+System settings	Sistem ayarları
+System version	Sistem sürümü
+Take the ramp	Rampaya girin
+Tap a device to connect. Long press: forget the device.	Bağlanmak için bir cihaza dokunun. Basılı tutun: cihazı unut.
+Test builds (every build)	Test sürümleri (her derleme)
+Test channel 	Kanal test et 
+Text 	Metin 
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Renk profili launcher'ın görüntüsünü değiştirir (tüm ekranları, harita da dahil). Diğer uygulamaların renkleri ancak launcher sistem uygulaması olduğunda değiştirilebilir.
+The download is not a valid APK	İndirilen dosya geçerli bir APK değil
+The launcher restarts in the new version.	Launcher yeni sürümde yeniden başlar.
+The picture can't be opened	Resim açılamıyor
+The software is up to date	Yazılım güncel
+Time and date	Saat ve tarih
+Time for winter tyres	Kış lastiği zamanı
+To show the song and cover, enable\nnotification access — tap here.	Şarkıyı ve kapağı göstermek için\nbildirim erişimini açın — buraya dokunun.
+Treble	Tiz
+Turn left	Sola dönün
+Turn on "Display over other apps" for Car Launcher, then choose BT audio again.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, sonra BT sesi tekrar seçin.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Telefonda Bluetooth'u açıp görünür yapın, sonra listeden seçin:
+Turn radio off	Radyoyu kapat
+Turn right	Sağa dönün
+Turn the hotspot on / off	Hotspot'u aç / kapat
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB genellikle /storage/… veya /mnt/… altındadır (ör. usbhost, udisk).
+Uninstall	Kaldır
+Units	Birimler
+Update	Güncelle
+Update available:	Güncelleme mevcut:
+Update failed: 	Güncelleme başarısız: 
+Update not installed	Güncelleme yüklenmedi
+Update station list	İstasyon listesini güncelle
+Use as phone app	Telefon uygulaması olarak kullan
+Use as radio app	Radyo uygulaması olarak kullan
+Use offline map	Çevrimdışı haritayı kullan
+Vehicle	Araç
+Vehicle and pictures	Araç ve resimler
+Vehicle status	Araç durumu
+Versions	Sürümler
+View	Görünüm
+Voice guidance	Sesli yönlendirme
+Waiting for GPS position	GPS konumu bekleniyor
+Waiting for GPS…	GPS bekleniyor…
+Warmth	Sıcaklık
+Welcome to App-Connect.\nPlease connect a device using the USB.	App-Connect'e hoş geldiniz.\nLütfen bir cihazı USB ile bağlayın.
+Wi-Fi is off.	Wi-Fi kapalı.
+Wi-Fi not available	Wi-Fi kullanılamıyor
+Winter tyre reminder (1 Nov – 1 Apr)	Kış lastiği hatırlatıcısı (1 Kas – 1 Nis)
+Winter tyres fitted	Kış lastikleri takılı
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Klasör seçildiğinde launcher yalnızca bunları (ve alt klasörlerini) düz dosya olarak okur. Seçilmezse müziği depolamada ve USB'de kendisi bulur.
+Work	İş
+Wrong package	Yanlış paket
+Yes	Evet
+You can switch back to summer tyres	Yaz lastiklerine geri dönebilirsiniz
+You have arrived	Hedefe ulaştınız
+You have arrived.	Hedefe ulaştınız.
+ZLink is not installed	ZLink yüklü değil
+available: 	mevcut: 
+connect / new device	bağlan / yeni cihaz
+empty	boş
+enter	girin
+forget a network, advanced	ağı unut, gelişmiş
+free	boş
+needed	gerekli
+needs 2 full tanks	2 dolu depo gerekir
+no build for this unit	bu cihaz için sürüm yok
+no data	veri yok
+none yet	henüz yok
+none yet — play BT music	henüz yok — BT müzik çalın
+nothing received	hiçbir şey alınmadı
+now only inside the launcher	şu an yalnızca launcher içinde
+open	aç
+remove	kaldır
+save and show	kaydet ve göster
+secured	güvenli
+service list unavailable	servis listesi kullanılamıyor
+set	ayarla
+state unknown	durum bilinmiyor
+switched off in Setup	Ayarlar'da kapatıldı
+takes ~10 s	~10 sn sürer
+tap and listen	dokunun ve dinleyin
+to Download	Download klasörüne
+to support new units	yeni cihazları desteklemek için
+unavailable	kullanılamıyor
+unreadable	okunamıyor
+up	yukarı
+— BT app components —	— BT uygulama bileşenleri —
+— MCU packets (non-radio) —	— MCU paketleri (radyo dışı) —
+— System services (BT / QF) —	— Sistem servisleri (BT / QF) —
+✓ Use this folder	✓ Bu klasörü kullan
+✗ — tap to enable	✗ — açmak için dokunun
+Standard	Standart
+Vivid	Canlı
+Soft	Yumuşak
+Warm	Sıcak
+Cool	Soğuk
+Blue (MIB)	Mavi (MIB)
+Ice blue	Buz mavisi
+Light blue	Açık mavi
+Royal blue	Kraliyet mavisi
+Deep blue	Koyu mavi
+Indigo	Çivit
+Violet	Menekşe
+Lavender	Lavanta
+Purple	Mor
+Magenta	Eflatun
+Pink	Pembe
+Rose	Gül
+Red	Kırmızı
+Ruby	Yakut
+Coral	Mercan
+Orange	Turuncu
+Amber	Kehribar
+Gold	Altın
+Yellow	Sarı
+Lime	Limon
+Green	Yeşil
+Emerald	Zümrüt
+Mint	Nane
+Turquoise	Turkuaz
+Cyan	Camgöbeği
+Teal	Petrol mavisi
+White	Beyaz
+Silver	Gümüş
+Warm white	Sıcak beyaz
+Cool white	Soğuk beyaz
+Automatic (by region)	Otomatik (bölgeye göre)
+Language/Jezik	Dil/Language

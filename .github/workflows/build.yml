@@ -89,7 +89,7 @@ jobs:
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
-            Download **TheCarLauncher.apk** (UIS7862 / QF units), **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units), **TheCarLauncher_carsvc.apk** (android.car firmware units) or **TheCarLauncher_syu.apk** (SYU / FYT units) below, or update from Setup → Software update on the head unit (it picks the right one).
+            Download **TheCarLauncher.apk** (UIS7862 / QF units), **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units), **TheCarLauncher_carsvc.apk** (android.car firmware units) or **TheCarLauncher_syu.apk** (SYU / FYT units) below, or update from Setup → Software update on the head unit (it picks the right one). Coming from an older version on a newly supported unit: run Software update twice (the first update brings the QF build, the second switches to the build for your unit).
 
       - name: Publish test build (other branches)
         if: github.event_name == 'push' && github.ref != 'refs/heads/main'

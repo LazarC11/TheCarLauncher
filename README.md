@@ -5,8 +5,11 @@ A home-screen launcher for Android head units, built for a double-DIN unit on th
 classic German factory infotainment system: black background, MENU tiles with blue underlines,
 soft-key bars along the bottom, bordered popups and light settings bars.
 
-Text is in Serbian (Latin) by default; English can be picked under
-*Podešavanja → Jezik/Language*. The screenshots below use English.
+Languages: Serbian (Latin), English, Polish and Turkish. By default the language follows the unit's
+region (its Android language, else its time zone, else English); it can be fixed under
+*Setup → Jezik/Language*. Polish and Turkish texts live in `app/src/main/assets/lang/pl.tsv` and
+`tr.tsv`, keyed by the English text; `scripts/check-lang.py` lists any text still missing a
+translation. The screenshots below use English.
 
 ![Main menu](docs/screenshots/menu.png)
 
@@ -19,6 +22,12 @@ Text is in Serbian (Latin) by default; English can be picked under
 
 Each head-unit family gets its own APK. *Setup → Software update* detects the unit and installs
 the matching one; on a first install, pick it from the [latest release](../../releases/latest).
+
+> **Updating from an older version: update twice.** An older launcher only knows the units that
+> existed when it was built, so on a newer unit family it first installs the QF build. Open
+> *Software update* again right after: it now recognises the unit and offers the build for it
+> ("Version for this unit"), at the same version number. Installing the right APK from the
+> release directly skips this.
 
 | Head unit | Firmware / how to recognise it | APK | Radio | Bluetooth music | Launcher's own music | Status |
 | --- | --- | --- | --- | --- | --- | --- |

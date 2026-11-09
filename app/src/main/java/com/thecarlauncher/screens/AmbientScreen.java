@@ -48,8 +48,6 @@ public class AmbientScreen extends Screen {
 
     private String s(String sr, String en) { return Mib.t(act, sr, en); }
 
-    private boolean en() { return "en".equals(Prefs.str(act, Prefs.LANGUAGE, "sr")); }
-
     private static int color(int i) { return (Integer) Mib.AMBIENT[i][2]; }
 
     private static int indexOf(int color) {
@@ -181,7 +179,7 @@ public class AmbientScreen extends Screen {
         index = i;
         slider.setSelected(i);
         int lvl = level();
-        String name = (String) Mib.AMBIENT[i][en() ? 1 : 0];
+        String name = s((String) Mib.AMBIENT[i][0], (String) Mib.AMBIENT[i][1]);
         value.setText(lvl < 100 ? name + "  " + lvl + "%" : name);
     }
 
