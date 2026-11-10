@@ -27,7 +27,8 @@ public final class UnitReturn {
 
     /** Call on a worker thread right after switching the source. */
     public static void watch(final Context app, UnitBackend unit, String pkg) {
-        if (pkg == null) return;
+        // Units that never open their own apps (SYU) report no app on top: nothing to watch.
+        if (pkg == null || unit.appOnTop() == null) return;
         final Handler main = new Handler(Looper.getMainLooper());
         for (int i = 0; i < 20; i++) {
             if (pkg.equals(unit.appOnTop())) {

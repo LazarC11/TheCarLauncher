@@ -37,6 +37,15 @@ public interface UnitBackend {
 
     void radioRds(boolean on);
 
+    /**
+     * Starts the unit's own station search, if it has one (it stores what it finds in its station
+     * slots, see {@link #radioStations}); false when the launcher has to scan by seeking.
+     */
+    boolean radioSearch();
+
+    /** FM stations the unit's search stored (10 kHz units), or null when it keeps no such list. */
+    int[] radioStations();
+
     void enterBluetooth();
 
     void exitBluetooth();
@@ -46,6 +55,12 @@ public interface UnitBackend {
 
     /** 1 playing, 0 not playing, -1 unknown. */
     int btPlaying();
+
+    /** Length of the phone's song in ms, 0 when the unit does not tell. */
+    long btDurationMs();
+
+    /** Position in the phone's song in ms, -1 when the unit does not tell. */
+    long btPositionMs();
 
     void btPlayPause();
 

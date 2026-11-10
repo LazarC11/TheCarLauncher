@@ -280,6 +280,29 @@ public final class CarService implements UnitBackend {
     }
 
     @Override
+    public boolean radioSearch() { return false; }
+
+    @Override
+    public int[] radioStations() { return null; }
+
+    /** Index 2 of avrcp_info: the song length when the module sends one (ms, or seconds). */
+    @Override
+    public long btDurationMs() {
+        String[] s = btSong();
+        if (s == null || s.length < 3 || s[2] == null) return 0;
+        try {
+            long v = Long.parseLong(s[2].trim());
+            return v <= 0 ? 0 : v < 10000 ? v * 1000 : v;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /** The car service keeps no position. */
+    @Override
+    public long btPositionMs() { return -1; }
+
+    @Override
     public int btPlaying() {
         int s = btMusicState();
         return s < 0 ? -1 : s == 1 ? 1 : 0;

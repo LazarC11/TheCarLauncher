@@ -336,13 +336,91 @@ public final class RadioController implements K706Tuner.Listener {
 
     public List<Station> stations() { return stations; }
 
-    /** Software scan: seek upward through the band and list every station that stops the seek. */
+    /** Station scan: the unit's own search where it has one, else seeking through the band. */
     public void startScan() {
         if (!active) start();
         stations.clear();
         scanning = true;
         com.thecarlauncher.mib.LoadingBanner.start("radio-scan",
                 com.thecarlauncher.mib.LoadingBanner.t("Traženje radio stanica…", "Searching for radio stations…"));
+        if (car) {
+            // The unit's own search where it has one (SYU): it stores the stations it finds.
+            unitScanStart = SystemClock.elapsedRealtime();
+            unitScanSeen = false;
+            worker().post(new Runnable() {
+                @Override
+                public void run() {
+                    final boolean own = ub().radioSearch();
+                    main.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!scanning) return;
+                            if (own) main.postDelayed(unitScanWatch, 1500);
+                            else seekScan();
+                        }
+                    });
+                }
+            });
+            changed();
+            return;
+        }
+        seekScan();
+    }
+
+    private long unitScanStart;
+    private boolean unitScanSeen;
+
+    /** Follows the unit's search until it reports done, then lists the stations it stored. */
+    private final Runnable unitScanWatch = new Runnable() {
+        @Override
+        public void run() {
+            if (!scanning) return;
+            worker().post(new Runnable() {
+                @Override
+                public void run() {
+                    final boolean busy = ub().radioSeeking();
+                    final int[] found = ub().radioStations();
+                    main.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!scanning) return;
+                            if (busy) unitScanSeen = true;
+                            long t = SystemClock.elapsedRealtime() - unitScanStart;
+                            int n = found == null ? 0 : found.length;
+                            com.thecarlauncher.mib.LoadingBanner.update("radio-scan", com.thecarlauncher.mib.LoadingBanner.t(
+                                    "Traženje radio stanica… ", "Searching for radio stations… ") + n
+                                    + (freq >= FM_MIN ? String.format(java.util.Locale.US, " · %.1f MHz", freq / 100f) : ""));
+                            // Done: the search ran and stopped, or never reported itself (after 6 s); at most 3 minutes.
+                            boolean done = (!busy && (unitScanSeen || t > 6000)) || t > 180000;
+                            if (done) {
+                                stations.clear();
+                                if (found != null) {
+                                    for (int f : found) stations.add(new Station(f, nameOf(f)));
+                                    java.util.Collections.sort(stations, new java.util.Comparator<Station>() {
+                                        public int compare(Station a, Station b) { return a.freq - b.freq; }
+                                    });
+                                }
+                                stopScan();
+                                return;
+                            }
+                            changed();
+                            main.postDelayed(unitScanWatch, 700);
+                        }
+                    });
+                }
+            });
+        }
+    };
+
+    /** A name already known for a frequency (earlier scans, presets), else "". */
+    private String nameOf(int f) {
+        for (Station s : presets) if (s != null && s.freq == f && s.name.length() > 0) return s.name;
+        if (f == freq && ps.length() > 0) return ps;
+        return "";
+    }
+
+    /** Software scan: seek upward through the band and list every station that stops the seek. */
+    private void seekScan() {
         scanSteps = 0;
         scanLast = FM_MIN;
         changed();
@@ -363,6 +441,7 @@ public final class RadioController implements K706Tuner.Listener {
         com.thecarlauncher.mib.LoadingBanner.stop("radio-scan");
         main.removeCallbacks(scanStep);
         main.removeCallbacks(scanWatch);
+        main.removeCallbacks(unitScanWatch);
         Prefs.put(app, P_STATIONS, serialize(stations));
         changed();
     }

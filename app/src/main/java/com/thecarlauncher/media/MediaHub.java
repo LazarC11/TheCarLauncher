@@ -96,6 +96,8 @@ public final class MediaHub {
     private Handler carWorker;
     private String[] carSong;
     private int carState = -1;
+    /** Song length / position from the unit (ms); position counted here when the unit has none. */
+    private long carDur, carPos = -1, carPosAt, carCounted, carCountedAt;
 
     private UnitBackend car() { return UnitBackend.Get.of(app); }
 
@@ -123,8 +125,8 @@ public final class MediaHub {
             @Override
             public void run() {
                 car().enterBluetooth();
-                UnitReturn.watch(app, car(), car().btPackage());
                 car().btPlay();
+                UnitReturn.watch(app, car(), car().btPackage());
             }
         });
         main.removeCallbacks(carPoll);
@@ -153,12 +155,23 @@ public final class MediaHub {
                 public void run() {
                     final String[] song = car().btSong();
                     final int state = car().btPlaying();
+                    final long dur = car().btDurationMs(), pos = car().btPositionMs();
                     main.post(new Runnable() {
                         @Override
                         public void run() {
-                            boolean ch = state != carState || !java.util.Arrays.equals(song, carSong);
+                            long now = SystemClock.elapsedRealtime();
+                            String oldTitle = carSongPart(0);
+                            boolean ch = state != carState || !java.util.Arrays.equals(song, carSong) || dur != carDur;
                             carSong = song;
+                            // Unit without a position: count it here from the song's start.
+                            String title = carSongPart(0);
+                            if (title == null || !title.equals(oldTitle)) carCounted = 0;
+                            else if (carState == 1) carCounted += now - carCountedAt;
+                            carCountedAt = now;
                             carState = state;
+                            carDur = dur;
+                            carPos = pos;
+                            carPosAt = now;
                             if (ch) notifyChanged();
                         }
                     });
@@ -892,6 +905,7 @@ public final class MediaHub {
 
     public long duration() {
         if (isRadio()) return 0;
+        if (carBt()) return carDur;
         if (gocSong()) return Math.max(0, goc().lengthMs());
         MediaMetadata m = meta();
         return m == null ? 0 : Math.max(0, m.getLong(MediaMetadata.METADATA_KEY_DURATION));
@@ -899,6 +913,12 @@ public final class MediaHub {
 
     /** Current position, extrapolated from the last state update while playing. */
     public long position() {
+        if (carBt()) {
+            long now = SystemClock.elapsedRealtime();
+            long p = carPos >= 0 ? carPos + (carState == 1 ? now - carPosAt : 0)
+                    : carSongPart(0) == null ? 0 : carCounted + (carState == 1 ? now - carCountedAt : 0);
+            return carDur > 0 ? Math.min(p, carDur) : Math.max(0, p);
+        }
         if (gocSong()) return Math.max(0, goc().positionMs());
         if (active == null) return 0;
         PlaybackState s = active.getPlaybackState();
