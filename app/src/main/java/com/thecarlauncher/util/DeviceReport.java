@@ -68,6 +68,28 @@ public final class DeviceReport {
             r.append("  (not readable: ").append(e.getClass().getSimpleName()).append(")\n");
         }
 
+        r.append("\n== FM / radio services (reachable by this app?) ==\n");
+        try {
+            Class<?> sm = Class.forName("android.os.ServiceManager");
+            String[] list = (String[]) sm.getMethod("listServices").invoke(null);
+            if (list != null) {
+                for (String name : list) {
+                    if (!name.toLowerCase(Locale.ROOT).matches(".*(fm|radio|tuner).*")) continue;
+                    String state;
+                    try {
+                        android.os.IBinder b = (android.os.IBinder) sm.getMethod("getService", String.class).invoke(null, name);
+                        state = b == null ? "not reachable" : "reachable, interface=" + b.getInterfaceDescriptor();
+                    } catch (Throwable t) {
+                        state = "refused (" + t.getClass().getSimpleName() + ")";
+                    }
+                    r.append("  ").append(name).append(": ").append(state).append('\n');
+                }
+            }
+        } catch (Throwable e) {
+            r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
+        }
+        for (String n : nativeFmFiles()) r.append("  file ").append(n).append('\n');
+
         r.append("\n== Devices (/dev) ==\n");
         File[] dev = new File("/dev").listFiles();
         if (dev != null) {
@@ -184,7 +206,48 @@ public final class DeviceReport {
             }
         } catch (Exception ignored) {
         }
-        return dir.getPath() + "  (" + n + " APK, " + (total / (1024 * 1024)) + " MB)";
+        // The unit's FM / radio libraries and programs too (readable by any app), to see how its
+        // tuner is driven when no unit service runs it.
+        int nf = 0;
+        File nat = new File(dir, "native");
+        for (String path : nativeFmFiles()) {
+            File src = new File(path);
+            if (!src.canRead() || src.length() > 20L * 1024 * 1024) continue;
+            try {
+                nat.mkdirs();
+                java.io.FileInputStream in = new java.io.FileInputStream(src);
+                FileOutputStream o = new FileOutputStream(new File(nat, path.replace('/', '_').replaceFirst("^_", "")));
+                byte[] buf = new byte[65536];
+                int k;
+                while ((k = in.read(buf)) > 0) o.write(buf, 0, k);
+                o.close();
+                in.close();
+                nf++;
+            } catch (Exception ignored) {
+            }
+        }
+        return dir.getPath() + "  (" + n + " APK, " + nf + " FM files, " + (total / (1024 * 1024)) + " MB)";
+    }
+
+    /** FM / radio native libraries and programs of the unit (system and vendor partitions). */
+    static java.util.List<String> nativeFmFiles() {
+        java.util.List<String> out = new java.util.ArrayList<>();
+        Pattern lib = Pattern.compile("(?i).*(fm|radio|tuner|sqlfm).*\\.so$"), bin = Pattern.compile("(?i).*(fm|radio|tuner).*");
+        String[][] dirs = {{"/system/lib", "l"}, {"/system/lib64", "l"}, {"/vendor/lib", "l"}, {"/vendor/lib64", "l"},
+                {"/system/vendor/lib", "l"}, {"/system/bin", "b"}, {"/vendor/bin", "b"}, {"/system/vendor/bin", "b"},
+                {"/system/lib/hw", "l"}, {"/vendor/lib/hw", "l"}};
+        for (String[] d : dirs) {
+            File[] files = new File(d[0]).listFiles();
+            if (files == null) continue;
+            for (File f : files) {
+                if (!f.isFile()) continue;
+                String name = f.getName();
+                if (("l".equals(d[1]) ? lib : bin).matcher(name).matches() && !name.contains("radio_hal") && !out.contains(f.getPath())) {
+                    out.add(f.getPath());
+                }
+            }
+        }
+        return out;
     }
 
     /** Saves the report; returns the path shown to the user (or null). */
