@@ -392,6 +392,13 @@ public final class RadioController implements K706Tuner.Listener {
                                     + (freq >= FM_MIN ? String.format(java.util.Locale.US, " · %.1f MHz", freq / 100f) : ""));
                             // Done: the search ran and stopped, or never reported itself (after 6 s); at most 3 minutes.
                             boolean done = (!busy && (unitScanSeen || t > 6000)) || t > 180000;
+                            if (done && n == 0 && t < 180000) {
+                                // The unit's search found nothing (its tuner may not be run by its
+                                // service): seek through the band instead.
+                                stations.clear();
+                                seekScan();
+                                return;
+                            }
                             if (done) {
                                 stations.clear();
                                 if (found != null) {
