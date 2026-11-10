@@ -40,8 +40,8 @@ public final class SyuService implements UnitBackend {
     private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_TOTAL_TIME = 2, BT_U_PLAY_TRACK = 3, BT_U_TOTAL_TRACK = 4,
             BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7, BT_U_PHONE_STATE = 9, BT_U_PLAY_STATE = 13, BT_U_ALBUM = 26,
             BT_U_PLAY_TIME = 28, BT_U_AVRCP14 = 30;
-    /** Last raw Bluetooth music updates (code → value), for the device report. */
-    private final java.util.Map<Integer, String> btRaw = new java.util.TreeMap<>();
+    /** Last raw Bluetooth music / radio updates (code → value), for the device report. */
+    private final java.util.Map<Integer, String> btRaw = new java.util.TreeMap<>(), radioRaw = new java.util.TreeMap<>();
 
     public static final String PKG_RADIO = "com.syu.radio", PKG_BT = "com.syu.bt";
 
@@ -237,6 +237,11 @@ public final class SyuService implements UnitBackend {
                 if (slot >= 0 && slot < R_FM_SLOTS) fmSlots[slot] = ints[1];
             }
         }
+        if (module == MOD_RADIO) {
+            synchronized (radioRaw) {
+                radioRaw.put(code, (ints == null ? "" : java.util.Arrays.toString(ints)) + (strs == null ? "" : java.util.Arrays.toString(strs)));
+            }
+        }
         if (module == MOD_BT && code != BT_U_PHONE_ADDR) {
             synchronized (btRaw) {
                 btRaw.put(code, (ints == null ? "" : java.util.Arrays.toString(ints)) + (strs == null ? "" : java.util.Arrays.toString(strs)));
@@ -419,7 +424,14 @@ public final class SyuService implements UnitBackend {
         if (!available()) return "  not available (" + error + ")\n";
         return "  app_id=" + appId + " radio band=" + band + " freq=" + freq + " ps=" + ps + " search=" + searchState + "\n"
                 + "  bt title=" + btTitle + " artist=" + btArtist + " state=" + btState + " total=" + btTotal + " pos=" + btPos + "\n"
-                + "  bt updates: " + rawBt() + "\n";
+                + "  bt updates: " + rawBt() + "\n"
+                + "  radio updates: " + rawRadio() + " slots=" + java.util.Arrays.toString(fmSlots) + "\n";
+    }
+
+    private String rawRadio() {
+        synchronized (radioRaw) {
+            return radioRaw.toString();
+        }
     }
 
     private String rawBt() {
