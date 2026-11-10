@@ -29,11 +29,16 @@ public final class SyuService implements UnitBackend {
     private static final int R_C_FREQ_UP = 3, R_C_SEEK_UP = 5, R_C_SEEK_DOWN = 6, R_C_FREQ = 13, R_C_RDS_AF = 20,
             R_C_LOC = 18;
     private static final int R_FREQ_DIRECT_NEW = 3;
-    private static final int R_U_BAND = 0, R_U_FREQ = 1, R_U_RDS_TEXT = 13, R_U_SEARCH_STATE = 22, R_U_PS_TEXT = 26;
+    private static final int R_U_BAND = 0, R_U_FREQ = 1, R_U_CHANNEL_FREQ = 4, R_U_RDS_TEXT = 13, R_U_SEARCH_STATE = 22,
+            R_U_PS_TEXT = 26;
+    /** Station search (C_SEARCH) with 2 = automatic: MainServer stores the stations in its slots. */
+    private static final int R_C_SEARCH = 22, R_SEARCH_AUTO = 2;
+    /** Station slots: FM ones are numbered from 0x10000 (FM1-FM3, 6 each), AM ones below. */
+    private static final int R_SLOT_FM = 0x10000, R_FM_SLOTS = 18;
     // Bluetooth module
     private static final int BT_C_PREV = 0, BT_C_NEXT = 1, BT_C_PLAYPAUSE = 2, BT_C_PLAY = 27, BT_C_CONNECT = 24;
-    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7, BT_U_PHONE_STATE = 9,
-            BT_U_PLAY_STATE = 13;
+    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_TOTAL_TIME = 2, BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7,
+            BT_U_PHONE_STATE = 9, BT_U_PLAY_STATE = 13, BT_U_PLAY_TIME = 28;
 
     public static final String PKG_RADIO = "com.syu.radio", PKG_BT = "com.syu.bt";
 
@@ -48,6 +53,9 @@ public final class SyuService implements UnitBackend {
     private volatile int appId = -1, band = -1, freq, searchState;
     private volatile String ps, rdsText, btTitle, btArtist;
     private volatile int btState = -1, phoneState = -1;
+    /** Song length / position in ms (MainServer sends both), and when the position came. */
+    private volatile long btTotal, btPos = -1, btPosAt;
+    private final int[] fmSlots = new int[R_FM_SLOTS];
     private volatile String phoneAddr, phoneName;
 
     public static synchronized SyuService get(Context c) {
@@ -111,8 +119,11 @@ public final class SyuService implements UnitBackend {
                 error = main == null ? "no main module" : null;
             }
             register(MOD_MAIN, MAIN_U_APP_ID);
-            for (int u : new int[]{R_U_BAND, R_U_FREQ, R_U_RDS_TEXT, R_U_SEARCH_STATE, R_U_PS_TEXT}) register(MOD_RADIO, u);
-            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_PLAY_STATE, BT_U_PHONE_ADDR, BT_U_PHONE_NAME, BT_U_PHONE_STATE}) {
+            for (int u : new int[]{R_U_BAND, R_U_FREQ, R_U_CHANNEL_FREQ, R_U_RDS_TEXT, R_U_SEARCH_STATE, R_U_PS_TEXT}) {
+                register(MOD_RADIO, u);
+            }
+            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_TOTAL_TIME, BT_U_PLAY_STATE, BT_U_PLAY_TIME, BT_U_PHONE_ADDR,
+                    BT_U_PHONE_NAME, BT_U_PHONE_STATE}) {
                 register(MOD_BT, u);
             }
         } catch (Throwable t) {
@@ -217,11 +228,28 @@ public final class SyuService implements UnitBackend {
             else if (code == R_U_PS_TEXT) ps = s;
             else if (code == R_U_RDS_TEXT) rdsText = s;
             else if (code == R_U_SEARCH_STATE && i != Integer.MIN_VALUE) searchState = i;
+            else if (code == R_U_CHANNEL_FREQ && ints != null && ints.length >= 2) {
+                // {slot, frequency} for one station slot.
+                int slot = ints[0] - R_SLOT_FM;
+                if (slot >= 0 && slot < R_FM_SLOTS) fmSlots[slot] = ints[1];
+            }
         }
         if (module == MOD_BT) {
-            if (code == BT_U_TITLE) btTitle = s;
+            if (code == BT_U_TITLE) {
+                // A new song starts at 0 until MainServer sends its position.
+                if (s != null && !s.equals(btTitle)) {
+                    btPos = 0;
+                    btPosAt = android.os.SystemClock.elapsedRealtime();
+                }
+                btTitle = s;
+            }
             else if (code == BT_U_ARTIST) btArtist = s;
             else if (code == BT_U_PLAY_STATE && i != Integer.MIN_VALUE) btState = i;
+            else if (code == BT_U_TOTAL_TIME && i != Integer.MIN_VALUE) btTotal = Math.max(0, i);
+            else if (code == BT_U_PLAY_TIME && i != Integer.MIN_VALUE) {
+                btPos = Math.max(0, i);
+                btPosAt = android.os.SystemClock.elapsedRealtime();
+            }
             else if (code == BT_U_PHONE_ADDR) phoneAddr = s;
             else if (code == BT_U_PHONE_NAME) phoneName = s;
             else if (code == BT_U_PHONE_STATE && i != Integer.MIN_VALUE) phoneState = i;
@@ -284,6 +312,38 @@ public final class SyuService implements UnitBackend {
 
     @Override
     public void radioRds(boolean on) { cmd(MOD_RADIO, R_C_RDS_AF, on ? 1 : 0); }
+
+    @Override
+    public boolean radioSearch() {
+        if (!available() || modules[MOD_RADIO] == null) return false;
+        cmd(MOD_RADIO, R_C_SEARCH, R_SEARCH_AUTO);
+        return true;
+    }
+
+    @Override
+    public int[] radioStations() {
+        int[] out = new int[R_FM_SLOTS];
+        int n = 0;
+        for (int f : fmSlots) {
+            if (f < 6000 || f > 11000) continue;
+            boolean dup = false;
+            for (int k = 0; k < n; k++) if (out[k] == f) dup = true;
+            if (!dup) out[n++] = f;
+        }
+        return java.util.Arrays.copyOf(out, n);
+    }
+
+    @Override
+    public long btDurationMs() { return btTotal; }
+
+    /** Position, moved on while playing (MainServer sends it now and then). */
+    @Override
+    public long btPositionMs() {
+        long p = btPos;
+        if (p < 0) return -1;
+        if (btState == 1) p += android.os.SystemClock.elapsedRealtime() - btPosAt;
+        return btTotal > 0 ? Math.min(p, btTotal) : p;
+    }
 
     @Override
     public void enterBluetooth() { requestApp(APP_BTAV); }
