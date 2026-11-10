@@ -277,7 +277,36 @@ public final class MediaHub {
         notifyChanged();
     }
 
+    /** android.car units: the factory music / video players, kept out of the launcher by default. */
+    public static final String P_HIDE_FACTORY_PLAYER = "car_hide_factory_player";
+    private static final String[] CAR_FACTORY_PLAYERS = {"android.car.app.media", "android.car.app.mp4"};
+
+    /**
+     * The unit's own player whose session the launcher leaves alone (android.car build, switch in
+     * Setup → Media): otherwise its title / picture could show here and next / previous go to it.
+     */
+    private boolean hiddenPlayer(String pkg) {
+        if (!com.thecarlauncher.unit.Unit.CAR || !Prefs.bool(app, P_HIDE_FACTORY_PLAYER, true)) return false;
+        for (String p : CAR_FACTORY_PLAYERS) if (p.equals(pkg)) return true;
+        return false;
+    }
+
+    /** Re-reads the sessions after the "hide factory player" switch changed. */
+    public void rescanSessions() {
+        for (String pkg : new ArrayList<>(controllers.keySet())) if (hiddenPlayer(pkg)) remove(pkg);
+        if (active != null && hiddenPlayer(active.getPackageName())) active = controllers.get(app.getPackageName());
+        if (hiddenPlayer(notifPkg)) notifPkg = null;
+        if (externalConnected) {
+            try {
+                sync(msm.getActiveSessions(listenerComponent));
+            } catch (SecurityException ignored) {
+            }
+        }
+        notifyChanged();
+    }
+
     private void add(final String pkg, final MediaController mc) {
+        if (hiddenPlayer(pkg)) return;
         if (controllers.containsKey(pkg)) remove(pkg);
         if (!pkg.equals(app.getPackageName()) && !pkg.equals(BluetoothSource.SYSTEM_PKG) && bt.looksLikeBluetooth(pkg)) {
             Prefs.put(app, Prefs.BT_SESSION_PKG, pkg);
@@ -424,7 +453,7 @@ public final class MediaHub {
     private Bitmap notifArt;
 
     public void onPlayingNotification(String pkg, String title, String text, Bitmap art) {
-        if (pkg == null || pkg.equals(app.getPackageName())) return;
+        if (pkg == null || pkg.equals(app.getPackageName()) || hiddenPlayer(pkg)) return;
         notifPkg = pkg;
         notifTitle = title;
         notifText = text;
