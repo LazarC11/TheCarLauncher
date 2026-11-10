@@ -37,8 +37,11 @@ public final class SyuService implements UnitBackend {
     private static final int R_SLOT_FM = 0x10000, R_FM_SLOTS = 18;
     // Bluetooth module
     private static final int BT_C_PREV = 0, BT_C_NEXT = 1, BT_C_PLAYPAUSE = 2, BT_C_PLAY = 27, BT_C_CONNECT = 24;
-    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_TOTAL_TIME = 2, BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7,
-            BT_U_PHONE_STATE = 9, BT_U_PLAY_STATE = 13, BT_U_PLAY_TIME = 28;
+    private static final int BT_U_TITLE = 0, BT_U_ARTIST = 1, BT_U_TOTAL_TIME = 2, BT_U_PLAY_TRACK = 3, BT_U_TOTAL_TRACK = 4,
+            BT_U_PHONE_ADDR = 6, BT_U_PHONE_NAME = 7, BT_U_PHONE_STATE = 9, BT_U_PLAY_STATE = 13, BT_U_ALBUM = 26,
+            BT_U_PLAY_TIME = 28, BT_U_AVRCP14 = 30;
+    /** Last raw Bluetooth music updates (code → value), for the device report. */
+    private final java.util.Map<Integer, String> btRaw = new java.util.TreeMap<>();
 
     public static final String PKG_RADIO = "com.syu.radio", PKG_BT = "com.syu.bt";
 
@@ -122,8 +125,8 @@ public final class SyuService implements UnitBackend {
             for (int u : new int[]{R_U_BAND, R_U_FREQ, R_U_CHANNEL_FREQ, R_U_RDS_TEXT, R_U_SEARCH_STATE, R_U_PS_TEXT}) {
                 register(MOD_RADIO, u);
             }
-            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_TOTAL_TIME, BT_U_PLAY_STATE, BT_U_PLAY_TIME, BT_U_PHONE_ADDR,
-                    BT_U_PHONE_NAME, BT_U_PHONE_STATE}) {
+            for (int u : new int[]{BT_U_TITLE, BT_U_ARTIST, BT_U_TOTAL_TIME, BT_U_PLAY_TRACK, BT_U_TOTAL_TRACK, BT_U_PLAY_STATE,
+                    BT_U_ALBUM, BT_U_PLAY_TIME, BT_U_AVRCP14, BT_U_PHONE_ADDR, BT_U_PHONE_NAME, BT_U_PHONE_STATE}) {
                 register(MOD_BT, u);
             }
         } catch (Throwable t) {
@@ -234,6 +237,11 @@ public final class SyuService implements UnitBackend {
                 if (slot >= 0 && slot < R_FM_SLOTS) fmSlots[slot] = ints[1];
             }
         }
+        if (module == MOD_BT && code != BT_U_PHONE_ADDR) {
+            synchronized (btRaw) {
+                btRaw.put(code, (ints == null ? "" : java.util.Arrays.toString(ints)) + (strs == null ? "" : java.util.Arrays.toString(strs)));
+            }
+        }
         if (module == MOD_BT) {
             if (code == BT_U_TITLE) {
                 // A new song starts at 0 until MainServer sends its position.
@@ -334,15 +342,20 @@ public final class SyuService implements UnitBackend {
     }
 
     @Override
-    public long btDurationMs() { return btTotal; }
+    public long btDurationMs() { return secondsMode() ? btTotal * 1000 : btTotal; }
+
+    /** Some MainServer builds send song times in seconds: a length under 10 000 can only be that. */
+    private boolean secondsMode() { return btTotal > 0 && btTotal < 10000; }
 
     /** Position, moved on while playing (MainServer sends it now and then). */
     @Override
     public long btPositionMs() {
         long p = btPos;
         if (p < 0) return -1;
+        if (secondsMode()) p *= 1000;
         if (btState == 1) p += android.os.SystemClock.elapsedRealtime() - btPosAt;
-        return btTotal > 0 ? Math.min(p, btTotal) : p;
+        long d = btDurationMs();
+        return d > 0 ? Math.min(p, d) : p;
     }
 
     @Override
@@ -405,6 +418,13 @@ public final class SyuService implements UnitBackend {
     public String describe() {
         if (!available()) return "  not available (" + error + ")\n";
         return "  app_id=" + appId + " radio band=" + band + " freq=" + freq + " ps=" + ps + " search=" + searchState + "\n"
-                + "  bt title=" + btTitle + " artist=" + btArtist + " state=" + btState + "\n";
+                + "  bt title=" + btTitle + " artist=" + btArtist + " state=" + btState + " total=" + btTotal + " pos=" + btPos + "\n"
+                + "  bt updates: " + rawBt() + "\n";
+    }
+
+    private String rawBt() {
+        synchronized (btRaw) {
+            return btRaw.toString();
+        }
     }
 }
