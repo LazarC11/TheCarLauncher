@@ -147,6 +147,10 @@ public final class BluetoothSource {
         }
         AppRepository.App hidden = repo.bluetoothMusic();
         if (hidden != null && (p == null || hidden.pkg.equals(p))) return hidden;
+        // A package with a phone screen and a music screen: the music one, not the first one.
+        String pkg = p != null ? p : appPackage();
+        AppRepository.App music = repo.musicScreenIn(pkg);
+        if (music != null) return music;
         return p == null ? null : repo.findPackage(p);
     }
 

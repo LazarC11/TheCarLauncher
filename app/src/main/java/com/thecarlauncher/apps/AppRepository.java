@@ -196,6 +196,20 @@ public final class AppRepository {
         return null;
     }
 
+    /**
+     * The music screen of a Bluetooth app that has several (e.g. hzbhd's "BT Phone" with its
+     * phone/device screen and its A2dpMainActivity), or null.
+     */
+    public App musicScreenIn(String pkg) {
+        if (pkg == null) return null;
+        for (App a : apps) {
+            if (!a.pkg.equals(pkg)) continue;
+            String l = (a.label + " " + a.cls).toLowerCase(java.util.Locale.ROOT);
+            if (l.contains("a2dp") || l.contains("music") || l.contains("audio")) return a;
+        }
+        return null;
+    }
+
     public App find(String key) {
         for (App a : apps) if (a.key().equals(key)) return a;
         return null;

@@ -28,7 +28,7 @@ public final class DeviceReport {
     /** Packages / properties worth listing: factory apps for radio, Bluetooth, MCU, projection. */
     private static final Pattern INTERESTING = Pattern.compile(
             "(?i).*(radio|fm|tuner|bt|blue|music|mcu|can|nwd|tw|topway|syu|fyt|qf|microntek|hct|carplay|zlink|carlink|"
-                    + "autokit|easyconn|audio|amp|eq|sound|car|vehicle|launcher|goc|xr8|allwinner|sunxi).*");
+                    + "autokit|easyconn|audio|amp|eq|sound|car|vehicle|launcher|goc|xr8|allwinner|sunxi|hzbhd|nfore).*");
 
     /** Builds the report (blocking: a few seconds; call on a worker thread). */
     public static String build(Context c) {
@@ -128,6 +128,7 @@ public final class DeviceReport {
             // Both probed on every build, so a report from an unknown unit shows which one it has.
             r.append(" android.car:\n").append(com.thecarlauncher.media.CarService.get(c).describe());
             r.append(" SYU MainServer:\n").append(com.thecarlauncher.media.SyuService.get(c).describe());
+            r.append(" hzbhd services:\n").append(com.thecarlauncher.media.HzbhdService.get(c).describe());
         } catch (Throwable e) {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
