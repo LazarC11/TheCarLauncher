@@ -40,6 +40,9 @@ public final class BringBack {
 
     public static void toMedia(Context c) { to(c, "media"); }
 
+    /** Brings the launcher back on the given screen ("media", "radio", …). */
+    public static void toScreen(Context c, String screen) { to(c, screen); }
+
     /** Brings the launcher back as it was (no screen change). */
     public static void toLauncher(Context c) { to(c, null); }
 

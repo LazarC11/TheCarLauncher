@@ -537,7 +537,7 @@ public final class RadioController implements K706Tuner.Listener {
             @Override
             public void run() {
                 ub().enterRadio();
-                com.thecarlauncher.media.UnitReturn.watch(app, ub(), ub().radioPackage());
+                com.thecarlauncher.media.UnitReturn.watch(app, ub(), ub().radioPackage(), "radio");
             }
         });
         pollCarSoon();

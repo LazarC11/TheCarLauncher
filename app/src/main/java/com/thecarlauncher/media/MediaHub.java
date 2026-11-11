@@ -126,7 +126,7 @@ public final class MediaHub {
             public void run() {
                 car().enterBluetooth();
                 car().btPlay();
-                UnitReturn.watch(app, car(), car().btPackage());
+                UnitReturn.watch(app, car(), car().btPackage(), "media");
             }
         });
         main.removeCallbacks(carPoll);
