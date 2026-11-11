@@ -4,7 +4,7 @@ import android.content.Context;
 
 /**
  * A head unit's own radio / Bluetooth music / audio-source service, for unit builds whose
- * firmware routes the speakers itself (android.car "car" service, SYU/FYT "com.syu.ms").
+ * firmware routes the speakers itself (android.car "car" service, SYU/FYT "com.syu.ms", hzbhd "hzbhd.*" services).
  * Null for the QF build (MCU tuner and QF Bluetooth app) and builds that use the factory apps.
  * Calls may block briefly: radio and media code call them from a worker thread.
  */
@@ -95,6 +95,7 @@ public interface UnitBackend {
         public static UnitBackend of(Context c) {
             if (com.thecarlauncher.unit.Unit.CAR) return CarService.get(c);
             if (com.thecarlauncher.unit.Unit.SYU) return SyuService.get(c);
+            if ("hzbhd".equals(com.thecarlauncher.unit.Unit.ID)) return HzbhdService.get(c);
             return null;
         }
     }

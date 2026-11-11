@@ -60,7 +60,7 @@ a system app).
 | Head unit | Firmware / how to recognise it | APK | Radio | Bluetooth music | Launcher's own music | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | UIS7862S (QF001 / Roco K706) | QF firmware (`com.qf.*` apps, `mcu_service`, `/dev/goc_serial`) | `TheCarLauncher.apk` | Built-in tuner screen (MCU) | Song, cover, controls, devices page | ✅ | In daily use |
-| Allwinner T3 | hzbhd firmware (`com.hzbhd.*` apps) | `TheCarLauncher_hzbhd.apk` | Opens the factory radio app | Factory BT app routes the sound, song via media session | ✅ | Needs testing |
+| Allwinner T3 | hzbhd firmware (`com.hzbhd.*` apps) | `TheCarLauncher_hzbhd.apk` | Built-in, through `hzbhd.radio` (factory app if unreachable) | Through `hzbhd.bluetooth` (nForce) and the unit's source switch, song from the module | ✅ | Needs testing (4.15.0) |
 | Various (android.car firmware) | `android.car.app.radio`, `android.car.app.bt`, `car` system service | `TheCarLauncher_carsvc.apk` | Built-in tuner screen (car service) | Song, play state, controls via the car service | ✅ (takes the speakers from radio / BT) | New in 4.10.0, needs testing |
 | SYU / FYT (e.g. Unisoc SP7731E) | `com.syu.*` apps, MainServer `com.syu.ms` | `TheCarLauncher_syu.apk` | Built-in tuner screen (MainServer) | Song, play state, controls via MainServer | ✅ (takes the speakers from radio / BT) | New in 4.11.0, needs testing |
 | Any other Android 5.0+ unit | — | `TheCarLauncher.apk` | Not supported (use the factory radio app) | Android media session only | ✅ | Basic: launcher, apps, navigation, media |
@@ -538,7 +538,7 @@ one installs over the other.
 | Unit | APK | What differs |
 | --- | --- | --- |
 | UIS7862 / QF firmware (the main unit) | `TheCarLauncher.apk` | Built-in FM tuner via `mcu_service`, QF Bluetooth app broadcasts, Goodocom serial, Bluetooth devices page |
-| Allwinner T3 / hzbhd firmware | `TheCarLauncher_hzbhd.apk` | Radio opens the factory `com.hzbhd.radio` app; BT-audio briefly opens the factory BT app to route the sound, song info comes from Android's media session; the QF-only Bluetooth pages are hidden |
+| Allwinner T3 / hzbhd firmware | `TheCarLauncher_hzbhd.apk` | Since 4.15.0 the launcher talks to the unit's own services: `hzbhd.radio` (tune, seek, station search, RDS), `hzbhd.sourceswitch` (FM / BT audio / Android sound to the speakers) and the nForce `hzbhd.bluetooth` (AVRCP controls, song, length, position). No factory app is opened; if a service can't be reached, the old way (factory radio / BT app) is used. The QF-only Bluetooth pages are hidden |
 | android.car firmware (`android.car.app.radio`, `android.car.app.bt`) | `TheCarLauncher_carsvc.apk` | Radio, BT music and the audio source go through the unit's `car` system service (`android.car.server.ICarService`): radio tuning / seek / RDS, BT song, play state and controls, and the launcher's own player takes the speakers back from radio or BT before it plays |
 | SYU / FYT (`com.syu.*` apps, MainServer `com.syu.ms`) | `TheCarLauncher_syu.apk` | Radio, BT music and the audio source go through MainServer's `com.syu.ipc` toolkit (modules 0 main, 1 radio, 2 Bluetooth): tune / seek / LOC / RDS, BT song, play state and controls; the launcher's own player requests the audio-player source before it plays |
 

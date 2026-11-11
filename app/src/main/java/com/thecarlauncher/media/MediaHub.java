@@ -102,7 +102,11 @@ public final class MediaHub {
     private UnitBackend car() { return UnitBackend.Get.of(app); }
 
     /** BT audio on an android.car / SYU unit: song, state and controls come from its service. */
-    private boolean carBt() { return car() != null && btSelected && car().available(); }
+    private boolean carBt() {
+        UnitBackend u = car();
+        if (u == null || !btSelected) return false;
+        return u instanceof HzbhdService ? ((HzbhdService) u).btAvailable() : u.available();
+    }
 
     private Handler carWorker() {
         if (carWorker == null) {

@@ -269,6 +269,13 @@ public final class GocBluetooth {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                // hzbhd units: the phone link is the nForce "hzbhd.bluetooth" service, spoken to
+                // by HzbhdService; the Goodocom channel is left alone there.
+                if ("hzbhd".equals(com.thecarlauncher.unit.Unit.ID) && HzbhdService.get(app).btAvailable()) {
+                    status = "hzbhd.bluetooth";
+                    running = false;
+                    return;
+                }
                 loop();
             }
         }, "goc-bt").start();
