@@ -25,8 +25,11 @@ public final class UnitReturn {
         com.thecarlauncher.util.BringBack.requestOverlay(c);
     }
 
-    /** Call on a worker thread right after switching the source. */
-    public static void watch(final Context app, UnitBackend unit, String pkg) {
+    /**
+     * Call on a worker thread right after switching the source; the launcher comes back on
+     * {@code screen} ("radio" for the radio, "media" for Bluetooth music).
+     */
+    public static void watch(final Context app, UnitBackend unit, String pkg, final String screen) {
         // Units that never open their own apps (SYU) report no app on top: nothing to watch.
         if (pkg == null || unit.appOnTop() == null) return;
         final Handler main = new Handler(Looper.getMainLooper());
@@ -35,7 +38,7 @@ public final class UnitReturn {
                 main.post(new Runnable() {
                     @Override
                     public void run() {
-                        com.thecarlauncher.util.BringBack.toMedia(app);
+                        com.thecarlauncher.util.BringBack.toScreen(app, screen);
                         // This firmware does open its app: coming back over it needs "Display over
                         // other apps" on Android 10+, so ask for it now (once).
                         askOverlayOnce(app);
