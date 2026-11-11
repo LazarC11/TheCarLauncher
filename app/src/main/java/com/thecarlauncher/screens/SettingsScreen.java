@@ -954,6 +954,13 @@ public class SettingsScreen extends Screen {
 
     private void buildMedia() {
         toggle(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, false);
+        if (com.thecarlauncher.unit.Unit.CAR) {
+            // android.car units: their factory music / video player would otherwise show up here.
+            toggle(s("Sakrij fabrički plejer (muzika / video)", "Hide the factory player (music / video)"),
+                    MediaHub.P_HIDE_FACTORY_PLAYER, true, new Runnable() {
+                        public void run() { MediaHub.get(act).rescanSessions(); }
+                    });
+        }
         action(s("Duboki - Srednji - Visoki", "Bass - Mid - Treble"), toneSummary(), new Runnable() {
             public void run() { act.show(LauncherActivity.SOUND, true); }
         });

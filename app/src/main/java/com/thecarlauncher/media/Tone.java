@@ -39,7 +39,14 @@ public final class Tone {
         mid = Prefs.integer(c, P_MID, 0);
         treble = Prefs.integer(c, P_TREBLE, 0);
         // Other players (the unit's Bluetooth music app, Spotify…) announce their audio sessions:
-        // the tone follows them too, not only the launcher's own player.
+        // the tone follows them too, not only the launcher's own player. Not on SYU units: their
+        // Bluetooth music also passes the whole-output equalizer and the unit's own sound processor,
+        // and a second equalizer on the player made it sound worse.
+        if (!com.thecarlauncher.unit.Unit.SYU) listenToOtherPlayers(c);
+        if (!flat()) attachGlobal();
+    }
+
+    private void listenToOtherPlayers(Context c) {
         android.content.IntentFilter f = new android.content.IntentFilter(
                 android.media.audiofx.AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
         f.addAction(android.media.audiofx.AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
@@ -48,7 +55,6 @@ public final class Tone {
             else c.registerReceiver(sessions(), f);
         } catch (Exception ignored) {
         }
-        if (!flat()) attachGlobal();
     }
 
     private android.content.BroadcastReceiver sessions() {
