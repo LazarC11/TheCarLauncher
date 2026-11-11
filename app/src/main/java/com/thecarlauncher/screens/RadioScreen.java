@@ -21,6 +21,7 @@ import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.mib.MibBar;
 import com.thecarlauncher.mib.MibPager;
 import com.thecarlauncher.radio.FmScaleView;
+import com.thecarlauncher.radio.OnlineRadio;
 import com.thecarlauncher.radio.RadioController;
 import com.thecarlauncher.util.Ui;
 
@@ -198,12 +199,29 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> p, View v, int position, long id) {
+                if (radio.online()) {
+                    onlineItem(position);
+                    return;
+                }
                 if (position == 0) {
                     if (radio.scanning()) radio.stopScan();
                     else radio.startScan();
                 } else {
                     radio.tune(radio.stations().get(position - 1).freq);
                 }
+            }
+        });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> p, View v, int position, long id) {
+                if (!radio.online() || position < 2) return false;
+                // Online station: onto the radio bar (first free preset).
+                OnlineRadio.Station st = net().results().get(position - 2);
+                int at = net().addToFirstFree(st);
+                Ui.toast(act, at < 0 ? s("Sve memorije su zauzete — zadržite memoriju da zamenite", "All presets are taken — hold a preset to replace it")
+                        : s("Sačuvano na " + (at % PER_PAGE + 1) + " (strana " + (at / PER_PAGE + 1) + ")",
+                        "Stored on " + (at % PER_PAGE + 1) + " (page " + (at / PER_PAGE + 1) + ")"));
+                return true;
             }
         });
         la.addView(list, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
@@ -275,7 +293,62 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
     private void showList(boolean on) {
         listArea.setVisibility(on ? View.VISIBLE : View.GONE);
         listKey.setActive(on);
+        if (on && radio.online() && net().results().isEmpty() && !net().searching()) net().search(net().query());
         if (on) onRadioChanged();
+    }
+
+    // ---- Online radio --------------------------------------------------------------------------
+
+    private OnlineRadio net() { return OnlineRadio.get(act); }
+
+    /** Station list rows in online mode: 0 country, 1 search, then the stations found. */
+    private void onlineItem(int position) {
+        if (position == 0) {
+            pickCountry();
+        } else if (position == 1) {
+            Dialogs.text(act, s("Pretraga stanica", "Search stations"), s("Naziv stanice", "Station name"), net().query(),
+                    new Dialogs.TextEntered() {
+                        public void onText(String text) { net().search(text); }
+                    });
+        } else {
+            radio.playOnline(net().results().get(position - 2));
+        }
+    }
+
+    private void pickCountry() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                java.util.List<String[]> c = null;
+                try {
+                    c = OnlineRadio.countries();
+                } catch (Exception ignored) {
+                }
+                final java.util.List<String[]> list = c;
+                act.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (list == null || list.isEmpty()) {
+                            Ui.toast(act, s("Lista nije dostupna (internet?)", "List not available (internet?)"));
+                            return;
+                        }
+                        final java.util.List<String[]> all = new java.util.ArrayList<>();
+                        all.add(new String[]{"", s("Sve zemlje", "All countries"), ""});
+                        all.addAll(list);
+                        String[] names = new String[all.size()];
+                        int checked = 0;
+                        for (int i = 0; i < all.size(); i++) {
+                            String[] e = all.get(i);
+                            names[i] = e[1] + (e[0].length() > 0 ? " (" + e[0] + ") · " + e[2] : "");
+                            if (e[0].equals(net().country())) checked = i;
+                        }
+                        Dialogs.choose(act, s("Zemlja", "Country"), names, checked, new Dialogs.Chosen() {
+                            public void onChosen(int index) { net().setCountry(all.get(index)[0]); }
+                        });
+                    }
+                });
+            }
+        }, "online-countries").start();
     }
 
     @Override
@@ -322,6 +395,11 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
     @Override
     public void onRadioChanged() {
         if (freq == null) return;
+        if (radio.online()) {
+            onlineChanged();
+            return;
+        }
+        manualKey.setVisibility(View.VISIBLE);
         scale.setFreq(radio.freq());
         String ps = radio.ps().trim(), rt = radio.rt();
         // The station's own name (RDS) replaces the frequency at the top when it is sent.
@@ -336,6 +414,22 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
         int cur = radio.presetIndexOfCurrent();
         for (int i = 0; i < presets.length; i++) presets[i].bind(radio.preset(i), i == cur);
         listTitle.setText(s("Lista stanica", "Station list") + (radio.scanning() ? "  —  " + s("Pretraga…", "Scanning…") : ""));
+        adapter.notifyDataSetChanged();
+    }
+
+    /** The same screen for online radio: station name on top, status under it, its presets. */
+    private void onlineChanged() {
+        if (manual) setManual(false);
+        manualKey.setVisibility(View.GONE);
+        OnlineRadio.Station cur = net().current();
+        freq.setText(cur != null ? cur.name : s("Internet radio", "Online radio"));
+        unit.setVisibility(View.GONE);
+        info.setText(radio.isActive() || cur == null ? net().status() : "");
+        int at = net().presetIndexOfCurrent();
+        for (int i = 0; i < presets.length; i++) presets[i].bindOnline(net().preset(i), i == at);
+        String c = net().country();
+        listTitle.setText(s("Internet stanice", "Online stations") + (c.length() > 0 ? "  ·  " + c : "")
+                + (net().searching() ? "  —  " + s("Pretraga…", "Searching…") : ""));
         adapter.notifyDataSetChanged();
     }
 
@@ -384,6 +478,12 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
             face.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (radio.online()) {
+                        OnlineRadio.Station p = net().preset(index);
+                        if (p == null) save();
+                        else radio.playOnline(p);
+                        return;
+                    }
                     if (radio.preset(index) == null) save();
                     else radio.recallPreset(index);
                 }
@@ -398,8 +498,40 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
         }
 
         void save() {
+            if (radio.online()) {
+                if (net().current() == null) {
+                    Ui.toast(act, s("Prvo pustite stanicu iz liste stanica", "Play a station from the station list first"));
+                    return;
+                }
+                net().savePreset(index, net().current());
+                Ui.toast(act, s("Sačuvano na " + (index % PER_PAGE + 1), "Stored on " + (index % PER_PAGE + 1)));
+                return;
+            }
             radio.savePreset(index);
             Ui.toast(act, s("Sačuvano na " + (index % PER_PAGE + 1), "Stored on " + (index % PER_PAGE + 1)));
+        }
+
+        void bindOnline(OnlineRadio.Station st, boolean current) {
+            name.setText(st == null ? s("Prazno", "Empty") : st.name);
+            android.graphics.Bitmap b = null;
+            if (st != null) {
+                b = com.thecarlauncher.radio.RadioLogos.get(act).logoUrl(st.logo);
+                if (b == null && st.logo.length() == 0) b = com.thecarlauncher.radio.RadioLogos.get(act).logo(st.name);
+            }
+            logo.setImageBitmap(b);
+            mark(current);
+        }
+
+        private void mark(boolean current) {
+            int c = current ? Mib.BLUE : Mib.WHITE;
+            number.setTextColor(c);
+            name.setTextColor(c);
+            ViewGroup.LayoutParams lp = line.getLayoutParams();
+            int h = Math.max(2, Mib.px(act, current ? 5 : 3));
+            if (lp.height != h) {
+                lp.height = h;
+                line.setLayoutParams(lp);
+            }
         }
 
         void bind(RadioController.Station st, boolean current) {
@@ -424,7 +556,10 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
 
     private class StationAdapter extends BaseAdapter {
         @Override
-        public int getCount() { return radio == null ? 0 : radio.stations().size() + 1; }
+        public int getCount() {
+            if (radio == null) return 0;
+            return radio.online() ? net().results().size() + 2 : radio.stations().size() + 1;
+        }
 
         @Override
         public Object getItem(int i) { return i; }
@@ -440,7 +575,34 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
             row.setMinimumHeight(Mib.px(act, 72));
             ImageView iv;
             TextView t, f;
-            if (pos == 0) {
+            if (radio.online()) {
+                if (pos == 0) {
+                    iv = Mib.icon(act, R.drawable.ui_ic_radio, Mib.WHITE);
+                    String c = net().country();
+                    t = Mib.text(act, s("Zemlja", "Country"), 28, Mib.regular(act), Mib.WHITE);
+                    f = Mib.text(act, c.length() > 0 ? c : s("Sve", "All"), 26, Mib.regular(act), Mib.GREY);
+                } else if (pos == 1) {
+                    iv = Mib.icon(act, R.drawable.ui_ic_refresh, Mib.WHITE);
+                    t = Mib.text(act, s("Pretraga", "Search"), 28, Mib.regular(act), Mib.WHITE);
+                    f = Mib.text(act, net().query().length() > 0 ? net().query()
+                            : net().searching() ? s("Pretraga…", "Searching…") : net().results().size() + "", 26, Mib.regular(act), Mib.GREY);
+                } else {
+                    OnlineRadio.Station st = net().results().get(pos - 2);
+                    boolean cur = net().current() != null && net().current().id.equals(st.id);
+                    android.graphics.Bitmap lb = com.thecarlauncher.radio.RadioLogos.get(act).logoUrl(st.logo);
+                    if (lb != null) {
+                        iv = new ImageView(act);
+                        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        iv.setImageBitmap(lb);
+                    } else {
+                        iv = Mib.icon(act, R.drawable.ui_ic_radio, cur ? Mib.BLUE : Mib.WHITE);
+                    }
+                    t = Mib.text(act, st.name, 28, Mib.regular(act), cur ? Mib.BLUE : Mib.WHITE);
+                    t.setSingleLine(true);
+                    t.setEllipsize(android.text.TextUtils.TruncateAt.END);
+                    f = Mib.text(act, st.info, 22, Mib.regular(act), cur ? Mib.BLUE : Mib.GREY);
+                }
+            } else if (pos == 0) {
                 iv = Mib.icon(act, R.drawable.ui_ic_refresh, Mib.WHITE);
                 t = Mib.text(act, radio.scanning() ? s("Zaustavi pretragu", "Stop scan")
                         : s("Ažuriraj listu stanica", "Update station list"), 28, Mib.regular(act), Mib.WHITE);

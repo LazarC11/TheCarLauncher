@@ -681,7 +681,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     public void onMediaChanged() {
         MediaHub hub = MediaHub.get(this);
-        tagView.setText(hub.isRadio() ? "FM" : "");
+        tagView.setText(hub.isRadio() ? (RadioController.get(this).online() ? "WEB" : "FM") : "");
         tagView.setVisibility(hub.isRadio() ? View.VISIBLE : View.GONE);
         onPhoneStatusChanged();
     }

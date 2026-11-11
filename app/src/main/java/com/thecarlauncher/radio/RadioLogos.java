@@ -109,6 +109,52 @@ public final class RadioLogos {
         return null;
     }
 
+    /** An online station's logo by its own link (Radio Browser "favicon"); null until loaded. */
+    public Bitmap logoUrl(final String url) {
+        if (url == null || !url.startsWith("http")) return null;
+        final String k = "u" + Integer.toHexString(url.hashCode());
+        Bitmap b = memory.get(k);
+        if (b != null) return b;
+        File f = new File(dir(), k + ".png");
+        if (f.exists()) {
+            b = BitmapFactory.decodeFile(f.getPath());
+            if (b != null) {
+                memory.put(k, b);
+                return b;
+            }
+        }
+        if (Prefs.bool(app, P_ON, true) && !missed.contains(k) && loading.add(k)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    boolean ok = false;
+                    try {
+                        byte[] data = bytes(url);
+                        Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        if (bm != null) {
+                            FileOutputStream fo = new FileOutputStream(new File(dir(), k + ".png"));
+                            bm.compress(Bitmap.CompressFormat.PNG, 100, fo);
+                            fo.close();
+                            memory.put(k, bm);
+                            ok = true;
+                        }
+                    } catch (Exception ignored) {
+                    }
+                    final boolean done = ok;
+                    main.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            loading.remove(k);
+                            if (!done) missed.add(k);
+                            else for (Listener l : new ArrayList<>(listeners)) l.onLogo();
+                        }
+                    });
+                }
+            }, "radio-logo-url").start();
+        }
+        return null;
+    }
+
     /** Downloads logos for every named station found by the scan and every preset. */
     public void downloadAll(RadioController radio, final Runnable done) {
         final Set<String> names = new LinkedHashSet<>();
