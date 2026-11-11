@@ -209,7 +209,7 @@ public final class StartupConnect {
     @SuppressWarnings("MissingPermission")
     public static List<String[]> knownPhones(Context c) {
         List<String[]> out = new ArrayList<>();
-        if (com.thecarlauncher.unit.Unit.QF) {
+        if (com.thecarlauncher.unit.Unit.QF || BtDevices.get(c).nforce()) {
             for (BtDevices.Device d : BtDevices.get(c).known()) out.add(new String[]{d.address, d.label()});
         } else if (UnitBackend.Get.of(c) == null) {
             try {

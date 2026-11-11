@@ -43,6 +43,12 @@ public final class HzbhdService implements UnitBackend {
     private static final int SEAT_FRONT = 0;
 
     // nForce UiServiceCommand
+    private static final int B_REGISTER_SERVICE_CB = 0x1, B_SCAN = 0x6, B_PAIR = 0x7, B_UNPAIR = 0x8,
+            B_PAIRED = 0xb, B_LOCAL_NAME = 0xd, B_SCANNING = 0x13, B_DISCONNECT_ALL = 0x19;
+    private static final String D_SERVICE_CB = "nfore.android.bt.servicemanager.UiServiceCallback";
+    // UiServiceCallback
+    private static final int SC_PAIRED_LIST = 0x3, SC_FOUND = 0x5, SC_PAIRED = 0x6, SC_UNPAIRED = 0x7,
+            SC_PAIR_FAILED = 0x8, SC_A2DP = 0xa, SC_HFP = 0xb, SC_FOUND_LIST = 0xe;
     private static final int B_SET_ENABLE = 0x3, B_REMOTE_NAME = 0xe, B_IS_ENABLED = 0x11, B_HFP_CONNECT = 0x1e,
             B_HFP_ADDR = 0x20, B_A2DP_CONNECT = 0x69;
     private static final int B_REGISTER_A2DP_AVRCP_CB = 0x67, B_A2DP_ADDR = 0x6b, B_PLAY = 0x73, B_PAUSE = 0x75,
@@ -119,6 +125,14 @@ public final class HzbhdService implements UnitBackend {
                 d.writeInterfaceToken(D_BT);
                 d.writeStrongBinder(callback);
                 bt.transact(B_REGISTER_A2DP_AVRCP_CB, d, r, 0);
+                r.readException();
+                d.recycle();
+                r.recycle();
+                d = Parcel.obtain();
+                r = Parcel.obtain();
+                d.writeInterfaceToken(D_BT);
+                d.writeStrongBinder(serviceCallback);
+                bt.transact(B_REGISTER_SERVICE_CB, d, r, 0);
                 r.readException();
             } catch (Throwable t) {
                 error = "bt callback: " + t.getClass().getSimpleName();
@@ -395,8 +409,19 @@ public final class HzbhdService implements UnitBackend {
     @Override
     public void btConnect(String address, String name) {
         if (address == null || bt() == null) return;
+        address = colon(address);
         call(bt, D_BT, B_HFP_CONNECT, str(address), INT, 0);
         call(bt, D_BT, B_A2DP_CONNECT, str(address), INT, 0);
+    }
+
+    /** "AABBCCDDEEFF" → "AA:BB:CC:DD:EE:FF" (the module's form); other text unchanged. */
+    static String colon(String a) {
+        if (a == null) return null;
+        String n = a.trim();
+        if (n.length() != 12 || n.indexOf(':') >= 0) return n;
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < 12; i += 2) b.append(i == 0 ? "" : ":").append(n, i, i + 2);
+        return b.toString().toUpperCase(Locale.ROOT);
     }
 
     private static boolean realAddr(String a) {
@@ -421,6 +446,88 @@ public final class HzbhdService implements UnitBackend {
 
     @Override
     public String btPackage() { return PKG_BT; }
+
+    // ---- Phones (the launcher's Bluetooth devices screen) -----------------------------------------
+
+    /** Paired phones and search results from the module; called on a binder thread. */
+    public interface PhoneListener {
+        /** The module's paired list (addresses "AA:BB:..", names may be null). */
+        void onPairedList(String[] addresses, String[] names);
+
+        void onFound(String address, String name);
+
+        /** A phone connected, disconnected, paired or was removed. */
+        void onPhonesChanged();
+    }
+
+    private volatile PhoneListener phoneListener;
+
+    public void setPhoneListener(PhoneListener l) { phoneListener = l; }
+
+    /** Asks for the paired list (answer on {@link PhoneListener#onPairedList}). */
+    public void requestPaired() { if (bt() != null) call(bt, D_BT, B_PAIRED, null, INT, 0); }
+
+    public void scan(boolean on) { if (bt() != null) call(bt, D_BT, B_SCAN, ints(on ? 1 : 0), INT, 0); }
+
+    public boolean scanning() { return bt() != null && call(bt, D_BT, B_SCANNING, null, INT, 0) != 0; }
+
+    public void pair(String address) { if (bt() != null) call(bt, D_BT, B_PAIR, str(colon(address)), INT, 0); }
+
+    public void unpair(String address) { if (bt() != null) call(bt, D_BT, B_UNPAIR, str(colon(address)), INT, 0); }
+
+    public void disconnectAll() { if (bt() != null) call(bt, D_BT, B_DISCONNECT_ALL, null, INT, 0); }
+
+    public String localName() { return bt() == null ? null : clean(call(bt, D_BT, B_LOCAL_NAME, null, STRING, null)); }
+
+    /** UiServiceCallback: paired list, search results, connection changes. */
+    private final Binder serviceCallback = new Binder() {
+        {
+            attachInterface(null, D_SERVICE_CB);
+        }
+
+        @Override
+        protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) {
+            if (code == INTERFACE_TRANSACTION) {
+                if (reply != null) reply.writeString(D_SERVICE_CB);
+                return true;
+            }
+            PhoneListener l = phoneListener;
+            try {
+                data.enforceInterface(D_SERVICE_CB);
+                switch (code) {
+                    case SC_PAIRED_LIST:
+                    case SC_FOUND_LIST: {
+                        data.readInt(); // count
+                        String[] a = data.createStringArray(), n = data.createStringArray();
+                        if (a == null || l == null) break;
+                        if (code == SC_PAIRED_LIST) {
+                            l.onPairedList(a, n);
+                        } else {
+                            for (int i = 0; i < a.length; i++) l.onFound(a[i], n != null && i < n.length ? n[i] : null);
+                        }
+                        break;
+                    }
+                    case SC_FOUND: {
+                        String a = data.readString(), n = data.readString();
+                        if (l != null && a != null) l.onFound(a, n);
+                        break;
+                    }
+                    case SC_PAIRED:
+                    case SC_UNPAIRED:
+                    case SC_PAIR_FAILED:
+                    case SC_A2DP:
+                    case SC_HFP:
+                        if (l != null) l.onPhonesChanged();
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Throwable ignored) {
+            }
+            if (reply != null && (flags & FLAG_ONEWAY) == 0) reply.writeNoException();
+            return true;
+        }
+    };
 
     /** Receives the module's AVRCP answers (UiA2dpCallback, one-way calls). */
     private final Binder callback = new Binder() {

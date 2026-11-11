@@ -1003,11 +1003,13 @@ public class SettingsScreen extends Screen {
 
     private void buildBluetooth() {
         boolean qf = com.thecarlauncher.unit.Unit.QF;
-        if (qf) {
+        // hzbhd: the launcher's own device screen through the unit's nForce Bluetooth service.
+        boolean nforce = !qf && com.thecarlauncher.media.BtDevices.get(act).nforce();
+        if (qf || nforce) {
             action(s("Bluetooth uređaji", "Bluetooth devices"), s("poveži / novi uređaj", "connect / new device"), new Runnable() {
                 public void run() { act.show(LauncherActivity.BTDEVICES, true); }
             });
-            toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
+            if (qf) toggle(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"),
                     Prefs.BT_AUTO_SELECT, true, false);
         } else {
             // Other units: the factory BT music app plays the sound; the launcher opens it briefly.

@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
  * + name per device, "SH" when done), {@code AT#DB<addr>} pair. Whether a phone is connected and
  * which one comes from the factory app's properties {@code sys.qf.bt.is.connect} and
  * {@code persist.sys.qf.bt.connect.addr}.
+ * On hzbhd units the same is done through the nForce "hzbhd.bluetooth" service (HzbhdService).
  */
 public final class BtDevices {
     public static final class Device {
@@ -65,6 +66,38 @@ public final class BtDevices {
     private BtDevices(Context c) {
         app = c;
         load();
+        if ("hzbhd".equals(com.thecarlauncher.unit.Unit.ID)) {
+            HzbhdService.get(c).setPhoneListener(new HzbhdService.PhoneListener() {
+                @Override
+                public void onPairedList(final String[] a, final String[] n) {
+                    main.post(new Runnable() {
+                        public void run() {
+                            for (int i = 0; i < a.length; i++) remember(a[i], clean(n != null && i < n.length ? n[i] : null));
+                            changed();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFound(final String address, final String name) {
+                    main.post(new Runnable() {
+                        public void run() {
+                            String ad = norm(address);
+                            if (ad.length() != 12) return;
+                            found.put(ad, new Device(ad, clean(name)));
+                            changed();
+                        }
+                    });
+                }
+
+                @Override
+                public void onPhonesChanged() {
+                    main.post(new Runnable() {
+                        public void run() { changed(); }
+                    });
+                }
+            });
+        }
         goc().addLineListener(new GocBluetooth.LineListener() {
             @Override
             public void onLine(final String line) {
@@ -76,6 +109,16 @@ public final class BtDevices {
     }
 
     private GocBluetooth goc() { return GocBluetooth.get(app); }
+
+    /** hzbhd unit whose nForce Bluetooth service answers: everything goes through it. */
+    public boolean nforce() {
+        return "hzbhd".equals(com.thecarlauncher.unit.Unit.ID) && hz().btAvailable();
+    }
+
+    private HzbhdService hz() { return HzbhdService.get(app); }
+
+    /** {address, name} of the phone the nForce module has connected, or null. */
+    private String[] hzPhone() { return hz().btPhone(); }
 
     public void addListener(Listener l) { if (!listeners.contains(l)) listeners.add(l); }
 
@@ -101,14 +144,22 @@ public final class BtDevices {
 
     /** False when the connection property cannot be read (then nothing is decided from it). */
     public boolean knowsState() {
+        if (nforce()) return true;
         String v = prop("sys.qf.bt.is.connect");
         return v != null && !v.isEmpty();
     }
 
-    public boolean isConnected() { return "true".equals(prop("sys.qf.bt.is.connect")); }
+    public boolean isConnected() {
+        if (nforce()) return hzPhone() != null;
+        return "true".equals(prop("sys.qf.bt.is.connect"));
+    }
 
     /** Address of the connected phone, or null. */
     public String connectedAddress() {
+        if (nforce()) {
+            String[] p = hzPhone();
+            return p == null ? null : norm(p[0]);
+        }
         if (!isConnected()) return null;
         String a = norm(prop("persist.sys.qf.bt.connect.addr"));
         return a.length() == 12 && !a.equals("000000000000") ? a : null;
@@ -136,6 +187,10 @@ public final class BtDevices {
 
     /** Name of the connected phone from the factory BT service (its "btBinderPool" service). */
     public String connectedName() {
+        if (nforce()) {
+            String[] p = hzPhone();
+            return p == null ? null : clean(p[1]);
+        }
         android.os.Parcel d = null, r = null;
         try {
             Class<?> sm = Class.forName("android.os.ServiceManager");
@@ -176,6 +231,7 @@ public final class BtDevices {
 
     /** The unit's own Bluetooth name, as phones see it. */
     public String localName() {
+        if (nforce()) return hz().localName();
         String n = prop("persist.sys.qf.bt.local.name");
         return n == null || n.isEmpty() ? null : n;
     }
@@ -221,7 +277,8 @@ public final class BtDevices {
     public void forget(String address) {
         String a = norm(address);
         known.remove(a);
-        goc().send("CV" + a);
+        if (nforce()) hz().unpair(pretty(a));
+        else goc().send("CV" + a);
         save();
         changed();
     }
@@ -230,6 +287,10 @@ public final class BtDevices {
 
     /** Asks the module for its paired list (a few times: we only see part of the line). */
     public void refresh() {
+        if (nforce()) {
+            hz().requestPaired();
+            return;
+        }
         goc().start();
         goc().listen(4000);
         for (int i = 0; i < 3; i++) {
@@ -244,11 +305,25 @@ public final class BtDevices {
             LoadingBanner.flash("bt-search", LoadingBanner.t("Prvo odspoji telefon", "Disconnect the phone first"), 2500);
             return;
         }
-        goc().start();
+        final boolean nf = nforce();
+        if (!nf) goc().start();
         found.clear();
         searching = true;
         changed();
         LoadingBanner.start("bt-search", LoadingBanner.t("Traženje uređaja…", "Searching for devices…"));
+        if (nf) {
+            hz().scan(true);
+            main.postDelayed(new Runnable() {
+                public void run() {
+                    if (!searching) return;
+                    hz().scan(false);
+                    searching = false;
+                    LoadingBanner.stop("bt-search");
+                    changed();
+                }
+            }, 15000);
+            return;
+        }
         goc().listen(16000);
         main.postDelayed(new Runnable() {
             public void run() { goc().send("SD"); }
@@ -271,9 +346,11 @@ public final class BtDevices {
 
     private void connect(final Device d, final boolean pair) {
         if (connecting != null) return;
-        goc().start();
+        final boolean nf = nforce();
+        if (!nf) goc().start();
         if (searching) {
-            goc().send("ST");
+            if (nf) hz().scan(false);
+            else goc().send("ST");
             searching = false;
             LoadingBanner.stop("bt-search");
         }
@@ -284,6 +361,18 @@ public final class BtDevices {
         changed();
         LoadingBanner.start("bt-connect", LoadingBanner.t((pair ? "Uparivanje sa " : "Povezivanje sa ") + d.label() + "…",
                 (pair ? "Pairing with " : "Connecting to ") + d.label() + "…"));
+        if (nf) {
+            if (cur != null) hz().disconnectAll();
+            main.postDelayed(new Runnable() {
+                public void run() {
+                    // Connecting an unpaired phone pairs it first; pair explicitly as well.
+                    if (pair) hz().pair(pretty(d.address));
+                    hz().btConnect(pretty(d.address), d.name);
+                }
+            }, cur != null ? 1500 : 100);
+            main.postDelayed(watch, 1000);
+            return;
+        }
         if (cur != null) goc().send("CD");
         main.postDelayed(new Runnable() {
             public void run() {
@@ -314,7 +403,7 @@ public final class BtDevices {
                 LoadingBanner.stop("bt-connect");
                 LoadingBanner.flash("bt-connected", LoadingBanner.t("Povezano: ", "Connected: ") + label, 2500);
                 // BT audio becomes the source (done already when "BT audio on connect" is on).
-                if (!Prefs.bool(app, Prefs.BT_AUTO_SELECT, true)) MediaHub.get(app).select(MediaHub.BLUETOOTH);
+                if (!Prefs.bool(app, Prefs.BT_AUTO_SELECT, true) || nforce()) MediaHub.get(app).select(MediaHub.BLUETOOTH);
                 changed();
                 return;
             }
@@ -331,8 +420,12 @@ public final class BtDevices {
     };
 
     public void disconnect() {
-        goc().start();
-        goc().send("CD");
+        if (nforce()) {
+            hz().disconnectAll();
+        } else {
+            goc().start();
+            goc().send("CD");
+        }
         main.postDelayed(new Runnable() {
             public void run() { changed(); }
         }, 1500);
