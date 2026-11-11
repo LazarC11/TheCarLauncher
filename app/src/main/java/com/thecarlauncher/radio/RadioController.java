@@ -93,6 +93,34 @@ public final class RadioController implements K706Tuner.Listener {
         freq = Prefs.integer(c, P_FREQ, FM_MIN);
         loadList(Prefs.str(c, P_PRESETS, ""), null);
         loadList(Prefs.str(c, P_STATIONS, ""), stations);
+        OnlineRadio.get(c).addListener(new OnlineRadio.Listener() {
+            @Override
+            public void onOnlineChanged() { changed(); }
+        });
+    }
+
+    // ---- Online radio (Setup → Radio → Radio source) ------------------------------------------
+
+    /** True when the radio plays internet stations instead of the FM tuner. */
+    public boolean online() { return OnlineRadio.on(app); }
+
+    private OnlineRadio net() { return OnlineRadio.get(app); }
+
+    /** Plays an online station (radio becomes the source, like pressing Radio). */
+    public void playOnline(OnlineRadio.Station st) {
+        if (st == null) return;
+        if (!net().isActive()) MediaHub.get(app).onRadioStarting();
+        net().play(st);
+        changed();
+    }
+
+    /** Switches between FM and online radio; whatever plays now stops. */
+    public void setOnline(boolean on) {
+        boolean was = isActive();
+        stop();
+        Prefs.put(app, OnlineRadio.P_MODE, on ? OnlineRadio.MODE_ONLINE : OnlineRadio.MODE_FM);
+        if (was) start();
+        changed();
     }
 
     public void addListener(Listener l) {
@@ -110,7 +138,10 @@ public final class RadioController implements K706Tuner.Listener {
     // ---- Availability / audio ----------------------------------------------------------------
 
     /** True when this head unit's FM tuner can be driven from the launcher. */
-    public boolean available() {
+    public boolean available() { return online() || fmAvailable(); }
+
+    /** True when this unit's FM tuner can be driven from the launcher (whatever the radio source). */
+    public boolean fmAvailable() {
         if (!Prefs.bool(app, Prefs.RADIO_INTERNAL, true)) return false;
         if (car) return ub().available();
         return tuner.connect(this);
@@ -157,10 +188,19 @@ public final class RadioController implements K706Tuner.Listener {
         return Prefs.integer(app, Prefs.BT_CHANNEL_LEARNED, 0);
     }
 
-    public boolean isActive() { return active; }
+    public boolean isActive() { return online() ? net().isActive() : active; }
 
     /** Makes FM the audio source (like pressing Radio on the factory unit) and tunes the last station. */
     public boolean start() {
+        if (online()) {
+            if (net().isActive()) return true;
+            MediaHub.get(app).onRadioStarting();
+            // QF: the MCU audio switch may still be on the FM tuner; the stream is Android sound.
+            if (!car && tuner.connect(this) && tuner.channel() == K706Tuner.CHANNEL_FM) tuner.route(K706Tuner.CHANNEL_ANDROID);
+            net().start();
+            changed();
+            return true;
+        }
         if (!available()) return false;
         if (active) return true;
         MediaHub.get(app).onRadioStarting();
@@ -193,6 +233,10 @@ public final class RadioController implements K706Tuner.Listener {
     /** Hands audio back to Android (another source was chosen). */
     public void stop() {
         stopScan();
+        if (net().isActive()) {
+            net().stop();
+            changed();
+        }
         if (!active) return;
         active = false;
         focusPaused = false;
@@ -212,7 +256,7 @@ public final class RadioController implements K706Tuner.Listener {
     }
 
     public void toggle() {
-        if (active) stop();
+        if (isActive()) stop();
         else start();
     }
 
@@ -247,11 +291,19 @@ public final class RadioController implements K706Tuner.Listener {
     }
 
     public void seekUp() {
+        if (online()) {
+            net().step(true);
+            return;
+        }
         if (!active) start();
         seek(true);
     }
 
     public void seekDown() {
+        if (online()) {
+            net().step(false);
+            return;
+        }
         if (!active) start();
         seek(false);
     }
@@ -266,10 +318,18 @@ public final class RadioController implements K706Tuner.Listener {
     }
 
     public void stepUp() {
+        if (online()) {
+            net().step(true);
+            return;
+        }
         tune(freq + 10 > FM_MAX ? FM_MIN : freq + 10);
     }
 
     public void stepDown() {
+        if (online()) {
+            net().step(false);
+            return;
+        }
         tune(freq - 10 < FM_MIN ? FM_MAX : freq - 10);
     }
 
@@ -295,8 +355,12 @@ public final class RadioController implements K706Tuner.Listener {
     // ---- State -------------------------------------------------------------------------------
 
     public int freq() { return freq; }
-    public String ps() { return ps; }
-    public String rt() { return rt; }
+    public String ps() {
+        if (online()) return net().current() == null ? "" : net().current().name;
+        return ps;
+    }
+
+    public String rt() { return online() ? net().status() : rt; }
     public boolean stereo() { return stereo; }
     public boolean scanning() { return scanning; }
 
@@ -306,6 +370,7 @@ public final class RadioController implements K706Tuner.Listener {
 
     /** Station name if RDS gave one, else the frequency. */
     public String label() {
+        if (online()) return net().current() == null ? "Online radio" : net().current().name;
         return ps.length() > 0 ? ps : "FM " + format(freq) + " MHz";
     }
 

@@ -1337,7 +1337,25 @@ public class SettingsScreen extends Screen {
 
     private void buildRadio() {
         final RadioController radio = RadioController.get(act);
-        boolean ok = radio.available();
+        section(s("Izvor radija", "Radio source"));
+        choice(s("FM radio", "FM radio"), !radio.online(), new Runnable() {
+            public void run() {
+                radio.setOnline(false);
+                refresh();
+            }
+        });
+        choice(s("Internet radio", "Online radio"), radio.online(), new Runnable() {
+            public void run() {
+                radio.setOnline(true);
+                refresh();
+            }
+        });
+        note(s("Internet radio pušta stanice preko interneta (Radio Browser), na istom radio ekranu: u listi stanica birate "
+                        + "zemlju i pretragu, a stanice dodajete na trake memorija. Troši oko 60–120 MB po satu slušanja.",
+                "Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list "
+                        + "you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening."));
+        section(s("FM radio", "FM radio"));
+        boolean ok = radio.fmAvailable();
         info(s("FM tjuner", "FM tuner"), ok ? "K706 / QuickFish MCU" : radio.error());
         toggle(s("Ugrađeni radio u launcheru", "Built-in launcher radio"), Prefs.RADIO_INTERNAL, true, new Runnable() {
             public void run() {
