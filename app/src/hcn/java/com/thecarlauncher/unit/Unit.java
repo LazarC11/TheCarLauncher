@@ -2,9 +2,8 @@ package com.thecarlauncher.unit;
 
 /**
  * Build for MediaTek MT8163 units with the hcn firmware (com.hcn.* system apps: autoradio,
- * AutoMediaPlayer, bluetoothservice; com.autochips.bluetooth). Bluetooth music plays through
- * Android's own A2DP-sink music service; the radio opens the factory com.hcn.autoradio app until
- * its "fmradio" service is mapped.
+ * AutoMediaPlayer, bluetoothservice; com.autochips.bluetooth). Radio and Bluetooth music go
+ * through the factory radio and Bluetooth music services (media.HcnService).
  */
 public final class Unit {
     public static final String ID = "hcn";

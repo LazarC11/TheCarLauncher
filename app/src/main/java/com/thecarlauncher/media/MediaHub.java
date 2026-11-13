@@ -105,6 +105,7 @@ public final class MediaHub {
     private boolean carBt() {
         UnitBackend u = car();
         if (u == null || !btSelected) return false;
+        if (u instanceof HcnService) return ((HcnService) u).btAvailable();
         return u instanceof HzbhdService ? ((HzbhdService) u).btAvailable() : u.available();
     }
 
