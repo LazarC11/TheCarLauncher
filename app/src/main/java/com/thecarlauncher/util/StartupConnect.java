@@ -135,7 +135,7 @@ public final class StartupConnect {
 
     @SuppressWarnings({"deprecation", "MissingPermission"})
     private static void bluetoothOn(Context c) {
-        UnitBackend unit = UnitBackend.Get.of(c);
+        UnitBackend unit = UnitBackend.Get.bt(c);
         if (unit != null && unit.available()) {
             unit.btPowerOn();
             return;
@@ -162,7 +162,7 @@ public final class StartupConnect {
     }
 
     private static boolean phoneConnected(Context c) {
-        UnitBackend unit = UnitBackend.Get.of(c);
+        UnitBackend unit = UnitBackend.Get.bt(c);
         if (unit != null && unit.available()) return unit.btPhone() != null;
         if (com.thecarlauncher.unit.Unit.QF) return BtDevices.get(c).isConnected();
         return androidConnected() != null;
@@ -171,7 +171,7 @@ public final class StartupConnect {
     private static void connectPhone(Context c) {
         String[] t = target(c);
         if (t == null) return;
-        UnitBackend unit = UnitBackend.Get.of(c);
+        UnitBackend unit = UnitBackend.Get.bt(c);
         if (unit != null && unit.available()) {
             unit.btConnect(t[0], t[1]);
             return;
@@ -196,7 +196,7 @@ public final class StartupConnect {
 
     /** {address, name} of the phone connected now, or null. Blocking (unit service calls). */
     public static String[] connectedPhone(Context c) {
-        UnitBackend unit = UnitBackend.Get.of(c);
+        UnitBackend unit = UnitBackend.Get.bt(c);
         if (unit != null && unit.available()) return unit.btPhone();
         if (com.thecarlauncher.unit.Unit.QF) {
             BtDevices d = BtDevices.get(c);
@@ -211,7 +211,7 @@ public final class StartupConnect {
         List<String[]> out = new ArrayList<>();
         if (com.thecarlauncher.unit.Unit.QF || BtDevices.get(c).nforce()) {
             for (BtDevices.Device d : BtDevices.get(c).known()) out.add(new String[]{d.address, d.label()});
-        } else if (UnitBackend.Get.of(c) == null) {
+        } else if (UnitBackend.Get.bt(c) == null) {
             try {
                 BluetoothAdapter a = BluetoothAdapter.getDefaultAdapter();
                 if (a != null && a.getBondedDevices() != null) {

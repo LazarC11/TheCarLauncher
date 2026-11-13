@@ -1,6 +1,6 @@
 {
   "comment": "Which APK fits which head unit. Software update downloads this file from the release and checks the unit against it, top to bottom; the first unit with a matching entry wins. An entry matches when all of its conditions hold: package (installed app), service (system service name), prop (system property set; with equals / startsWith), file (exists), hardware / manufacturer / model (contains, any case). Unknown conditions never match. The launcher also carries a copy (used offline and when this file is older).",
-  "rulesVersion": 1,
+  "rulesVersion": 2,
   "default": "qf",
   "units": [
     {
@@ -29,6 +29,15 @@
       "asset": "TheCarLauncher_syu.apk",
       "match": [
         {"package": "com.syu.ms"}
+      ]
+    },
+    {
+      "id": "hcn",
+      "name": "MediaTek MT8163 / hcn",
+      "asset": "TheCarLauncher_hcn.apk",
+      "match": [
+        {"package": "com.hcn.autoradio"},
+        {"package": "com.hcn.bluetoothservice"}
       ]
     },
     {

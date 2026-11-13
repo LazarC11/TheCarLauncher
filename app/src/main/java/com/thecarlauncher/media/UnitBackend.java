@@ -96,7 +96,20 @@ public interface UnitBackend {
             if (com.thecarlauncher.unit.Unit.CAR) return CarService.get(c);
             if (com.thecarlauncher.unit.Unit.SYU) return SyuService.get(c);
             if ("hzbhd".equals(com.thecarlauncher.unit.Unit.ID)) return HzbhdService.get(c);
+            if ("hcn".equals(com.thecarlauncher.unit.Unit.ID)) return HcnService.get(c);
             return null;
         }
+
+        /** The unit backend when it also runs the phone link; null when Android's Bluetooth does. */
+        public static UnitBackend bt(Context c) {
+            UnitBackend u = of(c);
+            return u instanceof HcnService ? null : u;
+        }
+
+        /**
+         * The unit's radio app plays the FM sound itself and holds the audio focus while it does
+         * (hcn): the launcher must not take the focus for the radio.
+         */
+        public static boolean radioPlaysItself(Context c) { return of(c) instanceof HcnService; }
     }
 }

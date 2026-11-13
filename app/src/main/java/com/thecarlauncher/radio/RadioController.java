@@ -595,8 +595,12 @@ public final class RadioController implements K706Tuner.Listener {
 
     /** Radio becomes the unit's source; its app may come up, so the launcher is brought back. */
     private void startCar() {
-        requestFocus();
+        // hcn: the factory radio service plays the sound and needs the audio focus itself.
+        unitPlays = UnitBackend.Get.radioPlaysItself(app);
+        if (!unitPlays) requestFocus();
         active = true;
+        carStartedAt = SystemClock.elapsedRealtime();
+        notSourceCount = 0;
         changed();
         worker().post(new Runnable() {
             @Override
@@ -607,6 +611,11 @@ public final class RadioController implements K706Tuner.Listener {
         });
         pollCarSoon();
     }
+
+    /** The unit's radio app makes the sound itself (no launcher audio focus). */
+    private boolean unitPlays;
+    private long carStartedAt;
+    private int notSourceCount;
 
     private void stopCar() {
         main.removeCallbacks(carPoll);
@@ -646,10 +655,22 @@ public final class RadioController implements K706Tuner.Listener {
                     final String name = ub().radioName();
                     final String text = ub().radioText();
                     final boolean seek = ub().radioSeeking();
+                    final boolean lost = unitPlays && !com.thecarlauncher.media.HcnService.radioIsSource();
                     main.post(new Runnable() {
                         @Override
                         public void run() {
                             if (!active) return;
+                            // hcn: another player became the source (radio app stopped itself).
+                            if (lost && SystemClock.elapsedRealtime() - carStartedAt > 5000) {
+                                if (++notSourceCount >= 3) {
+                                    active = false;
+                                    main.removeCallbacks(carPoll);
+                                    changed();
+                                    return;
+                                }
+                            } else {
+                                notSourceCount = 0;
+                            }
                             boolean ch = seek != seeking;
                             seeking = seek;
                             if (f >= FM_MIN && f <= FM_MAX && f != freq) {

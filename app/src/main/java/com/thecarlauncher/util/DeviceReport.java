@@ -129,6 +129,7 @@ public final class DeviceReport {
             r.append(" android.car:\n").append(com.thecarlauncher.media.CarService.get(c).describe());
             r.append(" SYU MainServer:\n").append(com.thecarlauncher.media.SyuService.get(c).describe());
             r.append(" hzbhd services:\n").append(com.thecarlauncher.media.HzbhdService.get(c).describe());
+            r.append(" hcn services:\n").append(com.thecarlauncher.media.HcnService.get(c).describe());
         } catch (Throwable e) {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }

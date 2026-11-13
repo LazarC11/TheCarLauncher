@@ -1024,7 +1024,7 @@ public class SettingsScreen extends Screen {
                 }
             });
             toggle(s("Otvori BT aplikaciju na trenutak (pušta zvuk)", "Open the BT app briefly (plays the sound)"),
-                    Prefs.BT_OPEN_APP, true, false);
+                    Prefs.BT_OPEN_APP, MediaHub.get(act).btOpenAppDefault(), false);
             if (!com.thecarlauncher.util.BringBack.canOverlay(act)) {
                 action(s("Dozvoli povratak iz BT aplikacije", "Allow returning from the BT app"),
                         s("Prikaz preko drugih aplikacija: isključeno", "Display over other apps: off"), new Runnable() {

@@ -45,11 +45,12 @@ jobs:
         run: |
           chmod +x gradlew
           # One APK per head-unit family; Software update on the unit picks the matching one.
-          ./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease assembleSyuRelease --no-daemon --stacktrace
+          ./gradlew assembleQfRelease assembleHzbhdRelease assembleCarsvcRelease assembleSyuRelease assembleHcnRelease --no-daemon --stacktrace
           cp app/build/outputs/apk/qf/release/app-qf-release.apk TheCarLauncher.apk
           cp app/build/outputs/apk/hzbhd/release/app-hzbhd-release.apk TheCarLauncher_hzbhd.apk
           cp app/build/outputs/apk/carsvc/release/app-carsvc-release.apk TheCarLauncher_carsvc.apk
           cp app/build/outputs/apk/syu/release/app-syu-release.apk TheCarLauncher_syu.apk
+          cp app/build/outputs/apk/hcn/release/app-hcn-release.apk TheCarLauncher_hcn.apk
           # Unit rules: Software update reads them to pick the APK for the unit (also for units added later).
           cp app/src/main/assets/units.json units.json
           echo "VNAME=$(grep -oP "versionName '\K[^']+" app/build.gradle)" >> "$GITHUB_ENV"
@@ -66,6 +67,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            TheCarLauncher_hcn.apk
             units.json
             TheCarLauncher-magisk.zip
 
@@ -84,6 +86,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            TheCarLauncher_hcn.apk
             units.json
             TheCarLauncher-magisk.zip
           prerelease: false
@@ -93,7 +96,7 @@ jobs:
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
-            Download **TheCarLauncher.apk** (UIS7862 / QF units), **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units), **TheCarLauncher_carsvc.apk** (android.car firmware units) or **TheCarLauncher_syu.apk** (SYU / FYT units) below, or update from Setup → Software update on the head unit (it picks the right one). Coming from an older version on a newly supported unit: run Software update twice (the first update brings the QF build, the second switches to the build for your unit).
+            Download **TheCarLauncher.apk** (UIS7862 / QF units), **TheCarLauncher_hzbhd.apk** (Allwinner T3 / hzbhd units), **TheCarLauncher_carsvc.apk** (android.car firmware units) **TheCarLauncher_syu.apk** (SYU / FYT units) or **TheCarLauncher_hcn.apk** (MediaTek MT8163 / hcn units) below, or update from Setup → Software update on the head unit (it picks the right one). Coming from an older version on a newly supported unit: run Software update twice (the first update brings the QF build, the second switches to the build for your unit).
 
       - name: Publish test build (other branches)
         if: github.event_name == 'push' && github.ref != 'refs/heads/main'
@@ -107,6 +110,7 @@ jobs:
             TheCarLauncher_hzbhd.apk
             TheCarLauncher_carsvc.apk
             TheCarLauncher_syu.apk
+            TheCarLauncher_hcn.apk
             units.json
             TheCarLauncher-magisk.zip
           prerelease: true
@@ -116,4 +120,4 @@ jobs:
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
-            Download **TheCarLauncher.apk** (QF), **TheCarLauncher_hzbhd.apk** (hzbhd), **TheCarLauncher_carsvc.apk** (android.car) or **TheCarLauncher_syu.apk** (SYU / FYT) below and open it on the head unit to install.
+            Download **TheCarLauncher.apk** (QF), **TheCarLauncher_hzbhd.apk** (hzbhd), **TheCarLauncher_carsvc.apk** (android.car) **TheCarLauncher_syu.apk** (SYU / FYT) or **TheCarLauncher_hcn.apk** (MT8163 / hcn) below and open it on the head unit to install.

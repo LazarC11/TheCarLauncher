@@ -263,18 +263,44 @@ public final class Mib {
         return s;
     }
 
-    /** Light settings bar (Podešavanje sistema list rows). */
+    /**
+     * Light settings bar (Podešavanje sistema list rows). Shaded inward, like the original: the
+     * shadow sits inside along the top edge and both ends, the bar is lightest low in the middle,
+     * with a darker rim (a pressed-in strip, not a raised one).
+     */
     public static Drawable settingsBar(Context c) {
-        float r = px(c, 3);
-        GradientDrawable n = grad(0xFFE9E9EC, 0xFFC5C6CC);
-        n.setCornerRadius(r);
-        n.setStroke(Math.max(1, px(c, 1)), 0xFFF4F4F6);
-        GradientDrawable p = grad(shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.7f, 0xFF));
-        p.setCornerRadius(r);
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, p);
-        s.addState(new int[]{}, n);
+        s.addState(new int[]{android.R.attr.state_pressed},
+                inset(c, shade(BLUE, 0.6f, 0xFF), shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.5f, 0xFF)));
+        s.addState(new int[]{}, inset(c, 0xFFB6B7BD, 0xFFE4E4E7, 0xFF8A8B92));
         return s;
+    }
+
+    /** Colour between a and b (f = 0 → a, 1 → b). */
+    private static int mix(int a, int b, float f) {
+        int r = 0;
+        for (int sh = 0; sh <= 24; sh += 8) {
+            int x = (a >>> sh) & 0xFF, y = (b >>> sh) & 0xFF;
+            r |= (Math.round(x + (y - x) * f) & 0xFF) << sh;
+        }
+        return r;
+    }
+
+    /** A bar shaded inward: darker top fading to a light middle / bottom, darker ends and rim. */
+    private static Drawable inset(Context c, int top, int body, int rim) {
+        float r = px(c, 3);
+        // The top shadow fades softly down to the middle of the bar.
+        GradientDrawable base = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{top, mix(top, body, 0.55f), mix(top, body, 0.85f), body});
+        base.setCornerRadius(r);
+        GradientDrawable ends = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{0x22000000, 0x0C000000, 0x00000000, 0x00000000, 0x00000000, 0x0C000000, 0x1C000000});
+        ends.setCornerRadius(r);
+        GradientDrawable edge = new GradientDrawable();
+        edge.setColor(0x00000000);
+        edge.setCornerRadius(r);
+        edge.setStroke(Math.max(1, px(c, 1)), rim);
+        return new android.graphics.drawable.LayerDrawable(new Drawable[]{base, ends, edge});
     }
 
     /** Square checkbox used on settings bars. */

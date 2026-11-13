@@ -105,6 +105,7 @@ public final class MediaHub {
     private boolean carBt() {
         UnitBackend u = car();
         if (u == null || !btSelected) return false;
+        if (u instanceof HcnService) return ((HcnService) u).btAvailable();
         return u instanceof HzbhdService ? ((HzbhdService) u).btAvailable() : u.available();
     }
 
@@ -513,6 +514,16 @@ public final class MediaHub {
         if (pkg != null) AppRepository.launchPackage(app, pkg);
     }
 
+    /** hcn units: the phone plays through Android's own A2DP-sink music service. */
+    private boolean systemBtMusic() {
+        return "hcn".equals(com.thecarlauncher.unit.Unit.ID) && bt.systemServiceFound();
+    }
+
+    /** Whether BT audio opens the factory BT app briefly, unless set in Setup. */
+    public boolean btOpenAppDefault() {
+        return !com.thecarlauncher.unit.Unit.QF && !systemBtMusic();
+    }
+
     private void selectBluetooth() {
         MusicService own = MusicService.get();
         if (own != null && own.isPlaying()) own.pause();
@@ -532,7 +543,15 @@ public final class MediaHub {
         // background, start playback, and show what it is playing.
         // Other units (no QF Bluetooth app / Goodocom module): their factory BT music app routes
         // the sound to the speakers, so it is opened briefly, then the launcher comes back.
-        boolean openApp = Prefs.bool(app, Prefs.BT_OPEN_APP, !com.thecarlauncher.unit.Unit.QF);
+        boolean openApp = Prefs.bool(app, Prefs.BT_OPEN_APP, btOpenAppDefault());
+        if (!openApp && systemBtMusic()) {
+            // Android's own Bluetooth music service plays the phone (hcn units): no factory app.
+            playWhenConnected = true;
+            main.postDelayed(playBluetooth, 300);
+            main.postDelayed(playBluetoothRetry, 2500);
+            notifyChanged();
+            return;
+        }
         if (!openApp) {
             // Never show the BT app: make sure it runs in the background, then send it "play"
             // through its control broadcast. Its play also takes the audio focus, which switches
