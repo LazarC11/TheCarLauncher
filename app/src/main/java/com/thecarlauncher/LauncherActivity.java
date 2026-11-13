@@ -543,7 +543,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         List<String> out = new ArrayList<>();
         for (AppRepository.App a : AppRepository.get(c).all()) {
             if (a.pkg.equals(c.getPackageName()) || a.pkg.startsWith("com.android.systemui")
-                    || a.pkg.startsWith("com.android.settings") || out.contains(a.pkg)) continue;
+                    || a.pkg.startsWith("com.android.settings") || out.contains(a.pkg)
+                    || a.pkg.contains(".skins")) continue; // hcn's "com.hcn.radio.skins.*" is a skin pack, not the radio
             if (RADIO_APP.matcher(a.pkg + " " + a.label).matches()) out.add(a.pkg);
         }
         return out;

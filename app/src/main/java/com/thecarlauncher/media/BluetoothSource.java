@@ -30,6 +30,9 @@ public final class BluetoothSource {
     public static final String SYSTEM_PKG = "com.android.bluetooth";
     static final ComponentName SYSTEM_BROWSER = new ComponentName(SYSTEM_PKG,
             "com.android.bluetooth.avrcpcontroller.BluetoothMediaBrowserService");
+    /** Android 9's A2DP-sink music service (e.g. MediaTek MT8163 / hcn units). */
+    static final ComponentName SYSTEM_BROWSER_P = new ComponentName(SYSTEM_PKG,
+            "com.android.bluetooth.a2dpsink.mbs.A2dpMediaBrowserService");
     private static final Pattern BT_APP = Pattern.compile(
             "(?i).*(bluetooth|\\bbt\\b|btmusic|bt_music|bt\\.music|bt music|a2dp|蓝牙).*");
     private static final Pattern NOT_BT = Pattern.compile("(?i).*(settings|scanner|file|transfer|share).*");
@@ -46,10 +49,17 @@ public final class BluetoothSource {
     /** Connects to the system Bluetooth media browser if this unit has one. */
     void connect(final MediaHub hub) {
         if (browser != null) return;
-        Intent probe = new Intent("android.media.browse.MediaBrowserService").setComponent(SYSTEM_BROWSER);
-        systemAvailable = !app.getPackageManager().queryIntentServices(probe, 0).isEmpty();
+        ComponentName cn = null;
+        for (ComponentName c : new ComponentName[]{SYSTEM_BROWSER, SYSTEM_BROWSER_P}) {
+            Intent probe = new Intent("android.media.browse.MediaBrowserService").setComponent(c);
+            if (!app.getPackageManager().queryIntentServices(probe, 0).isEmpty()) {
+                cn = c;
+                break;
+            }
+        }
+        systemAvailable = cn != null;
         if (!systemAvailable) return;
-        browser = new MediaBrowser(app, SYSTEM_BROWSER, new MediaBrowser.ConnectionCallback() {
+        browser = new MediaBrowser(app, cn, new MediaBrowser.ConnectionCallback() {
             @Override
             public void onConnected() {
                 try {
