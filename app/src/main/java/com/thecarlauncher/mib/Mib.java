@@ -263,18 +263,33 @@ public final class Mib {
         return s;
     }
 
-    /** Light settings bar (Podešavanje sistema list rows). */
+    /**
+     * Light settings bar (Podešavanje sistema list rows). Shaded inward, like the original: the
+     * shadow sits inside along the top edge and both ends, the bar is lightest low in the middle,
+     * with a darker rim (a pressed-in strip, not a raised one).
+     */
     public static Drawable settingsBar(Context c) {
-        float r = px(c, 3);
-        GradientDrawable n = grad(0xFFE9E9EC, 0xFFC5C6CC);
-        n.setCornerRadius(r);
-        n.setStroke(Math.max(1, px(c, 1)), 0xFFF4F4F6);
-        GradientDrawable p = grad(shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.7f, 0xFF));
-        p.setCornerRadius(r);
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, p);
-        s.addState(new int[]{}, n);
+        s.addState(new int[]{android.R.attr.state_pressed},
+                inset(c, shade(BLUE, 0.6f, 0xFF), shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.5f, 0xFF)));
+        s.addState(new int[]{}, inset(c, 0xFFA9AAB1, 0xFFE4E4E7, 0xFF7E7F87));
         return s;
+    }
+
+    /** A bar shaded inward: darker top fading to a light middle / bottom, darker ends and rim. */
+    private static Drawable inset(Context c, int top, int body, int rim) {
+        float r = px(c, 3);
+        GradientDrawable base = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{top, body, body});
+        base.setCornerRadius(r);
+        GradientDrawable ends = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{0x33000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x2A000000});
+        ends.setCornerRadius(r);
+        GradientDrawable edge = new GradientDrawable();
+        edge.setColor(0x00000000);
+        edge.setCornerRadius(r);
+        edge.setStroke(Math.max(1, px(c, 1)), rim);
+        return new android.graphics.drawable.LayerDrawable(new Drawable[]{base, ends, edge});
     }
 
     /** Square checkbox used on settings bars. */
