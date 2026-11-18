@@ -121,15 +121,15 @@ public class GlobeView extends View {
         fill.setShader(new RadialGradient(cx, cy, r * 1.45f, new int[]{alpha(blue, 0.26f), alpha(blue, 0.10f), 0},
                 new float[]{0.66f, 0.80f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(cx, cy, r * 1.45f, fill);
-        // The dark grey sphere (nearly black), lit from the upper left: highlight, body, dark limb with a blue rim tint.
+        // The sphere: very dark and see-through (the wireframe stands out), lit from the upper left: highlight, body, dark limb with a blue rim tint.
         float hx = cx - r * 0.42f, hy = cy - r * 0.46f;
         fill.setShader(new RadialGradient(hx, hy, r * 1.55f,
-                new int[]{0xFF2A2D33, 0xFF1A1C21, 0xFF0D0E11, mix(0xFF060709, blue, 0.30f)},
+                new int[]{0x8C17191C, 0x800D0E10, 0x99050506, alpha(mix(0xFF030304, blue, 0.30f), 0.75f)},
                 new float[]{0f, 0.38f, 0.78f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(cx, cy, r, fill);
         // Soft sheen.
         fill.setShader(new RadialGradient(hx + r * 0.08f, hy + r * 0.08f, r * 0.55f,
-                new int[]{0x14FFFFFF, 0x06FFFFFF, 0}, new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
+                new int[]{0x0AFFFFFF, 0x03FFFFFF, 0}, new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(hx + r * 0.08f, hy + r * 0.08f, r * 0.55f, fill);
         fill.setShader(null);
 
