@@ -108,7 +108,7 @@ public final class OsmApi {
         }
     }
 
-    private static final String UA = "TheCarLauncher/2.7 (personal Android head-unit launcher)";
+    private static final String UA = "MibDroid/2.7 (personal Android head-unit launcher)";
     private static final String NOMINATIM = "https://nominatim.openstreetmap.org/search";
     private static final String[] OSRM = {
             "https://routing.openstreetmap.de/routed-car/route/v1/driving/",

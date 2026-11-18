@@ -133,7 +133,7 @@ public final class StreetName implements LocationTracker.Listener {
             con = (HttpURLConnection) u.openConnection();
             con.setConnectTimeout(6000);
             con.setReadTimeout(8000);
-            con.setRequestProperty("User-Agent", "TheCarLauncher/2 (personal Android head unit launcher)");
+            con.setRequestProperty("User-Agent", "MibDroid/2 (personal Android head unit launcher)");
             con.setRequestProperty("Accept-Language", lang);
             if (con.getResponseCode() != 200) return null;
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));

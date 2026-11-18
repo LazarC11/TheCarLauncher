@@ -27,12 +27,12 @@ Albums	Albümler
 All	Tümü
 All Android settings	Tüm Android ayarları
 All files access (USB)	Tüm dosyalara erişim (USB)
-Allow "All files access" for Car Launcher so music on USB sticks can be read.	USB bellekteki müziklerin okunabilmesi için Car Launcher'a "Tüm dosyalara erişim" izni verin.
+Allow "All files access" for MibDroid so music on USB sticks can be read.	USB bellekteki müziklerin okunabilmesi için MibDroid'a "Tüm dosyalara erişim" izni verin.
 Allow access	Erişime izin ver
 Allow access to music.	Müziğe erişime izin verin.
 Allow access to pictures	Resimlere erişime izin ver
 Allow changing the system brightness	Sistem parlaklığını değiştirmeye izin ver
-Allow installing apps for Car Launcher, then try again	Car Launcher için uygulama yüklemeye izin verin ve tekrar deneyin
+Allow installing apps for MibDroid, then try again	MibDroid için uygulama yüklemeye izin verin ve tekrar deneyin
 Allow installing updates	Güncelleme yüklemeye izin ver
 Allow location access	Konum erişimine izin ver
 Allow returning from the BT app	BT uygulamasından geri dönmeye izin ver
@@ -152,7 +152,7 @@ Driving direction up	Sürüş yönü yukarı
 Driving time	Sürüş süresi
 EN	TR
 Empty	Boş
-Enable "Car Launcher" so Spotify & other players show up here	Spotify ve diğer oynatıcıların burada görünmesi için "Car Launcher"ı etkinleştirin
+Enable "MibDroid" so Spotify & other players show up here	Spotify ve diğer oynatıcıların burada görünmesi için "MibDroid"ı etkinleştirin
 Error: 	Hata: 
 Exit	Çıkış
 Exit left	Soldan çıkın
@@ -399,7 +399,7 @@ Time for winter tyres	Kış lastiği zamanı
 To show the song and cover, enable\nnotification access — tap here.	Şarkıyı ve kapağı göstermek için\nbildirim erişimini açın — buraya dokunun.
 Treble	Tiz
 Turn left	Sola dönün
-Turn on "Display over other apps" for Car Launcher, then choose BT audio again.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, sonra BT sesi tekrar seçin.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	MibDroid için "Diğer uygulamaların üzerinde göster"i açın, sonra BT sesi tekrar seçin.
 Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Telefonda Bluetooth'u açıp görünür yapın, sonra listeden seçin:
 Turn radio off	Radyoyu kapat
 Turn right	Sağa dönün
@@ -508,7 +508,7 @@ Warm white	Sıcak beyaz
 Cool white	Soğuk beyaz
 Automatic (by region)	Otomatik (bölgeye göre)
 Language/Jezik	Dil/Language
-Turn on "Display over other apps" for Car Launcher, so it can come back over the factory app.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, böylece fabrika uygulamasının üzerine geri dönebilir.
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	MibDroid için "Diğer uygulamaların üzerinde göster"i açın, böylece fabrika uygulamasının üzerine geri dönebilir.
  (last connected)	 (son bağlanan)
 Any saved network	Kayıtlı herhangi bir ağ
 App	Uygulama
@@ -550,7 +550,7 @@ The station can't be played (connection?)	İstasyon çalınamıyor (bağlantı?)
 A new version is available:	Yeni bir sürüm mevcut:
 All set	Her şey hazır
 Boot screen	Açılış ekranı
-Car Launcher is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	Car Launcher bu cihazı kurmaya hazır. Birkaç adımda internete bağlanacak, yazılımın bu cihaza uygun olduğunu kontrol edecek ve telefonunuzu bağlayacağız.
+MibDroid is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	MibDroid bu cihazı kurmaya hazır. Birkaç adımda internete bağlanacak, yazılımın bu cihaza uygun olduğunu kontrol edecek ve telefonunuzu bağlayacağız.
 Checking that the software fits this unit…	Yazılımın bu cihaza uygunluğu kontrol ediliyor…
 Choose a Wi-Fi network	Bir Wi-Fi ağı seçin
 Choose a picture first	Önce bir resim seçin

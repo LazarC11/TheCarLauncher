@@ -152,7 +152,7 @@ public final class CoverArt {
         try {
             con.setConnectTimeout(6000);
             con.setReadTimeout(10000);
-            con.setRequestProperty("User-Agent", "TheCarLauncher");
+            con.setRequestProperty("User-Agent", "MibDroid");
             if (con.getResponseCode() != 200) throw new java.io.IOException("HTTP " + con.getResponseCode());
             InputStream in = con.getInputStream();
             ByteArrayOutputStream bo = new ByteArrayOutputStream();

@@ -16,7 +16,7 @@ import java.util.Locale;
  * so a user on an unknown head unit can send what went wrong. The device report includes it.
  */
 public final class CrashLog {
-    private static final String NAME = "TheCarLauncher-crash.txt";
+    private static final String NAME = "MibDroid-crash.txt";
     private static boolean installed;
 
     private CrashLog() {}

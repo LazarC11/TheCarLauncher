@@ -288,7 +288,7 @@ public final class OfflineMaps {
                     con = (HttpURLConnection) new URL(SERVER + path).openConnection();
                     con.setConnectTimeout(10000);
                     con.setReadTimeout(20000);
-                    con.setRequestProperty("User-Agent", "TheCarLauncher (Android head unit launcher)");
+                    con.setRequestProperty("User-Agent", "MibDroid (Android head unit launcher)");
                     if (con.getResponseCode() != 200) throw new java.io.IOException("HTTP " + con.getResponseCode());
                     BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
                     StringBuilder sb = new StringBuilder();
@@ -356,7 +356,7 @@ public final class OfflineMaps {
                 .setTitle("Map: " + r.name)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationUri(Uri.fromFile(target))
-                .addRequestHeader("User-Agent", "TheCarLauncher (Android head unit launcher)");
+                .addRequestHeader("User-Agent", "MibDroid (Android head unit launcher)");
         long id = dm.enqueue(req);
         String list = Prefs.str(app, P_DOWNLOADS, "");
         Prefs.put(app, P_DOWNLOADS, list + id + "|" + file + ";");

@@ -33,7 +33,7 @@ public final class DeviceReport {
     /** Builds the report (blocking: a few seconds; call on a worker thread). */
     public static String build(Context c) {
         StringBuilder r = new StringBuilder();
-        r.append("TheCarLauncher device report  ").append(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(new Date())).append('\n');
+        r.append("MibDroid device report  ").append(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(new Date())).append('\n');
         r.append("launcher ").append(Updater.installedName(c)).append(" (").append(Updater.installedCode(c)).append(")\n\n");
 
         r.append("== Build ==\n");
@@ -165,7 +165,7 @@ public final class DeviceReport {
      * Returns the folder and how many were copied. Blocking.
      */
     public static String exportApks(Context c) {
-        File dir = new File(new File(android.os.Environment.getExternalStorageDirectory(), "Download"), "TheCarLauncher-apks");
+        File dir = new File(new File(android.os.Environment.getExternalStorageDirectory(), "Download"), "MibDroid-apks");
         if (!dir.mkdirs() && !dir.isDirectory()) {
             File own = c.getExternalFilesDir("apks");
             if (own == null) return null;
@@ -198,7 +198,7 @@ public final class DeviceReport {
 
     /** Saves the report; returns the path shown to the user (or null). */
     public static String save(Context c, String text) {
-        String name = "TheCarLauncher-report.txt";
+        String name = "MibDroid-report.txt";
         String shown = null;
         File[] dirs = {new File(android.os.Environment.getExternalStorageDirectory(), "Download"), c.getExternalFilesDir(null)};
         for (File d : dirs) {

@@ -79,7 +79,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VNAME }}
-          name: Car Launcher ${{ env.VNAME }}
+          name: MibDroid ${{ env.VNAME }}
           target_commitish: ${{ github.sha }}
           files: |
             TheCarLauncher.apk
@@ -103,7 +103,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Car Launcher ${{ env.VNAME }} test build ${{ github.run_number }}
+          name: MibDroid ${{ env.VNAME }} test build ${{ github.run_number }}
           target_commitish: ${{ github.sha }}
           files: |
             TheCarLauncher.apk

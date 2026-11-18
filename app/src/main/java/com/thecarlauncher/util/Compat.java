@@ -123,7 +123,7 @@ public final class Compat {
         h.setRequestProperty("Authorization", "Bearer " + token(c));
         h.setRequestProperty("Accept", "application/vnd.github+json");
         h.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        h.setRequestProperty("User-Agent", "TheCarLauncher");
+        h.setRequestProperty("User-Agent", "MibDroid");
         OutputStream os = h.getOutputStream();
         os.write(o.toString().getBytes("UTF-8"));
         os.close();

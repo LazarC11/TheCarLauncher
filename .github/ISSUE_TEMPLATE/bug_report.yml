@@ -75,7 +75,7 @@ body:
     id: version
     attributes:
       label: Launcher version
-      description: "Setup → System information → Car Launcher (e.g. 3.2.1), or the release build-N."
+      description: "Setup → System information → MibDroid (e.g. 3.2.1), or the release build-N."
       placeholder: "3.2.1"
     validations:
       required: true

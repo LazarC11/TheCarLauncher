@@ -568,8 +568,8 @@ public final class MediaHub {
             if (!com.thecarlauncher.util.BringBack.canOverlay(app) && !Prefs.bool(app, "overlay_asked", false)) {
                 // Without this permission Android keeps the BT app on top: ask once.
                 Prefs.put(app, "overlay_asked", true);
-                Ui.toast(app, com.thecarlauncher.mib.Mib.t(app, "Uključi \"Prikaz preko drugih aplikacija\" za Car Launcher, pa ponovo izaberi BT audio.",
-                        "Turn on \"Display over other apps\" for Car Launcher, then choose BT audio again."));
+                Ui.toast(app, com.thecarlauncher.mib.Mib.t(app, "Uključi \"Prikaz preko drugih aplikacija\" za MibDroid, pa ponovo izaberi BT audio.",
+                        "Turn on \"Display over other apps\" for MibDroid, then choose BT audio again."));
                 com.thecarlauncher.util.BringBack.requestOverlay(app);
             } else {
                 wakeBluetoothApp();

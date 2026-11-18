@@ -1,5 +1,5 @@
 #!/bin/bash
-# Packs the Magisk module that installs Car Launcher as a privileged system app.
+# Packs the Magisk module that installs MibDroid as a privileged system app.
 #   scripts/build-magisk.sh [path/to/TheCarLauncher.apk]   -> build/TheCarLauncher-magisk.zip
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

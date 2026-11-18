@@ -852,8 +852,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private void askAllFiles(boolean force) {
         if (Storage.hasAllFiles() || (!force && Prefs.bool(this, "asked_all_files", false))) return;
         Prefs.put(this, "asked_all_files", true);
-        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za Car Launcher da bi se čitala muzika sa USB-a.",
-                "Allow \"All files access\" for Car Launcher so music on USB sticks can be read."));
+        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za MibDroid da bi se čitala muzika sa USB-a.",
+                "Allow \"All files access\" for MibDroid so music on USB sticks can be read."));
         Storage.requestAllFiles(this);
     }
 

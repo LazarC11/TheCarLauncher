@@ -20,8 +20,8 @@ public final class UnitReturn {
         if (com.thecarlauncher.util.BringBack.canOverlay(c) || com.thecarlauncher.util.Prefs.bool(c, "overlay_asked", false)) return;
         com.thecarlauncher.util.Prefs.put(c, "overlay_asked", true);
         com.thecarlauncher.util.Ui.toast(c, com.thecarlauncher.mib.Mib.t(c,
-                "Uključi \"Prikaz preko drugih aplikacija\" za Car Launcher, da se launcher vrati preko fabričke aplikacije.",
-                "Turn on \"Display over other apps\" for Car Launcher, so it can come back over the factory app."));
+                "Uključi \"Prikaz preko drugih aplikacija\" za MibDroid, da se launcher vrati preko fabričke aplikacije.",
+                "Turn on \"Display over other apps\" for MibDroid, so it can come back over the factory app."));
         com.thecarlauncher.util.BringBack.requestOverlay(c);
     }
 

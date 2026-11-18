@@ -85,12 +85,6 @@ public class IntroScreen extends Screen {
         body.addView(row, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        TextView name = Mib.text(act, "Car Launcher", 30, Mib.semibold(act), Mib.WHITE);
-        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.START);
-        nl.leftMargin = Mib.px(act, 30);
-        nl.topMargin = Mib.px(act, 20);
-        body.addView(name, nl);
         r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
         return r;
     }

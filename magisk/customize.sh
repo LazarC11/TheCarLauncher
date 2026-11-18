@@ -1,8 +1,8 @@
-# Car Launcher as a privileged system app (Magisk module).
+# MibDroid as a privileged system app (Magisk module).
 # Nothing on the system partition is changed: Magisk mounts these files at boot, and removing
 # the module in the Magisk app undoes it.
 
-ui_print "- Car Launcher -> /system/priv-app/TheCarLauncher"
+ui_print "- MibDroid -> /system/priv-app/TheCarLauncher"
 if [ ! -f "$MODPATH/system/priv-app/TheCarLauncher/TheCarLauncher.apk" ]; then
   abort "! TheCarLauncher.apk is missing from the module"
 fi
