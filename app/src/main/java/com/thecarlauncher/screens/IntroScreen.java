@@ -11,14 +11,12 @@ import android.widget.TextView;
 import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.R;
 import com.thecarlauncher.mib.Mib;
-import com.thecarlauncher.mib.MibBar;
 import com.thecarlauncher.util.Prefs;
 
 /**
- * The first page after installing, on its own like the factory Media Control start page: a
- * turning globe in the centre over the dark backdrop, a greeting below it and soft keys along the
- * bottom.
- * "Start" opens the setup assistant (WelcomeScreen), "Skip" goes straight to the home screen.
+ * The first page after installing, on its own like the factory Media Control start page: the
+ * greeting on the left with Continue below it, a turning globe on the right, over the dark
+ * backdrop. Continue opens the setup assistant (WelcomeScreen), Skip goes to the home screen.
  */
 public class IntroScreen extends Screen {
     public IntroScreen(LauncherActivity act) { super(act); }
@@ -46,27 +44,47 @@ public class IntroScreen extends Screen {
         bg.setScaleType(ImageView.ScaleType.CENTER_CROP);
         body.addView(bg, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        LinearLayout mid = new LinearLayout(act);
-        mid.setOrientation(LinearLayout.VERTICAL);
-        mid.setGravity(Gravity.CENTER_HORIZONTAL);
-        // The globe in the centre, like the factory Media Control start page.
-        com.thecarlauncher.mib.GlobeView globe = new com.thecarlauncher.mib.GlobeView(act);
-        mid.addView(globe, new LinearLayout.LayoutParams(Mib.px(act, 300), Mib.px(act, 270)));
-        TextView hello = Mib.text(act, s("Dobro došli", "Welcome"), 44, Mib.semibold(act), Mib.WHITE);
-        hello.setGravity(Gravity.CENTER);
-        hello.setPadding(0, 0, 0, 0);
-        mid.addView(hello);
+        // Like the factory Media Control start page: welcome text on the left with the key below
+        // it, the globe on the right.
+        LinearLayout row = new LinearLayout(act);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(Mib.px(act, 60), 0, Mib.px(act, 40), 0);
+
+        LinearLayout left = new LinearLayout(act);
+        left.setOrientation(LinearLayout.VERTICAL);
+        TextView hello = Mib.text(act, s("Dobro došli", "Welcome"), 48, Mib.semibold(act), Mib.WHITE);
+        left.addView(hello);
         TextView text = Mib.text(act, s("Za nekoliko minuta podesićemo uređaj: internet, vozilo, telefon, i proverićemo da radio i Bluetooth zvuk rade.",
                 "In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work."),
-                24, Mib.regular(act), Mib.GREY);
-        text.setGravity(Gravity.CENTER);
+                26, Mib.regular(act), Mib.GREY);
         text.setSingleLine(false);
         text.setLineSpacing(Mib.px(act, 4), 1f);
-        text.setPadding(Mib.px(act, 110), Mib.px(act, 6), Mib.px(act, 110), 0);
-        mid.addView(text);
-        FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        body.addView(mid, ml);
+        text.setPadding(0, Mib.px(act, 12), 0, Mib.px(act, 30));
+        left.addView(text);
+        LinearLayout keys = new LinearLayout(act);
+        keys.addView(key(s("Nastavi", "Continue"), new Runnable() {
+            public void run() { act.startAssistant(); }
+        }), new LinearLayout.LayoutParams(Mib.px(act, 250), Mib.px(act, 60)));
+        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(Mib.px(act, 250), Mib.px(act, 60));
+        sl.leftMargin = Mib.px(act, 16);
+        keys.addView(key(s("Preskoči podešavanje", "Skip setup"), new Runnable() {
+            public void run() {
+                Prefs.put(act, WelcomeScreen.P_DONE, true);
+                Prefs.put(act, WelcomeScreen.P_STEP, -1);
+                act.show(LauncherActivity.MENU, true);
+            }
+        }), sl);
+        left.addView(keys);
+        row.addView(left, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        com.thecarlauncher.mib.GlobeView globe = new com.thecarlauncher.mib.GlobeView(act);
+        LinearLayout.LayoutParams gl = new LinearLayout.LayoutParams(Mib.px(act, 360), Mib.px(act, 360));
+        gl.leftMargin = Mib.px(act, 20);
+        row.addView(globe, gl);
+        body.addView(row, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
         TextView name = Mib.text(act, "Car Launcher", 30, Mib.semibold(act), Mib.WHITE);
         FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.START);
@@ -74,22 +92,18 @@ public class IntroScreen extends Screen {
         nl.topMargin = Mib.px(act, 20);
         body.addView(name, nl);
         r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
-
-        MibBar bar = new MibBar(act);
-        bar.add(s("Preskoči", "Skip"), R.drawable.ui_ic_close, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Prefs.put(act, WelcomeScreen.P_DONE, true);
-                Prefs.put(act, WelcomeScreen.P_STEP, -1);
-                act.show(LauncherActivity.MENU, true);
-            }
-        });
-        bar.gap(5);
-        bar.add(s("Započni", "Start"), R.drawable.ui_key_next, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { act.startAssistant(); }
-        });
-        r.addView(bar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MibBar.height(act)));
         return r;
+    }
+
+    /** Framed key like the factory pages (pressed: the text turns the ambient colour). */
+    private TextView key(String label, final Runnable r) {
+        TextView k = Mib.text(act, label, 28, Mib.regular(act), Mib.WHITE);
+        k.setGravity(Gravity.CENTER);
+        k.setBackground(Mib.box(act));
+        Mib.pressText(k);
+        k.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { r.run(); }
+        });
+        return k;
     }
 }
