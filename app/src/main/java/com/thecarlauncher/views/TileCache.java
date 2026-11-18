@@ -216,7 +216,7 @@ public final class TileCache {
             con = (HttpURLConnection) new URL(url).openConnection();
             con.setConnectTimeout(8000);
             con.setReadTimeout(12000);
-            con.setRequestProperty("User-Agent", "TheCarLauncher/1.0 (Android head unit launcher)");
+            con.setRequestProperty("User-Agent", "MibDroid/1.0 (Android head unit launcher)");
             if (con.getResponseCode() != 200) return staleOrNull(f);
             InputStream in = con.getInputStream();
             ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -80,7 +80,7 @@ public final class Weather {
                     con = (HttpURLConnection) new URL(url).openConnection();
                     con.setConnectTimeout(8000);
                     con.setReadTimeout(10000);
-                    con.setRequestProperty("User-Agent", "TheCarLauncher (Android head unit launcher)");
+                    con.setRequestProperty("User-Agent", "MibDroid (Android head unit launcher)");
                     if (con.getResponseCode() == 200) {
                         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
                         StringBuilder sb = new StringBuilder();

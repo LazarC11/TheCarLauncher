@@ -27,12 +27,12 @@ Albums	Albümler
 All	Tümü
 All Android settings	Tüm Android ayarları
 All files access (USB)	Tüm dosyalara erişim (USB)
-Allow "All files access" for Car Launcher so music on USB sticks can be read.	USB bellekteki müziklerin okunabilmesi için Car Launcher'a "Tüm dosyalara erişim" izni verin.
+Allow "All files access" for MibDroid so music on USB sticks can be read.	USB bellekteki müziklerin okunabilmesi için MibDroid'a "Tüm dosyalara erişim" izni verin.
 Allow access	Erişime izin ver
 Allow access to music.	Müziğe erişime izin verin.
 Allow access to pictures	Resimlere erişime izin ver
 Allow changing the system brightness	Sistem parlaklığını değiştirmeye izin ver
-Allow installing apps for Car Launcher, then try again	Car Launcher için uygulama yüklemeye izin verin ve tekrar deneyin
+Allow installing apps for MibDroid, then try again	MibDroid için uygulama yüklemeye izin verin ve tekrar deneyin
 Allow installing updates	Güncelleme yüklemeye izin ver
 Allow location access	Konum erişimine izin ver
 Allow returning from the BT app	BT uygulamasından geri dönmeye izin ver
@@ -152,7 +152,7 @@ Driving direction up	Sürüş yönü yukarı
 Driving time	Sürüş süresi
 EN	TR
 Empty	Boş
-Enable "Car Launcher" so Spotify & other players show up here	Spotify ve diğer oynatıcıların burada görünmesi için "Car Launcher"ı etkinleştirin
+Enable "MibDroid" so Spotify & other players show up here	Spotify ve diğer oynatıcıların burada görünmesi için "MibDroid"ı etkinleştirin
 Error: 	Hata: 
 Exit	Çıkış
 Exit left	Soldan çıkın
@@ -399,7 +399,7 @@ Time for winter tyres	Kış lastiği zamanı
 To show the song and cover, enable\nnotification access — tap here.	Şarkıyı ve kapağı göstermek için\nbildirim erişimini açın — buraya dokunun.
 Treble	Tiz
 Turn left	Sola dönün
-Turn on "Display over other apps" for Car Launcher, then choose BT audio again.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, sonra BT sesi tekrar seçin.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	MibDroid için "Diğer uygulamaların üzerinde göster"i açın, sonra BT sesi tekrar seçin.
 Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Telefonda Bluetooth'u açıp görünür yapın, sonra listeden seçin:
 Turn radio off	Radyoyu kapat
 Turn right	Sağa dönün
@@ -508,7 +508,7 @@ Warm white	Sıcak beyaz
 Cool white	Soğuk beyaz
 Automatic (by region)	Otomatik (bölgeye göre)
 Language/Jezik	Dil/Language
-Turn on "Display over other apps" for Car Launcher, so it can come back over the factory app.	Car Launcher için "Diğer uygulamaların üzerinde göster"i açın, böylece fabrika uygulamasının üzerine geri dönebilir.
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	MibDroid için "Diğer uygulamaların üzerinde göster"i açın, böylece fabrika uygulamasının üzerine geri dönebilir.
  (last connected)	 (son bağlanan)
 Any saved network	Kayıtlı herhangi bir ağ
 App	Uygulama
@@ -547,3 +547,83 @@ Search stations	İstasyon ara
 Station name	İstasyon adı
 The station can't be played	İstasyon çalınamıyor
 The station can't be played (connection?)	İstasyon çalınamıyor (bağlantı?)
+A new version is available:	Yeni bir sürüm mevcut:
+All set	Her şey hazır
+Boot screen	Açılış ekranı
+MibDroid is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	MibDroid bu cihazı kurmaya hazır. Birkaç adımda internete bağlanacak, yazılımın bu cihaza uygun olduğunu kontrol edecek ve telefonunuzu bağlayacağız.
+Checking that the software fits this unit…	Yazılımın bu cihaza uygunluğu kontrol ediliyor…
+Choose a Wi-Fi network	Bir Wi-Fi ağı seçin
+Choose a picture first	Önce bir resim seçin
+Compatibility	Uyumluluk
+Compatibility update available	Uyumluluk güncellemesi mevcut
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Uyumluluğu kontrol etmek ve güncellemeleri almak için cihazı internete bağlayın (bir Wi-Fi ağı veya telefonunuzun erişim noktası).
+Connect your phone for music and calls.	Müzik ve aramalar için telefonunuzu bağlayın.
+Continue without internet	İnternet olmadan devam et
+Duration	Süre
+Finish	Bitir
+Install now	Şimdi yükle
+Later	Daha sonra
+No internet: checked against the rules built into the launcher.	İnternet yok: başlatıcıya yerleşik kurallara göre kontrol edildi.
+Remove the picture	Resmi kaldır
+Run the setup assistant	Kurulum yardımcısını çalıştır
+Sending the device report…	Cihaz raporu gönderiliyor…
+Show a picture at start	Başlangıçta bir resim göster
+Skip setup	Kurulumu atla
+The device report was saved; send it to the developer: 	Cihaz raporu kaydedildi; geliştiriciye gönderin: 
+The device report was sent to the developer.	Cihaz raporu geliştiriciye gönderildi.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Cihaz raporu, cihaz çevrimiçi olur olmaz gönderilecek. Ayrıca buraya kaydedildi: 
+The internet is connected	İnternet bağlı
+The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you.	Başlatıcı çalışıyor, ancak radyo ve Bluetooth müzik bu cihazın kendi hizmetleri üzerinden çalışmayabilir. Destek yakında gelebilir: cihaz çevrimiçiyken bir uyumluluk güncellemesi çıktığında başlatıcı size haber verecek.
+The picture cannot be opened	Resim açılamıyor
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Resim, cihaz açıldıktan sonra başlatıcı başladığında gösterilir, ardından kaybolur (dokunmak hemen kaldırır). Cihazın kendi Android açılış animasyonu değişmez.
+The unit is set up. Every setting can be changed later in Setup.	Cihaz kuruldu. Tüm ayarlar daha sonra Ayarlar'dan değiştirilebilir.
+There is a launcher build made for this unit. Install it so the radio and Bluetooth work properly.	Bu cihaz için hazırlanmış bir başlatıcı sürümü var. Radyo ve Bluetooth'un düzgün çalışması için yükleyin.
+This unit is not supported yet	Bu cihaz henüz desteklenmiyor
+This unit is supported now. Install the launcher build made for it.	Bu cihaz artık destekleniyor. Onun için hazırlanmış başlatıcı sürümünü yükleyin.
+This unit is supported: 	Bu cihaz destekleniyor: 
+Welcome	Hoş geldiniz
+chosen	seçildi
+none	yok
+Ambient lighting colour	Ortam aydınlatması rengi
+Bluetooth audio check	Bluetooth ses kontrolü
+Built-in Corsa C pictures (car and cabin)	Yerleşik Corsa C resimleri (araç ve iç mekân)
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Yerleşik resimler Opel Corsa C için mevcut; diğer araçlar için cihazdan veya USB'den kendi fotoğrafınızı içe aktarın.
+Cabin (ambient lighting)	İç mekân (ortam aydınlatması)
+Car picture	Araç resmi
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Aracın markasını ve başlatıcının gösterdiği resimleri seçin: araç (Araç) ve iç mekân (ortam aydınlatması).
+Do you hear the radio?	Radyoyu duyuyor musunuz?
+FM radio is not available on this unit	Bu cihazda FM radyo kullanılamıyor
+Hide the factory player	Fabrika oynatıcısını gizle
+I hear nothing	Hiçbir şey duymuyorum
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Birkaç dakika içinde cihazı kuracağız: internet, araç, telefon; ayrıca radyo ve Bluetooth sesinin çalıştığını kontrol edeceğiz.
+No song from the phone yet	Telefondan henüz şarkı yok
+Other	Diğer
+Play / pause	Oynat / duraklat
+Play music on your phone. The launcher has switched to BT audio.	Telefonunuzda müzik çalın. Başlatıcı BT sese geçti.
+Radio check	Radyo kontrolü
+Recommended settings for this unit:	Bu cihaz için önerilen ayarlar:
+Search again	Yeniden ara
+Search for stations	İstasyon ara
+Send the device report	Cihaz raporunu gönder
+Setup assistant	Kurulum yardımcısı
+Skip	Atla
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Bir şey olması gerektiği gibi çalışmıyor. Cihaz raporu (kontrol sonuçlarıyla birlikte) bunun gelecek bir güncellemede düzeltilmesine yardımcı olur.
+Stations found: 	Bulunan istasyonlar: 
+The launcher will search for stations and play the first one it finds.	Başlatıcı istasyonları arayacak ve bulduğu ilkini çalacak.
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Bu cihazın FM alıcısı başlatıcıdan kullanılamaz; internet radyosu internet üzerinden çalar.
+Unit settings	Cihaz ayarları
+When the unit starts	Cihaz başladığında
+Yes, I hear the music	Evet, müziği duyuyorum
+Yes, I hear the radio	Evet, radyoyu duyuyorum
+Check for updates automatically	Güncellemeleri otomatik denetle
+Colour profile and more	Renk profili ve diğerleri
+Colour: 	Renk: 
+Language and region	Dil ve bölge
+Main settings (this unit is not supported yet, so its own settings are hidden).	Ana ayarlar (bu cihaz henüz desteklenmediğinden kendi ayarları gizli).
+Media and Bluetooth	Medya ve Bluetooth
+Navigation and offline maps	Navigasyon ve çevrimdışı haritalar
+Settings	Ayarlar
+Test builds	Test sürümleri
+The ambient lighting colour is also the colour of the whole launcher.	Ortam aydınlatması rengi aynı zamanda tüm başlatıcının rengidir.
+off	kapalı
+on	açık

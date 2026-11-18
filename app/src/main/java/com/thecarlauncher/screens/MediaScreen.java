@@ -543,8 +543,8 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             p.add(s("Poveži aplikacije", "Connect apps"), R.drawable.ui_ic_plus, false, new Runnable() {
                 @Override
                 public void run() {
-                    Ui.toast(act, s("Uključite \"Car Launcher\" da bi se Spotify i druge aplikacije pojavile ovde",
-                            "Enable \"Car Launcher\" so Spotify & other players show up here"));
+                    Ui.toast(act, s("Uključite \"MibDroid\" da bi se Spotify i druge aplikacije pojavile ovde",
+                            "Enable \"MibDroid\" so Spotify & other players show up here"));
                     Ui.start(act, new android.content.Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
                 }
             });

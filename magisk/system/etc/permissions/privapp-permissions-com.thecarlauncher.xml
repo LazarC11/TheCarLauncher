@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Privileged permissions for Car Launcher as a system app. Every signature|privileged permission
+  Privileged permissions for MibDroid as a system app. Every signature|privileged permission
   in the app's manifest must be here: firmwares with ro.control_privapp_permissions=enforce refuse
   to boot otherwise. Keep this list in step with app/src/main/AndroidManifest.xml.
 -->

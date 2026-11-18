@@ -444,7 +444,7 @@ public final class OnlineRadio {
                 con = (HttpURLConnection) new URL(server + path).openConnection();
                 con.setConnectTimeout(8000);
                 con.setReadTimeout(12000);
-                con.setRequestProperty("User-Agent", "TheCarLauncher/1.0");
+                con.setRequestProperty("User-Agent", "MibDroid/1.0");
                 if (con.getResponseCode() >= 400) throw new java.io.IOException("HTTP " + con.getResponseCode());
                 InputStream in = con.getInputStream();
                 ByteArrayOutputStream bo = new ByteArrayOutputStream();

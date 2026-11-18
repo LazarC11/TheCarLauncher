@@ -27,12 +27,12 @@ Albums	Albumy
 All	Wszystko
 All Android settings	Wszystkie ustawienia Androida
 All files access (USB)	Dostęp do wszystkich plików (USB)
-Allow "All files access" for Car Launcher so music on USB sticks can be read.	Zezwól Car Launcher na „Dostęp do wszystkich plików”, aby odczytać muzykę z pendrive'a.
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Zezwól MibDroid na „Dostęp do wszystkich plików”, aby odczytać muzykę z pendrive'a.
 Allow access	Zezwól na dostęp
 Allow access to music.	Zezwól na dostęp do muzyki.
 Allow access to pictures	Zezwól na dostęp do zdjęć
 Allow changing the system brightness	Zezwól na zmianę jasności systemu
-Allow installing apps for Car Launcher, then try again	Zezwól Car Launcher na instalowanie aplikacji i spróbuj ponownie
+Allow installing apps for MibDroid, then try again	Zezwól MibDroid na instalowanie aplikacji i spróbuj ponownie
 Allow installing updates	Zezwól na instalowanie aktualizacji
 Allow location access	Zezwól na dostęp do lokalizacji
 Allow returning from the BT app	Zezwól na powrót z aplikacji BT
@@ -152,7 +152,7 @@ Driving direction up	Kierunek jazdy u góry
 Driving time	Czas jazdy
 EN	PL
 Empty	Pusto
-Enable "Car Launcher" so Spotify & other players show up here	Włącz „Car Launcher”, aby Spotify i inne odtwarzacze pojawiły się tutaj
+Enable "MibDroid" so Spotify & other players show up here	Włącz „MibDroid”, aby Spotify i inne odtwarzacze pojawiły się tutaj
 Error: 	Błąd: 
 Exit	Zjazd
 Exit left	Zjazd w lewo
@@ -399,7 +399,7 @@ Time for winter tyres	Czas na opony zimowe
 To show the song and cover, enable\nnotification access — tap here.	Aby pokazać utwór i okładkę, włącz\ndostęp do powiadomień — dotknij tutaj.
 Treble	Soprany
 Turn left	Skręć w lewo
-Turn on "Display over other apps" for Car Launcher, then choose BT audio again.	Włącz „Wyświetlanie nad innymi aplikacjami” dla Car Launcher, a potem ponownie wybierz audio BT.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Włącz „Wyświetlanie nad innymi aplikacjami” dla MibDroid, a potem ponownie wybierz audio BT.
 Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Włącz Bluetooth w telefonie i ustaw go jako widoczny, a następnie wybierz go z listy:
 Turn radio off	Wyłącz radio
 Turn right	Skręć w prawo
@@ -508,7 +508,7 @@ Warm white	Ciepła biel
 Cool white	Zimna biel
 Automatic (by region)	Automatycznie (według regionu)
 Language/Jezik	Język/Language
-Turn on "Display over other apps" for Car Launcher, so it can come back over the factory app.	Włącz „Wyświetlanie nad innymi aplikacjami” dla Car Launcher, aby mógł wrócić nad aplikację fabryczną.
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Włącz „Wyświetlanie nad innymi aplikacjami” dla MibDroid, aby mógł wrócić nad aplikację fabryczną.
  (last connected)	 (ostatnio połączony)
 Any saved network	Dowolna zapisana sieć
 App	Aplikacja
@@ -547,3 +547,83 @@ Search stations	Szukaj stacji
 Station name	Nazwa stacji
 The station can't be played	Nie można odtworzyć stacji
 The station can't be played (connection?)	Nie można odtworzyć stacji (połączenie?)
+A new version is available:	Dostępna jest nowa wersja:
+All set	Gotowe
+Boot screen	Ekran startowy
+MibDroid is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	MibDroid jest gotowy do konfiguracji tego urządzenia. W kilku krokach połączymy internet, sprawdzimy, czy oprogramowanie pasuje do tego urządzenia, i połączymy telefon.
+Checking that the software fits this unit…	Sprawdzanie, czy oprogramowanie pasuje do tego urządzenia…
+Choose a Wi-Fi network	Wybierz sieć Wi-Fi
+Choose a picture first	Najpierw wybierz obraz
+Compatibility	Zgodność
+Compatibility update available	Dostępna aktualizacja zgodności
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Połącz urządzenie z internetem (sieć Wi-Fi lub hotspot telefonu), aby sprawdzić zgodność i pobierać aktualizacje.
+Connect your phone for music and calls.	Połącz telefon, aby słuchać muzyki i prowadzić rozmowy.
+Continue without internet	Kontynuuj bez internetu
+Duration	Czas trwania
+Finish	Zakończ
+Install now	Zainstaluj teraz
+Later	Później
+No internet: checked against the rules built into the launcher.	Brak internetu: sprawdzono według reguł wbudowanych w launcher.
+Remove the picture	Usuń obraz
+Run the setup assistant	Uruchom asystenta konfiguracji
+Sending the device report…	Wysyłanie raportu urządzenia…
+Show a picture at start	Pokaż obraz przy uruchomieniu
+Skip setup	Pomiń konfigurację
+The device report was saved; send it to the developer: 	Raport urządzenia został zapisany; wyślij go twórcy: 
+The device report was sent to the developer.	Raport urządzenia został wysłany do twórcy.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Raport urządzenia zostanie wysłany, gdy tylko urządzenie połączy się z internetem. Jest też zapisany tutaj: 
+The internet is connected	Internet jest połączony
+The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you.	Launcher działa, ale radio i muzyka Bluetooth mogą nie działać przez własne usługi tego urządzenia. Obsługa może pojawić się wkrótce: gdy urządzenie będzie online i dostępna będzie aktualizacja zgodności, launcher o tym poinformuje.
+The picture cannot be opened	Nie można otworzyć obrazu
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Obraz pojawia się, gdy launcher uruchamia się po włączeniu urządzenia, a potem znika (dotknięcie usuwa go od razu). Fabryczna animacja startowa Androida nie jest zmieniana.
+The unit is set up. Every setting can be changed later in Setup.	Urządzenie jest skonfigurowane. Każde ustawienie można później zmienić w Ustawieniach.
+There is a launcher build made for this unit. Install it so the radio and Bluetooth work properly.	Istnieje wersja launchera przygotowana dla tego urządzenia. Zainstaluj ją, aby radio i Bluetooth działały prawidłowo.
+This unit is not supported yet	To urządzenie nie jest jeszcze obsługiwane
+This unit is supported now. Install the launcher build made for it.	To urządzenie jest teraz obsługiwane. Zainstaluj wersję launchera przygotowaną dla niego.
+This unit is supported: 	To urządzenie jest obsługiwane: 
+Welcome	Witaj
+chosen	wybrany
+none	brak
+Ambient lighting colour	Kolor oświetlenia nastrojowego
+Bluetooth audio check	Sprawdzenie dźwięku Bluetooth
+Built-in Corsa C pictures (car and cabin)	Wbudowane obrazy Corsa C (samochód i wnętrze)
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Wbudowane obrazy są dostępne dla Opla Corsa C; dla innych pojazdów zaimportuj własne zdjęcie z urządzenia lub USB.
+Cabin (ambient lighting)	Wnętrze (oświetlenie nastrojowe)
+Car picture	Obraz samochodu
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Wybierz markę pojazdu i obrazy pokazywane przez launcher: samochód (Pojazd) i wnętrze (oświetlenie nastrojowe).
+Do you hear the radio?	Czy słyszysz radio?
+FM radio is not available on this unit	Radio FM nie jest dostępne w tym urządzeniu
+Hide the factory player	Ukryj fabryczny odtwarzacz
+I hear nothing	Nic nie słyszę
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	W kilka minut skonfigurujemy urządzenie: internet, pojazd, telefon, i sprawdzimy, czy działa radio i dźwięk Bluetooth.
+No song from the phone yet	Brak jeszcze utworu z telefonu
+Other	Inna
+Play / pause	Odtwórz / pauza
+Play music on your phone. The launcher has switched to BT audio.	Odtwórz muzykę na telefonie. Launcher przełączył się na BT audio.
+Radio check	Sprawdzenie radia
+Recommended settings for this unit:	Zalecane ustawienia dla tego urządzenia:
+Search again	Szukaj ponownie
+Search for stations	Szukaj stacji
+Send the device report	Wyślij raport urządzenia
+Setup assistant	Asystent konfiguracji
+Skip	Pomiń
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Coś nie działa tak, jak powinno. Raport urządzenia (z wynikami sprawdzenia) pomoże to naprawić w kolejnej aktualizacji.
+Stations found: 	Znalezione stacje: 
+The launcher will search for stations and play the first one it finds.	Launcher wyszuka stacje i odtworzy pierwszą znalezioną.
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Tunera FM tego urządzenia nie można używać z launchera; radio internetowe gra przez internet.
+Unit settings	Ustawienia urządzenia
+When the unit starts	Przy uruchomieniu urządzenia
+Yes, I hear the music	Tak, słyszę muzykę
+Yes, I hear the radio	Tak, słyszę radio
+Check for updates automatically	Automatycznie sprawdzaj aktualizacje
+Colour profile and more	Profil kolorów i więcej
+Colour: 	Kolor: 
+Language and region	Język i region
+Main settings (this unit is not supported yet, so its own settings are hidden).	Ustawienia główne (to urządzenie nie jest jeszcze obsługiwane, więc jego własne ustawienia są ukryte).
+Media and Bluetooth	Media i Bluetooth
+Navigation and offline maps	Nawigacja i mapy offline
+Settings	Ustawienia
+Test builds	Wersje testowe
+The ambient lighting colour is also the colour of the whole launcher.	Kolor oświetlenia nastrojowego jest też kolorem całego launchera.
+off	wył.
+on	wł.

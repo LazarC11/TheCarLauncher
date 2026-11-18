@@ -234,7 +234,7 @@ public final class RadioLogos {
             con.setConnectTimeout(7000);
             con.setReadTimeout(10000);
             con.setInstanceFollowRedirects(true);
-            con.setRequestProperty("User-Agent", "TheCarLauncher/3 (Android head unit launcher)");
+            con.setRequestProperty("User-Agent", "MibDroid/3 (Android head unit launcher)");
             if (con.getResponseCode() >= 400) throw new java.io.IOException("HTTP " + con.getResponseCode());
             InputStream in = con.getInputStream();
             ByteArrayOutputStream bo = new ByteArrayOutputStream();

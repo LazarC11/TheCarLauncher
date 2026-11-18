@@ -13,6 +13,6 @@
     <color name="text_dim">#FF5C6876</color>
     <color name="accent_default">#FF2D8CEB</color>
     <color name="danger">#FFFF4D5E</color>
-    <color name="icon_bg">#FF0A1017</color>
+    <color name="icon_bg">#FF0A0B0F</color>
     <color name="scrim">#CC05080C</color>
 </resources>

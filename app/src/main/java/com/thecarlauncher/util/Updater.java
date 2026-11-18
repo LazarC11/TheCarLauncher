@@ -211,7 +211,7 @@ public final class Updater {
     private static final Pattern CODE = Pattern.compile("versionCode[:= ]+(\\d+)");
     private static final Pattern NAME = Pattern.compile("versionName[:= ]+([0-9][0-9A-Za-z.\\-]*)");
 
-    /** A release, with the APK built for this unit ("TheCarLauncher-hzbhd.apk" …); null without one. */
+    /** A release, with the APK built for this unit ("TheCarLauncher_hzbhd.apk" …; the asset names keep the old name so every version finds them); null without one. */
     private static Release parse(JSONObject o, String wantAsset) {
         String apk = null;
         JSONArray assets = o.optJSONArray("assets");
@@ -244,7 +244,7 @@ public final class Updater {
             con.setConnectTimeout(10000);
             con.setReadTimeout(15000);
             con.setRequestProperty("Accept", "application/vnd.github+json");
-            con.setRequestProperty("User-Agent", "TheCarLauncher-updater");
+            con.setRequestProperty("User-Agent", "MibDroid-updater");
             int code = con.getResponseCode();
             if (code >= 400) throw new java.io.IOException("HTTP " + code);
             InputStream in = con.getInputStream();
@@ -281,8 +281,8 @@ public final class Updater {
         if (busy || r == null) return;
         if (!mayInstall(c)) {
             askInstallPermission(c);
-            LoadingBanner.flash("update", LoadingBanner.t("Dozvoli instaliranje aplikacija za Car Launcher, pa ponovo",
-                    "Allow installing apps for Car Launcher, then try again"), 3500);
+            LoadingBanner.flash("update", LoadingBanner.t("Dozvoli instaliranje aplikacija za MibDroid, pa ponovo",
+                    "Allow installing apps for MibDroid, then try again"), 3500);
             return;
         }
         busy = true;
@@ -326,7 +326,7 @@ public final class Updater {
         con.setInstanceFollowRedirects(true);
         con.setConnectTimeout(10000);
         con.setReadTimeout(20000);
-        con.setRequestProperty("User-Agent", "TheCarLauncher-updater");
+        con.setRequestProperty("User-Agent", "MibDroid-updater");
         try {
             if (con.getResponseCode() >= 400) throw new java.io.IOException("HTTP " + con.getResponseCode());
             long total = con.getContentLength();

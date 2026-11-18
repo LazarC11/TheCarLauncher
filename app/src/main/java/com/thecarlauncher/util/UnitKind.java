@@ -22,6 +22,26 @@ public final class UnitKind {
 
     private UnitKind() {}
 
+    /**
+     * True when one of the rules really matches this unit (not just the default build): the
+     * launcher knows how to run it.
+     */
+    public static boolean recognised(Context c) {
+        try {
+            JSONArray units = rules(c).getJSONArray("units");
+            for (int i = 0; i < units.length(); i++) {
+                JSONArray match = units.getJSONObject(i).optJSONArray("match");
+                if (match == null) continue;
+                for (int k = 0; k < match.length(); k++) {
+                    JSONObject m = match.optJSONObject(k);
+                    if (m != null && matches(c, m)) return true;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
+
     /** Build id for this unit ("qf", "hzbhd", "carsvc", "syu", or one added later in units.json). */
     public static String detect(Context c) {
         JSONObject rules = rules(c);

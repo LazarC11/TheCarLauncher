@@ -67,13 +67,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10, SOFTWARE = 11;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10, SOFTWARE = 11, WELCOME = 12, INTRO = 13;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[12];
+    private final Screen[] screens = new Screen[14];
     private int current = -1;
 
     private FrameLayout content;
@@ -94,8 +94,29 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         @Override
         public void onReceive(Context c, Intent i) {
             updateIndicators();
+            checkCompatibility();
         }
     };
+
+    /**
+     * A unit marked "not supported yet", now online: when a release supports it, a window drops
+     * down from the top offering the compatibility update.
+     */
+    private void checkCompatibility() {
+        com.thecarlauncher.util.Compat.checkLater(this, new com.thecarlauncher.util.Compat.Found() {
+            @Override
+            public void onCompatibilityUpdate(com.thecarlauncher.util.Updater.Release r) {
+                if (isFinishing() || !(rootView instanceof FrameLayout)) return;
+                com.thecarlauncher.mib.DropDown.show((FrameLayout) rootView,
+                        Mib.t(LauncherActivity.this, "Dostupno je ažuriranje kompatibilnosti", "Compatibility update available"),
+                        Mib.t(LauncherActivity.this, "Ovaj uređaj je sada podržan. Instaliraj verziju launchera napravljenu za njega.",
+                                "This unit is supported now. Install the launcher build made for it.") + " (" + r.versionName + ")",
+                        Mib.t(LauncherActivity.this, "Ažuriraj", "Update"), new Runnable() {
+                            public void run() { show(SOFTWARE, true); }
+                        }, Mib.t(LauncherActivity.this, "Kasnije", "Later"));
+            }
+        });
+    }
 
     private final BroadcastReceiver packageReceiver = new BroadcastReceiver() {
         @Override
@@ -151,6 +172,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         LoadingBanner.attach(banner);
         setContentView(root);
         rootView = root;
+        com.thecarlauncher.util.BootScreen.showOnStart(this, root);
         applyDisplay();
 
         screens[MENU] = new MenuScreen(this);
@@ -165,9 +187,14 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[APPCONNECT] = new com.thecarlauncher.screens.AppConnectScreen(this);
         screens[BTDEVICES] = new com.thecarlauncher.screens.BtDevicesScreen(this);
         screens[SOFTWARE] = new com.thecarlauncher.screens.UpdateScreen(this);
+        screens[WELCOME] = new com.thecarlauncher.screens.WelcomeScreen(this);
+        screens[INTRO] = new com.thecarlauncher.screens.IntroScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
+        else if (com.thecarlauncher.screens.WelcomeScreen.needed(this)) {
+            start = com.thecarlauncher.screens.WelcomeScreen.inProgress(this) ? WELCOME : INTRO;
+        }
         show(screenFromIntent(getIntent(), start), false);
 
         MediaHub.get(this).connectExternal();
@@ -326,6 +353,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         com.thecarlauncher.nav.OfflineMaps.get(this).finishDownloads();
         Weather.get(this).update(LocationTracker.get(this));
         com.thecarlauncher.util.Updater.autoCheck(this);
+        checkCompatibility();
         MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
@@ -431,7 +459,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         current = idx;
         // The home screen is just the tile grid, like the factory MENU: no status bar.
-        int bar = idx == MENU ? View.GONE : View.VISIBLE;
+        int bar = idx == MENU || idx == INTRO ? View.GONE : View.VISIBLE;
         statusBar.setVisibility(bar);
         statusRule.setVisibility(bar);
         updateBackArrow();
@@ -442,16 +470,38 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
         v.setVisibility(View.VISIBLE);
-        if (animate) {
-            v.setAlpha(0f);
-            v.animate().alpha(1f).setDuration(220).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();
-        }
+        if (animate) swivelIn(v, goingBack);
         s.onShow();
         Mib.keyFeedback(v);
     }
 
+    /**
+     * Pages swivel in like the factory MIB: the new page turns in around a vertical edge (the left
+     * one going forward, the right one going back), fading in as it comes flat.
+     */
+    private void swivelIn(final View v, boolean back) {
+        v.animate().cancel();
+        float w = content.getWidth() > 0 ? content.getWidth() : getResources().getDisplayMetrics().widthPixels;
+        v.setCameraDistance(w * 6f);
+        v.setPivotY((content.getHeight() > 0 ? content.getHeight() : w / 2f) / 2f);
+        v.setPivotX(back ? w : 0f);
+        v.setRotationY(back ? -62f : 62f);
+        v.setAlpha(0f);
+        v.animate().rotationY(0f).alpha(1f).setDuration(340)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator(1.6f))
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        v.setRotationY(0f);
+                        v.setAlpha(1f);
+                    }
+                }).start();
+    }
+
     public interface ImagePicked { void onPicked(android.net.Uri uri); }
     private static final int REQ_IMAGE = 4711;
+    /** pickImage target for the boot screen picture (car pictures are 0, 1, …). */
+    public static final int PICK_BOOT_SCREEN = -2;
     private ImagePicked imagePicked;
 
     /** Lets the owner choose a picture from the unit's storage. */
@@ -479,11 +529,31 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
                 imagePicked.onPicked(data.getData());
             } else {
                 int which = Prefs.integer(this, "pending_picture", -1);
-                if (which >= 0 && com.thecarlauncher.util.CarImages.set(this, which, data.getData())) carPicturesChanged();
+                if (which == PICK_BOOT_SCREEN) {
+                    if (com.thecarlauncher.util.BootScreen.set(this, data.getData())) Prefs.put(this, com.thecarlauncher.util.BootScreen.P_ON, true);
+                } else if (which >= 0 && com.thecarlauncher.util.CarImages.set(this, which, data.getData())) carPicturesChanged();
             }
         }
         imagePicked = null;
         Prefs.put(this, "pending_picture", -1);
+    }
+
+    /** Opens the welcome page again (Setup → About → Run the setup assistant). */
+    public void restartWelcome() {
+        show(INTRO, true);
+    }
+
+    /** From the welcome page: the setup assistant from its first step. */
+    public void startAssistant() {
+        Prefs.put(this, com.thecarlauncher.screens.WelcomeScreen.P_STEP, 0);
+        Prefs.put(this, com.thecarlauncher.screens.WelcomeScreen.P_RESULTS, "");
+        if (screens[WELCOME].isCreated() && current != WELCOME) {
+            screens[WELCOME].onHide();
+            View old = screens[WELCOME].view(content);
+            content.removeView(old);
+        }
+        screens[WELCOME] = new com.thecarlauncher.screens.WelcomeScreen(this);
+        show(WELCOME, true);
     }
 
     public void showSettings(int page) {
@@ -782,8 +852,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     private void askAllFiles(boolean force) {
         if (Storage.hasAllFiles() || (!force && Prefs.bool(this, "asked_all_files", false))) return;
         Prefs.put(this, "asked_all_files", true);
-        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za Car Launcher da bi se čitala muzika sa USB-a.",
-                "Allow \"All files access\" for Car Launcher so music on USB sticks can be read."));
+        Ui.toast(this, Mib.t(this, "Dozvolite \"Pristup svim fajlovima\" za MibDroid da bi se čitala muzika sa USB-a.",
+                "Allow \"All files access\" for MibDroid so music on USB sticks can be read."));
         Storage.requestAllFiles(this);
     }
 

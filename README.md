@@ -1,4 +1,6 @@
-# TheCarLauncher
+# MibDroid
+
+(formerly Car Launcher; the repository, package id `com.thecarlauncher` and the release APK names `TheCarLauncher*.apk` keep the old name so installed units keep updating.)
 
 A home-screen launcher for Android head units, built for a double-DIN unit on the
 **UIS7862S platform (model code QF001)** in a compact hatchback. Its interface is styled after a
@@ -396,7 +398,7 @@ model, pictures), Wi-Fi, hotspot, Android settings, system information and softw
 and more of the unit's settings itself:
 
 - **Screen**: brightness with − / + keys (the unit's own brightness once *Modify system settings* is
-  allowed for Car Launcher; until then it applies inside the launcher), automatic brightness, and
+  allowed for MibDroid; until then it applies inside the launcher), automatic brightness, and
   **colour profiles** (Standard, Vivid, Soft, Warm, Cool, Night) with saturation, contrast and
   warmth. The profile colours everything the launcher shows, the map included; other apps' colours
   need system rights.
@@ -467,7 +469,7 @@ The text and icons are a touch dimmer than the screen content, like the factory 
    (pre-releases, `build-N`).
 2. Copy it to a USB stick, or download it on the unit, and open it. Allow *Install unknown apps*
    if Android asks.
-3. Press the unit's Home button and pick **Car Launcher** → *Always*
+3. Press the unit's Home button and pick **MibDroid** → *Always*
    (or *Setup → Android system → Default launcher*).
 
 Requires Android 5.0 or newer.
@@ -480,7 +482,7 @@ available release); **Update** shows the newest release with its notes and *Star
 it runs, the factory-style *Software update in progress…* page with OK / N/A / NOK / Remaining and a
 bar per step (download, verify, install) and *Cancel*. The APK is downloaded from the project's GitHub releases with the loading banner
 showing progress, then handed to Android's installer: as an ordinary app Android shows its
-*Update this app?* dialog (allow *Install unknown apps* for Car Launcher once); as a system app the
+*Update this app?* dialog (allow *Install unknown apps* for MibDroid once); as a system app the
 update installs silently. The launcher checks once a day on its own (it can be switched off), and
 *Test builds* also offers builds from other branches.
 
@@ -673,7 +675,7 @@ information shows *robolectric*.
 | No cover art | The unit needs internet. Songs whose "artist" is a video channel name may not be found. |
 | Radio tile opens another app | `mcu_service` wasn't found. *Setup → Radio* shows the tuner status. |
 | Other apps' songs don't show | Enable notification access: *Media → Source → Connect apps*. |
-| The launcher isn't Home after a reboot | *Setup → Android system → Default launcher* → Car Launcher → *Always*. |
+| The launcher isn't Home after a reboot | *Setup → Android system → Default launcher* → MibDroid → *Always*. |
 
 ---
 
