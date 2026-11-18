@@ -11,7 +11,7 @@ import android.graphics.Shader;
 import android.view.View;
 
 /**
- * Welcome-page backdrop: a large grey wireframe globe in the bottom-right corner (partly off
+ * Welcome-page backdrop: a large dark grey (nearly black) wireframe globe in the bottom-right corner (partly off
  * screen), drawn as a lit 3D sphere — axis tilted like the Earth's, meridians turning slowly, lines
  * shaded by the light and by depth (bright in front, faint behind), a soft sheen and a glowing rim
  * — with light streaks orbiting it on tilted rings (bright head, tail fading through the ambient
@@ -121,15 +121,15 @@ public class GlobeView extends View {
         fill.setShader(new RadialGradient(cx, cy, r * 1.45f, new int[]{alpha(blue, 0.26f), alpha(blue, 0.10f), 0},
                 new float[]{0.66f, 0.80f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(cx, cy, r * 1.45f, fill);
-        // The grey sphere, lit from the upper left: highlight, body, dark limb with a blue rim tint.
+        // The dark grey sphere (nearly black), lit from the upper left: highlight, body, dark limb with a blue rim tint.
         float hx = cx - r * 0.42f, hy = cy - r * 0.46f;
         fill.setShader(new RadialGradient(hx, hy, r * 1.55f,
-                new int[]{0xFF4E535C, 0xFF30343B, 0xFF16181D, mix(0xFF0C0D11, blue, 0.35f)},
+                new int[]{0xFF2A2D33, 0xFF1A1C21, 0xFF0D0E11, mix(0xFF060709, blue, 0.30f)},
                 new float[]{0f, 0.38f, 0.78f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(cx, cy, r, fill);
         // Soft sheen.
         fill.setShader(new RadialGradient(hx + r * 0.08f, hy + r * 0.08f, r * 0.55f,
-                new int[]{0x2EFFFFFF, 0x0CFFFFFF, 0}, new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
+                new int[]{0x14FFFFFF, 0x06FFFFFF, 0}, new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
         c.drawCircle(hx + r * 0.08f, hy + r * 0.08f, r * 0.55f, fill);
         fill.setShader(null);
 
