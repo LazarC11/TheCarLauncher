@@ -15,8 +15,8 @@ import com.thecarlauncher.util.Prefs;
 
 /**
  * The first page after installing, on its own like the factory Media Control start page: the
- * greeting on the left with Continue below it, a turning globe on the right, over the dark
- * backdrop. Continue opens the setup assistant (WelcomeScreen), Skip goes to the home screen.
+ * greeting on the left with Continue below it, a large turning wireframe globe with light streaks
+ * in the bottom-right corner. Continue opens the setup assistant (WelcomeScreen), Skip goes to the home screen.
  */
 public class IntroScreen extends Screen {
     public IntroScreen(LauncherActivity act) { super(act); }
@@ -43,6 +43,9 @@ public class IntroScreen extends Screen {
         bg.setImageResource(R.drawable.ui_bg_appconnect);
         bg.setScaleType(ImageView.ScaleType.CENTER_CROP);
         body.addView(bg, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        // A large wireframe globe with light streaks, in the bottom-right corner behind everything.
+        body.addView(new com.thecarlauncher.mib.GlobeView(act), new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         // Like the factory Media Control start page: welcome text on the left with the key below
         // it, the globe on the right.
@@ -65,8 +68,8 @@ public class IntroScreen extends Screen {
         LinearLayout keys = new LinearLayout(act);
         keys.addView(key(s("Nastavi", "Continue"), new Runnable() {
             public void run() { act.startAssistant(); }
-        }), new LinearLayout.LayoutParams(Mib.px(act, 250), Mib.px(act, 60)));
-        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(Mib.px(act, 250), Mib.px(act, 60));
+        }), new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60)));
+        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60));
         sl.leftMargin = Mib.px(act, 16);
         keys.addView(key(s("Preskoči podešavanje", "Skip setup"), new Runnable() {
             public void run() {
@@ -78,10 +81,7 @@ public class IntroScreen extends Screen {
         left.addView(keys);
         row.addView(left, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
-        com.thecarlauncher.mib.GlobeView globe = new com.thecarlauncher.mib.GlobeView(act);
-        LinearLayout.LayoutParams gl = new LinearLayout.LayoutParams(Mib.px(act, 360), Mib.px(act, 360));
-        gl.leftMargin = Mib.px(act, 20);
-        row.addView(globe, gl);
+        row.addView(new View(act), new LinearLayout.LayoutParams(0, 1, 0.75f)); // the globe's side
         body.addView(row, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
