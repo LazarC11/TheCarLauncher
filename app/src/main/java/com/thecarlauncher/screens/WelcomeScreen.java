@@ -253,6 +253,7 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             public void onSent(String url, String savedPath, String error) {
                 reportBusy = false;
                 if (url != null) reportResult = s("Izveštaj o uređaju je poslat programeru.", "The device report was sent to the developer.");
+                else if ("daily limit".equals(error)) reportResult = s("Danas je već poslato dovoljno izveštaja; ovaj je sačuvan ovde: ", "Enough reports were sent today; this one is saved here: ") + savedPath;
                 else if ("offline".equals(error)) reportResult = s("Izveštaj o uređaju biće poslat čim uređaj dobije internet. Sačuvan je i ovde: ", "The device report will be sent as soon as the unit is online. It is also saved here: ") + savedPath;
                 else reportResult = s("Izveštaj o uređaju je sačuvan; pošalji ga programeru: ", "The device report was saved; send it to the developer: ") + savedPath;
                 render();

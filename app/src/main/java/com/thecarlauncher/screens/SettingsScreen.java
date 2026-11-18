@@ -1176,6 +1176,13 @@ public class SettingsScreen extends Screen {
                         reportText = (path != null ? path + "\n\n" : "") + text;
                         push(s("Izveštaj o uređaju", "Device report"), new Page() {
                             public void build() {
+                                if (com.thecarlauncher.util.Compat.canSend(act)) {
+                                    int left = com.thecarlauncher.util.Compat.DAILY_LIMIT - com.thecarlauncher.util.Compat.sentToday(act);
+                                    action(s("Pošalji programeru", "Send to the developer"), left > 0
+                                            ? s("danas još: ", "left today: ") + left : s("danas više ne", "no more today"), new Runnable() {
+                                        public void run() { sendReport(); }
+                                    });
+                                }
                                 TextView t = Mib.text(act, reportText, 18, Mib.regular(act), Mib.WHITE);
                                 t.setSingleLine(false);
                                 t.setMaxLines(Integer.MAX_VALUE);
@@ -1190,6 +1197,22 @@ public class SettingsScreen extends Screen {
                 });
             }
         }, "device-report").start();
+    }
+
+    /** Sends the device report as a GitHub issue (at most Compat.DAILY_LIMIT a day). */
+    private void sendReport() {
+        com.thecarlauncher.mib.LoadingBanner.start("report-send", s("Slanje izveštaja o uređaju…", "Sending the device report…"));
+        com.thecarlauncher.util.Compat.sendReport(act, new com.thecarlauncher.util.Compat.Sent() {
+            public void onSent(String url, String savedPath, String error) {
+                com.thecarlauncher.mib.LoadingBanner.stop("report-send");
+                String msg = url != null ? s("Izveštaj o uređaju je poslat programeru.", "The device report was sent to the developer.")
+                        : "daily limit".equals(error) ? s("Danas je već poslato dovoljno izveštaja; ovaj je sačuvan ovde: ", "Enough reports were sent today; this one is saved here: ") + savedPath
+                        : "offline".equals(error) ? s("Izveštaj o uređaju biće poslat čim uređaj dobije internet. Sačuvan je i ovde: ", "The device report will be sent as soon as the unit is online. It is also saved here: ") + savedPath
+                        : s("Izveštaj o uređaju je sačuvan; pošalji ga programeru: ", "The device report was saved; send it to the developer: ") + savedPath;
+                com.thecarlauncher.mib.LoadingBanner.flash("report-sent", msg, 6000);
+                refreshKeep();
+            }
+        });
     }
 
     /** Copies the factory radio / BT / MCU apps to Download for a build made for this unit. */

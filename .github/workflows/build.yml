@@ -37,6 +37,16 @@ jobs:
             echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
           fi
 
+      # Optional report key: a fine-grained GitHub token for this repository only, with Issues
+      # read/write, saved as the REPORT_TOKEN secret. With it, units the launcher does not know yet
+      # can send their device report as an issue (at most 3 a day per unit). Without the secret the
+      # report is only saved on the unit.
+      - name: Report key
+        env:
+          REPORT_TOKEN: ${{ secrets.REPORT_TOKEN }}
+        run: |
+          if [ -n "$REPORT_TOKEN" ]; then printf '%s' "$REPORT_TOKEN" > app/src/main/assets/report_token; fi
+
       - name: Build release APK
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
