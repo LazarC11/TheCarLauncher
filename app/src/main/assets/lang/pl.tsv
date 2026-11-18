@@ -547,3 +547,40 @@ Search stations	Szukaj stacji
 Station name	Nazwa stacji
 The station can't be played	Nie można odtworzyć stacji
 The station can't be played (connection?)	Nie można odtworzyć stacji (połączenie?)
+A new version is available:	Dostępna jest nowa wersja:
+All set	Gotowe
+Boot screen	Ekran startowy
+Car Launcher is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	Car Launcher jest gotowy do konfiguracji tego urządzenia. W kilku krokach połączymy internet, sprawdzimy, czy oprogramowanie pasuje do tego urządzenia, i połączymy telefon.
+Checking that the software fits this unit…	Sprawdzanie, czy oprogramowanie pasuje do tego urządzenia…
+Choose a Wi-Fi network	Wybierz sieć Wi-Fi
+Choose a picture first	Najpierw wybierz obraz
+Compatibility	Zgodność
+Compatibility update available	Dostępna aktualizacja zgodności
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Połącz urządzenie z internetem (sieć Wi-Fi lub hotspot telefonu), aby sprawdzić zgodność i pobierać aktualizacje.
+Connect your phone for music and calls.	Połącz telefon, aby słuchać muzyki i prowadzić rozmowy.
+Continue without internet	Kontynuuj bez internetu
+Duration	Czas trwania
+Finish	Zakończ
+Install now	Zainstaluj teraz
+Later	Później
+No internet: checked against the rules built into the launcher.	Brak internetu: sprawdzono według reguł wbudowanych w launcher.
+Remove the picture	Usuń obraz
+Run the setup assistant	Uruchom asystenta konfiguracji
+Sending the device report…	Wysyłanie raportu urządzenia…
+Show a picture at start	Pokaż obraz przy uruchomieniu
+Skip setup	Pomiń konfigurację
+The device report was saved; send it to the developer: 	Raport urządzenia został zapisany; wyślij go twórcy: 
+The device report was sent to the developer.	Raport urządzenia został wysłany do twórcy.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Raport urządzenia zostanie wysłany, gdy tylko urządzenie połączy się z internetem. Jest też zapisany tutaj: 
+The internet is connected	Internet jest połączony
+The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you.	Launcher działa, ale radio i muzyka Bluetooth mogą nie działać przez własne usługi tego urządzenia. Obsługa może pojawić się wkrótce: gdy urządzenie będzie online i dostępna będzie aktualizacja zgodności, launcher o tym poinformuje.
+The picture cannot be opened	Nie można otworzyć obrazu
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Obraz pojawia się, gdy launcher uruchamia się po włączeniu urządzenia, a potem znika (dotknięcie usuwa go od razu). Fabryczna animacja startowa Androida nie jest zmieniana.
+The unit is set up. Every setting can be changed later in Setup.	Urządzenie jest skonfigurowane. Każde ustawienie można później zmienić w Ustawieniach.
+There is a launcher build made for this unit. Install it so the radio and Bluetooth work properly.	Istnieje wersja launchera przygotowana dla tego urządzenia. Zainstaluj ją, aby radio i Bluetooth działały prawidłowo.
+This unit is not supported yet	To urządzenie nie jest jeszcze obsługiwane
+This unit is supported now. Install the launcher build made for it.	To urządzenie jest teraz obsługiwane. Zainstaluj wersję launchera przygotowaną dla niego.
+This unit is supported: 	To urządzenie jest obsługiwane: 
+Welcome	Witaj
+chosen	wybrany
+none	brak

@@ -547,3 +547,40 @@ Search stations	İstasyon ara
 Station name	İstasyon adı
 The station can't be played	İstasyon çalınamıyor
 The station can't be played (connection?)	İstasyon çalınamıyor (bağlantı?)
+A new version is available:	Yeni bir sürüm mevcut:
+All set	Her şey hazır
+Boot screen	Açılış ekranı
+Car Launcher is ready to set up this unit. In a few steps we connect the internet, check that the software fits this unit and connect your phone.	Car Launcher bu cihazı kurmaya hazır. Birkaç adımda internete bağlanacak, yazılımın bu cihaza uygun olduğunu kontrol edecek ve telefonunuzu bağlayacağız.
+Checking that the software fits this unit…	Yazılımın bu cihaza uygunluğu kontrol ediliyor…
+Choose a Wi-Fi network	Bir Wi-Fi ağı seçin
+Choose a picture first	Önce bir resim seçin
+Compatibility	Uyumluluk
+Compatibility update available	Uyumluluk güncellemesi mevcut
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Uyumluluğu kontrol etmek ve güncellemeleri almak için cihazı internete bağlayın (bir Wi-Fi ağı veya telefonunuzun erişim noktası).
+Connect your phone for music and calls.	Müzik ve aramalar için telefonunuzu bağlayın.
+Continue without internet	İnternet olmadan devam et
+Duration	Süre
+Finish	Bitir
+Install now	Şimdi yükle
+Later	Daha sonra
+No internet: checked against the rules built into the launcher.	İnternet yok: başlatıcıya yerleşik kurallara göre kontrol edildi.
+Remove the picture	Resmi kaldır
+Run the setup assistant	Kurulum yardımcısını çalıştır
+Sending the device report…	Cihaz raporu gönderiliyor…
+Show a picture at start	Başlangıçta bir resim göster
+Skip setup	Kurulumu atla
+The device report was saved; send it to the developer: 	Cihaz raporu kaydedildi; geliştiriciye gönderin: 
+The device report was sent to the developer.	Cihaz raporu geliştiriciye gönderildi.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Cihaz raporu, cihaz çevrimiçi olur olmaz gönderilecek. Ayrıca buraya kaydedildi: 
+The internet is connected	İnternet bağlı
+The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you.	Başlatıcı çalışıyor, ancak radyo ve Bluetooth müzik bu cihazın kendi hizmetleri üzerinden çalışmayabilir. Destek yakında gelebilir: cihaz çevrimiçiyken bir uyumluluk güncellemesi çıktığında başlatıcı size haber verecek.
+The picture cannot be opened	Resim açılamıyor
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Resim, cihaz açıldıktan sonra başlatıcı başladığında gösterilir, ardından kaybolur (dokunmak hemen kaldırır). Cihazın kendi Android açılış animasyonu değişmez.
+The unit is set up. Every setting can be changed later in Setup.	Cihaz kuruldu. Tüm ayarlar daha sonra Ayarlar'dan değiştirilebilir.
+There is a launcher build made for this unit. Install it so the radio and Bluetooth work properly.	Bu cihaz için hazırlanmış bir başlatıcı sürümü var. Radyo ve Bluetooth'un düzgün çalışması için yükleyin.
+This unit is not supported yet	Bu cihaz henüz desteklenmiyor
+This unit is supported now. Install the launcher build made for it.	Bu cihaz artık destekleniyor. Onun için hazırlanmış başlatıcı sürümünü yükleyin.
+This unit is supported: 	Bu cihaz destekleniyor: 
+Welcome	Hoş geldiniz
+chosen	seçildi
+none	yok

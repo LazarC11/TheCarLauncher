@@ -37,7 +37,7 @@ import java.util.List;
 
 /** MIB "Podešavanje sistema": title, blue rule, light bars, nested pages. */
 public class SettingsScreen extends Screen {
-    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3, PAGE_VEHICLE = 4;
+    public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3, PAGE_VEHICLE = 4, PAGE_WIFI = 5, PAGE_BLUETOOTH = 6;
 
     private interface Page { void build(); }
 
@@ -212,6 +212,12 @@ public class SettingsScreen extends Screen {
         else if (page == PAGE_VEHICLE) push(s("Vozilo", "Vehicle"), new Page() {
             public void build() { buildVehicle(); }
         });
+        else if (page == PAGE_WIFI) push("Wi-Fi", new Page() {
+            public void build() { buildWifi(); }
+        });
+        else if (page == PAGE_BLUETOOTH) push("Bluetooth audio", new Page() {
+            public void build() { buildBluetooth(); }
+        });
         else render();
         jumped = stack.size() == 2;
     }
@@ -315,6 +321,58 @@ public class SettingsScreen extends Screen {
         toggle(s("Pun ekran (sakrij Android trake)", "Full screen (hide Android bars)"), Prefs.IMMERSIVE, false, true);
         note(s("Profil boja menja sliku launchera (sve njegove ekrane, i mapu). Boje drugih aplikacija mogu se menjati tek kada launcher postane sistemska aplikacija.",
                 "The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app."));
+        sub(s("Početni ekran pri pokretanju", "Boot screen"), new Page() { public void build() { buildBootScreen(); } });
+    }
+
+    /** Optional start picture (off by default). */
+    private void buildBootScreen() {
+        final boolean has = com.thecarlauncher.util.BootScreen.hasPicture(act);
+        checkRowWithAction(s("Prikaži sliku pri pokretanju", "Show a picture at start"),
+                com.thecarlauncher.util.BootScreen.on(act), new Runnable() {
+                    public void run() {
+                        if (!com.thecarlauncher.util.BootScreen.hasPicture(act)) {
+                            Ui.toast(act, s("Prvo izaberi sliku", "Choose a picture first"));
+                            return;
+                        }
+                        Prefs.put(act, com.thecarlauncher.util.BootScreen.P_ON, !com.thecarlauncher.util.BootScreen.on(act));
+                        refreshKeep();
+                    }
+                });
+        action(s("Izaberi sliku", "Choose a picture"), has ? s("izabrana", "chosen") : s("nije izabrana", "none"), new Runnable() {
+            public void run() {
+                act.pickImage(LauncherActivity.PICK_BOOT_SCREEN, new LauncherActivity.ImagePicked() {
+                    public void onPicked(android.net.Uri uri) {
+                        if (com.thecarlauncher.util.BootScreen.set(act, uri)) {
+                            Prefs.put(act, com.thecarlauncher.util.BootScreen.P_ON, true);
+                        } else {
+                            Ui.toast(act, s("Slika ne može da se otvori", "The picture cannot be opened"));
+                        }
+                        refreshKeep();
+                    }
+                });
+            }
+        });
+        stepper(s("Trajanje", "Duration"), com.thecarlauncher.util.BootScreen.seconds(act) + " s", new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.BootScreen.setSeconds(act, com.thecarlauncher.util.BootScreen.seconds(act) - 1);
+                refreshKeep();
+            }
+        }, new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.BootScreen.setSeconds(act, com.thecarlauncher.util.BootScreen.seconds(act) + 1);
+                refreshKeep();
+            }
+        });
+        if (has) {
+            action(s("Ukloni sliku", "Remove the picture"), null, new Runnable() {
+                public void run() {
+                    com.thecarlauncher.util.BootScreen.clear(act);
+                    refreshKeep();
+                }
+            });
+        }
+        note(s("Slika se prikazuje kada se launcher pokrene posle paljenja uređaja, pa nestaje (dodir je odmah sklanja). Fabrička Android animacija pri paljenju se ne menja.",
+                "The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed."));
     }
 
     /** Saturation (0), contrast (1) or warmth (2) with − / + keys. */
@@ -1668,6 +1726,13 @@ public class SettingsScreen extends Screen {
         String proj = Projection.find(act);
         if (proj != null) versionRow("App-Connect", proj);
         versionRow(s("Podaci mape", "Map data"), "© OpenStreetMap, © CARTO");
+        action(s("Pokreni asistenta za podešavanje", "Run the setup assistant"), null, new Runnable() {
+            public void run() {
+                Prefs.put(act, com.thecarlauncher.screens.WelcomeScreen.P_DONE, false);
+                Prefs.put(act, com.thecarlauncher.screens.WelcomeScreen.P_STEP, 0);
+                act.restartWelcome();
+            }
+        });
     }
 
     private void section(String text) {

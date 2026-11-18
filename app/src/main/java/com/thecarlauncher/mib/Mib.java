@@ -272,7 +272,7 @@ public final class Mib {
         StateListDrawable s = new StateListDrawable();
         s.addState(new int[]{android.R.attr.state_pressed},
                 inset(c, shade(BLUE, 0.6f, 0xFF), shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.5f, 0xFF)));
-        s.addState(new int[]{}, inset(c, 0xFFB6B7BD, 0xFFE4E4E7, 0xFF8A8B92));
+        s.addState(new int[]{}, inset(c, 0xFFA8A9AF, 0xFFD5D6DA, 0xFF7F8087));
         return s;
     }
 

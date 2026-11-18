@@ -1,6 +1,6 @@
 {
   "comment": "Which APK fits which head unit. Software update downloads this file from the release and checks the unit against it, top to bottom; the first unit with a matching entry wins. An entry matches when all of its conditions hold: package (installed app), service (system service name), prop (system property set; with equals / startsWith), file (exists), hardware / manufacturer / model (contains, any case). Unknown conditions never match. The launcher also carries a copy (used offline and when this file is older).",
-  "rulesVersion": 2,
+  "rulesVersion": 3,
   "default": "qf",
   "units": [
     {
@@ -44,7 +44,10 @@
       "id": "qf",
       "name": "UIS7862 / QF",
       "asset": "TheCarLauncher.apk",
-      "match": []
+      "match": [
+        {"package": "com.qf.bluetooth"},
+        {"file": "/dev/goc_serial"}
+      ]
     }
   ]
 }
