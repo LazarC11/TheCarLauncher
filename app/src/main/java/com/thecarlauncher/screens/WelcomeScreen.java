@@ -39,8 +39,9 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
     public static final String P_BRAND = "vehicle_brand";
     /** Test results, one line each ("Radio: …"), shown in the device report. */
     public static final String P_RESULTS = "welcome_results";
-    static final int WIFI = 0, COMPAT = 1, VEHICLE = 2, UNIT = 3, PHONE = 4, RADIO = 5, BT_AUDIO = 6, DONE = 7;
-    private static final int STEPS = 7;
+    static final int LANGUAGE = 0, WIFI = 1, COMPAT = 2, SCREEN = 3, VEHICLE = 4, AMBIENT = 5, UNIT = 6, PHONE = 7,
+            RADIO = 8, BT_AUDIO = 9, DONE = 10;
+    private static final int STEPS = 10;
 
     static final String[] BRANDS = {"Opel", "Volkswagen", "Škoda", "SEAT", "Audi", "Ford", "Renault", "Peugeot"};
 
@@ -88,11 +89,11 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
     /** Back goes to the previous step (the welcome page from the first one). */
     @Override
     public boolean onBack() {
-        if (step == WIFI) {
+        if (step == LANGUAGE) {
             Prefs.put(act, P_STEP, -1);
             act.show(LauncherActivity.INTRO, true);
         } else if (step != DONE) {
-            go(step == PHONE && !supported ? VEHICLE : step - 1);
+            go(step - 1);
         }
         return true;
     }
@@ -127,7 +128,7 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         list.setPadding(Mib.px(act, 8), Mib.px(act, 6), Mib.px(act, 40), Mib.px(act, 16));
         scroll.addView(list);
         r.addView(scroll, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
-        step = Math.max(WIFI, Math.min(DONE, Prefs.integer(act, P_STEP, WIFI)));
+        step = Math.max(LANGUAGE, Math.min(DONE, Prefs.integer(act, P_STEP, LANGUAGE)));
         supported = Compat.recognised(act);
         return r;
     }
@@ -189,7 +190,10 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         list.removeAllViews();
         stepText.setText(step == DONE ? "" : (step + 1) + " / " + STEPS);
         switch (step) {
+            case LANGUAGE: renderLanguage(); break;
             case WIFI: renderWifi(); break;
+            case SCREEN: renderScreen(); break;
+            case AMBIENT: renderAmbient(); break;
             case COMPAT: renderCompat(); break;
             case VEHICLE: renderVehicle(); break;
             case UNIT: renderUnit(); break;
@@ -274,18 +278,18 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                         : s("Dostupna je nova verzija:", "A new version is available:") + " " + release.versionName);
                 button(s("Instaliraj sada", "Install now"), new Runnable() {
                     public void run() {
-                        Prefs.put(act, P_STEP, VEHICLE); // the assistant goes on after the update
+                        Prefs.put(act, P_STEP, SCREEN); // the assistant goes on after the update
                         act.show(LauncherActivity.SOFTWARE, true);
                     }
                 });
                 button(s("Kasnije", "Later"), new Runnable() {
-                    public void run() { go(VEHICLE); }
+                    public void run() { go(SCREEN); }
                 });
             } else {
                 if (offline) note(s("Bez interneta: provereno prema pravilima ugrađenim u launcher.",
                         "No internet: checked against the rules built into the launcher."));
                 button(s("Dalje", "Next"), new Runnable() {
-                    public void run() { go(VEHICLE); }
+                    public void run() { go(SCREEN); }
                 });
             }
             return;
@@ -295,7 +299,7 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                 "The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you."));
         note(reportBusy || reportResult == null ? s("Slanje izveštaja o uređaju…", "Sending the device report…") : reportResult);
         button(s("Nastavi", "Continue"), new Runnable() {
-            public void run() { go(VEHICLE); }
+            public void run() { go(SCREEN); }
         });
     }
 
@@ -340,15 +344,12 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         }
         pictureRow(s("Slika automobila", "Car picture"), CarImages.EXTERIOR, SettingsScreen.PAGE_PICTURE_CAR);
         pictureRow(s("Unutrašnjost (ambijentalno osvetljenje)", "Cabin (ambient lighting)"), CarImages.INTERIOR, SettingsScreen.PAGE_PICTURE_CABIN);
-        button(s("Boja ambijentalnog osvetljenja", "Ambient lighting colour"), new Runnable() {
-            public void run() { act.showSettings(SettingsScreen.PAGE_AMBIENT); }
-        });
         if (brand != null && !"Opel".equals(brand)) {
             note(s("Ugrađene slike postoje za Opel Corsa C; za druga vozila uvezi sopstvenu fotografiju sa uređaja ili USB-a.",
                     "Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB."));
         }
         button(s("Dalje", "Next"), new Runnable() {
-            public void run() { go(supported ? UNIT : PHONE); }
+            public void run() { go(AMBIENT); }
         });
     }
 
@@ -366,11 +367,14 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         });
     }
 
-    /** Settings for this unit (only when it is supported). */
+    /** Main settings, plus the ones that belong to this unit when it is supported. */
     private void renderUnit() {
-        heading.setText(s("Podešavanja uređaja", "Unit settings"));
-        text(s("Preporučena podešavanja za ovaj uređaj:", "Recommended settings for this unit:") + " "
-                + UnitKind.name(act, UnitKind.detect(act)));
+        heading.setText(s("Podešavanja", "Settings"));
+        String unit = UnitKind.name(act, UnitKind.detect(act));
+        text(supported ? s("Preporučena podešavanja za ovaj uređaj:", "Recommended settings for this unit:") + " " + unit
+                : s("Osnovna podešavanja (ovaj uređaj još nije podržan, pa su posebna podešavanja uređaja skrivena).",
+                "Main settings (this unit is not supported yet, so its own settings are hidden)."));
+
         caption(s("Pri pokretanju uređaja", "When the unit starts"));
         int cur = StartupConnect.preset(act);
         for (int i = 0; i < StartupConnect.PRESETS.length; i++) {
@@ -383,9 +387,10 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                 }
             });
         }
+
         final RadioController radio = RadioController.get(act);
         caption("Radio");
-        final boolean fm = radio.fmAvailable();
+        final boolean fm = supported && radio.fmAvailable();
         if (fm) {
             checkRow(s("FM radio", "FM radio"), !radio.online(), new Runnable() {
                 public void run() {
@@ -394,24 +399,190 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                 }
             });
         }
-        checkRow(s("Internet radio", "Online radio"), radio.online(), new Runnable() {
+        checkRow(s("Internet radio", "Online radio"), radio.online() || !fm, new Runnable() {
             public void run() {
                 radio.setOnline(true);
                 render();
             }
         });
-        if (!fm) note(s("FM tjuner ovog uređaja ne može da se koristi iz launchera; internet radio radi preko interneta.",
-                "This unit's FM tuner cannot be used from the launcher; online radio plays over the internet."));
-        caption(s("Mediji", "Media"));
-        toggleRow(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true);
-        if (com.thecarlauncher.unit.Unit.QF) {
-            toggleRow(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"), Prefs.BT_AUTO_SELECT, true);
+        if (fm) {
+            toggleRow(s("Samo jake stanice (LOC)", "Strong stations only (LOC)"), Prefs.RADIO_LOC, false, new Runnable() {
+                public void run() { radio.setLocal(Prefs.bool(act, Prefs.RADIO_LOC, false)); }
+            });
+            toggleRow("RDS", Prefs.RADIO_RDS, true, new Runnable() {
+                public void run() { radio.setRds(Prefs.bool(act, Prefs.RADIO_RDS, true)); }
+            });
+        } else {
+            note(s("FM tjuner ovog uređaja ne može da se koristi iz launchera; internet radio radi preko interneta.",
+                    "This unit's FM tuner cannot be used from the launcher; online radio plays over the internet."));
         }
-        if (com.thecarlauncher.unit.Unit.CAR) {
-            toggleRow(s("Sakrij fabrički plejer", "Hide the factory player"), MediaHub.P_HIDE_FACTORY_PLAYER, true);
+
+        caption(s("Mediji i Bluetooth", "Media and Bluetooth"));
+        toggleRow(s("Nastavi reprodukciju pri pokretanju", "Resume playback on start"), Prefs.RESUME_MEDIA, true, null);
+        if (supported && com.thecarlauncher.unit.Unit.QF) {
+            toggleRow(s("BT audio čim se telefon poveže", "BT audio as soon as the phone connects"), Prefs.BT_AUTO_SELECT, true, null);
         }
+        if (supported && com.thecarlauncher.unit.Unit.CAR) {
+            toggleRow(s("Sakrij fabrički plejer", "Hide the factory player"), MediaHub.P_HIDE_FACTORY_PLAYER, true, null);
+        }
+        if (!com.thecarlauncher.unit.Unit.QF && com.thecarlauncher.media.UnitBackend.Get.of(act) == null) {
+            // Units whose factory BT app makes the sound.
+            toggleRow(s("Otvori BT aplikaciju na trenutak (pušta zvuk)", "Open the BT app briefly (plays the sound)"),
+                    Prefs.BT_OPEN_APP, MediaHub.get(act).btOpenAppDefault(), null);
+        }
+        button(s("Muzičke fascikle", "Music folders"), new Runnable() {
+            public void run() { act.showSettings(SettingsScreen.PAGE_MEDIA); }
+        });
+
+        caption(s("Navigacija", "Navigation"));
+        button(s("Navigacija i offline mape", "Navigation and offline maps"), new Runnable() {
+            public void run() { act.showSettings(SettingsScreen.PAGE_NAV); }
+        });
+
+        caption(s("Ažuriranje softvera", "Software update"));
+        toggleRow(s("Automatski proveri ažuriranja", "Check for updates automatically"), Updater.P_AUTO, true, null);
+        toggleRow(s("Probne verzije", "Test builds"), Updater.P_BETA, false, null);
+
         button(s("Dalje", "Next"), new Runnable() {
             public void run() { go(PHONE); }
+        });
+    }
+
+    private void renderLanguage() {
+        heading.setText(s("Jezik i region", "Language and region"));
+        caption("Jezik / Language");
+        boolean auto = com.thecarlauncher.util.Lang.automatic(act);
+        String cur = com.thecarlauncher.util.Lang.current(act);
+        checkRow(s("Automatski (po regionu)", "Automatic (by region)"), auto, new Runnable() {
+            public void run() { setLanguage(com.thecarlauncher.util.Lang.AUTO); }
+        });
+        for (final String[] l : com.thecarlauncher.util.Lang.CHOICES) {
+            checkRow(l[1], !auto && l[0].equals(cur), new Runnable() {
+                public void run() { setLanguage(l[0]); }
+            });
+        }
+        caption(s("Jedinice", "Units"));
+        final boolean metric = Prefs.metric(act);
+        checkRow(s("Kilometri (km/h)", "Kilometres (km/h)"), metric, new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.UNITS, "kmh");
+                render();
+            }
+        });
+        checkRow(s("Milje (mph)", "Miles (mph)"), !metric, new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.UNITS, "mph");
+                render();
+            }
+        });
+        caption(s("Vreme i datum", "Time and date"));
+        checkRow(s("Format 24 časa", "24-hour format"), Prefs.use24h(act), new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.CLOCK_24, !Prefs.use24h(act));
+                render();
+            }
+        });
+        button(s("Datum i vreme (Android)", "Date and time (Android)"), new Runnable() {
+            public void run() {
+                Ui.start(act, new Intent(android.provider.Settings.ACTION_DATE_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+        button(s("Dalje", "Next"), new Runnable() {
+            public void run() { go(WIFI); }
+        });
+    }
+
+    private void setLanguage(String l) {
+        Prefs.put(act, Prefs.LANGUAGE, l);
+        act.restartUi(); // the assistant comes back at this step in the new language
+    }
+
+    private void renderScreen() {
+        heading.setText(s("Ekran", "Screen"));
+        final android.app.Activity a = act;
+        stepper(s("Osvetljenost", "Brightness"), com.thecarlauncher.util.DisplayControl.brightness(act) + " %", new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.DisplayControl.setBrightness(a, com.thecarlauncher.util.DisplayControl.brightness(a) - 10);
+                render();
+            }
+        }, new Runnable() {
+            public void run() {
+                com.thecarlauncher.util.DisplayControl.setBrightness(a, com.thecarlauncher.util.DisplayControl.brightness(a) + 10);
+                render();
+            }
+        });
+        if (!com.thecarlauncher.util.DisplayControl.canWrite(act)) {
+            button(s("Dozvoli menjanje osvetljenosti sistema", "Allow changing the system brightness"), new Runnable() {
+                public void run() { com.thecarlauncher.util.DisplayControl.requestWrite(act); }
+            });
+        } else {
+            checkRow(s("Automatska osvetljenost", "Automatic brightness"), com.thecarlauncher.util.DisplayControl.autoBrightness(act), new Runnable() {
+                public void run() {
+                    com.thecarlauncher.util.DisplayControl.setAuto(act, !com.thecarlauncher.util.DisplayControl.autoBrightness(act));
+                    render();
+                }
+            });
+        }
+        checkRow(s("Pun ekran (sakrij Android trake)", "Full screen (hide Android bars)"), Prefs.bool(act, Prefs.IMMERSIVE, false), new Runnable() {
+            public void run() {
+                Prefs.put(act, Prefs.IMMERSIVE, !Prefs.bool(act, Prefs.IMMERSIVE, false));
+                act.restartUi();
+            }
+        });
+        bar(s("Početni ekran pri pokretanju", "Boot screen"), com.thecarlauncher.util.BootScreen.on(act)
+                ? s("uključen", "on") : s("isključen", "off")).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { act.showSettings(SettingsScreen.PAGE_BOOT); }
+        });
+        button(s("Profil boja i ostalo", "Colour profile and more"), new Runnable() {
+            public void run() { act.showSettings(SettingsScreen.PAGE_SCREEN); }
+        });
+        button(s("Dalje", "Next"), new Runnable() {
+            public void run() { go(VEHICLE); }
+        });
+    }
+
+    /** Ambient lighting: the cabin picture with the colour slider and the brightness, like Setup. */
+    private void renderAmbient() {
+        heading.setText(s("Ambijentalno osvetljenje", "Ambient lighting"));
+        text(s("Boja ambijentalnog osvetljenja je i boja celog launchera.", "The ambient lighting colour is also the colour of the whole launcher."));
+        AmbientScreen.InteriorView cabin = new AmbientScreen.InteriorView(act);
+        LinearLayout.LayoutParams cl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 210));
+        cl.leftMargin = Mib.px(act, 18);
+        cl.topMargin = Mib.px(act, 6);
+        list.addView(cabin, cl);
+        final int cur = Prefs.integer(act, Prefs.AMBIENT, Mib.DEFAULT_AMBIENT);
+        int sel = 0;
+        for (int i = 0; i < Mib.AMBIENT.length; i++) if ((Integer) Mib.AMBIENT[i][2] == cur) sel = i;
+        AmbientScreen.ColorSlider slider = new AmbientScreen.ColorSlider(act);
+        slider.setSelected(sel);
+        slider.setListener(new AmbientScreen.ColorSlider.Listener() {
+            public void onPick(int index, boolean done) {
+                int color = (Integer) Mib.AMBIENT[index][2];
+                if (done && color != Prefs.integer(act, Prefs.AMBIENT, Mib.DEFAULT_AMBIENT)) {
+                    Prefs.put(act, Prefs.AMBIENT, color);
+                    act.restartUi();
+                }
+            }
+        });
+        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 64));
+        sl.leftMargin = Mib.px(act, 18);
+        sl.topMargin = Mib.px(act, 10);
+        list.addView(slider, sl);
+        String name = s((String) Mib.AMBIENT[sel][0], (String) Mib.AMBIENT[sel][1]);
+        note(s("Boja: ", "Colour: ") + name);
+        caption(s("Jačina", "Brightness"));
+        final int level = Prefs.integer(act, Prefs.AMBIENT_LEVEL, 100);
+        for (final int l : new int[]{100, 80, 60}) {
+            checkRow(l + " %", level == l, new Runnable() {
+                public void run() {
+                    if (level == l) return;
+                    Prefs.put(act, Prefs.AMBIENT_LEVEL, l);
+                    act.restartUi();
+                }
+            });
+        }
+        button(s("Dalje", "Next"), new Runnable() {
+            public void run() { go(UNIT); }
         });
     }
 
@@ -638,13 +809,30 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         });
     }
 
-    private void toggleRow(String title, final String key, final boolean def) {
+    private void toggleRow(String title, final String key, final boolean def, final Runnable then) {
         checkRow(title, Prefs.bool(act, key, def), new Runnable() {
             public void run() {
                 Prefs.put(act, key, !Prefs.bool(act, key, def));
+                if (then != null) then.run();
                 render();
             }
         });
+    }
+
+    /** A bar with − / + keys at the end. */
+    private void stepper(String title, String value, final Runnable minus, final Runnable plus) {
+        LinearLayout row = bar(title, value);
+        for (int i = 0; i < 2; i++) {
+            final Runnable r = i == 0 ? minus : plus;
+            TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
+            k.setGravity(Gravity.CENTER);
+            k.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) { r.run(); }
+            });
+            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 64), ViewGroup.LayoutParams.MATCH_PARENT);
+            kl.leftMargin = Mib.px(act, 8);
+            row.addView(k, kl);
+        }
     }
 
     private void button(String text, final Runnable r) {

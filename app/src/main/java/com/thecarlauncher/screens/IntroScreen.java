@@ -15,8 +15,9 @@ import com.thecarlauncher.mib.MibBar;
 import com.thecarlauncher.util.Prefs;
 
 /**
- * The first page after installing, on its own like the factory App-Connect welcome: the dark
- * backdrop with the soft light band, a greeting in the middle and soft keys along the bottom.
+ * The first page after installing, on its own like the factory Media Control start page: a
+ * turning globe in the centre over the dark backdrop, a greeting below it and soft keys along the
+ * bottom.
  * "Start" opens the setup assistant (WelcomeScreen), "Skip" goes straight to the home screen.
  */
 public class IntroScreen extends Screen {
@@ -48,25 +49,30 @@ public class IntroScreen extends Screen {
         LinearLayout mid = new LinearLayout(act);
         mid.setOrientation(LinearLayout.VERTICAL);
         mid.setGravity(Gravity.CENTER_HORIZONTAL);
-        TextView hello = Mib.text(act, s("Dobro došli", "Welcome"), 54, Mib.semibold(act), Mib.WHITE);
+        // The globe in the centre, like the factory Media Control start page.
+        com.thecarlauncher.mib.GlobeView globe = new com.thecarlauncher.mib.GlobeView(act);
+        mid.addView(globe, new LinearLayout.LayoutParams(Mib.px(act, 300), Mib.px(act, 270)));
+        TextView hello = Mib.text(act, s("Dobro došli", "Welcome"), 44, Mib.semibold(act), Mib.WHITE);
         hello.setGravity(Gravity.CENTER);
+        hello.setPadding(0, 0, 0, 0);
         mid.addView(hello);
-        TextView name = Mib.text(act, "Car Launcher", 30, Mib.regular(act), Mib.GREY);
-        name.setGravity(Gravity.CENTER);
-        name.setPadding(0, Mib.px(act, 4), 0, Mib.px(act, 26));
-        mid.addView(name);
         TextView text = Mib.text(act, s("Za nekoliko minuta podesićemo uređaj: internet, vozilo, telefon, i proverićemo da radio i Bluetooth zvuk rade.",
                 "In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work."),
-                28, Mib.regular(act), Mib.WHITE);
+                24, Mib.regular(act), Mib.GREY);
         text.setGravity(Gravity.CENTER);
         text.setSingleLine(false);
-        text.setLineSpacing(Mib.px(act, 6), 1f);
-        text.setPadding(Mib.px(act, 90), 0, Mib.px(act, 90), 0);
+        text.setLineSpacing(Mib.px(act, 4), 1f);
+        text.setPadding(Mib.px(act, 110), Mib.px(act, 6), Mib.px(act, 110), 0);
         mid.addView(text);
         FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        ml.bottomMargin = Mib.px(act, 20);
         body.addView(mid, ml);
+        TextView name = Mib.text(act, "Car Launcher", 30, Mib.semibold(act), Mib.WHITE);
+        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.TOP | Gravity.START);
+        nl.leftMargin = Mib.px(act, 30);
+        nl.topMargin = Mib.px(act, 20);
+        body.addView(name, nl);
         r.addView(body, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
         MibBar bar = new MibBar(act);

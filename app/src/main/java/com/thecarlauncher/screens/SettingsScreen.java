@@ -38,7 +38,8 @@ import java.util.List;
 /** MIB "Podešavanje sistema": title, blue rule, light bars, nested pages. */
 public class SettingsScreen extends Screen {
     public static final int PAGE_ROOT = 0, PAGE_NAV = 1, PAGE_MEDIA = 2, PAGE_RADIO = 3, PAGE_VEHICLE = 4, PAGE_WIFI = 5, PAGE_BLUETOOTH = 6, PAGE_AMBIENT = 7,
-            PAGE_PICTURE_CAR = 8, PAGE_PICTURE_CABIN = 9;
+            PAGE_PICTURE_CAR = 8, PAGE_PICTURE_CABIN = 9,
+            PAGE_BOOT = 10, PAGE_SCREEN = 11;
 
     private interface Page { void build(); }
 
@@ -221,6 +222,12 @@ public class SettingsScreen extends Screen {
         });
         else if (page == PAGE_AMBIENT) push(s("Ambijentalno osvetljenje", "Ambient lighting"), new Page() {
             public void build() { buildAmbient(); }
+        });
+        else if (page == PAGE_BOOT) push(s("Početni ekran pri pokretanju", "Boot screen"), new Page() {
+            public void build() { buildBootScreen(); }
+        });
+        else if (page == PAGE_SCREEN) push(s("Ekran", "Screen"), new Page() {
+            public void build() { buildDisplay(); }
         });
         else if (page == PAGE_PICTURE_CAR) pick(com.thecarlauncher.util.CarImages.EXTERIOR);
         else if (page == PAGE_PICTURE_CABIN) pick(com.thecarlauncher.util.CarImages.INTERIOR);

@@ -200,7 +200,7 @@ public class AmbientScreen extends Screen {
         private final Rect src = new Rect();
         private final RectF dst = new RectF();
 
-        InteriorView(Context c) {
+        public InteriorView(Context c) {
             super(c);
             photo = com.thecarlauncher.util.CarImages.get(c, com.thecarlauncher.util.CarImages.INTERIOR);
         }
