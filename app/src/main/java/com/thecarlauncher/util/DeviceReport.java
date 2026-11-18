@@ -143,6 +143,13 @@ public final class DeviceReport {
         } catch (Throwable e) {
             r.append("  (").append(e.getClass().getSimpleName()).append(")\n");
         }
+        String checks = Prefs.str(c, com.thecarlauncher.screens.WelcomeScreen.P_RESULTS, "");
+        if (checks != null && !checks.isEmpty()) {
+            r.append("\n== Setup assistant checks ==\n");
+            String brand = Prefs.str(c, com.thecarlauncher.screens.WelcomeScreen.P_BRAND, null);
+            if (brand != null) r.append("  vehicle brand=").append(brand).append('\n');
+            for (String line : checks.split("\n")) r.append("  ").append(line).append('\n');
+        }
         String crashes = CrashLog.read(c);
         r.append("\n== Launcher crashes ==\n").append(crashes == null ? "  none\n" : crashes);
         return r.toString();

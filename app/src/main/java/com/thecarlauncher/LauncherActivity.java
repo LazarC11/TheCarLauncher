@@ -67,13 +67,13 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
-    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10, SOFTWARE = 11, WELCOME = 12;
+    public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10, SOFTWARE = 11, WELCOME = 12, INTRO = 13;
 
     private static final int REQ_PERMS = 41;
     private static final Pattern RADIO_APP = Pattern.compile("(?i).*(radio|\\bfm\\b|\\bdab\\b).*");
 
     private final Handler main = new Handler(Looper.getMainLooper());
-    private final Screen[] screens = new Screen[13];
+    private final Screen[] screens = new Screen[14];
     private int current = -1;
 
     private FrameLayout content;
@@ -188,10 +188,13 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         screens[BTDEVICES] = new com.thecarlauncher.screens.BtDevicesScreen(this);
         screens[SOFTWARE] = new com.thecarlauncher.screens.UpdateScreen(this);
         screens[WELCOME] = new com.thecarlauncher.screens.WelcomeScreen(this);
+        screens[INTRO] = new com.thecarlauncher.screens.IntroScreen(this);
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
-        else if (com.thecarlauncher.screens.WelcomeScreen.needed(this)) start = WELCOME;
+        else if (com.thecarlauncher.screens.WelcomeScreen.needed(this)) {
+            start = com.thecarlauncher.screens.WelcomeScreen.inProgress(this) ? WELCOME : INTRO;
+        }
         show(screenFromIntent(getIntent(), start), false);
 
         MediaHub.get(this).connectExternal();
@@ -456,7 +459,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         current = idx;
         // The home screen is just the tile grid, like the factory MENU: no status bar.
-        int bar = idx == MENU ? View.GONE : View.VISIBLE;
+        int bar = idx == MENU || idx == INTRO ? View.GONE : View.VISIBLE;
         statusBar.setVisibility(bar);
         statusRule.setVisibility(bar);
         updateBackArrow();
@@ -535,8 +538,20 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         Prefs.put(this, "pending_picture", -1);
     }
 
-    /** Opens the setup assistant from its first step. */
+    /** Opens the welcome page again (Setup → About → Run the setup assistant). */
     public void restartWelcome() {
+        show(INTRO, true);
+    }
+
+    /** From the welcome page: the setup assistant from its first step. */
+    public void startAssistant() {
+        Prefs.put(this, com.thecarlauncher.screens.WelcomeScreen.P_STEP, 0);
+        Prefs.put(this, com.thecarlauncher.screens.WelcomeScreen.P_RESULTS, "");
+        if (screens[WELCOME].isCreated() && current != WELCOME) {
+            screens[WELCOME].onHide();
+            View old = screens[WELCOME].view(content);
+            content.removeView(old);
+        }
         screens[WELCOME] = new com.thecarlauncher.screens.WelcomeScreen(this);
         show(WELCOME, true);
     }
