@@ -143,7 +143,7 @@ public class GlobeView extends View {
         blur.setMaskFilter(new BlurMaskFilter(sw * 5f, BlurMaskFilter.Blur.NORMAL));
         c.drawCircle(cx, cy, r, blur);
         blur.setMaskFilter(null);
-        line.setColor(alpha(mix(0xFFD8DCE4, blue, 0.25f), 0.95f));
+        line.setColor(alpha(mix(0xFF4A4E56, blue, 0.45f), 0.95f));
         line.setStrokeWidth(sw * 1.3f);
         c.drawCircle(cx, cy, r, line);
 
@@ -183,16 +183,16 @@ public class GlobeView extends View {
                 px = x; py = y; pz = z; pl = l;
             }
         }
-        int grey = 0xFFDCDFE6;
+        // Dark grey wires: a little lighter than the sphere where the light falls on them.
         line.setStrokeWidth(sw * 0.75f);
         for (int i = 0; i < BUCKETS; i++) {
-            line.setColor(alpha(grey, 0.05f + 0.10f * i / (BUCKETS - 1f)));
+            line.setColor(alpha(0xFF2E3136, 0.25f + 0.25f * i / (BUCKETS - 1f)));
             c.drawPath(back[i], line);
         }
         line.setStrokeWidth(sw);
         for (int i = 0; i < BUCKETS; i++) {
             float f = i / (BUCKETS - 1f);
-            line.setColor(alpha(mix(0xFF9CA3AE, grey, f), 0.22f + 0.70f * f));
+            line.setColor(alpha(mix(0xFF25282D, 0xFF464A52, f), 0.85f + 0.15f * f));
             c.drawPath(front[i], line);
         }
         // Small lights where the lines cross on the lit front.
@@ -201,7 +201,7 @@ public class GlobeView extends View {
                 sphere(-Math.PI / 2 + k * Math.PI / (PARALLELS + 1), m * Math.PI * 2 / MERIDIANS);
                 float l = (float) (p[0] * LX + p[1] * LY + p[2] * LZ);
                 if (p[2] < 0.2f || l < 0.1f) continue;
-                dot.setColor(alpha(0xFFFFFFFF, 0.30f + 0.6f * l));
+                dot.setColor(alpha(0xFF5C616A, 0.35f + 0.5f * l));
                 c.drawCircle(cx + p[0] * r, cy - p[1] * r, sw * 1.3f, dot);
             }
         }
