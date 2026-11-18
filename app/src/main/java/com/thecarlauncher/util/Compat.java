@@ -20,13 +20,18 @@ import java.net.URL;
  *
  * The report goes to the repository as a GitHub issue only when the build carries a report key
  * (assets/report_token, written by CI from the REPORT_TOKEN secret; a fine-grained token that may
- * only create issues). Without one it is saved on the unit for the owner to send.
+ * only create issues), at most {@link #DAILY_LIMIT} a day per unit. It is always saved on the unit
+ * too, so the owner can still send it by hand.
  */
 public final class Compat {
     public static final String P_UNSUPPORTED = "compat_unsupported";
     public static final String P_REPORT_PENDING = "compat_report_pending";
     public static final String P_REPORT_SENT = "compat_report_sent";
     private static final String P_LAST_CHECK = "compat_last_check";
+    /** Reports sent today: "yyyy-MM-dd count". */
+    private static final String P_SENT_TODAY = "compat_reports_today";
+    /** At most this many reports a day leave one unit (the report is always saved on the unit). */
+    public static final int DAILY_LIMIT = 3;
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     private Compat() {}
@@ -64,6 +69,23 @@ public final class Compat {
 
     public static boolean canSend(Context c) { return token(c) != null; }
 
+    private static String today() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(new java.util.Date());
+    }
+
+    /** Reports this unit sent today. */
+    public static int sentToday(Context c) {
+        String v = Prefs.str(c, P_SENT_TODAY, "");
+        if (v == null || !v.startsWith(today() + " ")) return 0;
+        try {
+            return Integer.parseInt(v.substring(v.indexOf(' ') + 1).trim());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private static void countSent(Context c) { Prefs.put(c, P_SENT_TODAY, today() + " " + (sentToday(c) + 1)); }
+
     /**
      * Builds the report, saves it on the unit and, with a report key and internet, opens a GitHub
      * issue with it. Without internet it is sent later ({@link #retryPending}). Answer on the main thread.
@@ -77,12 +99,15 @@ public final class Compat {
                 String url = null, err = null;
                 if (token(c) == null) {
                     err = "no report key";
+                } else if (sentToday(c) >= DAILY_LIMIT) {
+                    err = "daily limit";
                 } else if (!online(c)) {
                     err = "offline";
                     Prefs.put(c, P_REPORT_PENDING, true);
                 } else {
                     try {
                         url = postIssue(c, text);
+                        countSent(c);
                         Prefs.put(c, P_REPORT_PENDING, false);
                         Prefs.put(c, P_REPORT_SENT, url);
                     } catch (Exception e) {
@@ -100,7 +125,7 @@ public final class Compat {
 
     /** A report that could not go out earlier (no internet) is sent now. */
     public static void retryPending(Context c) {
-        if (!Prefs.bool(c, P_REPORT_PENDING, false) || !online(c) || token(c) == null) return;
+        if (!Prefs.bool(c, P_REPORT_PENDING, false) || !online(c) || token(c) == null || sentToday(c) >= DAILY_LIMIT) return;
         sendReport(c, null);
     }
 
