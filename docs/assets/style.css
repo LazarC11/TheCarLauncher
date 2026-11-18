@@ -1,0 +1,105 @@
+:root {
+  --bg: #050608;
+  --band: #0b0d11;
+  --text: #f3f3f5;
+  --grey: #b9bbc3;
+  --dim: #7e808a;
+  --line: #2a2d34;
+  --blue: #2d8ceb;
+  --green: #38e8a0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.55 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-size: .88em; color: var(--grey); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+.small { color: var(--dim); font-size: 14px; }
+
+/* Top bar: like the unit's status bar, a thin rule underneath */
+.top { position: sticky; top: 0; z-index: 5; background: rgba(5, 6, 8, .86); backdrop-filter: blur(8px);
+  border-bottom: 1px solid #7d7f89; }
+.bar { display: flex; align-items: center; justify-content: space-between; height: 62px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; font-size: 20px; }
+.brand:hover { text-decoration: none; }
+nav { display: flex; gap: 22px; flex-wrap: wrap; }
+nav a { color: var(--grey); font-size: 15px; }
+nav a:hover { color: var(--text); text-decoration: none; }
+
+/* Hero: text on the left, the wireframe globe in the bottom-right corner */
+.hero { position: relative; min-height: min(86vh, 760px); overflow: hidden; display: flex; align-items: center;
+  background: radial-gradient(120% 70% at 30% 45%, #10131b 0%, var(--bg) 70%); }
+#globe { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-text { position: relative; width: 100%; padding-top: 40px; padding-bottom: 60px; }
+.hero-text > * { max-width: 560px; }
+h1 { font-size: clamp(44px, 7vw, 76px); line-height: 1.05; margin: 0 0 18px; font-weight: 600; letter-spacing: -.5px; }
+.lead { color: var(--grey); font-size: 20px; margin: 0 0 30px; }
+.keys { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+.key { display: inline-flex; align-items: center; gap: 8px; height: 54px; padding: 0 26px; min-width: 200px;
+  justify-content: center; color: var(--text); border: 1.6px solid #d6d6dc; background: #000; font-size: 18px; white-space: nowrap; }
+.key:hover { color: var(--blue); text-decoration: none; }
+.key.primary { border-color: var(--blue); box-shadow: 0 0 22px rgba(45, 140, 235, .35); }
+#ver:not(:empty)::before { content: "· "; color: var(--dim); }
+
+section { padding: 70px 0; }
+.band { background: var(--band); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+h2 { font-size: 34px; font-weight: 600; margin: 0 0 14px; position: relative; padding-bottom: 12px; }
+h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 3px; background: var(--blue); }
+
+/* Download cards: light settings bars shaded inward, like the launcher's */
+.dl { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 26px 0 18px; }
+.card { display: flex; flex-direction: column; gap: 2px; padding: 16px 20px; border-radius: 3px; color: #1c1c22;
+  background: linear-gradient(#a8a9af 0%, #c4c5ca 30%, #d5d6da 60%, #d5d6da 100%);
+  box-shadow: inset 0 0 0 1px #7f8087, inset 14px 0 18px -14px rgba(0, 0, 0, .3), inset -14px 0 18px -14px rgba(0, 0, 0, .25); }
+.card:hover { text-decoration: none; background: linear-gradient(#1f5f9f, #2d8ceb); color: #fff; }
+.card:hover span, .card:hover em, .card:hover code { color: #e8f1ff; }
+.card b { font-size: 19px; font-weight: 600; }
+.card span { color: #4a4b55; font-size: 14px; }
+.card span code { color: #4a4b55; }
+.card em { font-style: normal; color: #4a4b55; font-size: 13px; margin-top: 6px; }
+
+/* Features */
+.feat { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 28px; }
+figure { margin: 0; background: var(--band); border: 1px solid var(--line); }
+figure img { display: block; width: 100%; height: auto; aspect-ratio: 1024 / 600; object-fit: cover; }
+figcaption { padding: 12px 14px 14px; color: var(--grey); font-size: 15px; }
+figcaption b { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+.ticks { list-style: none; padding: 0; margin: 30px 0 0; columns: 2 320px; column-gap: 40px; }
+.ticks li { position: relative; padding-left: 26px; margin-bottom: 10px; color: var(--grey); break-inside: avoid; }
+.ticks li::before { content: ""; position: absolute; left: 4px; top: .6em; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--blue); box-shadow: 0 0 10px var(--blue); }
+
+/* Head units table */
+table { width: 100%; border-collapse: collapse; margin: 24px 0 18px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; }
+td:first-child { color: var(--text); font-weight: 600; }
+td { color: var(--grey); }
+
+/* Install steps */
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 12px; }
+.steps li { counter-increment: s; position: relative; padding: 16px 18px 16px 70px; background: var(--band);
+  border: 1px solid var(--line); color: var(--grey); }
+.steps li::before { content: counter(s); position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 34px; border: 1.6px solid #d6d6dc; display: grid; place-items: center; color: var(--text); }
+.steps b { color: var(--text); font-weight: 600; }
+
+footer { padding: 36px 0 50px; border-top: 1px solid var(--line); color: var(--dim); font-size: 14px; }
+
+@media (max-width: 720px) {
+  nav { display: none; }
+  .hero { min-height: 640px; align-items: flex-start; }
+  .hero-text { padding-top: 50px; }
+  .lead { font-size: 18px; }
+  .keys { flex-direction: column; }
+  .key { min-width: 0; width: 100%; }
+  table { font-size: 14px; }
+  th:nth-child(3), td:nth-child(3) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MibDroid</title>
+<meta name="description" content="MibDroid: a home-screen launcher for Android head units in the style of a classic factory infotainment system. Radio, Bluetooth music, navigation, App-Connect and more.">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#"><img src="assets/icon.png" alt="" width="34" height="34"> MibDroid</a>
+    <nav>
+      <a href="#download">Download</a>
+      <a href="#features">Features</a>
+      <a href="#units">Head units</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/LazarC11/TheCarLauncher">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="globe" aria-hidden="true"></canvas>
+  <div class="wrap hero-text">
+    <h1>MibDroid</h1>
+    <p class="lead">A home-screen launcher for Android head units, styled after a classic factory
+      infotainment system. Radio, Bluetooth music, navigation, App-Connect and your car, on one
+      calm black screen.</p>
+    <div class="keys">
+      <a class="key primary" href="https://github.com/LazarC11/TheCarLauncher/releases/latest">Download <span id="ver"></span></a>
+      <a class="key" href="#install">How to install</a>
+    </div>
+    <p class="small">Free and open source · Android 5.0 or newer · Serbian, English, Polish, Turkish</p>
+  </div>
+</section>
+
+<section id="download" class="band">
+  <div class="wrap">
+    <h2>Download</h2>
+    <p>Each head-unit family has its own APK. Not sure which one? Install any of them: on first
+      start the setup assistant checks the unit and offers the right one.</p>
+    <div class="dl">
+      <a class="card" href="https://github.com/LazarC11/TheCarLauncher/releases/latest/download/TheCarLauncher.apk">
+        <b>UIS7862 / QF</b><span>QF firmware, <code>com.qf.*</code> apps</span><em>TheCarLauncher.apk</em></a>
+      <a class="card" href="https://github.com/LazarC11/TheCarLauncher/releases/latest/download/TheCarLauncher_hzbhd.apk">
+        <b>Allwinner T3 / hzbhd</b><span><code>com.hzbhd.*</code> apps</span><em>TheCarLauncher_hzbhd.apk</em></a>
+      <a class="card" href="https://github.com/LazarC11/TheCarLauncher/releases/latest/download/TheCarLauncher_carsvc.apk">
+        <b>android.car firmware</b><span><code>android.car.app.*</code> apps</span><em>TheCarLauncher_carsvc.apk</em></a>
+      <a class="card" href="https://github.com/LazarC11/TheCarLauncher/releases/latest/download/TheCarLauncher_syu.apk">
+        <b>SYU / FYT</b><span>MainServer <code>com.syu.ms</code></span><em>TheCarLauncher_syu.apk</em></a>
+      <a class="card" href="https://github.com/LazarC11/TheCarLauncher/releases/latest/download/TheCarLauncher_hcn.apk">
+        <b>MediaTek MT8163 / hcn</b><span><code>com.hcn.*</code> apps</span><em>TheCarLauncher_hcn.apk</em></a>
+    </div>
+    <p class="small">The file names keep the project's old name so installed units keep updating.
+      Every release is on the <a href="https://github.com/LazarC11/TheCarLauncher/releases">releases page</a>,
+      with a Magisk module for installing it as a system app.</p>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>What it does</h2>
+    <div class="feat">
+      <figure><img src="screenshots/menu.png" alt="Main menu" loading="lazy"><figcaption><b>MENU</b> Factory-style tiles with blue underlines and soft keys.</figcaption></figure>
+      <figure><img src="screenshots/media-playing.png" alt="Media player" loading="lazy"><figcaption><b>Media</b> USB, SD and internal music, folders, albums, cover art.</figcaption></figure>
+      <figure><img src="screenshots/media-bluetooth.png" alt="Bluetooth music" loading="lazy"><figcaption><b>Bluetooth music</b> Song, times and controls without the factory app on screen.</figcaption></figure>
+      <figure><img src="screenshots/radio.png" alt="Radio" loading="lazy"><figcaption><b>Radio</b> The unit's FM tuner or online radio by country, presets with logos.</figcaption></figure>
+      <figure><img src="screenshots/nav-route.png" alt="Navigation" loading="lazy"><figcaption><b>Navigation</b> OpenStreetMap routing, voice prompts and offline maps.</figcaption></figure>
+      <figure><img src="screenshots/vehicle-status.png" alt="Vehicle" loading="lazy"><figcaption><b>Vehicle</b> Your car's picture, trip computer, fuel log and service.</figcaption></figure>
+      <figure><img src="screenshots/ambient.png" alt="Ambient lighting" loading="lazy"><figcaption><b>Ambient lighting</b> 30 colours that recolour the whole launcher.</figcaption></figure>
+      <figure><img src="screenshots/appconnect.png" alt="App-Connect" loading="lazy"><figcaption><b>App-Connect</b> Android Auto, CarPlay and mirroring through the unit's ZLink.</figcaption></figure>
+    </div>
+    <ul class="ticks">
+      <li>Setup assistant on first start: language, Wi-Fi, compatibility, vehicle, ambient lighting, and a quick radio and Bluetooth check.</li>
+      <li>Updates itself from GitHub and picks the build made for your unit.</li>
+      <li>Units it does not know yet send a device report, and are told when support arrives.</li>
+      <li>Bass – Mid – Treble, phone status in the top bar, true full screen, optional boot picture.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="units" class="band">
+  <div class="wrap">
+    <h2>Head units</h2>
+    <table>
+      <thead><tr><th>Unit</th><th>Radio</th><th>Bluetooth music</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>UIS7862S (QF001)</td><td>Built-in tuner (MCU)</td><td>Song, cover, controls, devices page</td><td>In daily use</td></tr>
+        <tr><td>Allwinner T3 / hzbhd</td><td>Through <code>hzbhd.radio</code></td><td>nForce service, devices page</td><td>Needs testing</td></tr>
+        <tr><td>MediaTek MT8163 / hcn</td><td>Factory radio service</td><td>hcn Bluetooth music service</td><td>Needs testing</td></tr>
+        <tr><td>android.car firmware</td><td>Car service</td><td>Car service</td><td>Needs testing</td></tr>
+        <tr><td>SYU / FYT</td><td>MainServer</td><td>MainServer</td><td>Needs testing</td></tr>
+      </tbody>
+    </table>
+    <p>Another unit? Install MibDroid and run the setup assistant: it sends a device report, and
+      the unit gets its own build when one is made. You can also open an
+      <a href="https://github.com/LazarC11/TheCarLauncher/issues">issue</a> with the report from
+      <i>Setup → device report</i>.</p>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><b>Download</b> the APK for your unit (above), on the unit or onto a USB stick.</li>
+      <li><b>Open it</b> on the unit. Allow <i>Install unknown apps</i> if Android asks.</li>
+      <li><b>Press Home</b> and pick <b>MibDroid</b> → <i>Always</i>.</li>
+      <li><b>Follow the setup assistant.</b> Later updates come from <i>Setup → Software update</i>.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>A personal, non-commercial hobby project. Not affiliated with or endorsed by any car or
+      head-unit manufacturer. Map data © OpenStreetMap contributors.</p>
+    <p><a href="https://github.com/LazarC11/TheCarLauncher">Source on GitHub</a> ·
+      <a href="https://github.com/LazarC11/TheCarLauncher/releases">Releases</a> ·
+      <a href="https://github.com/LazarC11/TheCarLauncher/issues">Report a problem</a></p>
+  </div>
+</footer>
+
+<script src="assets/globe.js"></script>
+<script>
+// Version of the latest release on the Download key (best effort; the link works without it).
+fetch("https://api.github.com/repos/LazarC11/TheCarLauncher/releases/latest")
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (j) { if (j && j.tag_name) document.getElementById("ver").textContent = j.tag_name; })
+  .catch(function () {});
+</script>
+</body>
+</html>
