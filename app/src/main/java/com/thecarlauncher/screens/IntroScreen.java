@@ -68,8 +68,9 @@ public class IntroScreen extends Screen {
         LinearLayout keys = new LinearLayout(act);
         keys.addView(key(s("Nastavi", "Continue"), new Runnable() {
             public void run() { act.startAssistant(); }
-        }), new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60)));
-        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60));
+        }), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, Mib.px(act, 60)));
+        // Keys grow with the text, so long translations (Greek, Finnish…) are never cut off.
+        LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, Mib.px(act, 60));
         sl.leftMargin = Mib.px(act, 16);
         // The setup app (universal build) has nothing to skip to.
         if (!LauncherActivity.setupOnly(act)) keys.addView(key(s("Preskoči podešavanje", "Skip setup"), new Runnable() {
@@ -94,6 +95,8 @@ public class IntroScreen extends Screen {
     private TextView key(String label, final Runnable r) {
         TextView k = Mib.text(act, label, 28, Mib.regular(act), Mib.WHITE);
         k.setGravity(Gravity.CENTER);
+        k.setMinWidth(Mib.px(act, 230));
+        k.setPadding(Mib.px(act, 24), 0, Mib.px(act, 24), 0);
         k.setBackground(Mib.box(act));
         Mib.pressText(k);
         k.setOnClickListener(new View.OnClickListener() {
