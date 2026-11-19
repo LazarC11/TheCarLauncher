@@ -1,0 +1,594 @@
+# English text <TAB> translation (lt). Keys must match the English text in the code exactly.
+  (partial)	  (iš dalies)
+  (test)	  (bandymas)
+  (this unit: 	  (šis įrenginys: 
+ (back to Android)	 (atgal į Android)
+ (last connected)	 (paskutinis prijungtas)
+ connected	 prijungtas
+ days	 d.
+ downloaded	 atsisiųsta
+ folders	 aplankai
+ is connected.\nTap to show the phone.	 prijungtas.\nPalieskite, kad būtų rodomas telefonas.
+ kilometres	 kilometrų
+ metres	 metrų
+ music / video files in this folder	 muzikos / vaizdo failai šiame aplanke
+ nearby	 netoliese
+ saved	 išsaugota
+ songs	 dainos
+ videos	 vaizdo įrašai
+ · tap to delete	 · palieskite, kad ištrintumėte
++15,000 km / +1 yr	+15 000 km / +1 metai
+24-hour format	24 valandų formatas
+A phone is connected. Disconnect it first to add a new device.	Prijungtas telefonas. Norėdami pridėti naują įrenginį, pirmiausia jį atjunkite.
+Add	Pridėti
+Add a folder	Pridėti aplanką
+Add fill-up	Pridėti pylimą
+Add to MENU	Pridėti į MENU
+Albums	Albumai
+All	Visi
+All Android settings	Visi Android nustatymai
+All countries	Visos šalys
+All files access (USB)	Prieiga prie visų failų (USB)
+All presets are taken — hold a preset to replace it	Visos atmintys užimtos — laikykite atmintį, kad ją pakeistumėte
+All set	Viskas paruošta
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Leiskite MibDroid „Prieigą prie visų failų“, kad jis galėtų skaityti muziką iš USB atmintukų.
+Allow access	Leisti prieigą
+Allow access to music.	Leiskite prieigą prie muzikos.
+Allow access to pictures	Leisti prieigą prie vaizdų
+Allow changing the system brightness	Leisti keisti sistemos ryškumą
+Allow installing apps for MibDroid, then try again	Leiskite MibDroid diegti programas ir bandykite dar kartą
+Allow installing updates	Leisti diegti naujinius
+Allow location access	Leisti prieigą prie vietos
+Allow returning from the BT app	Leisti grįžti iš BT programos
+Allowed	Leidžiama
+Altitude	Aukštis
+Ambient lighting	Aplinkos apšvietimas
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android neleidžia paprastai programai pačiai įjungti viešosios interneto prieigos taško: atsidaro sistemos prieigos taško puslapis (pavadinimas, slaptažodis, įjungti/išjungti). Kai paleidimo programa yra sistemos programa, tai veikia tiesiog čia.
+Android system	Android sistema
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android prašo patvirtinti diegimą. Kaip sistemos programa (Magisk modulis) paleidimo programa atsinaujina pati.
+Annual service	Metinis aptarnavimas
+Annual service due now!	Metinis aptarnavimas reikalingas dabar!
+Another app (gallery, file manager)	Kita programa (galerija, failų tvarkyklė)
+Any saved network	Bet kuris išsaugotas tinklas
+App	Programa
+App (ZLink, CarPlay…)	Programa (ZLink, CarPlay…)
+App info	Programos informacija
+App name	Programos pavadinimas
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect nepasiekiamas.\nĮrenginyje nerasta ZLink programos.
+Apps	Programos
+Artists	Atlikėjai
+At the end, left	Gale į kairę
+At the end, right	Gale į dešinę
+Automatic (by region)	Automatiškai (pagal regioną)
+Automatic (detect from media session)	Automatiškai (iš medijos seanso)
+Automatic (storage and USB)	Automatiškai (saugykla ir USB)
+Automatic brightness	Automatinis ryškumas
+Automatic check (once a day)	Automatinis tikrinimas (kartą per dieną)
+Available version:	Prieinama versija:
+Average consumption	Vidutinės sąnaudos
+Average speed	Vidutinis greitis
+Avg. consumption	Vid. sąnaudos
+Avg. fuel price	Vid. degalų kaina
+BT audio as soon as the phone connects	BT garsas, kai prisijungia telefonas
+BT daemon probe	BT daemon probe
+BT music app	BT muzikos programa
+BT package (from media session)	BT paketas (iš medijos seanso)
+BT screen	BT ekranas
+BT_STATE	BT_STATE
+Back	Atgal
+Bass	Žemi
+Bass - Mid - Treble	Žemi - Vidutiniai - Aukšti
+Bear left	Šiek tiek į kairę
+Bear right	Šiek tiek į dešinę
+Bluetooth audio check	Bluetooth garso patikra
+Bluetooth devices	Bluetooth įrenginiai
+Boot screen	Pradžios ekranas
+Brand	Markė
+Brightness	Ryškumas
+Browse	Naršyti
+Buffering…	Buferizuojama…
+Build for this unit:	Versija šiam įrenginiui:
+Build for unit:	Versija įrenginiui:
+Build number	Versijos numeris
+Building the device report…	Kuriama įrenginio ataskaita…
+Built-in Corsa C pictures (car and cabin)	Integruoti Corsa C vaizdai (automobilis ir salonas)
+Built-in launcher radio	Integruotas paleidimo programos radijas
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Opel Corsa C yra integruoti vaizdai; kitoms transporto priemonėms importuokite savo nuotrauką iš įrenginio ar USB.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API raktas (nemokamai: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO raktas internetiniam žemėlapiui
+Cabin (ambient lighting)	Salonas (aplinkos apšvietimas)
+Calculating route…	Skaičiuojamas maršrutas…
+Cancel	Atšaukti
+Cancelled	Atšaukta
+Car picture	Automobilio vaizdas
+Car picture (Vehicle status)	Automobilio vaizdas (transporto priemonės būsena)
+Change home address	Keisti namų adresą
+Change work address	Keisti darbo adresą
+Check again	Tikrinti dar kartą
+Check for updates automatically	Automatiškai ieškoti naujinių
+Checking for updates…	Ieškoma naujinių…
+Checking that the software fits this unit…	Tikrinama, ar programinė įranga tinka šiam įrenginiui…
+Checking…	Tikrinama…
+Choose a Wi-Fi network	Pasirinkite Wi-Fi tinklą
+Choose a folder	Pasirinkite aplanką
+Choose a phone app in Setup	Pasirinkite telefono programą Nustatymuose
+Choose a picture	Pasirinkite vaizdą
+Choose a picture first	Pirmiausia pasirinkite vaizdą
+Choose a radio app (long-press it in Apps)	Pasirinkite radijo programą (laikykite ją Programose)
+Choose a station in the station list	Pasirinkite stotį iš stočių sąrašo
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Pasirinkite transporto priemonės markę ir vaizdus, kuriuos rodo paleidimo programa: automobilį (Transporto priemonė) ir saloną (aplinkos apšvietimas).
+Clear presets	Išvalyti atmintis
+Clear recent destinations	Išvalyti naujausias paskirties vietas
+Cleared	Išvalyta
+Colour profile	Spalvų profilis
+Colour profile and more	Spalvų profilis ir daugiau
+Colour: 	Spalva: 
+Compatibility	Suderinamumas
+Compatibility update available	Yra suderinamumo naujinys
+Confirm the network in the system window	Patvirtinkite tinklą sistemos lange
+Connect a new device	Prijungti naują įrenginį
+Connect apps	Prijungti programas
+Connect the phone	Prijunkite telefoną
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Prijunkite įrenginį prie interneto (Wi-Fi tinklas ar telefono prieigos taškas), kad būtų galima patikrinti suderinamumą ir gauti naujinius.
+Connect the unit to the internet to install the version for this unit.	Prijunkite įrenginį prie interneto, kad įdiegtumėte šio įrenginio versiją.
+Connect your phone for music and calls.	Prijunkite telefoną muzikai ir skambučiams.
+Connected	Prijungta
+Connected: 	Prijungta: 
+Connecting to 	Jungiamasi prie 
+Connecting: 	Jungiamasi: 
+Connecting…	Jungiamasi…
+Connects to	Jungiasi prie
+Continue	Tęsti
+Continue installs the new version.	Tęsti įdiegia naują versiją.
+Continue installs the version made for this unit.	Tęsti įdiegia šiam įrenginiui sukurtą versiją.
+Continue straight	Tiesiai
+Continue without internet	Tęsti be interneto
+Contrast	Kontrastas
+Copying failed	Kopijuoti nepavyko
+Copying the factory apps…	Kopijuojamos gamyklinės programos…
+Corsa C (built-in)	Corsa C (integruotas)
+Cost per 100 km	Kaina 100 km
+Could not calculate route	Maršruto nepavyko apskaičiuoti
+Could not connect	Nepavyko prisijungti
+Could not connect — turn on Bluetooth on the phone	Nepavyko prisijungti — įjunkite Bluetooth telefone
+Countries and regions	Šalys ir regionai
+Country	Šalis
+Cover art from the internet	Viršeliai iš interneto
+Current odometer (km)	Dabartinė rida (km)
+Current source / title	Dabartinis šaltinis / pavadinimas
+Current speed	Dabartinis greitis
+Custom	Pasirinktinis
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Duomenys: © OpenStreetMap bendraautoriai (ODbL), failai: mapsforge.org
+Date and time (Android)	Data ir laikas (Android)
+Day	Diena
+Default launcher	Numatytoji paleidimo programa
+Delete	Ištrinti
+Delete last fill-up	Ištrinti paskutinį pylimą
+Delete map?	Ištrinti žemėlapį?
+Destination	Paskirties vieta
+Device report	Įrenginio ataskaita
+Diagnostics	Diagnostika
+Diagnostics (QF / Bluetooth)	Diagnostika (QF / Bluetooth)
+Disconnect	Atjungti
+Disconnect the current phone	Atjungti dabartinį telefoną
+Disconnect the phone first	Pirmiausia atjunkite telefoną
+Display over other apps: off	Rodyti virš kitų programų: išjungta
+Distance	Atstumas
+Do you hear the radio?	Ar girdite radiją?
+Download a map	Atsisiųsti žemėlapį
+Download logos for found stations	Atsisiųsti rastų stočių logotipus
+Download started: 	Atsisiuntimas pradėtas: 
+Downloading map: 	Žemėlapio atsisiuntimas: 
+Downloading station logos… 	Atsisiunčiami stočių logotipai… 
+Downloading the update… 	Atsisiunčiamas naujinys… 
+Downloading: 	Atsisiunčiama: 
+Driving direction up	Važiavimo kryptis viršuje
+Driving time	Važiavimo laikas
+Duration	Trukmė
+EN	EN
+Empty	Tuščia
+Enable "MibDroid" so Spotify & other players show up here	Įjunkite „MibDroid“, kad Spotify ir kiti grotuvai būtų rodomi čia
+Enough reports were sent today; this one is saved here: 	Šiandien išsiųsta pakankamai ataskaitų; ši ataskaita išsaugota čia: 
+Error: 	Klaida: 
+Exit	Išvažiavimas
+Exit left	Išvažiavimas į kairę
+Exit right	Išvažiavimas į dešinę
+Export the factory apps (APK)	Eksportuoti gamyklines programas (APK)
+FM radio	FM radijas
+FM radio is not available on this unit	FM radijas šiame įrenginyje nepasiekiamas
+FM tuner	FM imtuvas
+Factory radio app	Gamyklinė radijo programa
+Factory software version	Gamyklinės programinės įrangos versija
+Fill-up	Pylimas
+Fill-up saved	Pylimas išsaugotas
+Finish	Baigti
+Folder not readable (file access permission?)	Aplanko neįmanoma nuskaityti (failų prieigos leidimas?)
+Folders	Aplankai
+Forget device	Pamiršti įrenginį
+Found: 	Rasta: 
+Fuel	Degalai
+Fuel tank	Degalų bakas
+Fuel tank (l)	Degalų bakas (l)
+Full screen (hide Android bars)	Visas ekranas (slėpti Android juostas)
+Full tank	Pilnas bakas
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Aparatinė įranga
+Head unit	Pagrindinis įrenginys
+Heading	Kursas
+Hide the factory player	Slėpti gamyklinį grotuvą
+Hide the factory player (music / video)	Slėpti gamyklinį grotuvą (muzika / vaizdo įrašai)
+Home	Namai
+Hotspot	Prieigos taškas
+Hotspot settings not found	Prieigos taško nustatymų nerasta
+I hear nothing	Nieko negirdžiu
+Import a picture from the unit or USB:	Importuoti vaizdą iš įrenginio ar USB:
+Imported picture	Importuotas vaizdas
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Per kelias minutes nustatysime įrenginį: internetą, transporto priemonę, telefoną, ir patikrinsime, ar veikia radijas ir Bluetooth garsas.
+Installed SW MU version:	Įdiegta SW MU versija:
+Installed SW Train version:	Įdiegta SW Train versija:
+Installing 	Diegiama 
+Interior picture (Ambient lighting)	Salono vaizdas (aplinkos apšvietimas)
+Keep left	Laikykitės kairės
+Keep right	Laikykitės dešinės
+Kilometres (km/h)	Kilometrai (km/h)
+Language and region	Kalba ir regionas
+Language/Jezik	Kalba/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Paskutinis tikrinimas:
+Last fill-up	Paskutinis pylimas
+Later	Vėliau
+Learned BT channel	Learned BT channel
+List not available (internet?)	Sąrašas nepasiekiamas (internetas?)
+List not available (needs internet): 	Sąrašas nepasiekiamas (reikia interneto): 
+Litres	Litrai
+Loading the list of maps…	Įkeliamas žemėlapių sąrašas…
+Loading the list…	Įkeliamas sąrašas…
+Loading…	Įkeliama…
+Logos: 	Logotipai: 
+Long-term	Ilgalaikis
+Looking for pictures…	Ieškoma vaizdų…
+Low fuel: about 	Mažai degalų: apie 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Pagrindiniai nustatymai (šis įrenginys dar nepalaikomas, todėl jo nustatymai paslėpti).
+Make a U-turn	Apsisukite
+Manual	Rankiniu būdu
+Map data	Žemėlapio duomenys
+Map style	Žemėlapio stilius
+Map turns with the driving direction	Žemėlapis sukasi pagal važiavimo kryptį
+Maps work without internet and are drawn on the unit.	Žemėlapiai veikia be interneto ir piešiami įrenginyje.
+Media	Medija
+Media access	Prieiga prie medijos
+Media and Bluetooth	Medija ir Bluetooth
+Media notification	Medijos pranešimas
+Media session	Medijos seansas
+Memory	Atmintis
+Merge	Įsiliekite
+Mid	Vidutiniai
+Miles (mph)	Mylios (mph)
+Mode: 	Režimas: 
+Model	Modelis
+Music folders	Muzikos aplankai
+Music library	Muzikos biblioteka
+Music videos (MP4 and other video files)	Muzikiniai vaizdo įrašai (MP4 ir kiti vaizdo failai)
+My dest.	Mano vietos
+Nav app	Navi progr.
+Navigate to this point?	Naviguoti į šį tašką?
+Navigation	Navigacija
+Navigation and offline maps	Navigacija ir neprisijungus naudojami žemėlapiai
+Navigation app	Navigacijos programa
+Nearby	Netoliese
+Network	Tinklas
+New dest.	Nauja vieta
+New destination	Nauja paskirties vieta
+New device	Naujas įrenginys
+Next	Kitas
+Next oil change	Kitas alyvos keitimas
+Next service scheduled	Kitas aptarnavimas suplanuotas
+Night	Naktis
+No	Ne
+No GPS position	Nėra GPS padėties
+No app to choose a picture	Nėra programos vaizdui pasirinkti
+No connection — try again	Nėra ryšio — bandykite dar kartą
+No destinations yet	Kol kas nėra paskirties vietų
+No devices found. Tap "Search" in the corner.	Įrenginių nerasta. Palieskite „Ieškoti“ kampe.
+No entries.	Elementų nėra.
+No media selected.\nTap Browse or Play.	Medija nepasirinkta.\nPalieskite Naršyti arba Leisti.
+No media.\nInsert a USB stick or SD card with music.	Medijos nėra.\nĮdėkite USB atmintuką ar SD kortelę su muzika.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Medijos nėra.\nPalieskite čia ir leiskite „Prieigą prie visų failų“, kad būtų galima skaityti USB atmintukus.
+No music	Muzikos nėra
+No named stations — update the station list first	Nėra stočių su pavadinimu — pirmiausia atnaujinkite stočių sąrašą
+No networks found (location permission is needed).	Tinklų nerasta (reikalingas vietos leidimas).
+No picture	Vaizdo nėra
+No picture selected	Vaizdas nepasirinktas
+No pictures on the unit or on USB	Įrenginyje ar USB nėra vaizdų
+No remembered devices. Connect a new phone:	Įsimintų įrenginių nėra. Prijunkite naują telefoną:
+No results	Rezultatų nėra
+No song from the phone yet	Kol kas nėra dainos iš telefono
+No track information.	Informacijos apie dainą nėra.
+No update information	Informacijos apie naujinį nėra
+None downloaded	Nieko neatsisiųsta
+None found	Nieko nerasta
+North up	Šiaurė viršuje
+Not a newer version	Naujesnės versijos nėra
+Not allowed – tap	Neleidžiama – palieskite
+Not connected	Neprijungta
+Not found	Nerasta
+Not selected	Nepasirinkta
+Not set	Nenustatyta
+Not set – OpenStreetMap is used	Nenustatyta – naudojamas OpenStreetMap
+Nothing found	Nieko nerasta
+Nothing within 5 km	Nieko 5 km spinduliu
+Notification access	Prieiga prie pranešimų
+Now 	Dabar 
+Odometer	Odometras
+Off	Išjungta
+Off (no internet)	Išjungta (nėra interneto)
+Offline maps	Neprisijungus naudojami žemėlapiai
+Oil change at (km)	Alyvos keitimas ties (km)
+Oil change due now!	Alyvos keitimas reikalingas dabar!
+Oil change in 	Alyvos keitimas po 
+On	Įjungta
+Online radio	Internetinis radijas
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Internetinis radijas groja stotis per internetą (Radio Browser) tame pačiame radijo ekrane: stočių sąraše pasirinkite šalį ir ieškokite, o stotis pridėkite į atminčių juostą. Sunaudoja apie 60–120 MB per klausymo valandą.
+Online stations	Internetinės stotys
+Open the BT app briefly (plays the sound)	Trumpam atidaryti BT programą (paleidžia garsą)
+OpenStreetMap (dimmed)	OpenStreetMap (pritemdytas)
+Other	Kita
+Other media apps	Kitos medijos programos
+Pairing…	Susiejama…
+Part number:	Detalės numeris:
+Password	Slaptažodis
+Pause	Pauzė
+Permissions	Leidimai
+Phone	Telefonas
+Phone (battery / signal)	Telefonas (baterija / signalas)
+Phone and radio	Telefonas ir radijas
+Phone app	Telefono programa
+Phone disconnected	Telefonas atjungtas
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefonai jungiami USB kabeliu arba belaidžiu ryšiu (Android Auto, Apple CarPlay, ekrano dubliavimas). Telefono ekraną rodo įrenginio ZLink programa.\n\nBūsena: 
+Picture set	Vaizdas nustatytas
+Play	Leisti
+Play / pause	Leisti / pauzė
+Play a station from the station list first	Pirmiausia paleiskite stotį iš stočių sąrašo
+Play music on your phone. The launcher has switched to BT audio.	Paleiskite muziką telefone. Paleidimo programa perjungė į BT garsą.
+Point on map	Taškas žemėlapyje
+Presets cleared	Atmintys išvalytos
+Previous	Ankstesnis
+Price per litre	Litro kaina
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profilis
+Radio	Radijas
+Radio app	Radijo programa
+Radio check	Radijo patikra
+Radio source	Radijo šaltinis
+Range	Nuvažiuojamas atstumas
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Skaitoma muzika iš USB ir saugyklos…
+Recalculating.	Perskaičiuojama.
+Recent destinations	Naujausios paskirties vietos
+Recommended settings for this unit:	Rekomenduojami nustatymai šiam įrenginiui:
+Registration expires	Registracija baigiasi
+Registration expires in 	Registracija baigiasi po 
+Registration has expired!	Registracija baigėsi!
+Remaining: 	Liko: 
+Remove from MENU	Pašalinti iš MENU
+Remove the picture	Pašalinti vaizdą
+Report not saved	Ataskaita neišsaugota
+Rescan	Ieškoti dar kartą
+Reset	Atkurti
+Resume playback on start	Tęsti atkūrimą paleidžiant
+Roundabout	Žiedinė sankryža
+Route calculated.	Maršrutas apskaičiuotas.
+Run the setup assistant	Paleisti sąrankos vedlį
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Vykdoma, kai paleidžiama paleidimo programa ir kai įrenginys pabunda (uždegimas). Telefonas jau turi būti susietas su įrenginiu; jungtis bandoma dvi minutes. Nuo Android 10 Wi-Fi gali įjungti tik sistemos programa (Magisk modulis); tada Android pats prisijungia prie išsaugotų tinklų. Belaidžiam CarPlay telefonas turi būti vieną kartą prijungtas per telefono programą.
+SW download	SW atsisiuntimas
+Saturation	Sodrumas
+Saved: 	Išsaugota: 
+Saving the picture…	Išsaugomas vaizdas…
+Scanning…	Ieškoma…
+Screen	Ekranas
+Screen mirroring	Ekrano dubliavimas
+Search	Ieškoti
+Search again	Ieškoti dar kartą
+Search apps	Ieškoti programų
+Search for networks	Ieškoti tinklų
+Search for stations	Ieškoti stočių
+Search stations	Ieškoti stočių
+Search: 	Ieškoti: 
+Searching for Wi-Fi networks…	Ieškoma Wi-Fi tinklų…
+Searching for devices…	Ieškoma įrenginių…
+Searching for radio stations…	Ieškoma radijo stočių…
+Searching for radio stations… 	Ieškoma radijo stočių… 
+Searching…	Ieškoma…
+Select	Pasirinkti
+Send the device report	Siųsti įrenginio ataskaitą
+Send to the developer	Siųsti kūrėjui
+Sending the device report…	Siunčiama įrenginio ataskaita…
+Sent — refresh in 2 s	Išsiųsta — atnaujinama po 2 s
+Service	Aptarnavimas
+Service done today	Aptarnavimas atliktas šiandien
+Service in 	Aptarnavimas po 
+Set	Nustatyti
+Settings	Nustatymai
+Setup	Nustatymai
+Setup assistant	Sąrankos vedlys
+Setup → Vehicle	Nustatymai → Transporto priemonė
+Sharp left	Staigiai į kairę
+Sharp right	Staigiai į dešinę
+Show a picture at start	Rodyti vaizdą paleidžiant
+Since refuelling	Nuo pylimo
+Since start	Nuo išvykimo
+Skip	Praleisti
+Skip setup	Praleisti sąranką
+Software	Programinė įranga
+Software base	Programinės įrangos bazė
+Software update	Programinės įrangos naujinys
+Software update failed	Programinės įrangos naujinimas nepavyko
+Software update finished	Programinės įrangos naujinimas baigtas
+Software update in progress…	Vyksta programinės įrangos naujinimas…
+Software version	Programinės įrangos versija
+Software version:	Programinės įrangos versija:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Kažkas veikia ne taip, kaip turėtų. Įrenginio ataskaita (su patikrų rezultatais) padeda tai ištaisyti kitame naujinyje.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Dainos
+Sound	Garsas
+Source	Šaltinis
+Sources	Šaltiniai
+Start	Paleisti
+Start music on your phone.	Paleiskite muziką telefone.
+Start the phone app (ZLink…)	Paleisti telefono programą (ZLink…)
+Start update	Pradėti naujinimą
+Start-up connections	Ryšiai paleidžiant
+Started	Paleista
+Station list	Stočių sąrašas
+Station logos from the internet	Stočių logotipai iš interneto
+Station name	Stoties pavadinimas
+Stations	Stotys
+Stations found: 	Rastos stotys: 
+Stop	Stabdyti
+Stop scan	Stabdyti paiešką
+Street and number, city or place	Gatvė ir numeris, miestas ar vietovė
+Street, city	Gatvė, miestas
+Strong stations only (LOC)	Tik stiprios stotys (LOC)
+System Wi-Fi settings	Sistemos Wi-Fi nustatymai
+System date	Sistemos data
+System dialer	Sistemos telefonas
+System information	Sistemos informacija
+System settings	Sistemos nustatymai
+System version	Sistemos versija
+Take the ramp	Įvažiuokite į įvažiavimą
+Tap a device to connect. Long press: forget the device.	Palieskite įrenginį, kad prisijungtumėte. Ilgas paspaudimas: pamiršti įrenginį.
+Test builds	Bandomosios versijos
+Test builds (every build)	Bandomosios versijos (kiekviena versija)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Aplinkos apšvietimo spalva yra ir visos paleidimo programos spalva.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Spalvų profilis keičia paleidimo programos vaizdą (visus jos ekranus, ir žemėlapį). Kitų programų spalvas galima keisti tik tada, kai paleidimo programa yra sistemos programa.
+The device report was saved; send it to the developer: 	Įrenginio ataskaita išsaugota; išsiųskite ją kūrėjui: 
+The device report was sent to the developer.	Įrenginio ataskaita išsiųsta kūrėjui.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Įrenginio ataskaita bus išsiųsta, kai įrenginys bus prisijungęs. Ji taip pat išsaugota čia: 
+The download is not a valid APK	Atsisiųstas failas nėra tinkamas APK
+The internet is connected	Internetas prijungtas
+The last connected phone	Paskutinis prijungtas telefonas
+The launcher restarts in the new version.	Paleidimo programa paleidžiama iš naujo nauja versija.
+The launcher will search for stations and play the first one it finds.	Paleidimo programa ieško stočių ir paleidžia pirmą rastą.
+The picture can't be opened	Vaizdo neįmanoma atidaryti
+The picture cannot be opened	Vaizdo neįmanoma atidaryti
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Vaizdas rodomas, kai paleidimo programa paleidžiama įjungus įrenginį, tada išblunka (palietimas jį iškart pašalina). Paties įrenginio Android paleidimo animacija nesikeičia.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radijas ir Bluetooth muzika gali neveikti per paties šio įrenginio paslaugas. Įrenginio ataskaita siunčiama, o kai palaikymas bus paruoštas, paleidimo programa pasiūlys šio įrenginio versiją.
+The software is up to date	Programinė įranga yra naujausia
+The station can't be played	Stoties neįmanoma paleisti
+The station can't be played (connection?)	Stoties neįmanoma paleisti (ryšys?)
+The unit is set up. Every setting can be changed later in Setup.	Įrenginys nustatytas. Kiekvieną nustatymą vėliau galima pakeisti Nustatymuose.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Šio įrenginio versijos dabar neįmanoma atsisiųsti. Netrukus bandykite dar kartą.
+This unit is not supported yet	Šis įrenginys dar nepalaikomas
+This unit is supported now. Install the launcher build made for it.	Šis įrenginys dabar palaikomas. Įdiekite jam sukurtą paleidimo programos versiją.
+This unit is supported: 	Šis įrenginys palaikomas: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Šio įrenginio FM imtuvo negalima naudoti iš paleidimo programos; internetinis radijas groja per internetą.
+Time and date	Laikas ir data
+Time for winter tyres	Laikas žieminėms padangoms
+To show the song and cover, enable\nnotification access — tap here.	Įjunkite prieigą prie pranešimų, kad būtų rodoma daina ir viršelis\n— palieskite čia.
+Treble	Aukšti
+Try now	Išbandyti dabar
+Turn Bluetooth on	Įjungti Bluetooth
+Turn Wi-Fi on	Įjungti Wi-Fi
+Turn left	Sukite į kairę
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Įjunkite „Rodyti virš kitų programų“ MibDroid, kad jis galėtų grįžti virš gamyklinės programos.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Įjunkite „Rodyti virš kitų programų“ MibDroid ir vėl pasirinkite BT garsą.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Įjunkite Bluetooth telefone ir padarykite jį matomą, tada pasirinkite jį sąraše:
+Turn radio off	Išjungti radiją
+Turn right	Sukite į dešinę
+Turn the hotspot on / off	Prieigos taškas įjungti / išjungti
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB paprastai yra po /storage/… arba /mnt/… (pvz., usbhost, udisk).
+Uninstall	Pašalinti
+Units	Matavimo vienetai
+Until then, Continue installs the default version (QF).	Iki tol Tęsti įdiegia numatytąją versiją (QF).
+Update	Atnaujinti
+Update available:	Yra naujinys:
+Update failed: 	Naujinimas nepavyko: 
+Update not installed	Naujinys neįdiegtas
+Update station list	Atnaujinti stočių sąrašą
+Use as phone app	Naudoti kaip telefono programą
+Use as radio app	Naudoti kaip radijo programą
+Use offline map	Naudoti neprisijungus žemėlapį
+Vehicle	Transporto priemonė
+Vehicle and pictures	Transporto priemonė ir vaizdai
+Vehicle status	Transporto priemonės būsena
+Versions	Versijos
+View	Rodinys
+Voice guidance	Balso nurodymai
+Waiting for GPS position	Laukiama GPS padėties
+Waiting for GPS…	Laukiama GPS…
+Warmth	Šiluma
+Welcome	Sveiki
+Welcome to App-Connect.\nPlease connect a device using the USB.	Sveiki atvykę į App-Connect.\nPrijunkite įrenginį per USB.
+When the unit starts	Kai įrenginys paleidžiamas
+Wi-Fi is off.	Wi-Fi išjungtas.
+Wi-Fi not available	Wi-Fi nepasiekiamas
+Winter tyre reminder (1 Nov – 1 Apr)	Žieminių padangų priminimas (lapkr. 1 – bal. 1)
+Winter tyres fitted	Žieminės padangos uždėtos
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Su pasirinktais aplankais paleidimo programa skaito tik juos (ir jų poaplankius) kaip paprastus failus. Be jų ji pati randa muziką saugykloje ir USB.
+Work	Darbas
+Wrong package	Netinkamas paketas
+Yes	Taip
+Yes, I hear the music	Taip, girdžiu muziką
+Yes, I hear the radio	Taip, girdžiu radiją
+You can switch back to summer tyres	Galite grįžti prie vasarinių padangų
+You have arrived	Atvykote
+You have arrived.	Atvykote.
+ZLink is not installed	ZLink neįdiegtas
+any saved network	bet kuris išsaugotas tinklas
+available: 	prieinama: 
+chosen	pasirinkta
+connect / new device	prijungti / naujas įrenginys
+empty	tuščia
+enter	įsiliejimas
+forget a network, advanced	pamiršti tinklą, išplėstiniai
+free	laisva
+left today: 	dar šiandien: 
+needed	reikalinga
+needs 2 full tanks	reikia 2 pilnų bakų
+no build for this unit	nėra versijos šiam įrenginiui
+no data	nėra duomenų
+no more today	šiandien nebe
+none	nėra
+none found	nieko nerasta
+none yet	kol kas nėra
+none yet — play BT music	kol kas nėra — paleiskite BT muziką
+nothing received	nieko negauta
+now only inside the launcher	dabar tik paleidimo programoje
+off	išjungta
+on	įjungta
+open	atidaryti
+remove	pašalinti
+save and show	išsaugoti ir rodyti
+secured	apsaugotas
+service list unavailable	paslaugų sąrašas nepasiekiamas
+set	nustatyta
+state unknown	būsena nežinoma
+switched off in Setup	išjungta Nustatymuose
+takes ~10 s	užtrunka ~10 s
+tap and listen	palieskite ir klausykite
+the last connected (none yet)	paskutinis prijungtas (kol kas nėra)
+to Download	į Download
+to support new units	kad būtų palaikomi nauji įrenginiai
+unavailable	nepasiekiama
+unreadable	neįskaitoma
+up	viršuje
+your choice below	jūsų pasirinkimas žemiau
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Naudoti šį aplanką
+✗ — tap to enable	✗ — palieskite, kad įjungtumėte

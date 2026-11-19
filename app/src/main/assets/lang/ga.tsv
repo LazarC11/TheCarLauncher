@@ -1,0 +1,594 @@
+# English text <TAB> translation (ga). Keys must match the English text in the code exactly.
+  (partial)	  (go páirteach)
+  (test)	  (tástáil)
+  (this unit: 	  (an t-aonad seo: 
+ (back to Android)	 (ar ais go Android)
+ (last connected)	 (ceangailte go deireanach)
+ connected	 ceangailte
+ days	 lá
+ downloaded	 íoslódáilte
+ folders	 fillteáin
+ is connected.\nTap to show the phone.	 ceangailte.\nTapáil chun an fón a thaispeáint.
+ kilometres	 ciliméadar
+ metres	 méadar
+ music / video files in this folder	 comhaid cheoil / físe san fhillteán seo
+ nearby	 in aice láimhe
+ saved	 sábháilte
+ songs	 amhráin
+ videos	 físeáin
+ · tap to delete	 · tapáil chun scriosadh
++15,000 km / +1 yr	+15,000 km / +1 bhliain
+24-hour format	Formáid 24 uair
+A phone is connected. Disconnect it first to add a new device.	Tá fón ceangailte. Dícheangail é ar dtús chun gléas nua a chur leis.
+Add	Cuir leis
+Add a folder	Cuir fillteán leis
+Add fill-up	Cuir líonadh breosla leis
+Add to MENU	Cuir le MENU
+Albums	Albaim
+All	Uile
+All Android settings	Socruithe Android go léir
+All countries	Gach tír
+All files access (USB)	Rochtain ar gach comhad (USB)
+All presets are taken — hold a preset to replace it	Tá gach réamhshocrú in úsáid — coinnigh réamhshocrú brúite chun é a athsholáthar
+All set	Gach rud réidh
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Ceadaigh „Rochtain ar gach comhad” do MibDroid ionas gur féidir leis ceol a léamh ó mhéaróga USB.
+Allow access	Ceadaigh rochtain
+Allow access to music.	Ceadaigh rochtain ar an gceol.
+Allow access to pictures	Ceadaigh rochtain ar íomhánna
+Allow changing the system brightness	Ceadaigh gile an chórais a athrú
+Allow installing apps for MibDroid, then try again	Ceadaigh do MibDroid aipeanna a shuiteáil agus bain triail eile as
+Allow installing updates	Ceadaigh nuashonruithe a shuiteáil
+Allow location access	Ceadaigh rochtain ar shuíomh
+Allow returning from the BT app	Ceadaigh filleadh ón aip BT
+Allowed	Ceadaithe
+Altitude	Airde
+Ambient lighting	Soilsiú timpeallachta
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Ní ligeann Android d'aip ghnáth an hotspot a chasadh air léi féin: osclaítear leathanach hotspot an chórais (ainm, pasfhocal, air/as). Nuair is aip chórais é an lainseálaí, oibríonn sé seo go díreach anseo.
+Android system	Córas Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Iarrann Android an tsuiteáil a dheimhniú. Mar aip chórais (modúl Magisk) nuashonraíonn an lainseálaí é féin.
+Annual service	Seirbhís bhliantúil
+Annual service due now!	Tá seirbhís bhliantúil ag teastáil anois!
+Another app (gallery, file manager)	Aip eile (gailearaí, bainisteoir comhad)
+Any saved network	Aon líonra sábháilte
+App	Aip
+App (ZLink, CarPlay…)	Aip (ZLink, CarPlay…)
+App info	Faisnéis aipe
+App name	Ainm na haipe
+App-Connect is not available.\nNo ZLink app was found on this unit.	Níl App-Connect ar fáil.\nNíor aimsíodh aip ZLink ar an aonad.
+Apps	Aipeanna
+Artists	Ealaíontóirí
+At the end, left	Ag an deireadh ar chlé
+At the end, right	Ag an deireadh ar dheis
+Automatic (by region)	Uathoibríoch (de réir réigiúin)
+Automatic (detect from media session)	Uathoibríoch (ón seisiún meán)
+Automatic (storage and USB)	Uathoibríoch (stóráil agus USB)
+Automatic brightness	Gile uathoibríoch
+Automatic check (once a day)	Seiceáil uathoibríoch (uair sa lá)
+Available version:	Leagan ar fáil:
+Average consumption	Meán-ídiú
+Average speed	Meánluas
+Avg. consumption	Meán-ídiú
+Avg. fuel price	Meánphraghas breosla
+BT audio as soon as the phone connects	Fuaim BT nuair a cheanglaíonn an fón
+BT daemon probe	BT daemon probe
+BT music app	Aip cheoil BT
+BT package (from media session)	Pacáiste BT (ón seisiún meán)
+BT screen	Scáileán BT
+BT_STATE	BT_STATE
+Back	Siar
+Bass	Dord
+Bass - Mid - Treble	Dord - Lár - Tribil
+Bear left	Beagán ar chlé
+Bear right	Beagán ar dheis
+Bluetooth audio check	Seiceáil fuaime Bluetooth
+Bluetooth devices	Gléasanna Bluetooth
+Boot screen	Scáileán tosaithe
+Brand	Déanamh
+Brightness	Gile
+Browse	Brabhsáil
+Buffering…	Ag maolánú…
+Build for this unit:	Leagan don aonad seo:
+Build for unit:	Leagan don aonad:
+Build number	Uimhir thógála
+Building the device report…	Tuarascáil aonaid á cruthú…
+Built-in Corsa C pictures (car and cabin)	Íomhánna Corsa C ionsuite (carr agus cábán)
+Built-in launcher radio	Raidió ionsuite an lainseálaí
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Tá íomhánna ionsuite ann don Opel Corsa C; d'fheithiclí eile iompórtáil do ghrianghraf féin ón aonad nó ó USB.
+CARTO API key (free: carto.com/basemaps/apikey)	Eochair CARTO API (saor in aisce: carto.com/basemaps/apikey)
+CARTO key for the online map	Eochair CARTO don léarscáil ar líne
+Cabin (ambient lighting)	Cábán (soilsiú timpeallachta)
+Calculating route…	Bealach á ríomh…
+Cancel	Cealaigh
+Cancelled	Cealaithe
+Car picture	Íomhá an chairr
+Car picture (Vehicle status)	Íomhá an chairr (stádas na feithicle)
+Change home address	Athraigh seoladh an bhaile
+Change work address	Athraigh seoladh na hoibre
+Check again	Seiceáil arís
+Check for updates automatically	Lorg nuashonruithe go huathoibríoch
+Checking for updates…	Nuashonruithe á lorg…
+Checking that the software fits this unit…	Á sheiceáil an oireann na bogearraí don aonad seo…
+Checking…	Á sheiceáil…
+Choose a Wi-Fi network	Roghnaigh líonra Wi-Fi
+Choose a folder	Roghnaigh fillteán
+Choose a phone app in Setup	Roghnaigh aip fóin sna Socruithe
+Choose a picture	Roghnaigh íomhá
+Choose a picture first	Roghnaigh íomhá ar dtús
+Choose a radio app (long-press it in Apps)	Roghnaigh aip raidió (coinnigh brúite í in Aipeanna)
+Choose a station in the station list	Roghnaigh stáisiún ón liosta stáisiún
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Roghnaigh déanamh na feithicle agus na híomhánna a thaispeánann an lainseálaí: an carr (Feithicil) agus an cábán (soilsiú timpeallachta).
+Clear presets	Glan na réamhshocruithe
+Clear recent destinations	Glan cinn scríbe le déanaí
+Cleared	Glanta
+Colour profile	Próifíl dathanna
+Colour profile and more	Próifíl dathanna agus níos mó
+Colour: 	Dath: 
+Compatibility	Comhoiriúnacht
+Compatibility update available	Nuashonrú comhoiriúnachta ar fáil
+Confirm the network in the system window	Deimhnigh an líonra i bhfuinneog an chórais
+Connect a new device	Ceangail gléas nua
+Connect apps	Ceangail aipeanna
+Connect the phone	Ceangail an fón
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Ceangail an t-aonad leis an idirlíon (líonra Wi-Fi nó hotspot an fhóin) chun an chomhoiriúnacht a sheiceáil agus nuashonruithe a fháil.
+Connect the unit to the internet to install the version for this unit.	Ceangail an t-aonad leis an idirlíon chun an leagan don aonad seo a shuiteáil.
+Connect your phone for music and calls.	Ceangail do fhón le haghaidh ceoil agus glaonna.
+Connected	Ceangailte
+Connected: 	Ceangailte: 
+Connecting to 	Ag ceangal le 
+Connecting: 	Ag ceangal: 
+Connecting…	Ag ceangal…
+Connects to	Ag ceangal le
+Continue	Lean ar aghaidh
+Continue installs the new version.	Suiteálann Lean ar aghaidh an leagan nua.
+Continue installs the version made for this unit.	Suiteálann Lean ar aghaidh an leagan a rinneadh don aonad seo.
+Continue straight	Díreach ar aghaidh
+Continue without internet	Lean ar aghaidh gan idirlíon
+Contrast	Codarsnacht
+Copying failed	Theip ar an gcóipeáil
+Copying the factory apps…	Aipeanna monarchan á gcóipeáil…
+Corsa C (built-in)	Corsa C (ionsuite)
+Cost per 100 km	Costas in aghaidh 100 km
+Could not calculate route	Níorbh fhéidir an bealach a ríomh
+Could not connect	Níorbh fhéidir ceangal
+Could not connect — turn on Bluetooth on the phone	Níorbh fhéidir ceangal — cas Bluetooth air ar an bhfón
+Countries and regions	Tíortha agus réigiúin
+Country	Tír
+Cover art from the internet	Clúdaigh ón idirlíon
+Current odometer (km)	Odaiméadar reatha (km)
+Current source / title	Foinse / teideal reatha
+Current speed	Luas reatha
+Custom	Saincheaptha
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Sonraí: © rannpháirtithe OpenStreetMap (ODbL), comhaid: mapsforge.org
+Date and time (Android)	Dáta agus am (Android)
+Day	Lá
+Default launcher	Lainseálaí réamhshocraithe
+Delete	Scrios
+Delete last fill-up	Scrios an líonadh deireanach
+Delete map?	An léarscáil a scriosadh?
+Destination	Ceann scríbe
+Device report	Tuarascáil aonaid
+Diagnostics	Diagnóisic
+Diagnostics (QF / Bluetooth)	Diagnóisic (QF / Bluetooth)
+Disconnect	Dícheangail
+Disconnect the current phone	Dícheangail an fón reatha
+Disconnect the phone first	Dícheangail an fón ar dtús
+Display over other apps: off	Taispeáin thar aipeanna eile: as
+Distance	Fad
+Do you hear the radio?	An gcloiseann tú an raidió?
+Download a map	Íoslódáil léarscáil
+Download logos for found stations	Íoslódáil lógónna do na stáisiúin a aimsíodh
+Download started: 	Íoslódáil tosaithe: 
+Downloading map: 	Léarscáil á híoslódáil: 
+Downloading station logos… 	Lógónna stáisiún á n-íoslódáil… 
+Downloading the update… 	Nuashonrú á íoslódáil… 
+Downloading: 	Á íoslódáil: 
+Driving direction up	Treo tiomána suas
+Driving time	Am tiomána
+Duration	Fad ama
+EN	EN
+Empty	Folamh
+Enable "MibDroid" so Spotify & other players show up here	Cumasaigh „MibDroid” ionas go dtaispeánfar Spotify agus seinnteoirí eile anseo
+Enough reports were sent today; this one is saved here: 	Seoladh go leor tuarascálacha inniu; tá an tuarascáil seo sábháilte anseo: 
+Error: 	Earráid: 
+Exit	Slí amach
+Exit left	Slí amach ar chlé
+Exit right	Slí amach ar dheis
+Export the factory apps (APK)	Easpórtáil aipeanna monarchan (APK)
+FM radio	Raidió FM
+FM radio is not available on this unit	Níl raidió FM ar fáil ar an aonad seo
+FM tuner	Tiúnóir FM
+Factory radio app	Aip raidió na monarchan
+Factory software version	Leagan bogearraí na monarchan
+Fill-up	Líonadh breosla
+Fill-up saved	Líonadh sábháilte
+Finish	Críochnaigh
+Folder not readable (file access permission?)	Ní féidir an fillteán a léamh (cead rochtana ar chomhaid?)
+Folders	Fillteáin
+Forget device	Déan dearmad ar an ngléas
+Found: 	Aimsithe: 
+Fuel	Breosla
+Fuel tank	Umar breosla
+Fuel tank (l)	Umar breosla (l)
+Full screen (hide Android bars)	Lánscáileán (folaigh barraí Android)
+Full tank	Umar lán
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Crua-earraí
+Head unit	Príomhaonad
+Heading	Cúrsa
+Hide the factory player	Folaigh seinnteoir na monarchan
+Hide the factory player (music / video)	Folaigh seinnteoir na monarchan (ceol / físeán)
+Home	Baile
+Hotspot	Hotspot
+Hotspot settings not found	Níor aimsíodh socruithe hotspot
+I hear nothing	Ní chloisim tada
+Import a picture from the unit or USB:	Iompórtáil íomhá ón aonad nó ó USB:
+Imported picture	Íomhá iompórtáilte
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	I gceann cúpla nóiméad socróimid an t-aonad: idirlíon, feithicil, fón, agus seiceálfaimid go n-oibríonn an raidió agus fuaim Bluetooth.
+Installed SW MU version:	Leagan SW MU suiteáilte:
+Installed SW Train version:	Leagan SW Train suiteáilte:
+Installing 	Á shuiteáil: 
+Interior picture (Ambient lighting)	Íomhá an chábáin (soilsiú timpeallachta)
+Keep left	Coinnigh ar chlé
+Keep right	Coinnigh ar dheis
+Kilometres (km/h)	Ciliméadair (km/h)
+Language and region	Teanga agus réigiún
+Language/Jezik	Teanga/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Seiceáil dheireanach:
+Last fill-up	Líonadh deireanach
+Later	Ar ball
+Learned BT channel	Learned BT channel
+List not available (internet?)	Níl an liosta ar fáil (idirlíon?)
+List not available (needs internet): 	Níl an liosta ar fáil (idirlíon ag teastáil): 
+Litres	Lítir
+Loading the list of maps…	Liosta léarscáileanna á lódáil…
+Loading the list…	Liosta á lódáil…
+Loading…	Á lódáil…
+Logos: 	Lógónna: 
+Long-term	Fadtéarmach
+Looking for pictures…	Íomhánna á lorg…
+Low fuel: about 	Breosla íseal: thart ar 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Príomhshocruithe (níl tacaíocht don aonad seo fós, mar sin tá a shocruithe féin i bhfolach).
+Make a U-turn	Cas thart
+Manual	De láimh
+Map data	Sonraí léarscáile
+Map style	Stíl léarscáile
+Map turns with the driving direction	Casann an léarscáil le treo an tiomána
+Maps work without internet and are drawn on the unit.	Oibríonn léarscáileanna gan idirlíon agus tarraingítear iad ar an aonad.
+Media	Meáin
+Media access	Rochtain ar mheáin
+Media and Bluetooth	Meáin agus Bluetooth
+Media notification	Fógra meán
+Media session	Seisiún meán
+Memory	Cuimhne
+Merge	Cumaisc isteach
+Mid	Lár
+Miles (mph)	Mílte (mph)
+Mode: 	Mód: 
+Model	Samhail
+Music folders	Fillteáin cheoil
+Music library	Leabharlann cheoil
+Music videos (MP4 and other video files)	Físeáin cheoil (MP4 agus comhaid físe eile)
+My dest.	Mo chinn
+Nav app	Aip navi
+Navigate to this point?	Nascleanúint go dtí an pointe seo?
+Navigation	Nascleanúint
+Navigation and offline maps	Nascleanúint agus léarscáileanna as líne
+Navigation app	Aip nascleanúna
+Nearby	In aice láimhe
+Network	Líonra
+New dest.	Ceann nua
+New destination	Ceann scríbe nua
+New device	Gléas nua
+Next	Ar aghaidh
+Next oil change	An chéad athrú ola eile
+Next service scheduled	An chéad seirbhís eile sceidealaithe
+Night	Oíche
+No	Níl
+No GPS position	Gan suíomh GPS
+No app to choose a picture	Níl aip ann chun íomhá a roghnú
+No connection — try again	Gan cheangal — bain triail eile as
+No destinations yet	Gan cinn scríbe fós
+No devices found. Tap "Search" in the corner.	Níor aimsíodh gléasanna. Tapáil „Cuardaigh” sa chúinne.
+No entries.	Gan míreanna.
+No media selected.\nTap Browse or Play.	Gan meáin roghnaithe.\nTapáil Brabhsáil nó Seinn.
+No media.\nInsert a USB stick or SD card with music.	Gan meáin.\nCuir isteach méaróg USB nó cárta SD le ceol.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Gan meáin.\nTapáil anseo agus ceadaigh „Rochtain ar gach comhad” ionas gur féidir méaróga USB a léamh.
+No music	Gan ceol
+No named stations — update the station list first	Gan stáisiúin le hainm — nuashonraigh an liosta stáisiún ar dtús
+No networks found (location permission is needed).	Níor aimsíodh líonraí (tá cead suímh ag teastáil).
+No picture	Gan íomhá
+No picture selected	Gan íomhá roghnaithe
+No pictures on the unit or on USB	Gan íomhánna ar an aonad nó ar USB
+No remembered devices. Connect a new phone:	Gan gléasanna cuimhnithe. Ceangail fón nua:
+No results	Gan torthaí
+No song from the phone yet	Gan amhrán ón bhfón fós
+No track information.	Gan faisnéis amhráin.
+No update information	Gan faisnéis nuashonraithe
+None downloaded	Níor íoslódáladh tada
+None found	Níor aimsíodh tada
+North up	Tuaisceart suas
+Not a newer version	Gan leagan níos nuaí
+Not allowed – tap	Níl sé ceadaithe – tapáil
+Not connected	Gan cheangal
+Not found	Níor aimsíodh
+Not selected	Gan roghnú
+Not set	Gan socrú
+Not set – OpenStreetMap is used	Gan socrú – úsáidtear OpenStreetMap
+Nothing found	Níor aimsíodh tada
+Nothing within 5 km	Tada laistigh de 5 km
+Notification access	Rochtain ar fhógraí
+Now 	Anois 
+Odometer	Odaiméadar
+Off	As
+Off (no internet)	As (gan idirlíon)
+Offline maps	Léarscáileanna as líne
+Oil change at (km)	Athrú ola ag (km)
+Oil change due now!	Tá athrú ola ag teastáil anois!
+Oil change in 	Athrú ola i gceann 
+On	Air
+Online radio	Raidió ar líne
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Seinneann raidió ar líne stáisiúin tríd an idirlíon (Radio Browser) ar an scáileán raidió céanna: sa liosta stáisiún roghnaigh an tír agus cuardaigh, agus cuir stáisiúin leis an mbarra réamhshocruithe. Úsáideann sé thart ar 60–120 MB in aghaidh uair an chloig éisteachta.
+Online stations	Stáisiúin ar líne
+Open the BT app briefly (plays the sound)	Oscail an aip BT go hachomair (tosaíonn an fhuaim)
+OpenStreetMap (dimmed)	OpenStreetMap (maolaithe)
+Other	Eile
+Other media apps	Aipeanna meán eile
+Pairing…	Á phéireáil…
+Part number:	Uimhir pháirte:
+Password	Pasfhocal
+Pause	Sos
+Permissions	Ceadanna
+Phone	Fón
+Phone (battery / signal)	Fón (ceallra / comhartha)
+Phone and radio	Fón agus raidió
+Phone app	Aip fóin
+Phone disconnected	Fón dícheangailte
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Ceanglaítear fóin le cábla USB nó gan sreang (Android Auto, Apple CarPlay, scáthánú scáileáin). Taispeánann aip ZLink an aonaid scáileán an fhóin.\n\nStádas: 
+Picture set	Íomhá socraithe
+Play	Seinn
+Play / pause	Seinn / sos
+Play a station from the station list first	Seinn stáisiún ón liosta stáisiún ar dtús
+Play music on your phone. The launcher has switched to BT audio.	Seinn ceol ar do fhón. D'aistrigh an lainseálaí go fuaim BT.
+Point on map	Pointe ar an léarscáil
+Presets cleared	Réamhshocruithe glanta
+Previous	Roimhe
+Price per litre	Praghas in aghaidh an lítir
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Próifíl
+Radio	Raidió
+Radio app	Aip raidió
+Radio check	Seiceáil raidió
+Radio source	Foinse raidió
+Range	Raon
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Ceol á léamh ó USB agus stóráil…
+Recalculating.	Á athríomh.
+Recent destinations	Cinn scríbe le déanaí
+Recommended settings for this unit:	Socruithe molta don aonad seo:
+Registration expires	Rachaidh an clárú in éag
+Registration expires in 	Rachaidh an clárú in éag i gceann 
+Registration has expired!	Tá an clárú imithe in éag!
+Remaining: 	Fágtha: 
+Remove from MENU	Bain de MENU
+Remove the picture	Bain an íomhá
+Report not saved	Níor sábháladh an tuarascáil
+Rescan	Cuardaigh arís
+Reset	Athchóirigh
+Resume playback on start	Lean den seinm ag an tús
+Roundabout	Timpeallán
+Route calculated.	Bealach ríofa.
+Run the setup assistant	Rith an cúntóir socraithe
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Ritheann sé nuair a thosaíonn an lainseálaí agus nuair a dhúisíonn an t-aonad (adhaint). Caithfidh an fón a bheith péireáilte leis an aonad cheana; déantar iarracht ceangal ar feadh dhá nóiméad. Ó Android 10 ar aghaidh, ní féidir ach le haip chórais (modúl Magisk) Wi-Fi a chasadh air; ansin ceanglaíonn Android leis na líonraí sábháilte é féin. Do CarPlay gan sreang caithfidh an fón a bheith ceangailte uair amháin tríd an aip fóin.
+SW download	Íoslódáil SW
+Saturation	Sáithiú
+Saved: 	Sábháilte: 
+Saving the picture…	Íomhá á sábháil…
+Scanning…	Á chuardach…
+Screen	Scáileán
+Screen mirroring	Scáthánú scáileáin
+Search	Cuardaigh
+Search again	Cuardaigh arís
+Search apps	Cuardaigh aipeanna
+Search for networks	Cuardaigh líonraí
+Search for stations	Cuardaigh stáisiúin
+Search stations	Cuardaigh stáisiúin
+Search: 	Cuardaigh: 
+Searching for Wi-Fi networks…	Líonraí Wi-Fi á lorg…
+Searching for devices…	Gléasanna á lorg…
+Searching for radio stations…	Stáisiúin raidió á lorg…
+Searching for radio stations… 	Stáisiúin raidió á lorg… 
+Searching…	Á chuardach…
+Select	Roghnaigh
+Send the device report	Seol tuarascáil aonaid
+Send to the developer	Seol chuig an bhforbróir
+Sending the device report…	Tuarascáil aonaid á seoladh…
+Sent — refresh in 2 s	Seolta — athnuachan i gceann 2 s
+Service	Seirbhís
+Service done today	Seirbhís déanta inniu
+Service in 	Seirbhís i gceann 
+Set	Socraigh
+Settings	Socruithe
+Setup	Socruithe
+Setup assistant	Cúntóir socraithe
+Setup → Vehicle	Socruithe → Feithicil
+Sharp left	Go géar ar chlé
+Sharp right	Go géar ar dheis
+Show a picture at start	Taispeáin íomhá ag an tús
+Since refuelling	Ón líonadh
+Since start	Ón imeacht
+Skip	Scipeáil
+Skip setup	Scipeáil an socrú
+Software	Bogearraí
+Software base	Bonn bogearraí
+Software update	Nuashonrú bogearraí
+Software update failed	Theip ar an nuashonrú bogearraí
+Software update finished	Nuashonrú bogearraí críochnaithe
+Software update in progress…	Nuashonrú bogearraí ar siúl…
+Software version	Leagan bogearraí
+Software version:	Leagan bogearraí:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Níl rud éigin ag obair mar ba chóir. Cabhraíonn an tuarascáil aonaid (le torthaí na seiceálacha) é a cheartú i nuashonrú eile.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Amhráin
+Sound	Fuaim
+Source	Foinse
+Sources	Foinsí
+Start	Tosaigh
+Start music on your phone.	Tosaigh ceol ar do fhón.
+Start the phone app (ZLink…)	Tosaigh aip fóin (ZLink…)
+Start update	Tosaigh an nuashonrú
+Start-up connections	Naisc ag an tús
+Started	Tosaithe
+Station list	Liosta stáisiún
+Station logos from the internet	Lógónna stáisiún ón idirlíon
+Station name	Ainm an stáisiúin
+Stations	Stáisiúin
+Stations found: 	Stáisiúin aimsithe: 
+Stop	Stop
+Stop scan	Stop an cuardach
+Street and number, city or place	Sráid agus uimhir, cathair nó áit
+Street, city	Sráid, cathair
+Strong stations only (LOC)	Stáisiúin láidre amháin (LOC)
+System Wi-Fi settings	Socruithe Wi-Fi an chórais
+System date	Dáta an chórais
+System dialer	Fón an chórais
+System information	Faisnéis chórais
+System settings	Socruithe córais
+System version	Leagan an chórais
+Take the ramp	Tóg an rampa
+Tap a device to connect. Long press: forget the device.	Tapáil gléas chun ceangal. Brú fada: déan dearmad ar an ngléas.
+Test builds	Leaganacha tástála
+Test builds (every build)	Leaganacha tástála (gach tógáil)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Is é dath an tsoilsithe timpeallachta dath an lainseálaí ar fad freisin.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Athraíonn an phróifíl dathanna pictiúr an lainseálaí (a scáileáin go léir, an léarscáil san áireamh). Ní féidir dathanna aipeanna eile a athrú ach amháin nuair is aip chórais é an lainseálaí.
+The device report was saved; send it to the developer: 	Tá an tuarascáil aonaid sábháilte; seol chuig an bhforbróir í: 
+The device report was sent to the developer.	Seoladh an tuarascáil aonaid chuig an bhforbróir.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Seolfar an tuarascáil aonaid nuair a bheidh an t-aonad ar líne. Tá sí sábháilte anseo freisin: 
+The download is not a valid APK	Ní APK bailí é an íoslódáil
+The internet is connected	Tá an t-idirlíon ceangailte
+The last connected phone	An fón deireanach a ceanglaíodh
+The launcher restarts in the new version.	Atosaíonn an lainseálaí sa leagan nua.
+The launcher will search for stations and play the first one it finds.	Lorgaíonn an lainseálaí stáisiúin agus seinneann sé an chéad cheann a aimsíonn sé.
+The picture can't be opened	Ní féidir an íomhá a oscailt
+The picture cannot be opened	Ní féidir an íomhá a oscailt
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Taispeántar an íomhá nuair a thosaíonn an lainseálaí tar éis don aonad a chasadh air, agus ansin téann sí i léig (baineann tadhall í láithreach). Ní athraítear beochan tosaithe Android an aonaid féin.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	B'fhéidir nach n-oibreoidh an raidió agus ceol Bluetooth trí sheirbhísí an aonaid seo féin. Tá an tuarascáil aonaid á seoladh, agus nuair a bheidh tacaíocht réidh tairgfidh an lainseálaí an leagan don aonad seo.
+The software is up to date	Tá na bogearraí cothrom le dáta
+The station can't be played	Ní féidir an stáisiún a sheinm
+The station can't be played (connection?)	Ní féidir an stáisiún a sheinm (ceangal?)
+The unit is set up. Every setting can be changed later in Setup.	Tá an t-aonad socraithe. Is féidir gach socrú a athrú níos déanaí sna Socruithe.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Ní féidir an leagan don aonad seo a íoslódáil anois. Bain triail eile as go luath.
+This unit is not supported yet	Níl tacaíocht don aonad seo fós
+This unit is supported now. Install the launcher build made for it.	Tá tacaíocht don aonad seo anois. Suiteáil an leagan den lainseálaí a rinneadh dó.
+This unit is supported: 	Tá tacaíocht don aonad seo: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Ní féidir tiúnóir FM an aonaid seo a úsáid ón lainseálaí; seinneann raidió ar líne tríd an idirlíon.
+Time and date	Am agus dáta
+Time for winter tyres	Am do bhoinn gheimhridh
+To show the song and cover, enable\nnotification access — tap here.	Cas air rochtain ar fhógraí chun amhrán agus clúdach a thaispeáint\n— tapáil anseo.
+Treble	Tribil
+Try now	Triail anois
+Turn Bluetooth on	Cas Bluetooth air
+Turn Wi-Fi on	Cas Wi-Fi air
+Turn left	Cas ar chlé
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Cas air „Taispeáin thar aipeanna eile” do MibDroid ionas gur féidir leis filleadh thar aip na monarchan.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Cas air „Taispeáin thar aipeanna eile” do MibDroid, ansin roghnaigh fuaim BT arís.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Cas Bluetooth air ar an bhfón agus déan infheicthe é, ansin roghnaigh ón liosta é:
+Turn radio off	Cas an raidió as
+Turn right	Cas ar dheis
+Turn the hotspot on / off	Hotspot air / as
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	Bíonn USB faoi /storage/… nó /mnt/… de ghnáth (m.sh. usbhost, udisk).
+Uninstall	Díshuiteáil
+Units	Aonaid tomhais
+Until then, Continue installs the default version (QF).	Go dtí sin, suiteálann Lean ar aghaidh an leagan réamhshocraithe (QF).
+Update	Nuashonraigh
+Update available:	Nuashonrú ar fáil:
+Update failed: 	Theip ar an nuashonrú: 
+Update not installed	Níor suiteáladh an nuashonrú
+Update station list	Nuashonraigh an liosta stáisiún
+Use as phone app	Úsáid mar aip fóin
+Use as radio app	Úsáid mar aip raidió
+Use offline map	Úsáid léarscáil as líne
+Vehicle	Feithicil
+Vehicle and pictures	Feithicil agus íomhánna
+Vehicle status	Stádas na feithicle
+Versions	Leaganacha
+View	Amharc
+Voice guidance	Treoir ghutha
+Waiting for GPS position	Ag fanacht le suíomh GPS
+Waiting for GPS…	Ag fanacht le GPS…
+Warmth	Teas
+Welcome	Fáilte
+Welcome to App-Connect.\nPlease connect a device using the USB.	Fáilte go App-Connect.\nCeangail gléas trí USB.
+When the unit starts	Nuair a thosaíonn an t-aonad
+Wi-Fi is off.	Tá Wi-Fi casta as.
+Wi-Fi not available	Níl Wi-Fi ar fáil
+Winter tyre reminder (1 Nov – 1 Apr)	Meabhrúchán bonn gheimhridh (1 Samh – 1 Aib)
+Winter tyres fitted	Boinn gheimhridh feistithe
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Le fillteáin roghnaithe, ní léann an lainseálaí ach iad sin (agus a bhfofhillteáin) mar ghnáthchomhaid. Gan iad, aimsíonn sé ceol sa stóráil agus ar USB é féin.
+Work	Obair
+Wrong package	Pacáiste mícheart
+Yes	Tá
+Yes, I hear the music	Tá, cloisim an ceol
+Yes, I hear the radio	Tá, cloisim an raidió
+You can switch back to summer tyres	Is féidir leat filleadh ar bhoinn shamhraidh
+You have arrived	Tá tú tagtha
+You have arrived.	Tá tú tagtha.
+ZLink is not installed	Níl ZLink suiteáilte
+any saved network	aon líonra sábháilte
+available: 	ar fáil: 
+chosen	roghnaithe
+connect / new device	ceangail / gléas nua
+empty	folamh
+enter	cumasc
+forget a network, advanced	déan dearmad ar líonra, ardleibhéal
+free	saor
+left today: 	fós inniu: 
+needed	ag teastáil
+needs 2 full tanks	teastaíonn 2 umar lán
+no build for this unit	gan leagan don aonad seo
+no data	gan sonraí
+no more today	ní níos mó inniu
+none	ceann ar bith
+none found	níor aimsíodh tada
+none yet	ceann ar bith fós
+none yet — play BT music	ceann ar bith fós — seinn ceol BT
+nothing received	níor fuarthas tada
+now only inside the launcher	anois sa lainseálaí amháin
+off	as
+on	air
+open	oscail
+remove	bain
+save and show	sábháil agus taispeáin
+secured	slán
+service list unavailable	níl liosta na seirbhísí ar fáil
+set	socraithe
+state unknown	stádas anaithnid
+switched off in Setup	díchumasaithe sna Socruithe
+takes ~10 s	tógann sé ~10 s
+tap and listen	tapáil agus éist
+the last connected (none yet)	an ceann deireanach a ceanglaíodh (ceann ar bith fós)
+to Download	go Download
+to support new units	chun tacú le haonaid nua
+unavailable	níl ar fáil
+unreadable	ní féidir a léamh
+up	suas
+your choice below	do rogha thíos
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Úsáid an fillteán seo
+✗ — tap to enable	✗ — tapáil chun casadh air
