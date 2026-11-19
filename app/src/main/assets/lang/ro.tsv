@@ -1,0 +1,594 @@
+# English text <TAB> translation (ro). Keys must match the English text in the code exactly.
+  (partial)	  (parțial)
+  (test)	  (test)
+  (this unit: 	  (această unitate: 
+ (back to Android)	 (înapoi la Android)
+ (last connected)	 (ultimul conectat)
+ connected	 conectat
+ days	 zile
+ downloaded	 descărcat
+ folders	 dosare
+ is connected.\nTap to show the phone.	 este conectat.\nAtingeți pentru a afișa telefonul.
+ kilometres	 kilometri
+ metres	 metri
+ music / video files in this folder	 fișiere muzică / video în acest dosar
+ nearby	 în apropiere
+ saved	 salvat
+ songs	 piese
+ videos	 videoclipuri
+ · tap to delete	 · atingeți pentru a șterge
++15,000 km / +1 yr	+15.000 km / +1 an
+24-hour format	Format 24 de ore
+A phone is connected. Disconnect it first to add a new device.	Un telefon este conectat. Deconectați-l mai întâi pentru a adăuga un dispozitiv nou.
+Add	Adăugare
+Add a folder	Adăugare dosar
+Add fill-up	Adăugare alimentare
+Add to MENU	Adăugare în MENU
+Albums	Albume
+All	Toate
+All Android settings	Toate setările Android
+All countries	Toate țările
+All files access (USB)	Acces la toate fișierele (USB)
+All presets are taken — hold a preset to replace it	Toate memoriile sunt ocupate — țineți apăsat o memorie pentru a o înlocui
+All set	Totul e gata
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Permiteți „Acces la toate fișierele” pentru MibDroid, ca să poată citi muzica de pe stickuri USB.
+Allow access	Permiteți accesul
+Allow access to music.	Permiteți accesul la muzică.
+Allow access to pictures	Permiteți accesul la imagini
+Allow changing the system brightness	Permiteți modificarea luminozității sistemului
+Allow installing apps for MibDroid, then try again	Permiteți MibDroid să instaleze aplicații și încercați din nou
+Allow installing updates	Permiteți instalarea actualizărilor
+Allow location access	Permiteți accesul la locație
+Allow returning from the BT app	Permiteți revenirea din aplicația BT
+Allowed	Permis
+Altitude	Altitudine
+Ambient lighting	Iluminare ambientală
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android nu permite unei aplicații obișnuite să pornească singură hotspotul: se deschide pagina de hotspot a sistemului (nume, parolă, pornit/oprit). Când lansatorul este aplicație de sistem, funcționează direct aici.
+Android system	Sistem Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android cere confirmarea instalării. Ca aplicație de sistem (modul Magisk), lansatorul se actualizează singur.
+Annual service	Revizie anuală
+Annual service due now!	Revizia anuală este necesară acum!
+Another app (gallery, file manager)	Altă aplicație (galerie, manager de fișiere)
+Any saved network	Orice rețea salvată
+App	Aplicație
+App (ZLink, CarPlay…)	Aplicație (ZLink, CarPlay…)
+App info	Info aplicație
+App name	Numele aplicației
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect nu este disponibil.\nNu s-a găsit aplicația ZLink pe unitate.
+Apps	Aplicații
+Artists	Artiști
+At the end, left	La capăt la stânga
+At the end, right	La capăt la dreapta
+Automatic (by region)	Automat (după regiune)
+Automatic (detect from media session)	Automat (din sesiunea media)
+Automatic (storage and USB)	Automat (stocare și USB)
+Automatic brightness	Luminozitate automată
+Automatic check (once a day)	Verificare automată (o dată pe zi)
+Available version:	Versiune disponibilă:
+Average consumption	Consum mediu
+Average speed	Viteză medie
+Avg. consumption	Consum med.
+Avg. fuel price	Preț med. carburant
+BT audio as soon as the phone connects	Audio BT când se conectează telefonul
+BT daemon probe	BT daemon probe
+BT music app	Aplicație muzică BT
+BT package (from media session)	Pachet BT (din sesiunea media)
+BT screen	Ecran BT
+BT_STATE	BT_STATE
+Back	Înapoi
+Bass	Bas
+Bass - Mid - Treble	Bas - Mediu - Înalte
+Bear left	Ușor la stânga
+Bear right	Ușor la dreapta
+Bluetooth audio check	Verificare audio Bluetooth
+Bluetooth devices	Dispozitive Bluetooth
+Boot screen	Ecran de pornire
+Brand	Marcă
+Brightness	Luminozitate
+Browse	Răsfoire
+Buffering…	Se încarcă în buffer…
+Build for this unit:	Versiune pentru această unitate:
+Build for unit:	Versiune pentru unitate:
+Build number	Număr versiune
+Building the device report…	Se creează raportul unității…
+Built-in Corsa C pictures (car and cabin)	Imagini Corsa C încorporate (mașină și habitaclu)
+Built-in launcher radio	Radio încorporat al lansatorului
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Există imagini încorporate pentru Opel Corsa C; pentru alte vehicule importați propria fotografie de pe unitate sau USB.
+CARTO API key (free: carto.com/basemaps/apikey)	Cheie API CARTO (gratuită: carto.com/basemaps/apikey)
+CARTO key for the online map	Cheie CARTO pentru harta online
+Cabin (ambient lighting)	Habitaclu (iluminare ambientală)
+Calculating route…	Se calculează traseul…
+Cancel	Anulare
+Cancelled	Anulat
+Car picture	Imaginea mașinii
+Car picture (Vehicle status)	Imaginea mașinii (starea vehiculului)
+Change home address	Schimbare adresă acasă
+Change work address	Schimbare adresă serviciu
+Check again	Verificare din nou
+Check for updates automatically	Căutare automată de actualizări
+Checking for updates…	Se caută actualizări…
+Checking that the software fits this unit…	Se verifică dacă software-ul se potrivește acestei unități…
+Checking…	Se verifică…
+Choose a Wi-Fi network	Alegeți o rețea Wi-Fi
+Choose a folder	Alegeți un dosar
+Choose a phone app in Setup	Alegeți o aplicație de telefon în Setări
+Choose a picture	Alegeți o imagine
+Choose a picture first	Alegeți mai întâi o imagine
+Choose a radio app (long-press it in Apps)	Alegeți o aplicație radio (țineți-o apăsată în Aplicații)
+Choose a station in the station list	Alegeți un post din lista de posturi
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Alegeți marca vehiculului și imaginile pe care le afișează lansatorul: mașina (Vehicul) și habitaclul (iluminare ambientală).
+Clear presets	Ștergere memorii
+Clear recent destinations	Ștergere destinații recente
+Cleared	Șters
+Colour profile	Profil de culoare
+Colour profile and more	Profil de culoare și altele
+Colour: 	Culoare: 
+Compatibility	Compatibilitate
+Compatibility update available	Actualizare de compatibilitate disponibilă
+Confirm the network in the system window	Confirmați rețeaua în fereastra sistemului
+Connect a new device	Conectare dispozitiv nou
+Connect apps	Conectare aplicații
+Connect the phone	Conectați telefonul
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Conectați unitatea la internet (o rețea Wi-Fi sau hotspotul telefonului) pentru a verifica compatibilitatea și a primi actualizări.
+Connect the unit to the internet to install the version for this unit.	Conectați unitatea la internet pentru a instala versiunea pentru această unitate.
+Connect your phone for music and calls.	Conectați telefonul pentru muzică și apeluri.
+Connected	Conectat
+Connected: 	Conectat: 
+Connecting to 	Conectare la 
+Connecting: 	Conectare: 
+Connecting…	Se conectează…
+Connects to	Se conectează la
+Continue	Continuare
+Continue installs the new version.	Continuare instalează versiunea nouă.
+Continue installs the version made for this unit.	Continuare instalează versiunea făcută pentru această unitate.
+Continue straight	Drept înainte
+Continue without internet	Continuare fără internet
+Contrast	Contrast
+Copying failed	Copierea a eșuat
+Copying the factory apps…	Se copiază aplicațiile din fabrică…
+Corsa C (built-in)	Corsa C (încorporat)
+Cost per 100 km	Cost la 100 km
+Could not calculate route	Traseul nu a putut fi calculat
+Could not connect	Conectarea a eșuat
+Could not connect — turn on Bluetooth on the phone	Conectarea a eșuat — porniți Bluetooth pe telefon
+Countries and regions	Țări și regiuni
+Country	Țară
+Cover art from the internet	Coperți de pe internet
+Current odometer (km)	Kilometraj actual (km)
+Current source / title	Sursă / titlu curent
+Current speed	Viteză actuală
+Custom	Personalizat
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Date: © contribuitorii OpenStreetMap (ODbL), fișiere: mapsforge.org
+Date and time (Android)	Dată și oră (Android)
+Day	Zi
+Default launcher	Lansator implicit
+Delete	Ștergere
+Delete last fill-up	Ștergere ultima alimentare
+Delete map?	Ștergeți harta?
+Destination	Destinație
+Device report	Raportul unității
+Diagnostics	Diagnostic
+Diagnostics (QF / Bluetooth)	Diagnostic (QF / Bluetooth)
+Disconnect	Deconectare
+Disconnect the current phone	Deconectare telefon curent
+Disconnect the phone first	Deconectați mai întâi telefonul
+Display over other apps: off	Afișare peste alte aplicații: oprit
+Distance	Distanță
+Do you hear the radio?	Auziți radioul?
+Download a map	Descărcare hartă
+Download logos for found stations	Descărcare logo-uri pentru posturile găsite
+Download started: 	Descărcare pornită: 
+Downloading map: 	Descărcare hartă: 
+Downloading station logos… 	Se descarcă logo-urile posturilor… 
+Downloading the update… 	Se descarcă actualizarea… 
+Downloading: 	Se descarcă: 
+Driving direction up	Direcția de mers sus
+Driving time	Timp de condus
+Duration	Durată
+EN	EN
+Empty	Gol
+Enable "MibDroid" so Spotify & other players show up here	Activați „MibDroid” ca Spotify și alte playere să apară aici
+Enough reports were sent today; this one is saved here: 	Azi s-au trimis destule rapoarte; acest raport este salvat aici: 
+Error: 	Eroare: 
+Exit	Ieșire
+Exit left	Ieșire la stânga
+Exit right	Ieșire la dreapta
+Export the factory apps (APK)	Export aplicații din fabrică (APK)
+FM radio	Radio FM
+FM radio is not available on this unit	Radioul FM nu este disponibil pe această unitate
+FM tuner	Tuner FM
+Factory radio app	Aplicația radio din fabrică
+Factory software version	Versiune software din fabrică
+Fill-up	Alimentare
+Fill-up saved	Alimentare salvată
+Finish	Finalizare
+Folder not readable (file access permission?)	Dosarul nu poate fi citit (permisiune de acces la fișiere?)
+Folders	Dosare
+Forget device	Uitare dispozitiv
+Found: 	Găsite: 
+Fuel	Carburant
+Fuel tank	Rezervor
+Fuel tank (l)	Rezervor (l)
+Full screen (hide Android bars)	Ecran complet (ascunde barele Android)
+Full tank	Rezervor plin
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardware
+Head unit	Unitate principală
+Heading	Direcție
+Hide the factory player	Ascundere player din fabrică
+Hide the factory player (music / video)	Ascundere player din fabrică (muzică / video)
+Home	Acasă
+Hotspot	Hotspot
+Hotspot settings not found	Setările hotspotului nu au fost găsite
+I hear nothing	Nu aud nimic
+Import a picture from the unit or USB:	Import imagine de pe unitate sau USB:
+Imported picture	Imagine importată
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	În câteva minute configurăm unitatea: internet, vehicul, telefon, și verificăm că radioul și sunetul Bluetooth funcționează.
+Installed SW MU version:	Versiune SW MU instalată:
+Installed SW Train version:	Versiune SW Train instalată:
+Installing 	Se instalează 
+Interior picture (Ambient lighting)	Imagine habitaclu (iluminare ambientală)
+Keep left	Țineți stânga
+Keep right	Țineți dreapta
+Kilometres (km/h)	Kilometri (km/h)
+Language and region	Limbă și regiune
+Language/Jezik	Limbă/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Ultima verificare:
+Last fill-up	Ultima alimentare
+Later	Mai târziu
+Learned BT channel	Learned BT channel
+List not available (internet?)	Listă indisponibilă (internet?)
+List not available (needs internet): 	Listă indisponibilă (necesită internet): 
+Litres	Litri
+Loading the list of maps…	Se încarcă lista de hărți…
+Loading the list…	Se încarcă lista…
+Loading…	Se încarcă…
+Logos: 	Logo-uri: 
+Long-term	Pe termen lung
+Looking for pictures…	Se caută imagini…
+Low fuel: about 	Carburant puțin: aproximativ 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Setări principale (această unitate nu este încă acceptată, deci setările ei sunt ascunse).
+Make a U-turn	Întoarceți
+Manual	Manual
+Map data	Date hartă
+Map style	Stil hartă
+Map turns with the driving direction	Harta se rotește cu direcția de mers
+Maps work without internet and are drawn on the unit.	Hărțile funcționează fără internet și sunt desenate pe unitate.
+Media	Media
+Media access	Acces media
+Media and Bluetooth	Media și Bluetooth
+Media notification	Notificare media
+Media session	Sesiune media
+Memory	Memorie
+Merge	Intrați în trafic
+Mid	Mediu
+Miles (mph)	Mile (mph)
+Mode: 	Mod: 
+Model	Model
+Music folders	Dosare muzică
+Music library	Bibliotecă muzicală
+Music videos (MP4 and other video files)	Videoclipuri muzicale (MP4 și alte fișiere video)
+My dest.	Dest. mele
+Nav app	Aplicație navi
+Navigate to this point?	Navigați la acest punct?
+Navigation	Navigație
+Navigation and offline maps	Navigație și hărți offline
+Navigation app	Aplicație de navigație
+Nearby	În apropiere
+Network	Rețea
+New dest.	Dest. nouă
+New destination	Destinație nouă
+New device	Dispozitiv nou
+Next	Următorul
+Next oil change	Următorul schimb de ulei
+Next service scheduled	Următoarea revizie programată
+Night	Noapte
+No	Nu
+No GPS position	Fără poziție GPS
+No app to choose a picture	Nicio aplicație pentru alegerea imaginii
+No connection — try again	Fără conexiune — încercați din nou
+No destinations yet	Încă nicio destinație
+No devices found. Tap "Search" in the corner.	Nu s-au găsit dispozitive. Atingeți „Căutare” în colț.
+No entries.	Niciun element.
+No media selected.\nTap Browse or Play.	Niciun media ales.\nAtingeți Răsfoire sau Redare.
+No media.\nInsert a USB stick or SD card with music.	Niciun media.\nIntroduceți un stick USB sau un card SD cu muzică.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Niciun media.\nAtingeți aici și permiteți „Acces la toate fișierele” ca stickurile USB să poată fi citite.
+No music	Fără muzică
+No named stations — update the station list first	Niciun post cu nume — actualizați mai întâi lista de posturi
+No networks found (location permission is needed).	Nu s-au găsit rețele (este necesară permisiunea de locație).
+No picture	Fără imagine
+No picture selected	Nicio imagine aleasă
+No pictures on the unit or on USB	Nicio imagine pe unitate sau pe USB
+No remembered devices. Connect a new phone:	Niciun dispozitiv memorat. Conectați un telefon nou:
+No results	Niciun rezultat
+No song from the phone yet	Încă nicio piesă de pe telefon
+No track information.	Nicio informație despre piesă.
+No update information	Nicio informație despre actualizare
+None downloaded	Nimic descărcat
+None found	Nimic găsit
+North up	Nordul sus
+Not a newer version	Nicio versiune mai nouă
+Not allowed – tap	Nepermis – atingeți
+Not connected	Neconectat
+Not found	Negăsit
+Not selected	Neales
+Not set	Nesetat
+Not set – OpenStreetMap is used	Nesetat – se folosește OpenStreetMap
+Nothing found	Nimic găsit
+Nothing within 5 km	Nimic pe o rază de 5 km
+Notification access	Acces la notificări
+Now 	Acum 
+Odometer	Kilometraj
+Off	Oprit
+Off (no internet)	Oprit (fără internet)
+Offline maps	Hărți offline
+Oil change at (km)	Schimb de ulei la (km)
+Oil change due now!	Schimbul de ulei este necesar acum!
+Oil change in 	Schimb de ulei în 
+On	Pornit
+Online radio	Radio online
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Radioul online redă posturi prin internet (Radio Browser) pe același ecran radio: în lista de posturi alegeți țara și căutați, iar posturile le adăugați în bara de memorii. Consumă aproximativ 60–120 MB pe oră de ascultare.
+Online stations	Posturi online
+Open the BT app briefly (plays the sound)	Deschide scurt aplicația BT (pornește sunetul)
+OpenStreetMap (dimmed)	OpenStreetMap (estompat)
+Other	Altele
+Other media apps	Alte aplicații media
+Pairing…	Asociere…
+Part number:	Cod piesă:
+Password	Parolă
+Pause	Pauză
+Permissions	Permisiuni
+Phone	Telefon
+Phone (battery / signal)	Telefon (baterie / semnal)
+Phone and radio	Telefon și radio
+Phone app	Aplicație telefon
+Phone disconnected	Telefon deconectat
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefoanele se conectează prin cablu USB sau wireless (Android Auto, Apple CarPlay, oglindirea ecranului). Ecranul telefonului este afișat de aplicația ZLink a unității.\n\nStare: 
+Picture set	Imagine setată
+Play	Redare
+Play / pause	Redare / pauză
+Play a station from the station list first	Redați mai întâi un post din lista de posturi
+Play music on your phone. The launcher has switched to BT audio.	Redați muzică pe telefon. Lansatorul a trecut pe audio BT.
+Point on map	Punct pe hartă
+Presets cleared	Memorii șterse
+Previous	Anterior
+Price per litre	Preț pe litru
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Radio
+Radio app	Aplicație radio
+Radio check	Verificare radio
+Radio source	Sursă radio
+Range	Autonomie
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Se citește muzica de pe USB și stocare…
+Recalculating.	Se recalculează.
+Recent destinations	Destinații recente
+Recommended settings for this unit:	Setări recomandate pentru această unitate:
+Registration expires	Înmatricularea expiră
+Registration expires in 	Înmatricularea expiră în 
+Registration has expired!	Înmatricularea a expirat!
+Remaining: 	Rămas: 
+Remove from MENU	Eliminare din MENU
+Remove the picture	Eliminare imagine
+Report not saved	Raportul nu a fost salvat
+Rescan	Repetare căutare
+Reset	Restabilire
+Resume playback on start	Reluare redare la pornire
+Roundabout	Sens giratoriu
+Route calculated.	Traseu calculat.
+Run the setup assistant	Pornire asistent de configurare
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Rulează la pornirea lansatorului și când unitatea se trezește (contact). Telefonul trebuie să fie deja asociat cu unitatea; conectarea se reîncearcă timp de două minute. Începând cu Android 10, doar o aplicație de sistem (modul Magisk) poate porni Wi-Fi; apoi Android se conectează singur la rețelele salvate. Pentru CarPlay wireless, telefonul trebuie să fi fost conectat o dată prin aplicația telefonului.
+SW download	Descărcare SW
+Saturation	Saturație
+Saved: 	Salvat: 
+Saving the picture…	Se salvează imaginea…
+Scanning…	Se caută…
+Screen	Ecran
+Screen mirroring	Oglindirea ecranului
+Search	Căutare
+Search again	Căutare din nou
+Search apps	Căutare aplicații
+Search for networks	Căutare rețele
+Search for stations	Căutare posturi
+Search stations	Căutare posturi
+Search: 	Căutare: 
+Searching for Wi-Fi networks…	Se caută rețele Wi-Fi…
+Searching for devices…	Se caută dispozitive…
+Searching for radio stations…	Se caută posturi radio…
+Searching for radio stations… 	Se caută posturi radio… 
+Searching…	Se caută…
+Select	Selectare
+Send the device report	Trimitere raport unitate
+Send to the developer	Trimitere către dezvoltator
+Sending the device report…	Se trimite raportul unității…
+Sent — refresh in 2 s	Trimis — reîmprospătare în 2 s
+Service	Revizie
+Service done today	Revizie efectuată azi
+Service in 	Revizie în 
+Set	Setare
+Settings	Setări
+Setup	Setări
+Setup assistant	Asistent de configurare
+Setup → Vehicle	Setări → Vehicul
+Sharp left	Strâns la stânga
+Sharp right	Strâns la dreapta
+Show a picture at start	Afișează o imagine la pornire
+Since refuelling	De la alimentare
+Since start	De la plecare
+Skip	Omitere
+Skip setup	Omitere configurare
+Software	Software
+Software base	Bază software
+Software update	Actualizare software
+Software update failed	Actualizarea software a eșuat
+Software update finished	Actualizare software finalizată
+Software update in progress…	Actualizare software în curs…
+Software version	Versiune software
+Software version:	Versiune software:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Ceva nu funcționează cum ar trebui. Raportul unității (cu rezultatele verificărilor) ajută la remedierea în următoarea actualizare.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Piese
+Sound	Sunet
+Source	Sursă
+Sources	Surse
+Start	Pornire
+Start music on your phone.	Porniți muzica pe telefon.
+Start the phone app (ZLink…)	Pornire aplicație telefon (ZLink…)
+Start update	Pornire actualizare
+Start-up connections	Conexiuni la pornire
+Started	Pornit
+Station list	Listă de posturi
+Station logos from the internet	Logo-uri posturi de pe internet
+Station name	Numele postului
+Stations	Posturi
+Stations found: 	Posturi găsite: 
+Stop	Oprire
+Stop scan	Oprire căutare
+Street and number, city or place	Stradă și număr, oraș sau localitate
+Street, city	Stradă, oraș
+Strong stations only (LOC)	Doar posturi puternice (LOC)
+System Wi-Fi settings	Setări Wi-Fi ale sistemului
+System date	Data sistemului
+System dialer	Telefon sistem
+System information	Informații sistem
+System settings	Setări sistem
+System version	Versiune sistem
+Take the ramp	Intrați pe bretea
+Tap a device to connect. Long press: forget the device.	Atingeți un dispozitiv pentru a conecta. Apăsare lungă: uitare dispozitiv.
+Test builds	Versiuni de test
+Test builds (every build)	Versiuni de test (fiecare compilare)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Culoarea iluminării ambientale este și culoarea întregului lansator.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Profilul de culoare modifică imaginea lansatorului (toate ecranele lui, inclusiv harta). Culorile altor aplicații pot fi modificate doar când lansatorul este aplicație de sistem.
+The device report was saved; send it to the developer: 	Raportul unității este salvat; trimiteți-l dezvoltatorului: 
+The device report was sent to the developer.	Raportul unității a fost trimis dezvoltatorului.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Raportul unității va fi trimis când unitatea este online. Este salvat și aici: 
+The download is not a valid APK	Fișierul descărcat nu este un APK valid
+The internet is connected	Internetul este conectat
+The last connected phone	Ultimul telefon conectat
+The launcher restarts in the new version.	Lansatorul repornește în versiunea nouă.
+The launcher will search for stations and play the first one it finds.	Lansatorul caută posturi și îl redă pe primul găsit.
+The picture can't be opened	Imaginea nu poate fi deschisă
+The picture cannot be opened	Imaginea nu poate fi deschisă
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Imaginea apare când lansatorul pornește după aprinderea unității, apoi dispare treptat (o atingere o elimină imediat). Animația proprie de pornire Android a unității nu se schimbă.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radioul și muzica Bluetooth s-ar putea să nu funcționeze prin serviciile proprii ale acestei unități. Raportul unității se trimite, iar când suportul este gata, lansatorul va oferi versiunea pentru această unitate.
+The software is up to date	Software-ul este actualizat
+The station can't be played	Postul nu poate fi redat
+The station can't be played (connection?)	Postul nu poate fi redat (conexiune?)
+The unit is set up. Every setting can be changed later in Setup.	Unitatea este configurată. Orice setare poate fi schimbată ulterior în Setări.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Versiunea pentru această unitate nu poate fi descărcată acum. Încercați din nou în curând.
+This unit is not supported yet	Această unitate nu este încă acceptată
+This unit is supported now. Install the launcher build made for it.	Această unitate este acum acceptată. Instalați versiunea lansatorului făcută pentru ea.
+This unit is supported: 	Această unitate este acceptată: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Tunerul FM al acestei unități nu poate fi folosit din lansator; radioul online se aude prin internet.
+Time and date	Oră și dată
+Time for winter tyres	E timpul pentru anvelope de iarnă
+To show the song and cover, enable\nnotification access — tap here.	Activați accesul la notificări pentru a afișa piesa și coperta\n— atingeți aici.
+Treble	Înalte
+Try now	Încercați acum
+Turn Bluetooth on	Pornire Bluetooth
+Turn Wi-Fi on	Pornire Wi-Fi
+Turn left	Virați la stânga
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Activați „Afișare peste alte aplicații” pentru MibDroid, ca să poată reveni peste aplicația din fabrică.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Activați „Afișare peste alte aplicații” pentru MibDroid, apoi alegeți din nou audio BT.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Porniți Bluetooth pe telefon și faceți-l vizibil, apoi alegeți-l din listă:
+Turn radio off	Oprire radio
+Turn right	Virați la dreapta
+Turn the hotspot on / off	Pornire / oprire hotspot
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB este de obicei sub /storage/… sau /mnt/… (de ex. usbhost, udisk).
+Uninstall	Dezinstalare
+Units	Unități de măsură
+Until then, Continue installs the default version (QF).	Până atunci, Continuare instalează versiunea implicită (QF).
+Update	Actualizare
+Update available:	Actualizare disponibilă:
+Update failed: 	Actualizarea a eșuat: 
+Update not installed	Actualizarea nu a fost instalată
+Update station list	Actualizare listă de posturi
+Use as phone app	Folosire ca aplicație telefon
+Use as radio app	Folosire ca aplicație radio
+Use offline map	Folosire hartă offline
+Vehicle	Vehicul
+Vehicle and pictures	Vehicul și imagini
+Vehicle status	Starea vehiculului
+Versions	Versiuni
+View	Afișare
+Voice guidance	Ghidare vocală
+Waiting for GPS position	Se așteaptă poziția GPS
+Waiting for GPS…	Se așteaptă GPS…
+Warmth	Căldură
+Welcome	Bun venit
+Welcome to App-Connect.\nPlease connect a device using the USB.	Bun venit în App-Connect.\nConectați un dispozitiv prin USB.
+When the unit starts	La pornirea unității
+Wi-Fi is off.	Wi-Fi este oprit.
+Wi-Fi not available	Wi-Fi indisponibil
+Winter tyre reminder (1 Nov – 1 Apr)	Memento anvelope de iarnă (1 nov – 1 apr)
+Winter tyres fitted	Anvelope de iarnă montate
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Cu dosare alese, lansatorul citește doar acele dosare (și subdosarele lor) ca fișiere obișnuite. Fără ele, găsește singur muzica în stocare și pe USB.
+Work	Serviciu
+Wrong package	Pachet greșit
+Yes	Da
+Yes, I hear the music	Da, aud muzica
+Yes, I hear the radio	Da, aud radioul
+You can switch back to summer tyres	Puteți reveni la anvelopele de vară
+You have arrived	Ați ajuns
+You have arrived.	Ați ajuns.
+ZLink is not installed	ZLink nu este instalat
+any saved network	orice rețea salvată
+available: 	disponibil: 
+chosen	ales
+connect / new device	conectare / dispozitiv nou
+empty	gol
+enter	intrare în trafic
+forget a network, advanced	uitare rețea, avansat
+free	liber
+left today: 	încă azi: 
+needed	necesar
+needs 2 full tanks	necesită 2 plinuri
+no build for this unit	nicio versiune pentru această unitate
+no data	fără date
+no more today	nu mai azi
+none	niciunul
+none found	nimic găsit
+none yet	încă niciunul
+none yet — play BT music	încă niciuna — redați muzică BT
+nothing received	nimic primit
+now only inside the launcher	acum doar în lansator
+off	oprit
+on	pornit
+open	deschidere
+remove	eliminare
+save and show	salvare și afișare
+secured	securizat
+service list unavailable	lista de servicii indisponibilă
+set	setat
+state unknown	stare necunoscută
+switched off in Setup	dezactivat în Setări
+takes ~10 s	durează ~10 s
+tap and listen	atingeți și ascultați
+the last connected (none yet)	ultimul conectat (încă niciunul)
+to Download	în Download
+to support new units	pentru a accepta unități noi
+unavailable	indisponibil
+unreadable	ilizibil
+up	sus
+your choice below	alegerea dvs. de mai jos
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Folosește acest dosar
+✗ — tap to enable	✗ — atingeți pentru a activa

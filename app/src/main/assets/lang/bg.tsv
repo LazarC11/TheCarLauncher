@@ -1,0 +1,594 @@
+# English text <TAB> translation (bg). Keys must match the English text in the code exactly.
+  (partial)	  (частично)
+  (test)	  (тест)
+  (this unit: 	  (това устройство: 
+ (back to Android)	 (обратно към Android)
+ (last connected)	 (последно свързан)
+ connected	 свързан
+ days	 дни
+ downloaded	 изтеглено
+ folders	 папки
+ is connected.\nTap to show the phone.	 е свързан.\nДокоснете, за да покажете телефона.
+ kilometres	 километра
+ metres	 метра
+ music / video files in this folder	 музикални / видео файлове в тази папка
+ nearby	 наблизо
+ saved	 запазено
+ songs	 песни
+ videos	 видеоклипа
+ · tap to delete	 · докоснете за изтриване
++15,000 km / +1 yr	+15 000 km / +1 година
+24-hour format	24-часов формат
+A phone is connected. Disconnect it first to add a new device.	Свързан е телефон. Първо го прекъснете, за да добавите ново устройство.
+Add	Добавяне
+Add a folder	Добавяне на папка
+Add fill-up	Добавяне на зареждане
+Add to MENU	Добавяне в MENU
+Albums	Албуми
+All	Всички
+All Android settings	Всички настройки на Android
+All countries	Всички държави
+All files access (USB)	Достъп до всички файлове (USB)
+All presets are taken — hold a preset to replace it	Всички памети са заети — задръжте памет, за да я замените
+All set	Всичко е готово
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Разрешете „Достъп до всички файлове“ за MibDroid, за да чете музика от USB памети.
+Allow access	Разрешаване на достъп
+Allow access to music.	Разрешете достъп до музиката.
+Allow access to pictures	Разрешаване на достъп до изображения
+Allow changing the system brightness	Разрешаване на промяна на яркостта на системата
+Allow installing apps for MibDroid, then try again	Разрешете на MibDroid да инсталира приложения и опитайте отново
+Allow installing updates	Разрешаване на инсталиране на актуализации
+Allow location access	Разрешаване на достъп до местоположението
+Allow returning from the BT app	Разрешаване на връщане от BT приложението
+Allowed	Разрешено
+Altitude	Надморска височина
+Ambient lighting	Амбиентно осветление
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android не позволява на обикновено приложение само да включи точката за достъп: отваря се системната страница за точка за достъп (име, парола, вкл./изкл.). Когато стартерът е системно приложение, това работи директно тук.
+Android system	Система Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android иска потвърждение за инсталирането. Като системно приложение (модул Magisk) стартерът се актуализира сам.
+Annual service	Годишно обслужване
+Annual service due now!	Годишното обслужване е необходимо сега!
+Another app (gallery, file manager)	Друго приложение (галерия, файлов мениджър)
+Any saved network	Всяка запазена мрежа
+App	Приложение
+App (ZLink, CarPlay…)	Приложение (ZLink, CarPlay…)
+App info	Информация за приложението
+App name	Име на приложението
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect не е наличен.\nНа устройството не е намерено приложение ZLink.
+Apps	Приложения
+Artists	Изпълнители
+At the end, left	В края наляво
+At the end, right	В края надясно
+Automatic (by region)	Автоматично (по регион)
+Automatic (detect from media session)	Автоматично (от медийната сесия)
+Automatic (storage and USB)	Автоматично (хранилище и USB)
+Automatic brightness	Автоматична яркост
+Automatic check (once a day)	Автоматична проверка (веднъж дневно)
+Available version:	Налична версия:
+Average consumption	Среден разход
+Average speed	Средна скорост
+Avg. consumption	Ср. разход
+Avg. fuel price	Ср. цена на горивото
+BT audio as soon as the phone connects	BT аудио при свързване на телефона
+BT daemon probe	BT daemon probe
+BT music app	BT музикално приложение
+BT package (from media session)	BT пакет (от медийната сесия)
+BT screen	BT екран
+BT_STATE	BT_STATE
+Back	Назад
+Bass	Баси
+Bass - Mid - Treble	Баси - Средни - Високи
+Bear left	Леко наляво
+Bear right	Леко надясно
+Bluetooth audio check	Проверка на Bluetooth аудио
+Bluetooth devices	Bluetooth устройства
+Boot screen	Начален екран
+Brand	Марка
+Brightness	Яркост
+Browse	Преглед
+Buffering…	Буфериране…
+Build for this unit:	Версия за това устройство:
+Build for unit:	Версия за устройството:
+Build number	Номер на компилация
+Building the device report…	Създаване на отчет за устройството…
+Built-in Corsa C pictures (car and cabin)	Вградени изображения на Corsa C (кола и купе)
+Built-in launcher radio	Вградено радио на стартера
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Има вградени изображения за Opel Corsa C; за други автомобили импортирайте своя снимка от устройството или USB.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API ключ (безплатно: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO ключ за онлайн картата
+Cabin (ambient lighting)	Купе (амбиентно осветление)
+Calculating route…	Изчисляване на маршрута…
+Cancel	Отказ
+Cancelled	Отменено
+Car picture	Изображение на колата
+Car picture (Vehicle status)	Изображение на колата (състояние на автомобила)
+Change home address	Промяна на домашния адрес
+Change work address	Промяна на служебния адрес
+Check again	Нова проверка
+Check for updates automatically	Автоматично търсене на актуализации
+Checking for updates…	Търсене на актуализации…
+Checking that the software fits this unit…	Проверка дали софтуерът е подходящ за това устройство…
+Checking…	Проверка…
+Choose a Wi-Fi network	Изберете Wi-Fi мрежа
+Choose a folder	Изберете папка
+Choose a phone app in Setup	Изберете приложение за телефон в Настройки
+Choose a picture	Изберете изображение
+Choose a picture first	Първо изберете изображение
+Choose a radio app (long-press it in Apps)	Изберете радио приложение (задръжте го в Приложения)
+Choose a station in the station list	Изберете станция от списъка със станции
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Изберете марката на автомобила и изображенията, които стартерът показва: колата (Автомобил) и купето (амбиентно осветление).
+Clear presets	Изчистване на паметите
+Clear recent destinations	Изчистване на последните дестинации
+Cleared	Изчистено
+Colour profile	Цветови профил
+Colour profile and more	Цветови профил и още
+Colour: 	Цвят: 
+Compatibility	Съвместимост
+Compatibility update available	Налична е актуализация за съвместимост
+Confirm the network in the system window	Потвърдете мрежата в системния прозорец
+Connect a new device	Свързване на ново устройство
+Connect apps	Свързване на приложения
+Connect the phone	Свържете телефона
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Свържете устройството с интернет (Wi-Fi мрежа или точката за достъп на телефона), за да се провери съвместимостта и да получавате актуализации.
+Connect the unit to the internet to install the version for this unit.	Свържете устройството с интернет, за да инсталирате версията за това устройство.
+Connect your phone for music and calls.	Свържете телефона си за музика и разговори.
+Connected	Свързано
+Connected: 	Свързано: 
+Connecting to 	Свързване с 
+Connecting: 	Свързване: 
+Connecting…	Свързване…
+Connects to	Свързва се с
+Continue	Продължи
+Continue installs the new version.	Продължи инсталира новата версия.
+Continue installs the version made for this unit.	Продължи инсталира версията, направена за това устройство.
+Continue straight	Направо
+Continue without internet	Продължи без интернет
+Contrast	Контраст
+Copying failed	Копирането не бе успешно
+Copying the factory apps…	Копиране на фабричните приложения…
+Corsa C (built-in)	Corsa C (вградено)
+Cost per 100 km	Цена на 100 km
+Could not calculate route	Маршрутът не можа да бъде изчислен
+Could not connect	Неуспешно свързване
+Could not connect — turn on Bluetooth on the phone	Неуспешно свързване — включете Bluetooth на телефона
+Countries and regions	Държави и региони
+Country	Държава
+Cover art from the internet	Обложки от интернет
+Current odometer (km)	Текущ километраж (km)
+Current source / title	Текущ източник / заглавие
+Current speed	Текуща скорост
+Custom	Персонализирано
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Данни: © сътрудници на OpenStreetMap (ODbL), файлове: mapsforge.org
+Date and time (Android)	Дата и час (Android)
+Day	Ден
+Default launcher	Стартер по подразбиране
+Delete	Изтриване
+Delete last fill-up	Изтриване на последното зареждане
+Delete map?	Да се изтрие ли картата?
+Destination	Дестинация
+Device report	Отчет за устройството
+Diagnostics	Диагностика
+Diagnostics (QF / Bluetooth)	Диагностика (QF / Bluetooth)
+Disconnect	Прекъсване
+Disconnect the current phone	Прекъсване на текущия телефон
+Disconnect the phone first	Първо прекъснете връзката с телефона
+Display over other apps: off	Показване върху други приложения: изкл.
+Distance	Разстояние
+Do you hear the radio?	Чувате ли радиото?
+Download a map	Изтегляне на карта
+Download logos for found stations	Изтегляне на лога за намерените станции
+Download started: 	Изтеглянето започна: 
+Downloading map: 	Изтегляне на карта: 
+Downloading station logos… 	Изтегляне на лога на станции… 
+Downloading the update… 	Изтегляне на актуализацията… 
+Downloading: 	Изтегляне: 
+Driving direction up	Посоката на движение горе
+Driving time	Време за шофиране
+Duration	Продължителност
+EN	EN
+Empty	Празно
+Enable "MibDroid" so Spotify & other players show up here	Активирайте „MibDroid“, за да се показват тук Spotify и други плейъри
+Enough reports were sent today; this one is saved here: 	Днес са изпратени достатъчно отчети; този отчет е запазен тук: 
+Error: 	Грешка: 
+Exit	Изход
+Exit left	Изход наляво
+Exit right	Изход надясно
+Export the factory apps (APK)	Експортиране на фабричните приложения (APK)
+FM radio	FM радио
+FM radio is not available on this unit	FM радиото не е налично на това устройство
+FM tuner	FM тунер
+Factory radio app	Фабрично радио приложение
+Factory software version	Версия на фабричния софтуер
+Fill-up	Зареждане
+Fill-up saved	Зареждането е запазено
+Finish	Готово
+Folder not readable (file access permission?)	Папката не може да се прочете (разрешение за достъп до файлове?)
+Folders	Папки
+Forget device	Забравяне на устройството
+Found: 	Намерени: 
+Fuel	Гориво
+Fuel tank	Резервоар
+Fuel tank (l)	Резервоар (l)
+Full screen (hide Android bars)	Цял екран (скриване на лентите на Android)
+Full tank	Пълен резервоар
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Хардуер
+Head unit	Главно устройство
+Heading	Курс
+Hide the factory player	Скриване на фабричния плейър
+Hide the factory player (music / video)	Скриване на фабричния плейър (музика / видео)
+Home	Дом
+Hotspot	Точка за достъп
+Hotspot settings not found	Настройките на точката за достъп не са намерени
+I hear nothing	Не чувам нищо
+Import a picture from the unit or USB:	Импортиране на изображение от устройството или USB:
+Imported picture	Импортирано изображение
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	За няколко минути ще настроим устройството: интернет, автомобил, телефон, и ще проверим дали радиото и Bluetooth звукът работят.
+Installed SW MU version:	Инсталирана версия SW MU:
+Installed SW Train version:	Инсталирана версия SW Train:
+Installing 	Инсталиране на 
+Interior picture (Ambient lighting)	Изображение на купето (амбиентно осветление)
+Keep left	Дръжте се вляво
+Keep right	Дръжте се вдясно
+Kilometres (km/h)	Километри (km/h)
+Language and region	Език и регион
+Language/Jezik	Език/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Последна проверка:
+Last fill-up	Последно зареждане
+Later	По-късно
+Learned BT channel	Learned BT channel
+List not available (internet?)	Списъкът не е наличен (интернет?)
+List not available (needs internet): 	Списъкът не е наличен (нужен е интернет): 
+Litres	Литри
+Loading the list of maps…	Зареждане на списъка с карти…
+Loading the list…	Зареждане на списъка…
+Loading…	Зареждане…
+Logos: 	Лога: 
+Long-term	Дългосрочно
+Looking for pictures…	Търсене на изображения…
+Low fuel: about 	Малко гориво: около 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Основни настройки (това устройство още не се поддържа, затова собствените му настройки са скрити).
+Make a U-turn	Обърнете
+Manual	Ръчно
+Map data	Данни за картата
+Map style	Стил на картата
+Map turns with the driving direction	Картата се върти с посоката на движение
+Maps work without internet and are drawn on the unit.	Картите работят без интернет и се изчертават на устройството.
+Media	Медия
+Media access	Достъп до медия
+Media and Bluetooth	Медия и Bluetooth
+Media notification	Медийно известие
+Media session	Медийна сесия
+Memory	Памет
+Merge	Включете се
+Mid	Средни
+Miles (mph)	Мили (mph)
+Mode: 	Режим: 
+Model	Модел
+Music folders	Музикални папки
+Music library	Музикална библиотека
+Music videos (MP4 and other video files)	Музикални видеоклипове (MP4 и други видео файлове)
+My dest.	Моите дест.
+Nav app	Нави прил.
+Navigate to this point?	Навигиране до тази точка?
+Navigation	Навигация
+Navigation and offline maps	Навигация и офлайн карти
+Navigation app	Навигационно приложение
+Nearby	Наблизо
+Network	Мрежа
+New dest.	Нова дест.
+New destination	Нова дестинация
+New device	Ново устройство
+Next	Следващ
+Next oil change	Следваща смяна на масло
+Next service scheduled	Следващо обслужване насрочено
+Night	Нощ
+No	Не
+No GPS position	Няма GPS позиция
+No app to choose a picture	Няма приложение за избор на изображение
+No connection — try again	Няма връзка — опитайте отново
+No destinations yet	Все още няма дестинации
+No devices found. Tap "Search" in the corner.	Не са намерени устройства. Докоснете „Търсене“ в ъгъла.
+No entries.	Няма елементи.
+No media selected.\nTap Browse or Play.	Не е избрана медия.\nДокоснете Преглед или Възпроизвеждане.
+No media.\nInsert a USB stick or SD card with music.	Няма медия.\nПоставете USB памет или SD карта с музика.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Няма медия.\nДокоснете тук и разрешете „Достъп до всички файлове“, за да могат да се четат USB памети.
+No music	Няма музика
+No named stations — update the station list first	Няма станции с име — първо обновете списъка със станции
+No networks found (location permission is needed).	Не са намерени мрежи (нужно е разрешение за местоположение).
+No picture	Няма изображение
+No picture selected	Не е избрано изображение
+No pictures on the unit or on USB	Няма изображения на устройството или на USB
+No remembered devices. Connect a new phone:	Няма запомнени устройства. Свържете нов телефон:
+No results	Няма резултати
+No song from the phone yet	Все още няма песен от телефона
+No track information.	Няма информация за песента.
+No update information	Няма информация за актуализация
+None downloaded	Нищо не е изтеглено
+None found	Нищо не е намерено
+North up	Север горе
+Not a newer version	Няма по-нова версия
+Not allowed – tap	Не е разрешено – докоснете
+Not connected	Не е свързано
+Not found	Не е намерено
+Not selected	Не е избрано
+Not set	Не е зададено
+Not set – OpenStreetMap is used	Не е зададено – използва се OpenStreetMap
+Nothing found	Нищо не е намерено
+Nothing within 5 km	Нищо в радиус от 5 km
+Notification access	Достъп до известия
+Now 	Сега 
+Odometer	Километраж
+Off	Изкл.
+Off (no internet)	Изкл. (няма интернет)
+Offline maps	Офлайн карти
+Oil change at (km)	Смяна на масло при (km)
+Oil change due now!	Смяната на масло е необходима сега!
+Oil change in 	Смяна на масло след 
+On	Вкл.
+Online radio	Онлайн радио
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Онлайн радиото възпроизвежда станции през интернет (Radio Browser) на същия радио екран: в списъка със станции изберете държава и търсете, а станциите добавете в лентата с памети. Използва около 60–120 MB на час слушане.
+Online stations	Онлайн станции
+Open the BT app briefly (plays the sound)	Кратко отваряне на BT приложението (стартира звука)
+OpenStreetMap (dimmed)	OpenStreetMap (затъмнено)
+Other	Други
+Other media apps	Други медийни приложения
+Pairing…	Сдвояване…
+Part number:	Номер на част:
+Password	Парола
+Pause	Пауза
+Permissions	Разрешения
+Phone	Телефон
+Phone (battery / signal)	Телефон (батерия / сигнал)
+Phone and radio	Телефон и радио
+Phone app	Приложение за телефон
+Phone disconnected	Телефонът е прекъснат
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Телефоните се свързват с USB кабел или безжично (Android Auto, Apple CarPlay, огледален екран). Екранът на телефона се показва от приложението ZLink на устройството.\n\nСъстояние: 
+Picture set	Изображението е зададено
+Play	Възпроизвеждане
+Play / pause	Възпроизвеждане / пауза
+Play a station from the station list first	Първо пуснете станция от списъка със станции
+Play music on your phone. The launcher has switched to BT audio.	Пуснете музика на телефона. Стартерът превключи на BT аудио.
+Point on map	Точка на картата
+Presets cleared	Паметите са изчистени
+Previous	Предишен
+Price per litre	Цена за литър
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Профил
+Radio	Радио
+Radio app	Радио приложение
+Radio check	Проверка на радиото
+Radio source	Източник на радио
+Range	Пробег
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Четене на музика от USB и хранилище…
+Recalculating.	Преизчисляване.
+Recent destinations	Последни дестинации
+Recommended settings for this unit:	Препоръчителни настройки за това устройство:
+Registration expires	Регистрацията изтича
+Registration expires in 	Регистрацията изтича след 
+Registration has expired!	Регистрацията е изтекла!
+Remaining: 	Остават: 
+Remove from MENU	Премахване от MENU
+Remove the picture	Премахване на изображението
+Report not saved	Отчетът не е запазен
+Rescan	Повторно търсене
+Reset	Възстановяване
+Resume playback on start	Продължаване на възпроизвеждането при стартиране
+Roundabout	Кръгово кръстовище
+Route calculated.	Маршрутът е изчислен.
+Run the setup assistant	Стартиране на помощника за настройка
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Изпълнява се при стартиране на стартера и при събуждане на устройството (запалване). Телефонът трябва вече да е сдвоен с устройството; свързването се опитва два минути. От Android 10 само системно приложение (модул Magisk) може да включи Wi-Fi; след това Android сам се свързва със запазените мрежи. За безжичен CarPlay телефонът трябва веднъж да е свързан през приложението за телефон.
+SW download	SW изтегляне
+Saturation	Наситеност
+Saved: 	Запазено: 
+Saving the picture…	Запазване на изображението…
+Scanning…	Търсене…
+Screen	Екран
+Screen mirroring	Огледален екран
+Search	Търсене
+Search again	Ново търсене
+Search apps	Търсене на приложения
+Search for networks	Търсене на мрежи
+Search for stations	Търсене на станции
+Search stations	Търсене на станции
+Search: 	Търсене: 
+Searching for Wi-Fi networks…	Търсене на Wi-Fi мрежи…
+Searching for devices…	Търсене на устройства…
+Searching for radio stations…	Търсене на радиостанции…
+Searching for radio stations… 	Търсене на радиостанции… 
+Searching…	Търсене…
+Select	Избор
+Send the device report	Изпращане на отчет за устройството
+Send to the developer	Изпращане до разработчика
+Sending the device report…	Изпращане на отчет за устройството…
+Sent — refresh in 2 s	Изпратено — обновяване след 2 s
+Service	Обслужване
+Service done today	Обслужването е направено днес
+Service in 	Обслужване след 
+Set	Задаване
+Settings	Настройки
+Setup	Настройки
+Setup assistant	Помощник за настройка
+Setup → Vehicle	Настройки → Автомобил
+Sharp left	Рязко наляво
+Sharp right	Рязко надясно
+Show a picture at start	Показване на изображение при стартиране
+Since refuelling	От зареждането
+Since start	От тръгването
+Skip	Пропускане
+Skip setup	Пропускане на настройката
+Software	Софтуер
+Software base	Софтуерна база
+Software update	Софтуерна актуализация
+Software update failed	Софтуерната актуализация не бе успешна
+Software update finished	Софтуерната актуализация е завършена
+Software update in progress…	Софтуерна актуализация в ход…
+Software version	Версия на софтуера
+Software version:	Версия на софтуера:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Нещо не работи както трябва. Отчетът за устройството (с резултатите от проверките) помага това да се поправи в следващата актуализация.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Песни
+Sound	Звук
+Source	Източник
+Sources	Източници
+Start	Старт
+Start music on your phone.	Пуснете музика на телефона.
+Start the phone app (ZLink…)	Стартиране на приложението за телефон (ZLink…)
+Start update	Стартиране на актуализацията
+Start-up connections	Връзки при стартиране
+Started	Стартирано
+Station list	Списък със станции
+Station logos from the internet	Лога на станции от интернет
+Station name	Име на станцията
+Stations	Станции
+Stations found: 	Намерени станции: 
+Stop	Стоп
+Stop scan	Спиране на търсенето
+Street and number, city or place	Улица и номер, град или място
+Street, city	Улица, град
+Strong stations only (LOC)	Само силни станции (LOC)
+System Wi-Fi settings	Системни Wi-Fi настройки
+System date	Системна дата
+System dialer	Системен телефон
+System information	Системна информация
+System settings	Системни настройки
+System version	Версия на системата
+Take the ramp	Влезте в пътя
+Tap a device to connect. Long press: forget the device.	Докоснете устройство, за да се свържете. Дълго натискане: забравяне на устройството.
+Test builds	Тестови версии
+Test builds (every build)	Тестови версии (всяка компилация)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Цветът на амбиентното осветление е и цветът на целия стартер.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Цветовият профил променя картината на стартера (всичките му екрани, и картата). Цветовете на други приложения могат да се променят само когато стартерът е системно приложение.
+The device report was saved; send it to the developer: 	Отчетът за устройството е запазен; изпратете го на разработчика: 
+The device report was sent to the developer.	Отчетът за устройството е изпратен на разработчика.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Отчетът за устройството ще бъде изпратен, щом устройството е онлайн. Запазен е и тук: 
+The download is not a valid APK	Изтегленият файл не е валиден APK
+The internet is connected	Интернетът е свързан
+The last connected phone	Последно свързаният телефон
+The launcher restarts in the new version.	Стартерът се рестартира в новата версия.
+The launcher will search for stations and play the first one it finds.	Стартерът търси станции и пуска първата, която намери.
+The picture can't be opened	Изображението не може да се отвори
+The picture cannot be opened	Изображението не може да се отвори
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Изображението се показва, когато стартерът се стартира след включване на устройството, след което избледнява (докосване го премахва веднага). Собствената анимация при зареждане на Android на устройството не се променя.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Радиото и Bluetooth музиката може да не работят чрез собствените услуги на това устройство. Отчетът за устройството се изпраща и когато поддръжката е готова, стартерът ще предложи версията за това устройство.
+The software is up to date	Софтуерът е актуален
+The station can't be played	Станцията не може да бъде възпроизведена
+The station can't be played (connection?)	Станцията не може да бъде възпроизведена (връзка?)
+The unit is set up. Every setting can be changed later in Setup.	Устройството е настроено. Всяка настройка може да се промени по-късно в Настройки.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Версията за това устройство не може да бъде изтеглена сега. Опитайте отново скоро.
+This unit is not supported yet	Това устройство още не се поддържа
+This unit is supported now. Install the launcher build made for it.	Това устройство вече се поддържа. Инсталирайте версията на стартера, направена за него.
+This unit is supported: 	Това устройство се поддържа: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	FM тунерът на това устройство не може да се използва от стартера; онлайн радиото свири през интернет.
+Time and date	Час и дата
+Time for winter tyres	Време за зимни гуми
+To show the song and cover, enable\nnotification access — tap here.	Включете достъпа до известия, за да се показват песента и обложката\n— докоснете тук.
+Treble	Високи
+Try now	Опитайте сега
+Turn Bluetooth on	Включване на Bluetooth
+Turn Wi-Fi on	Включване на Wi-Fi
+Turn left	Завийте наляво
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Включете „Показване върху други приложения“ за MibDroid, за да може да се връща върху фабричното приложение.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Включете „Показване върху други приложения“ за MibDroid и изберете отново BT аудио.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Включете Bluetooth на телефона и го направете видим, после го изберете от списъка:
+Turn radio off	Изключване на радиото
+Turn right	Завийте надясно
+Turn the hotspot on / off	Точка за достъп вкл. / изкл.
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB обикновено е под /storage/… или /mnt/… (напр. usbhost, udisk).
+Uninstall	Деинсталиране
+Units	Мерни единици
+Until then, Continue installs the default version (QF).	Дотогава Продължи инсталира версията по подразбиране (QF).
+Update	Актуализиране
+Update available:	Налична актуализация:
+Update failed: 	Актуализацията не бе успешна: 
+Update not installed	Актуализацията не е инсталирана
+Update station list	Обновяване на списъка със станции
+Use as phone app	Използване като приложение за телефон
+Use as radio app	Използване като радио приложение
+Use offline map	Използване на офлайн карта
+Vehicle	Автомобил
+Vehicle and pictures	Автомобил и изображения
+Vehicle status	Състояние на автомобила
+Versions	Версии
+View	Изглед
+Voice guidance	Гласови указания
+Waiting for GPS position	Изчакване на GPS позиция
+Waiting for GPS…	Изчакване на GPS…
+Warmth	Топлина
+Welcome	Добре дошли
+Welcome to App-Connect.\nPlease connect a device using the USB.	Добре дошли в App-Connect.\nСвържете устройство чрез USB.
+When the unit starts	При стартиране на устройството
+Wi-Fi is off.	Wi-Fi е изключен.
+Wi-Fi not available	Wi-Fi не е наличен
+Winter tyre reminder (1 Nov – 1 Apr)	Напомняне за зимни гуми (1 ноем. – 1 апр.)
+Winter tyres fitted	Зимните гуми са поставени
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	С избрани папки стартерът чете само тях (и подпапките им) като обикновени файлове. Без тях сам намира музика в хранилището и на USB.
+Work	Работа
+Wrong package	Грешен пакет
+Yes	Да
+Yes, I hear the music	Да, чувам музиката
+Yes, I hear the radio	Да, чувам радиото
+You can switch back to summer tyres	Може да се върнете към летните гуми
+You have arrived	Пристигнахте
+You have arrived.	Пристигнахте.
+ZLink is not installed	ZLink не е инсталиран
+any saved network	всяка запазена мрежа
+available: 	налично: 
+chosen	избрано
+connect / new device	свързване / ново устройство
+empty	празно
+enter	включване
+forget a network, advanced	забравяне на мрежата, разширени
+free	свободно
+left today: 	още днес: 
+needed	необходимо
+needs 2 full tanks	нужни са 2 пълни резервоара
+no build for this unit	няма версия за това устройство
+no data	няма данни
+no more today	не и днес
+none	няма
+none found	нищо не е намерено
+none yet	все още няма
+none yet — play BT music	все още няма — пуснете BT музика
+nothing received	нищо не е получено
+now only inside the launcher	сега само в стартера
+off	изкл.
+on	вкл.
+open	отваряне
+remove	премахване
+save and show	запазване и показване
+secured	защитена
+service list unavailable	списъкът с услуги не е наличен
+set	зададено
+state unknown	неизвестно състояние
+switched off in Setup	изключено в Настройки
+takes ~10 s	отнема ~10 s
+tap and listen	докоснете и слушайте
+the last connected (none yet)	последно свързаният (все още няма)
+to Download	в Download
+to support new units	за поддръжка на нови устройства
+unavailable	не е налично
+unreadable	не може да се прочете
+up	горе
+your choice below	вашият избор по-долу
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Използване на тази папка
+✗ — tap to enable	✗ — докоснете за включване
