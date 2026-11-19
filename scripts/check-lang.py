@@ -54,7 +54,7 @@ for dp,_,fs in os.walk(root):
             res.setdefault(en,sr)
 lang=os.path.join(root,"..","assets","lang")
 missing=0
-for code in ("pl","tr"):
+for code in ("de","pl","tr"):
     have=set()
     for line in open(os.path.join(lang,code+".tsv"),encoding="utf-8"):
         if line.startswith("#") or "\t" not in line: continue
