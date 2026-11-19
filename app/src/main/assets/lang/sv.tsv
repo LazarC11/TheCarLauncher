@@ -1,0 +1,594 @@
+# English text <TAB> translation (sv). Keys must match the English text in the code exactly.
+  (partial)	  (delvis)
+  (test)	  (test)
+  (this unit: 	  (denna enhet: 
+ (back to Android)	 (tillbaka till Android)
+ (last connected)	 (senast ansluten)
+ connected	 ansluten
+ days	 dagar
+ downloaded	 nedladdat
+ folders	 mappar
+ is connected.\nTap to show the phone.	 är ansluten.\nTryck för att visa telefonen.
+ kilometres	 kilometer
+ metres	 meter
+ music / video files in this folder	 musik- / videofiler i den här mappen
+ nearby	 i närheten
+ saved	 sparat
+ songs	 låtar
+ videos	 videor
+ · tap to delete	 · tryck för att radera
++15,000 km / +1 yr	+15 000 km / +1 år
+24-hour format	24-timmarsformat
+A phone is connected. Disconnect it first to add a new device.	En telefon är ansluten. Koppla från den först för att lägga till en ny enhet.
+Add	Lägg till
+Add a folder	Lägg till mapp
+Add fill-up	Lägg till tankning
+Add to MENU	Lägg till i MENU
+Albums	Album
+All	Alla
+All Android settings	Alla Android-inställningar
+All countries	Alla länder
+All files access (USB)	Åtkomst till alla filer (USB)
+All presets are taken — hold a preset to replace it	Alla förval är upptagna — håll ett förval intryckt för att ersätta det
+All set	Allt klart
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Ge MibDroid ”Åtkomst till alla filer” så att den kan läsa musik från USB-minnen.
+Allow access	Tillåt åtkomst
+Allow access to music.	Tillåt åtkomst till musik.
+Allow access to pictures	Tillåt åtkomst till bilder
+Allow changing the system brightness	Tillåt ändring av systemets ljusstyrka
+Allow installing apps for MibDroid, then try again	Tillåt MibDroid att installera appar och försök igen
+Allow installing updates	Tillåt installation av uppdateringar
+Allow location access	Tillåt platsåtkomst
+Allow returning from the BT app	Tillåt återgång från BT-appen
+Allowed	Tillåten
+Altitude	Höjd
+Ambient lighting	Stämningsbelysning
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android låter inte en vanlig app slå på surfzonen själv: systemets surfzonssida öppnas (namn, lösenord, på/av). När startprogrammet är en systemapp fungerar det direkt här.
+Android system	Android-system
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android ber om att bekräfta installationen. Som systemapp (Magisk-modul) uppdaterar startprogrammet sig självt.
+Annual service	Årlig service
+Annual service due now!	Årlig service behövs nu!
+Another app (gallery, file manager)	Annan app (galleri, filhanterare)
+Any saved network	Valfritt sparat nätverk
+App	App
+App (ZLink, CarPlay…)	App (ZLink, CarPlay…)
+App info	Appinfo
+App name	Appnamn
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect är inte tillgängligt.\nIngen ZLink-app hittades på enheten.
+Apps	Appar
+Artists	Artister
+At the end, left	I slutet till vänster
+At the end, right	I slutet till höger
+Automatic (by region)	Automatiskt (efter region)
+Automatic (detect from media session)	Automatiskt (från mediesessionen)
+Automatic (storage and USB)	Automatiskt (lagring och USB)
+Automatic brightness	Automatisk ljusstyrka
+Automatic check (once a day)	Automatisk kontroll (en gång om dagen)
+Available version:	Tillgänglig version:
+Average consumption	Genomsnittlig förbrukning
+Average speed	Medelhastighet
+Avg. consumption	Snittförbr.
+Avg. fuel price	Snittpris bränsle
+BT audio as soon as the phone connects	BT-ljud när telefonen ansluts
+BT daemon probe	BT daemon probe
+BT music app	BT-musikapp
+BT package (from media session)	BT-paket (från mediesessionen)
+BT screen	BT-skärm
+BT_STATE	BT_STATE
+Back	Tillbaka
+Bass	Bas
+Bass - Mid - Treble	Bas - Mellan - Diskant
+Bear left	Svagt vänster
+Bear right	Svagt höger
+Bluetooth audio check	Kontroll av Bluetooth-ljud
+Bluetooth devices	Bluetooth-enheter
+Boot screen	Startskärm
+Brand	Märke
+Brightness	Ljusstyrka
+Browse	Bläddra
+Buffering…	Buffrar…
+Build for this unit:	Version för denna enhet:
+Build for unit:	Version för enhet:
+Build number	Versionsnummer
+Building the device report…	Skapar enhetsrapport…
+Built-in Corsa C pictures (car and cabin)	Inbyggda Corsa C-bilder (bil och kupé)
+Built-in launcher radio	Startprogrammets inbyggda radio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Det finns inbyggda bilder för Opel Corsa C; för andra fordon importerar du ett eget foto från enheten eller USB.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API-nyckel (gratis: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO-nyckel för onlinekartan
+Cabin (ambient lighting)	Kupé (stämningsbelysning)
+Calculating route…	Beräknar rutt…
+Cancel	Avbryt
+Cancelled	Avbrutet
+Car picture	Bild på bilen
+Car picture (Vehicle status)	Bild på bilen (fordonsstatus)
+Change home address	Ändra hemadress
+Change work address	Ändra arbetsadress
+Check again	Kontrollera igen
+Check for updates automatically	Sök efter uppdateringar automatiskt
+Checking for updates…	Söker efter uppdateringar…
+Checking that the software fits this unit…	Kontrollerar om programvaran passar denna enhet…
+Checking…	Kontrollerar…
+Choose a Wi-Fi network	Välj ett Wi-Fi-nätverk
+Choose a folder	Välj en mapp
+Choose a phone app in Setup	Välj en telefonapp i Inställningar
+Choose a picture	Välj en bild
+Choose a picture first	Välj en bild först
+Choose a radio app (long-press it in Apps)	Välj en radioapp (håll den intryckt i Appar)
+Choose a station in the station list	Välj en station i stationslistan
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Välj fordonets märke och bilderna som startprogrammet visar: bilen (Fordon) och kupén (stämningsbelysning).
+Clear presets	Rensa förval
+Clear recent destinations	Rensa senaste destinationer
+Cleared	Rensat
+Colour profile	Färgprofil
+Colour profile and more	Färgprofil och mer
+Colour: 	Färg: 
+Compatibility	Kompatibilitet
+Compatibility update available	Kompatibilitetsuppdatering tillgänglig
+Confirm the network in the system window	Bekräfta nätverket i systemfönstret
+Connect a new device	Anslut ny enhet
+Connect apps	Anslut appar
+Connect the phone	Anslut telefonen
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Anslut enheten till internet (ett Wi-Fi-nätverk eller telefonens surfzon) så att kompatibiliteten kan kontrolleras och uppdateringar hämtas.
+Connect the unit to the internet to install the version for this unit.	Anslut enheten till internet för att installera versionen för denna enhet.
+Connect your phone for music and calls.	Anslut din telefon för musik och samtal.
+Connected	Ansluten
+Connected: 	Ansluten: 
+Connecting to 	Ansluter till 
+Connecting: 	Ansluter: 
+Connecting…	Ansluter…
+Connects to	Ansluter till
+Continue	Fortsätt
+Continue installs the new version.	Fortsätt installerar den nya versionen.
+Continue installs the version made for this unit.	Fortsätt installerar versionen som gjorts för denna enhet.
+Continue straight	Rakt fram
+Continue without internet	Fortsätt utan internet
+Contrast	Kontrast
+Copying failed	Kopieringen misslyckades
+Copying the factory apps…	Kopierar fabriksappar…
+Corsa C (built-in)	Corsa C (inbyggd)
+Cost per 100 km	Kostnad per 100 km
+Could not calculate route	Rutten kunde inte beräknas
+Could not connect	Kunde inte ansluta
+Could not connect — turn on Bluetooth on the phone	Kunde inte ansluta — slå på Bluetooth på telefonen
+Countries and regions	Länder och regioner
+Country	Land
+Cover art from the internet	Omslag från internet
+Current odometer (km)	Aktuell mätarställning (km)
+Current source / title	Aktuell källa / titel
+Current speed	Aktuell hastighet
+Custom	Anpassad
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Data: © OpenStreetMap-bidragsgivare (ODbL), filer: mapsforge.org
+Date and time (Android)	Datum och tid (Android)
+Day	Dag
+Default launcher	Standardstartprogram
+Delete	Radera
+Delete last fill-up	Radera senaste tankning
+Delete map?	Radera kartan?
+Destination	Destination
+Device report	Enhetsrapport
+Diagnostics	Diagnostik
+Diagnostics (QF / Bluetooth)	Diagnostik (QF / Bluetooth)
+Disconnect	Koppla från
+Disconnect the current phone	Koppla från aktuell telefon
+Disconnect the phone first	Koppla från telefonen först
+Display over other apps: off	Visa över andra appar: av
+Distance	Avstånd
+Do you hear the radio?	Hör du radion?
+Download a map	Ladda ned karta
+Download logos for found stations	Ladda ned logotyper för hittade stationer
+Download started: 	Nedladdning startad: 
+Downloading map: 	Nedladdning av karta: 
+Downloading station logos… 	Laddar ned stationslogotyper… 
+Downloading the update… 	Laddar ned uppdatering… 
+Downloading: 	Laddar ned: 
+Driving direction up	Färdriktning uppåt
+Driving time	Körtid
+Duration	Varaktighet
+EN	EN
+Empty	Tom
+Enable "MibDroid" so Spotify & other players show up here	Aktivera ”MibDroid” så att Spotify och andra spelare visas här
+Enough reports were sent today; this one is saved here: 	Tillräckligt många rapporter har skickats i dag; den här rapporten är sparad här: 
+Error: 	Fel: 
+Exit	Avfart
+Exit left	Avfart till vänster
+Exit right	Avfart till höger
+Export the factory apps (APK)	Exportera fabriksappar (APK)
+FM radio	FM-radio
+FM radio is not available on this unit	FM-radio är inte tillgänglig på denna enhet
+FM tuner	FM-mottagare
+Factory radio app	Fabrikens radioapp
+Factory software version	Fabrikens programvaruversion
+Fill-up	Tankning
+Fill-up saved	Tankning sparad
+Finish	Slutför
+Folder not readable (file access permission?)	Mappen kan inte läsas (behörighet för filåtkomst?)
+Folders	Mappar
+Forget device	Glöm enhet
+Found: 	Hittade: 
+Fuel	Bränsle
+Fuel tank	Bränsletank
+Fuel tank (l)	Bränsletank (l)
+Full screen (hide Android bars)	Helskärm (dölj Android-fälten)
+Full tank	Full tank
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hårdvara
+Head unit	Huvudenhet
+Heading	Kurs
+Hide the factory player	Dölj fabriksspelaren
+Hide the factory player (music / video)	Dölj fabriksspelaren (musik / video)
+Home	Hem
+Hotspot	Surfzon
+Hotspot settings not found	Surfzonsinställningar hittades inte
+I hear nothing	Jag hör ingenting
+Import a picture from the unit or USB:	Importera bild från enheten eller USB:
+Imported picture	Importerad bild
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	På några minuter ställer vi in enheten: internet, fordon, telefon, och kontrollerar att radion och Bluetooth-ljudet fungerar.
+Installed SW MU version:	Installerad SW MU-version:
+Installed SW Train version:	Installerad SW Train-version:
+Installing 	Installerar 
+Interior picture (Ambient lighting)	Bild på kupén (stämningsbelysning)
+Keep left	Håll vänster
+Keep right	Håll höger
+Kilometres (km/h)	Kilometer (km/h)
+Language and region	Språk och region
+Language/Jezik	Språk/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Senaste kontroll:
+Last fill-up	Senaste tankning
+Later	Senare
+Learned BT channel	Learned BT channel
+List not available (internet?)	Listan är inte tillgänglig (internet?)
+List not available (needs internet): 	Listan är inte tillgänglig (kräver internet): 
+Litres	Liter
+Loading the list of maps…	Läser in kartlistan…
+Loading the list…	Läser in listan…
+Loading…	Läser in…
+Logos: 	Logotyper: 
+Long-term	Långsiktigt
+Looking for pictures…	Söker efter bilder…
+Low fuel: about 	Lite bränsle: cirka 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Huvudinställningar (denna enhet stöds inte ännu, så dess egna inställningar är dolda).
+Make a U-turn	Vänd
+Manual	Manuellt
+Map data	Kartdata
+Map style	Kartstil
+Map turns with the driving direction	Kartan roterar med färdriktningen
+Maps work without internet and are drawn on the unit.	Kartor fungerar utan internet och ritas på enheten.
+Media	Media
+Media access	Medieåtkomst
+Media and Bluetooth	Media och Bluetooth
+Media notification	Medieavisering
+Media session	Mediesession
+Memory	Minne
+Merge	Kör in
+Mid	Mellan
+Miles (mph)	Miles (mph)
+Mode: 	Läge: 
+Model	Modell
+Music folders	Musikmappar
+Music library	Musikbibliotek
+Music videos (MP4 and other video files)	Musikvideor (MP4 och andra videofiler)
+My dest.	Mina dest.
+Nav app	Navi-app
+Navigate to this point?	Navigera till denna punkt?
+Navigation	Navigering
+Navigation and offline maps	Navigering och offlinekartor
+Navigation app	Navigeringsapp
+Nearby	I närheten
+Network	Nätverk
+New dest.	Ny dest.
+New destination	Ny destination
+New device	Ny enhet
+Next	Nästa
+Next oil change	Nästa oljebyte
+Next service scheduled	Nästa service planerad
+Night	Natt
+No	Nej
+No GPS position	Ingen GPS-position
+No app to choose a picture	Ingen app för att välja en bild
+No connection — try again	Ingen anslutning — försök igen
+No destinations yet	Inga destinationer ännu
+No devices found. Tap "Search" in the corner.	Inga enheter hittades. Tryck på ”Sök” i hörnet.
+No entries.	Inga objekt.
+No media selected.\nTap Browse or Play.	Inga medier valda.\nTryck på Bläddra eller Spela.
+No media.\nInsert a USB stick or SD card with music.	Inga medier.\nSätt i ett USB-minne eller SD-kort med musik.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Inga medier.\nTryck här och tillåt ”Åtkomst till alla filer” så att USB-minnen kan läsas.
+No music	Ingen musik
+No named stations — update the station list first	Inga stationer med namn — uppdatera stationslistan först
+No networks found (location permission is needed).	Inga nätverk hittades (platsbehörighet krävs).
+No picture	Ingen bild
+No picture selected	Ingen bild vald
+No pictures on the unit or on USB	Inga bilder på enheten eller USB
+No remembered devices. Connect a new phone:	Inga sparade enheter. Anslut en ny telefon:
+No results	Inga resultat
+No song from the phone yet	Ingen låt från telefonen ännu
+No track information.	Ingen låtinformation.
+No update information	Ingen uppdateringsinformation
+None downloaded	Inget nedladdat
+None found	Inget hittades
+North up	Norr uppåt
+Not a newer version	Ingen nyare version
+Not allowed – tap	Inte tillåtet – tryck
+Not connected	Inte ansluten
+Not found	Hittades inte
+Not selected	Inte vald
+Not set	Inte inställd
+Not set – OpenStreetMap is used	Inte inställd – OpenStreetMap används
+Nothing found	Inget hittades
+Nothing within 5 km	Inget inom 5 km
+Notification access	Åtkomst till aviseringar
+Now 	Nu 
+Odometer	Vägmätare
+Off	Av
+Off (no internet)	Av (inget internet)
+Offline maps	Offlinekartor
+Oil change at (km)	Oljebyte vid (km)
+Oil change due now!	Oljebyte behövs nu!
+Oil change in 	Oljebyte om 
+On	På
+Online radio	Webbradio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Webbradio spelar stationer via internet (Radio Browser) på samma radioskärm: i stationslistan väljer du land och söker, och lägger till stationer i förvalsfältet. Använder cirka 60–120 MB per timmes lyssning.
+Online stations	Onlinestationer
+Open the BT app briefly (plays the sound)	Öppna BT-appen kort (startar ljudet)
+OpenStreetMap (dimmed)	OpenStreetMap (dämpad)
+Other	Övrigt
+Other media apps	Andra medieappar
+Pairing…	Parkopplar…
+Part number:	Artikelnummer:
+Password	Lösenord
+Pause	Paus
+Permissions	Behörigheter
+Phone	Telefon
+Phone (battery / signal)	Telefon (batteri / signal)
+Phone and radio	Telefon och radio
+Phone app	Telefonapp
+Phone disconnected	Telefon frånkopplad
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefoner ansluts med USB-kabel eller trådlöst (Android Auto, Apple CarPlay, skärmspegling). Telefonens skärm visas av enhetens ZLink-app.\n\nStatus: 
+Picture set	Bild inställd
+Play	Spela
+Play / pause	Spela / paus
+Play a station from the station list first	Spela först en station från stationslistan
+Play music on your phone. The launcher has switched to BT audio.	Spela musik på din telefon. Startprogrammet har bytt till BT-ljud.
+Point on map	Punkt på kartan
+Presets cleared	Förval rensade
+Previous	Föregående
+Price per litre	Pris per liter
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Radio
+Radio app	Radioapp
+Radio check	Radiokontroll
+Radio source	Radiokälla
+Range	Räckvidd
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Läser musik från USB och lagring…
+Recalculating.	Beräknar om.
+Recent destinations	Senaste destinationer
+Recommended settings for this unit:	Rekommenderade inställningar för denna enhet:
+Registration expires	Registreringen löper ut
+Registration expires in 	Registreringen löper ut om 
+Registration has expired!	Registreringen har löpt ut!
+Remaining: 	Kvar: 
+Remove from MENU	Ta bort från MENU
+Remove the picture	Ta bort bild
+Report not saved	Rapporten sparades inte
+Rescan	Sök igen
+Reset	Återställ
+Resume playback on start	Återuppta uppspelning vid start
+Roundabout	Rondell
+Route calculated.	Rutt beräknad.
+Run the setup assistant	Kör installationsassistenten
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Körs när startprogrammet startar och när enheten vaknar (tändning). Telefonen måste redan vara parkopplad med enheten; anslutningen försöks i två minuter. Från Android 10 får bara en systemapp (Magisk-modul) slå på Wi-Fi; sedan ansluter Android själv till sparade nätverk. För trådlös CarPlay måste telefonen ha anslutits en gång via telefonappen.
+SW download	SW-nedladdning
+Saturation	Mättnad
+Saved: 	Sparat: 
+Saving the picture…	Sparar bild…
+Scanning…	Söker…
+Screen	Skärm
+Screen mirroring	Skärmspegling
+Search	Sök
+Search again	Sök igen
+Search apps	Sök appar
+Search for networks	Sök nätverk
+Search for stations	Sök stationer
+Search stations	Sök stationer
+Search: 	Sök: 
+Searching for Wi-Fi networks…	Söker efter Wi-Fi-nätverk…
+Searching for devices…	Söker efter enheter…
+Searching for radio stations…	Söker efter radiostationer…
+Searching for radio stations… 	Söker efter radiostationer… 
+Searching…	Söker…
+Select	Välj
+Send the device report	Skicka enhetsrapport
+Send to the developer	Skicka till utvecklaren
+Sending the device report…	Skickar enhetsrapport…
+Sent — refresh in 2 s	Skickat — uppdaterar om 2 s
+Service	Service
+Service done today	Service utförd i dag
+Service in 	Service om 
+Set	Ställ in
+Settings	Inställningar
+Setup	Inställningar
+Setup assistant	Installationsassistent
+Setup → Vehicle	Inställningar → Fordon
+Sharp left	Skarpt vänster
+Sharp right	Skarpt höger
+Show a picture at start	Visa en bild vid start
+Since refuelling	Sedan tankning
+Since start	Sedan avfärd
+Skip	Hoppa över
+Skip setup	Hoppa över installationen
+Software	Programvara
+Software base	Programvarubas
+Software update	Programuppdatering
+Software update failed	Programuppdateringen misslyckades
+Software update finished	Programuppdateringen är klar
+Software update in progress…	Programuppdatering pågår…
+Software version	Programvaruversion
+Software version:	Programvaruversion:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Något fungerar inte som det ska. Enhetsrapporten (med resultaten av kontrollerna) hjälper till att rätta det i en kommande uppdatering.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Låtar
+Sound	Ljud
+Source	Källa
+Sources	Källor
+Start	Starta
+Start music on your phone.	Starta musik på din telefon.
+Start the phone app (ZLink…)	Starta telefonapp (ZLink…)
+Start update	Starta uppdatering
+Start-up connections	Anslutningar vid start
+Started	Startad
+Station list	Stationslista
+Station logos from the internet	Stationslogotyper från internet
+Station name	Stationsnamn
+Stations	Stationer
+Stations found: 	Hittade stationer: 
+Stop	Stopp
+Stop scan	Stoppa sökningen
+Street and number, city or place	Gata och nummer, stad eller plats
+Street, city	Gata, stad
+Strong stations only (LOC)	Bara starka stationer (LOC)
+System Wi-Fi settings	Systemets Wi-Fi-inställningar
+System date	Systemdatum
+System dialer	Systemtelefon
+System information	Systeminformation
+System settings	Systeminställningar
+System version	Systemversion
+Take the ramp	Ta påfarten
+Tap a device to connect. Long press: forget the device.	Tryck på en enhet för att ansluta. Långt tryck: glöm enheten.
+Test builds	Testversioner
+Test builds (every build)	Testversioner (varje bygge)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Stämningsbelysningens färg är också färgen på hela startprogrammet.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Färgprofilen ändrar startprogrammets bild (alla dess skärmar, även kartan). Andra appars färger kan ändras först när startprogrammet är en systemapp.
+The device report was saved; send it to the developer: 	Enhetsrapporten är sparad; skicka den till utvecklaren: 
+The device report was sent to the developer.	Enhetsrapporten har skickats till utvecklaren.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Enhetsrapporten skickas när enheten är online. Den är också sparad här: 
+The download is not a valid APK	Nedladdningen är inte en giltig APK
+The internet is connected	Internet är anslutet
+The last connected phone	Den senast anslutna telefonen
+The launcher restarts in the new version.	Startprogrammet startar om i den nya versionen.
+The launcher will search for stations and play the first one it finds.	Startprogrammet söker stationer och spelar den första den hittar.
+The picture can't be opened	Bilden kan inte öppnas
+The picture cannot be opened	Bilden kan inte öppnas
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Bilden visas när startprogrammet startar efter att enheten slagits på och tonas sedan bort (en tryckning tar bort den direkt). Enhetens egen Android-startanimation ändras inte.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radion och Bluetooth-musiken kanske inte fungerar via denna enhets egna tjänster. Enhetsrapporten skickas, och när stödet är klart erbjuder startprogrammet versionen för denna enhet.
+The software is up to date	Programvaran är uppdaterad
+The station can't be played	Stationen kan inte spelas
+The station can't be played (connection?)	Stationen kan inte spelas (anslutning?)
+The unit is set up. Every setting can be changed later in Setup.	Enheten är inställd. Alla inställningar kan ändras senare i Inställningar.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Versionen för denna enhet kan inte laddas ned just nu. Försök igen snart.
+This unit is not supported yet	Denna enhet stöds inte ännu
+This unit is supported now. Install the launcher build made for it.	Denna enhet stöds nu. Installera startprogrammets version som gjorts för den.
+This unit is supported: 	Denna enhet stöds: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Denna enhets FM-mottagare kan inte användas från startprogrammet; webbradio spelar via internet.
+Time and date	Tid och datum
+Time for winter tyres	Dags för vinterdäck
+To show the song and cover, enable\nnotification access — tap here.	Slå på åtkomst till aviseringar för att visa låt och omslag\n— tryck här.
+Treble	Diskant
+Try now	Testa nu
+Turn Bluetooth on	Slå på Bluetooth
+Turn Wi-Fi on	Slå på Wi-Fi
+Turn left	Sväng vänster
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Slå på ”Visa över andra appar” för MibDroid så att den kan återvända över fabriksappen.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Slå på ”Visa över andra appar” för MibDroid och välj sedan BT-ljud igen.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Slå på Bluetooth på telefonen och gör den synlig, välj den sedan i listan:
+Turn radio off	Stäng av radion
+Turn right	Sväng höger
+Turn the hotspot on / off	Surfzon på / av
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB finns oftast under /storage/… eller /mnt/… (t.ex. usbhost, udisk).
+Uninstall	Avinstallera
+Units	Enheter
+Until then, Continue installs the default version (QF).	Tills dess installerar Fortsätt standardversionen (QF).
+Update	Uppdatera
+Update available:	Uppdatering tillgänglig:
+Update failed: 	Uppdateringen misslyckades: 
+Update not installed	Uppdateringen installerades inte
+Update station list	Uppdatera stationslistan
+Use as phone app	Använd som telefonapp
+Use as radio app	Använd som radioapp
+Use offline map	Använd offlinekarta
+Vehicle	Fordon
+Vehicle and pictures	Fordon och bilder
+Vehicle status	Fordonsstatus
+Versions	Versioner
+View	Vy
+Voice guidance	Röstvägledning
+Waiting for GPS position	Väntar på GPS-position
+Waiting for GPS…	Väntar på GPS…
+Warmth	Värme
+Welcome	Välkommen
+Welcome to App-Connect.\nPlease connect a device using the USB.	Välkommen till App-Connect.\nAnslut en enhet via USB.
+When the unit starts	När enheten startar
+Wi-Fi is off.	Wi-Fi är avstängt.
+Wi-Fi not available	Wi-Fi är inte tillgängligt
+Winter tyre reminder (1 Nov – 1 Apr)	Påminnelse om vinterdäck (1 nov – 1 apr)
+Winter tyres fitted	Vinterdäck monterade
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Med valda mappar läser startprogrammet bara dem (och deras undermappar) som vanliga filer. Utan dem hittar det själv musik i lagringen och på USB.
+Work	Arbete
+Wrong package	Fel paket
+Yes	Ja
+Yes, I hear the music	Ja, jag hör musiken
+Yes, I hear the radio	Ja, jag hör radion
+You can switch back to summer tyres	Du kan byta tillbaka till sommardäck
+You have arrived	Du har kommit fram
+You have arrived.	Du har kommit fram.
+ZLink is not installed	ZLink är inte installerat
+any saved network	valfritt sparat nätverk
+available: 	tillgänglig: 
+chosen	vald
+connect / new device	anslut / ny enhet
+empty	tom
+enter	infart
+forget a network, advanced	glöm nätverk, avancerat
+free	ledigt
+left today: 	fortfarande i dag: 
+needed	behövs
+needs 2 full tanks	behöver 2 fulla tankar
+no build for this unit	ingen version för denna enhet
+no data	inga data
+no more today	inte mer i dag
+none	ingen
+none found	inget hittades
+none yet	ingen ännu
+none yet — play BT music	ingen ännu — spela BT-musik
+nothing received	inget mottaget
+now only inside the launcher	nu bara i startprogrammet
+off	av
+on	på
+open	öppna
+remove	ta bort
+save and show	spara och visa
+secured	skyddat
+service list unavailable	tjänstelistan är inte tillgänglig
+set	inställt
+state unknown	okänd status
+switched off in Setup	avstängt i Inställningar
+takes ~10 s	tar ~10 s
+tap and listen	tryck och lyssna
+the last connected (none yet)	den senast anslutna (ingen ännu)
+to Download	till Download
+to support new units	för att stödja nya enheter
+unavailable	inte tillgängligt
+unreadable	går inte att läsa
+up	uppåt
+your choice below	ditt val nedan
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Använd den här mappen
+✗ — tap to enable	✗ — tryck för att slå på
