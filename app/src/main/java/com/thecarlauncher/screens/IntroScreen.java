@@ -71,7 +71,8 @@ public class IntroScreen extends Screen {
         }), new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60)));
         LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(Mib.px(act, 230), Mib.px(act, 60));
         sl.leftMargin = Mib.px(act, 16);
-        keys.addView(key(s("Preskoči podešavanje", "Skip setup"), new Runnable() {
+        // The setup app (universal build) has nothing to skip to.
+        if (!LauncherActivity.setupOnly(act)) keys.addView(key(s("Preskoči podešavanje", "Skip setup"), new Runnable() {
             public void run() {
                 Prefs.put(act, WelcomeScreen.P_DONE, true);
                 Prefs.put(act, WelcomeScreen.P_STEP, -1);

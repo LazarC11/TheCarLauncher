@@ -188,7 +188,8 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
     private void render() {
         if (list == null) return;
         list.removeAllViews();
-        stepText.setText(step == DONE ? "" : (step + 1) + " / " + STEPS);
+        // The setup app (universal build) shows only the first three steps.
+        stepText.setText(step == DONE ? "" : (step + 1) + " / " + (LauncherActivity.setupOnly(act) ? COMPAT + 1 : STEPS));
         switch (step) {
             case LANGUAGE: renderLanguage(); break;
             case WIFI: renderWifi(); break;
@@ -284,13 +285,30 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                             Updater.askInstallPermission(act);
                             return;
                         }
-                        // Straight to the progress page: download, check, install over this one.
+                        // Straight to the progress page: download, check, install over this one;
+                        // the new build then opens by itself into the next step.
+                        Prefs.put(act, com.thecarlauncher.util.ReplacedReceiver.P_OPEN_AFTER_UPDATE, true);
                         act.show(LauncherActivity.SOFTWARE, true);
                         if (!Updater.busy()) Updater.install(act, release);
                     }
                 });
-                button(s("Kasnije", "Later"), new Runnable() {
+                if (!LauncherActivity.setupOnly(act)) button(s("Kasnije", "Later"), new Runnable() {
                     public void run() { go(SCREEN); }
+                });
+            } else if (LauncherActivity.setupOnly(act)) {
+                // The setup app cannot go on without the unit's build: get online and check again.
+                note(offline ? s("Poveži uređaj sa internetom da bi se instalirala verzija za ovaj uređaj.",
+                        "Connect the unit to the internet to install the version for this unit.")
+                        : s("Verzija za ovaj uređaj trenutno ne može da se preuzme. Pokušaj ponovo za koji trenutak.",
+                        "The version for this unit cannot be downloaded right now. Try again in a moment."));
+                button(s("Izaberi Wi-Fi mrežu", "Choose a Wi-Fi network"), new Runnable() {
+                    public void run() { act.showSettings(SettingsScreen.PAGE_WIFI); }
+                });
+                button(s("Proveri ponovo", "Check again"), new Runnable() {
+                    public void run() {
+                        checked = false;
+                        render();
+                    }
                 });
             } else {
                 if (offline && Updater.switching(act)) {
@@ -312,7 +330,16 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                 "The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you."));
         note(reportBusy || reportResult == null ? s("Slanje izveštaja o uređaju…", "Sending the device report…") : reportResult);
         button(s("Nastavi", "Continue"), new Runnable() {
-            public void run() { go(SCREEN); }
+            public void run() {
+                if (LauncherActivity.setupOnly(act)) {
+                    // No build for this unit yet: the universal build becomes the launcher.
+                    Prefs.put(act, LauncherActivity.P_UNIVERSAL_UNLOCKED, true);
+                    Prefs.put(act, P_STEP, SCREEN);
+                    act.restartUi();
+                    return;
+                }
+                go(SCREEN);
+            }
         });
     }
 
