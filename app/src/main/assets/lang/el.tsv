@@ -1,0 +1,594 @@
+# English text <TAB> translation (el). Keys must match the English text in the code exactly.
+  (partial)	  (μερικώς)
+  (test)	  (δοκιμή)
+  (this unit: 	  (αυτή η μονάδα: 
+ (back to Android)	 (πίσω στο Android)
+ (last connected)	 (τελευταία συνδεδεμένο)
+ connected	 συνδεδεμένο
+ days	 ημέρες
+ downloaded	 λήφθηκε
+ folders	 φάκελοι
+ is connected.\nTap to show the phone.	 είναι συνδεδεμένο.\nΠατήστε για εμφάνιση του τηλεφώνου.
+ kilometres	 χιλιόμετρα
+ metres	 μέτρα
+ music / video files in this folder	 αρχεία μουσικής / βίντεο σε αυτόν τον φάκελο
+ nearby	 κοντά
+ saved	 αποθηκεύτηκε
+ songs	 τραγούδια
+ videos	 βίντεο
+ · tap to delete	 · πατήστε για διαγραφή
++15,000 km / +1 yr	+15.000 km / +1 έτος
+24-hour format	24ωρη μορφή
+A phone is connected. Disconnect it first to add a new device.	Ένα τηλέφωνο είναι συνδεδεμένο. Αποσυνδέστε το πρώτα για να προσθέσετε νέα συσκευή.
+Add	Προσθήκη
+Add a folder	Προσθήκη φακέλου
+Add fill-up	Προσθήκη ανεφοδιασμού
+Add to MENU	Προσθήκη στο MENU
+Albums	Άλμπουμ
+All	Όλα
+All Android settings	Όλες οι ρυθμίσεις Android
+All countries	Όλες οι χώρες
+All files access (USB)	Πρόσβαση σε όλα τα αρχεία (USB)
+All presets are taken — hold a preset to replace it	Όλες οι μνήμες είναι κατειλημμένες — κρατήστε πατημένη μια μνήμη για αντικατάσταση
+All set	Όλα έτοιμα
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Επιτρέψτε την «Πρόσβαση σε όλα τα αρχεία» για το MibDroid, ώστε να διαβάζει μουσική από USB.
+Allow access	Να επιτρέπεται η πρόσβαση
+Allow access to music.	Επιτρέψτε την πρόσβαση στη μουσική.
+Allow access to pictures	Πρόσβαση στις εικόνες
+Allow changing the system brightness	Αλλαγή φωτεινότητας συστήματος
+Allow installing apps for MibDroid, then try again	Επιτρέψτε στο MibDroid την εγκατάσταση εφαρμογών και δοκιμάστε ξανά
+Allow installing updates	Να επιτρέπεται η εγκατάσταση ενημερώσεων
+Allow location access	Να επιτρέπεται η πρόσβαση στην τοποθεσία
+Allow returning from the BT app	Να επιτρέπεται η επιστροφή από την εφαρμογή BT
+Allowed	Επιτρέπεται
+Altitude	Υψόμετρο
+Ambient lighting	Φωτισμός περιβάλλοντος
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Το Android δεν επιτρέπει σε μια απλή εφαρμογή να ενεργοποιήσει μόνη της το hotspot: ανοίγει η σελίδα hotspot του συστήματος (όνομα, κωδικός, ενεργ./απενεργ.). Όταν η εφαρμογή εκκίνησης γίνει εφαρμογή συστήματος, αυτό λειτουργεί απευθείας εδώ.
+Android system	Σύστημα Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Το Android ζητά επιβεβαίωση της εγκατάστασης. Ως εφαρμογή συστήματος (Magisk module) η εφαρμογή εκκίνησης ενημερώνεται μόνη της.
+Annual service	Ετήσιο σέρβις
+Annual service due now!	Το ετήσιο σέρβις απαιτείται τώρα!
+Another app (gallery, file manager)	Άλλη εφαρμογή (συλλογή, διαχείριση αρχείων)
+Any saved network	Οποιοδήποτε αποθηκευμένο δίκτυο
+App	Εφαρμογή
+App (ZLink, CarPlay…)	Εφαρμογή (ZLink, CarPlay…)
+App info	Πληροφορίες εφαρμογής
+App name	Όνομα εφαρμογής
+App-Connect is not available.\nNo ZLink app was found on this unit.	Το App-Connect δεν είναι διαθέσιμο.\nΔεν βρέθηκε εφαρμογή ZLink στη μονάδα.
+Apps	Εφαρμογές
+Artists	Καλλιτέχνες
+At the end, left	Στο τέλος αριστερά
+At the end, right	Στο τέλος δεξιά
+Automatic (by region)	Αυτόματα (ανά περιοχή)
+Automatic (detect from media session)	Αυτόματα (από τη συνεδρία πολυμέσων)
+Automatic (storage and USB)	Αυτόματα (αποθηκευτικός χώρος και USB)
+Automatic brightness	Αυτόματη φωτεινότητα
+Automatic check (once a day)	Αυτόματος έλεγχος (μία φορά την ημέρα)
+Available version:	Διαθέσιμη έκδοση:
+Average consumption	Μέση κατανάλωση
+Average speed	Μέση ταχύτητα
+Avg. consumption	Μέση κατ.
+Avg. fuel price	Μέση τιμή καυσίμου
+BT audio as soon as the phone connects	Ήχος BT όταν συνδέεται το τηλέφωνο
+BT daemon probe	BT daemon probe
+BT music app	Εφαρμογή μουσικής BT
+BT package (from media session)	Πακέτο BT (από τη συνεδρία πολυμέσων)
+BT screen	Οθόνη BT
+BT_STATE	BT_STATE
+Back	Πίσω
+Bass	Μπάσα
+Bass - Mid - Treble	Μπάσα - Μεσαία - Πρίμα
+Bear left	Ελαφρά αριστερά
+Bear right	Ελαφρά δεξιά
+Bluetooth audio check	Έλεγχος ήχου Bluetooth
+Bluetooth devices	Συσκευές Bluetooth
+Boot screen	Οθόνη εκκίνησης
+Brand	Μάρκα
+Brightness	Φωτεινότητα
+Browse	Περιήγηση
+Buffering…	Προσωρινή αποθήκευση…
+Build for this unit:	Έκδοση για αυτή τη μονάδα:
+Build for unit:	Έκδοση για τη μονάδα:
+Build number	Αριθμός έκδοσης
+Building the device report…	Δημιουργία αναφοράς μονάδας…
+Built-in Corsa C pictures (car and cabin)	Ενσωματωμένες εικόνες Corsa C (αυτοκίνητο και καμπίνα)
+Built-in launcher radio	Ενσωματωμένο ραδιόφωνο της εφαρμογής εκκίνησης
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Υπάρχουν ενσωματωμένες εικόνες για το Opel Corsa C· για άλλα οχήματα εισαγάγετε δική σας φωτογραφία από τη μονάδα ή USB.
+CARTO API key (free: carto.com/basemaps/apikey)	Κλειδί CARTO API (δωρεάν: carto.com/basemaps/apikey)
+CARTO key for the online map	Κλειδί CARTO για τον online χάρτη
+Cabin (ambient lighting)	Καμπίνα (φωτισμός περιβάλλοντος)
+Calculating route…	Υπολογισμός διαδρομής…
+Cancel	Ακύρωση
+Cancelled	Ακυρώθηκε
+Car picture	Εικόνα αυτοκινήτου
+Car picture (Vehicle status)	Εικόνα αυτοκινήτου (κατάσταση οχήματος)
+Change home address	Αλλαγή διεύθυνσης σπιτιού
+Change work address	Αλλαγή διεύθυνσης εργασίας
+Check again	Νέος έλεγχος
+Check for updates automatically	Αυτόματος έλεγχος για ενημερώσεις
+Checking for updates…	Έλεγχος για ενημερώσεις…
+Checking that the software fits this unit…	Έλεγχος αν το λογισμικό ταιριάζει σε αυτή τη μονάδα…
+Checking…	Έλεγχος…
+Choose a Wi-Fi network	Επιλέξτε δίκτυο Wi-Fi
+Choose a folder	Επιλέξτε φάκελο
+Choose a phone app in Setup	Επιλέξτε εφαρμογή τηλεφώνου στις Ρυθμίσεις
+Choose a picture	Επιλέξτε εικόνα
+Choose a picture first	Επιλέξτε πρώτα μια εικόνα
+Choose a radio app (long-press it in Apps)	Επιλέξτε εφαρμογή ραδιοφώνου (κρατήστε την πατημένη στις Εφαρμογές)
+Choose a station in the station list	Επιλέξτε σταθμό από τη λίστα σταθμών
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Επιλέξτε τη μάρκα του οχήματος και τις εικόνες που δείχνει η εφαρμογή εκκίνησης: το αυτοκίνητο (Όχημα) και την καμπίνα (φωτισμός περιβάλλοντος).
+Clear presets	Διαγραφή μνημών
+Clear recent destinations	Διαγραφή πρόσφατων προορισμών
+Cleared	Διαγράφηκε
+Colour profile	Προφίλ χρωμάτων
+Colour profile and more	Προφίλ χρωμάτων και άλλα
+Colour: 	Χρώμα: 
+Compatibility	Συμβατότητα
+Compatibility update available	Διαθέσιμη ενημέρωση συμβατότητας
+Confirm the network in the system window	Επιβεβαιώστε το δίκτυο στο παράθυρο του συστήματος
+Connect a new device	Σύνδεση νέας συσκευής
+Connect apps	Σύνδεση εφαρμογών
+Connect the phone	Συνδέστε το τηλέφωνο
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Συνδέστε τη μονάδα στο internet (δίκτυο Wi-Fi ή το hotspot του τηλεφώνου) για να ελεγχθεί η συμβατότητα και να λαμβάνετε ενημερώσεις.
+Connect the unit to the internet to install the version for this unit.	Συνδέστε τη μονάδα στο internet για να εγκαταστήσετε την έκδοση για αυτή τη μονάδα.
+Connect your phone for music and calls.	Συνδέστε το τηλέφωνό σας για μουσική και κλήσεις.
+Connected	Συνδέθηκε
+Connected: 	Συνδέθηκε: 
+Connecting to 	Σύνδεση με 
+Connecting: 	Σύνδεση: 
+Connecting…	Σύνδεση…
+Connects to	Συνδέεται με
+Continue	Συνέχεια
+Continue installs the new version.	Η Συνέχεια εγκαθιστά τη νέα έκδοση.
+Continue installs the version made for this unit.	Η Συνέχεια εγκαθιστά την έκδοση που φτιάχτηκε για αυτή τη μονάδα.
+Continue straight	Ευθεία
+Continue without internet	Συνέχεια χωρίς internet
+Contrast	Αντίθεση
+Copying failed	Η αντιγραφή απέτυχε
+Copying the factory apps…	Αντιγραφή εργοστασιακών εφαρμογών…
+Corsa C (built-in)	Corsa C (ενσωματωμένο)
+Cost per 100 km	Κόστος ανά 100 km
+Could not calculate route	Η διαδρομή δεν μπόρεσε να υπολογιστεί
+Could not connect	Η σύνδεση απέτυχε
+Could not connect — turn on Bluetooth on the phone	Η σύνδεση απέτυχε — ενεργοποιήστε το Bluetooth στο τηλέφωνο
+Countries and regions	Χώρες και περιοχές
+Country	Χώρα
+Cover art from the internet	Εξώφυλλα από το internet
+Current odometer (km)	Τρέχουσα ένδειξη χιλιομετρητή (km)
+Current source / title	Τρέχουσα πηγή / τίτλος
+Current speed	Τρέχουσα ταχύτητα
+Custom	Προσαρμοσμένο
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Δεδομένα: © συντελεστές OpenStreetMap (ODbL), αρχεία: mapsforge.org
+Date and time (Android)	Ημερομηνία και ώρα (Android)
+Day	Ημέρα
+Default launcher	Προεπιλεγμένη εφαρμογή εκκίνησης
+Delete	Διαγραφή
+Delete last fill-up	Διαγραφή τελευταίου ανεφοδιασμού
+Delete map?	Διαγραφή χάρτη;
+Destination	Προορισμός
+Device report	Αναφορά μονάδας
+Diagnostics	Διαγνωστικά
+Diagnostics (QF / Bluetooth)	Διαγνωστικά (QF / Bluetooth)
+Disconnect	Αποσύνδεση
+Disconnect the current phone	Αποσύνδεση τρέχοντος τηλεφώνου
+Disconnect the phone first	Αποσυνδέστε πρώτα το τηλέφωνο
+Display over other apps: off	Εμφάνιση πάνω από άλλες εφαρμογές: απενεργ.
+Distance	Απόσταση
+Do you hear the radio?	Ακούτε το ραδιόφωνο;
+Download a map	Λήψη χάρτη
+Download logos for found stations	Λήψη λογοτύπων για τους σταθμούς που βρέθηκαν
+Download started: 	Η λήψη ξεκίνησε: 
+Downloading map: 	Λήψη χάρτη: 
+Downloading station logos… 	Λήψη λογοτύπων σταθμών… 
+Downloading the update… 	Λήψη ενημέρωσης… 
+Downloading: 	Λήψη: 
+Driving direction up	Κατεύθυνση πορείας επάνω
+Driving time	Χρόνος οδήγησης
+Duration	Διάρκεια
+EN	EN
+Empty	Κενό
+Enable "MibDroid" so Spotify & other players show up here	Ενεργοποιήστε το «MibDroid» ώστε το Spotify και άλλα προγράμματα αναπαραγωγής να εμφανίζονται εδώ
+Enough reports were sent today; this one is saved here: 	Στάλθηκαν αρκετές αναφορές σήμερα· αυτή η αναφορά αποθηκεύτηκε εδώ: 
+Error: 	Σφάλμα: 
+Exit	Έξοδος
+Exit left	Έξοδος αριστερά
+Exit right	Έξοδος δεξιά
+Export the factory apps (APK)	Εξαγωγή εργοστασιακών εφαρμογών (APK)
+FM radio	Ραδιόφωνο FM
+FM radio is not available on this unit	Το ραδιόφωνο FM δεν είναι διαθέσιμο σε αυτή τη μονάδα
+FM tuner	Δέκτης FM
+Factory radio app	Εργοστασιακή εφαρμογή ραδιοφώνου
+Factory software version	Έκδοση εργοστασιακού λογισμικού
+Fill-up	Ανεφοδιασμός
+Fill-up saved	Ο ανεφοδιασμός αποθηκεύτηκε
+Finish	Ολοκλήρωση
+Folder not readable (file access permission?)	Ο φάκελος δεν είναι αναγνώσιμος (άδεια πρόσβασης σε αρχεία;)
+Folders	Φάκελοι
+Forget device	Διαγραφή συσκευής
+Found: 	Βρέθηκαν: 
+Fuel	Καύσιμο
+Fuel tank	Ρεζερβουάρ
+Fuel tank (l)	Ρεζερβουάρ (l)
+Full screen (hide Android bars)	Πλήρης οθόνη (απόκρυψη γραμμών Android)
+Full tank	Γεμάτο ρεζερβουάρ
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Υλικό
+Head unit	Κεντρική μονάδα
+Heading	Πορεία
+Hide the factory player	Απόκρυψη εργοστασιακού player
+Hide the factory player (music / video)	Απόκρυψη εργοστασιακού player (μουσική / βίντεο)
+Home	Σπίτι
+Hotspot	Hotspot
+Hotspot settings not found	Οι ρυθμίσεις hotspot δεν βρέθηκαν
+I hear nothing	Δεν ακούω τίποτα
+Import a picture from the unit or USB:	Εισαγωγή εικόνας από τη μονάδα ή USB:
+Imported picture	Εισαγόμενη εικόνα
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Σε λίγα λεπτά θα ρυθμίσουμε τη μονάδα: internet, όχημα, τηλέφωνο, και θα ελέγξουμε ότι το ραδιόφωνο και ο ήχος Bluetooth λειτουργούν.
+Installed SW MU version:	Εγκατεστημένη έκδοση SW MU:
+Installed SW Train version:	Εγκατεστημένη έκδοση SW Train:
+Installing 	Εγκατάσταση 
+Interior picture (Ambient lighting)	Εικόνα καμπίνας (φωτισμός περιβάλλοντος)
+Keep left	Κρατήστε αριστερά
+Keep right	Κρατήστε δεξιά
+Kilometres (km/h)	Χιλιόμετρα (km/h)
+Language and region	Γλώσσα και περιοχή
+Language/Jezik	Γλώσσα/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Τελευταίος έλεγχος:
+Last fill-up	Τελευταίος ανεφοδιασμός
+Later	Αργότερα
+Learned BT channel	Learned BT channel
+List not available (internet?)	Η λίστα δεν είναι διαθέσιμη (internet;)
+List not available (needs internet): 	Η λίστα δεν είναι διαθέσιμη (απαιτείται internet): 
+Litres	Λίτρα
+Loading the list of maps…	Φόρτωση λίστας χαρτών…
+Loading the list…	Φόρτωση λίστας…
+Loading…	Φόρτωση…
+Logos: 	Λογότυπα: 
+Long-term	Μακροπρόθεσμα
+Looking for pictures…	Αναζήτηση εικόνων…
+Low fuel: about 	Λίγο καύσιμο: περίπου 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Κύριες ρυθμίσεις (αυτή η μονάδα δεν υποστηρίζεται ακόμα, οπότε οι δικές της ρυθμίσεις είναι κρυφές).
+Make a U-turn	Κάντε αναστροφή
+Manual	Χειροκίνητα
+Map data	Δεδομένα χάρτη
+Map style	Στυλ χάρτη
+Map turns with the driving direction	Ο χάρτης περιστρέφεται με την κατεύθυνση πορείας
+Maps work without internet and are drawn on the unit.	Οι χάρτες λειτουργούν χωρίς internet και σχεδιάζονται στη μονάδα.
+Media	Πολυμέσα
+Media access	Πρόσβαση πολυμέσων
+Media and Bluetooth	Πολυμέσα και Bluetooth
+Media notification	Ειδοποίηση πολυμέσων
+Media session	Συνεδρία πολυμέσων
+Memory	Μνήμη
+Merge	Συγχωνευθείτε
+Mid	Μεσαία
+Miles (mph)	Μίλια (mph)
+Mode: 	Λειτουργία: 
+Model	Μοντέλο
+Music folders	Φάκελοι μουσικής
+Music library	Βιβλιοθήκη μουσικής
+Music videos (MP4 and other video files)	Μουσικά βίντεο (MP4 και άλλα αρχεία βίντεο)
+My dest.	Οι προορ. μου
+Nav app	Εφαρμ. πλοήγ.
+Navigate to this point?	Πλοήγηση σε αυτό το σημείο;
+Navigation	Πλοήγηση
+Navigation and offline maps	Πλοήγηση και χάρτες εκτός σύνδεσης
+Navigation app	Εφαρμογή πλοήγησης
+Nearby	Κοντά
+Network	Δίκτυο
+New dest.	Νέος προορ.
+New destination	Νέος προορισμός
+New device	Νέα συσκευή
+Next	Επόμενο
+Next oil change	Επόμενη αλλαγή λαδιών
+Next service scheduled	Επόμενο σέρβις προγραμματισμένο
+Night	Νύχτα
+No	Όχι
+No GPS position	Χωρίς θέση GPS
+No app to choose a picture	Δεν υπάρχει εφαρμογή επιλογής εικόνας
+No connection — try again	Χωρίς σύνδεση — δοκιμάστε ξανά
+No destinations yet	Δεν υπάρχουν ακόμα προορισμοί
+No devices found. Tap "Search" in the corner.	Δεν βρέθηκαν συσκευές. Πατήστε «Αναζήτηση» στη γωνία.
+No entries.	Κανένα στοιχείο.
+No media selected.\nTap Browse or Play.	Δεν επιλέχθηκαν πολυμέσα.\nΠατήστε Περιήγηση ή Αναπαραγωγή.
+No media.\nInsert a USB stick or SD card with music.	Δεν υπάρχουν πολυμέσα.\nΤοποθετήστε USB ή κάρτα SD με μουσική.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Δεν υπάρχουν πολυμέσα.\nΠατήστε εδώ και επιτρέψτε την «Πρόσβαση σε όλα τα αρχεία» ώστε να διαβάζονται τα USB.
+No music	Χωρίς μουσική
+No named stations — update the station list first	Δεν υπάρχουν σταθμοί με όνομα — ανανεώστε πρώτα τη λίστα σταθμών
+No networks found (location permission is needed).	Δεν βρέθηκαν δίκτυα (απαιτείται άδεια τοποθεσίας).
+No picture	Χωρίς εικόνα
+No picture selected	Δεν επιλέχθηκε εικόνα
+No pictures on the unit or on USB	Δεν υπάρχουν εικόνες στη μονάδα ή στο USB
+No remembered devices. Connect a new phone:	Δεν υπάρχουν αποθηκευμένες συσκευές. Συνδέστε νέο τηλέφωνο:
+No results	Κανένα αποτέλεσμα
+No song from the phone yet	Κανένα τραγούδι από το τηλέφωνο ακόμα
+No track information.	Χωρίς πληροφορίες τραγουδιού.
+No update information	Χωρίς πληροφορίες ενημέρωσης
+None downloaded	Τίποτα δεν λήφθηκε
+None found	Δεν βρέθηκε τίποτα
+North up	Βορράς επάνω
+Not a newer version	Καμία νεότερη έκδοση
+Not allowed – tap	Δεν επιτρέπεται – πατήστε
+Not connected	Μη συνδεδεμένο
+Not found	Δεν βρέθηκε
+Not selected	Δεν επιλέχθηκε
+Not set	Δεν ορίστηκε
+Not set – OpenStreetMap is used	Δεν ορίστηκε – χρησιμοποιείται OpenStreetMap
+Nothing found	Δεν βρέθηκε τίποτα
+Nothing within 5 km	Τίποτα εντός 5 km
+Notification access	Πρόσβαση σε ειδοποιήσεις
+Now 	Τώρα 
+Odometer	Χιλιομετρητής
+Off	Απενεργ.
+Off (no internet)	Απενεργ. (χωρίς internet)
+Offline maps	Χάρτες εκτός σύνδεσης
+Oil change at (km)	Αλλαγή λαδιών στα (km)
+Oil change due now!	Η αλλαγή λαδιών απαιτείται τώρα!
+Oil change in 	Αλλαγή λαδιών σε 
+On	Ενεργ.
+Online radio	Διαδικτυακό ραδιόφωνο
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Το διαδικτυακό ραδιόφωνο παίζει σταθμούς μέσω internet (Radio Browser) στην ίδια οθόνη ραδιοφώνου: στη λίστα σταθμών επιλέξτε χώρα και αναζητήστε, και προσθέστε σταθμούς στη γραμμή μνημών. Χρησιμοποιεί περίπου 60–120 MB ανά ώρα ακρόασης.
+Online stations	Διαδικτυακοί σταθμοί
+Open the BT app briefly (plays the sound)	Σύντομο άνοιγμα της εφαρμογής BT (ξεκινά τον ήχο)
+OpenStreetMap (dimmed)	OpenStreetMap (σκοτεινό)
+Other	Άλλα
+Other media apps	Άλλες εφαρμογές πολυμέσων
+Pairing…	Σύζευξη…
+Part number:	Κωδικός εξαρτήματος:
+Password	Κωδικός πρόσβασης
+Pause	Παύση
+Permissions	Άδειες
+Phone	Τηλέφωνο
+Phone (battery / signal)	Τηλέφωνο (μπαταρία / σήμα)
+Phone and radio	Τηλέφωνο και ραδιόφωνο
+Phone app	Εφαρμογή τηλεφώνου
+Phone disconnected	Το τηλέφωνο αποσυνδέθηκε
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Τα τηλέφωνα συνδέονται με καλώδιο USB ή ασύρματα (Android Auto, Apple CarPlay, κατοπτρισμός οθόνης). Την οθόνη του τηλεφώνου τη δείχνει η εφαρμογή ZLink της μονάδας.\n\nΚατάσταση: 
+Picture set	Η εικόνα ορίστηκε
+Play	Αναπαραγωγή
+Play / pause	Αναπαραγωγή / παύση
+Play a station from the station list first	Παίξτε πρώτα έναν σταθμό από τη λίστα σταθμών
+Play music on your phone. The launcher has switched to BT audio.	Παίξτε μουσική στο τηλέφωνο. Η εφαρμογή εκκίνησης άλλαξε σε ήχο BT.
+Point on map	Σημείο στον χάρτη
+Presets cleared	Οι μνήμες διαγράφηκαν
+Previous	Προηγούμενο
+Price per litre	Τιμή ανά λίτρο
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Προφίλ
+Radio	Ραδιόφωνο
+Radio app	Εφαρμογή ραδιοφώνου
+Radio check	Έλεγχος ραδιοφώνου
+Radio source	Πηγή ραδιοφώνου
+Range	Αυτονομία
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Ανάγνωση μουσικής από USB και αποθηκευτικό χώρο…
+Recalculating.	Επανυπολογισμός.
+Recent destinations	Πρόσφατοι προορισμοί
+Recommended settings for this unit:	Προτεινόμενες ρυθμίσεις για αυτή τη μονάδα:
+Registration expires	Η άδεια κυκλοφορίας λήγει
+Registration expires in 	Η άδεια κυκλοφορίας λήγει σε 
+Registration has expired!	Η άδεια κυκλοφορίας έληξε!
+Remaining: 	Απομένουν: 
+Remove from MENU	Αφαίρεση από το MENU
+Remove the picture	Αφαίρεση εικόνας
+Report not saved	Η αναφορά δεν αποθηκεύτηκε
+Rescan	Επανάληψη αναζήτησης
+Reset	Επαναφορά
+Resume playback on start	Συνέχιση αναπαραγωγής κατά την εκκίνηση
+Roundabout	Κυκλικός κόμβος
+Route calculated.	Η διαδρομή υπολογίστηκε.
+Run the setup assistant	Εκκίνηση οδηγού ρύθμισης
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Εκτελείται όταν ξεκινά η εφαρμογή εκκίνησης και όταν η μονάδα ξυπνά (ανάφλεξη). Το τηλέφωνο πρέπει ήδη να είναι συζευγμένο με τη μονάδα· η σύνδεση επαναλαμβάνεται για δύο λεπτά. Από το Android 10 μόνο μια εφαρμογή συστήματος (Magisk module) μπορεί να ενεργοποιήσει το Wi-Fi· έπειτα το Android συνδέεται μόνο του στα αποθηκευμένα δίκτυα. Για ασύρματο CarPlay το τηλέφωνο πρέπει να έχει συνδεθεί μία φορά μέσω της εφαρμογής τηλεφώνου.
+SW download	Λήψη SW
+Saturation	Κορεσμός
+Saved: 	Αποθηκεύτηκε: 
+Saving the picture…	Αποθήκευση εικόνας…
+Scanning…	Αναζήτηση…
+Screen	Οθόνη
+Screen mirroring	Κατοπτρισμός οθόνης
+Search	Αναζήτηση
+Search again	Νέα αναζήτηση
+Search apps	Αναζήτηση εφαρμογών
+Search for networks	Αναζήτηση δικτύων
+Search for stations	Αναζήτηση σταθμών
+Search stations	Αναζήτηση σταθμών
+Search: 	Αναζήτηση: 
+Searching for Wi-Fi networks…	Αναζήτηση δικτύων Wi-Fi…
+Searching for devices…	Αναζήτηση συσκευών…
+Searching for radio stations…	Αναζήτηση ραδιοφωνικών σταθμών…
+Searching for radio stations… 	Αναζήτηση ραδιοφωνικών σταθμών… 
+Searching…	Αναζήτηση…
+Select	Επιλογή
+Send the device report	Αποστολή αναφοράς μονάδας
+Send to the developer	Αποστολή στον προγραμματιστή
+Sending the device report…	Αποστολή αναφοράς μονάδας…
+Sent — refresh in 2 s	Στάλθηκε — ανανέωση σε 2 s
+Service	Σέρβις
+Service done today	Το σέρβις έγινε σήμερα
+Service in 	Σέρβις σε 
+Set	Ορισμός
+Settings	Ρυθμίσεις
+Setup	Ρυθμίσεις
+Setup assistant	Οδηγός ρύθμισης
+Setup → Vehicle	Ρυθμίσεις → Όχημα
+Sharp left	Απότομα αριστερά
+Sharp right	Απότομα δεξιά
+Show a picture at start	Εμφάνιση εικόνας κατά την εκκίνηση
+Since refuelling	Από τον ανεφοδιασμό
+Since start	Από την αναχώρηση
+Skip	Παράλειψη
+Skip setup	Παράλειψη
+Software	Λογισμικό
+Software base	Βάση λογισμικού
+Software update	Ενημέρωση λογισμικού
+Software update failed	Η ενημέρωση λογισμικού απέτυχε
+Software update finished	Η ενημέρωση λογισμικού ολοκληρώθηκε
+Software update in progress…	Ενημέρωση λογισμικού σε εξέλιξη…
+Software version	Έκδοση λογισμικού
+Software version:	Έκδοση λογισμικού:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Κάτι δεν λειτουργεί όπως πρέπει. Η αναφορά μονάδας (με τα αποτελέσματα των ελέγχων) βοηθά να διορθωθεί σε επόμενη ενημέρωση.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Τραγούδια
+Sound	Ήχος
+Source	Πηγή
+Sources	Πηγές
+Start	Έναρξη
+Start music on your phone.	Ξεκινήστε μουσική στο τηλέφωνο.
+Start the phone app (ZLink…)	Εκκίνηση εφαρμογής τηλεφώνου (ZLink…)
+Start update	Έναρξη ενημέρωσης
+Start-up connections	Συνδέσεις κατά την εκκίνηση
+Started	Ξεκίνησε
+Station list	Λίστα σταθμών
+Station logos from the internet	Λογότυπα σταθμών από το internet
+Station name	Όνομα σταθμού
+Stations	Σταθμοί
+Stations found: 	Σταθμοί που βρέθηκαν: 
+Stop	Διακοπή
+Stop scan	Διακοπή αναζήτησης
+Street and number, city or place	Οδός και αριθμός, πόλη ή τόπος
+Street, city	Οδός, πόλη
+Strong stations only (LOC)	Μόνο ισχυροί σταθμοί (LOC)
+System Wi-Fi settings	Ρυθμίσεις Wi-Fi συστήματος
+System date	Ημερομηνία συστήματος
+System dialer	Τηλέφωνο συστήματος
+System information	Πληροφορίες συστήματος
+System settings	Ρυθμίσεις συστήματος
+System version	Έκδοση συστήματος
+Take the ramp	Πάρτε τη ράμπα
+Tap a device to connect. Long press: forget the device.	Πατήστε μια συσκευή για σύνδεση. Παρατεταμένο πάτημα: διαγραφή συσκευής.
+Test builds	Δοκιμαστικές εκδόσεις
+Test builds (every build)	Δοκιμαστικές εκδόσεις (κάθε build)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Το χρώμα του φωτισμού περιβάλλοντος είναι και το χρώμα ολόκληρης της εφαρμογής εκκίνησης.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Το προφίλ χρωμάτων αλλάζει την εικόνα της εφαρμογής εκκίνησης (όλες τις οθόνες της, και τον χάρτη). Τα χρώματα άλλων εφαρμογών μπορούν να αλλάξουν μόνο όταν η εφαρμογή εκκίνησης είναι εφαρμογή συστήματος.
+The device report was saved; send it to the developer: 	Η αναφορά μονάδας αποθηκεύτηκε· στείλτε τη στον προγραμματιστή: 
+The device report was sent to the developer.	Η αναφορά μονάδας στάλθηκε στον προγραμματιστή.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Η αναφορά μονάδας θα σταλεί μόλις η μονάδα συνδεθεί. Είναι αποθηκευμένη και εδώ: 
+The download is not a valid APK	Η λήψη δεν είναι έγκυρο APK
+The internet is connected	Το internet είναι συνδεδεμένο
+The last connected phone	Το τελευταίο συνδεδεμένο τηλέφωνο
+The launcher restarts in the new version.	Η εφαρμογή εκκίνησης επανεκκινείται στη νέα έκδοση.
+The launcher will search for stations and play the first one it finds.	Η εφαρμογή εκκίνησης αναζητά σταθμούς και παίζει τον πρώτο που βρίσκει.
+The picture can't be opened	Η εικόνα δεν μπορεί να ανοίξει
+The picture cannot be opened	Η εικόνα δεν μπορεί να ανοίξει
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Η εικόνα εμφανίζεται όταν η εφαρμογή εκκίνησης ξεκινά μετά το άναμμα της μονάδας και μετά σβήνει σταδιακά (ένα άγγιγμα την αφαιρεί αμέσως). Η δική του κινούμενη εικόνα εκκίνησης Android της μονάδας δεν αλλάζει.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Το ραδιόφωνο και η μουσική Bluetooth μπορεί να μη λειτουργούν μέσω των δικών υπηρεσιών αυτής της μονάδας. Η αναφορά μονάδας αποστέλλεται και, όταν η υποστήριξη είναι έτοιμη, η εφαρμογή εκκίνησης θα προσφέρει την έκδοση για αυτή τη μονάδα.
+The software is up to date	Το λογισμικό είναι ενημερωμένο
+The station can't be played	Ο σταθμός δεν μπορεί να παίξει
+The station can't be played (connection?)	Ο σταθμός δεν μπορεί να παίξει (σύνδεση;)
+The unit is set up. Every setting can be changed later in Setup.	Η μονάδα ρυθμίστηκε. Κάθε ρύθμιση μπορεί να αλλάξει αργότερα στις Ρυθμίσεις.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Η έκδοση για αυτή τη μονάδα δεν μπορεί να ληφθεί τώρα. Δοκιμάστε ξανά σε λίγο.
+This unit is not supported yet	Αυτή η μονάδα δεν υποστηρίζεται ακόμα
+This unit is supported now. Install the launcher build made for it.	Αυτή η μονάδα υποστηρίζεται πλέον. Εγκαταστήστε την έκδοση της εφαρμογής εκκίνησης που φτιάχτηκε γι' αυτήν.
+This unit is supported: 	Αυτή η μονάδα υποστηρίζεται: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Ο δέκτης FM αυτής της μονάδας δεν μπορεί να χρησιμοποιηθεί από την εφαρμογή εκκίνησης· το διαδικτυακό ραδιόφωνο παίζει μέσω internet.
+Time and date	Ώρα και ημερομηνία
+Time for winter tyres	Ώρα για χειμερινά ελαστικά
+To show the song and cover, enable\nnotification access — tap here.	Ενεργοποιήστε την πρόσβαση σε ειδοποιήσεις για εμφάνιση τραγουδιού και εξωφύλλου\n— πατήστε εδώ.
+Treble	Πρίμα
+Try now	Δοκιμή τώρα
+Turn Bluetooth on	Ενεργοποίηση Bluetooth
+Turn Wi-Fi on	Ενεργοποίηση Wi-Fi
+Turn left	Στρίψτε αριστερά
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Ενεργοποιήστε την «Εμφάνιση πάνω από άλλες εφαρμογές» για το MibDroid, ώστε να μπορεί να επιστρέφει πάνω από την εργοστασιακή εφαρμογή.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Ενεργοποιήστε την «Εμφάνιση πάνω από άλλες εφαρμογές» για το MibDroid και επιλέξτε ξανά ήχο BT.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Ενεργοποιήστε το Bluetooth στο τηλέφωνο και κάντε το ορατό, μετά επιλέξτε το από τη λίστα:
+Turn radio off	Απενεργοποίηση ραδιοφώνου
+Turn right	Στρίψτε δεξιά
+Turn the hotspot on / off	Hotspot ενεργ. / απενεργ.
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	Το USB βρίσκεται συνήθως στο /storage/… ή /mnt/… (π.χ. usbhost, udisk).
+Uninstall	Απεγκατάσταση
+Units	Μονάδες μέτρησης
+Until then, Continue installs the default version (QF).	Μέχρι τότε, η Συνέχεια εγκαθιστά την προεπιλεγμένη έκδοση (QF).
+Update	Ενημέρωση
+Update available:	Διαθέσιμη ενημέρωση:
+Update failed: 	Η ενημέρωση απέτυχε: 
+Update not installed	Η ενημέρωση δεν εγκαταστάθηκε
+Update station list	Ανανέωση λίστας σταθμών
+Use as phone app	Χρήση ως εφαρμογή τηλεφώνου
+Use as radio app	Χρήση ως εφαρμογή ραδιοφώνου
+Use offline map	Χρήση χάρτη εκτός σύνδεσης
+Vehicle	Όχημα
+Vehicle and pictures	Όχημα και εικόνες
+Vehicle status	Κατάσταση οχήματος
+Versions	Εκδόσεις
+View	Προβολή
+Voice guidance	Φωνητική καθοδήγηση
+Waiting for GPS position	Αναμονή για θέση GPS
+Waiting for GPS…	Αναμονή για GPS…
+Warmth	Θερμότητα
+Welcome	Καλώς ήρθατε
+Welcome to App-Connect.\nPlease connect a device using the USB.	Καλώς ήρθατε στο App-Connect.\nΣυνδέστε μια συσκευή μέσω USB.
+When the unit starts	Κατά την εκκίνηση της μονάδας
+Wi-Fi is off.	Το Wi-Fi είναι απενεργοποιημένο.
+Wi-Fi not available	Το Wi-Fi δεν είναι διαθέσιμο
+Winter tyre reminder (1 Nov – 1 Apr)	Υπενθύμιση χειμερινών ελαστικών (1 Νοε – 1 Απρ)
+Winter tyres fitted	Τοποθετήθηκαν χειμερινά ελαστικά
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Με επιλεγμένους φακέλους, η εφαρμογή εκκίνησης διαβάζει μόνο αυτούς (και τους υποφακέλους τους) ως απλά αρχεία. Χωρίς αυτούς, βρίσκει μόνη της μουσική στον αποθηκευτικό χώρο και στο USB.
+Work	Εργασία
+Wrong package	Λάθος πακέτο
+Yes	Ναι
+Yes, I hear the music	Ναι, ακούω τη μουσική
+Yes, I hear the radio	Ναι, ακούω το ραδιόφωνο
+You can switch back to summer tyres	Μπορείτε να επιστρέψετε στα θερινά ελαστικά
+You have arrived	Φτάσατε
+You have arrived.	Φτάσατε.
+ZLink is not installed	Το ZLink δεν είναι εγκατεστημένο
+any saved network	οποιοδήποτε αποθηκευμένο δίκτυο
+available: 	διαθέσιμο: 
+chosen	επιλεγμένο
+connect / new device	σύνδεση / νέα συσκευή
+empty	κενό
+enter	συγχώνευση
+forget a network, advanced	διαγραφή δικτύου, για προχωρημένους
+free	ελεύθερο
+left today: 	ακόμα σήμερα: 
+needed	απαιτείται
+needs 2 full tanks	χρειάζονται 2 γεμίσματα
+no build for this unit	δεν υπάρχει έκδοση για αυτή τη μονάδα
+no data	χωρίς δεδομένα
+no more today	όχι άλλο σήμερα
+none	κανένα
+none found	δεν βρέθηκε τίποτα
+none yet	κανένα ακόμα
+none yet — play BT music	κανένα ακόμα — παίξτε μουσική BT
+nothing received	δεν ελήφθη τίποτα
+now only inside the launcher	τώρα μόνο στην εφαρμογή εκκίνησης
+off	απενεργ.
+on	ενεργ.
+open	άνοιγμα
+remove	αφαίρεση
+save and show	αποθήκευση και εμφάνιση
+secured	ασφαλές
+service list unavailable	η λίστα υπηρεσιών δεν είναι διαθέσιμη
+set	ορίστηκε
+state unknown	άγνωστη κατάσταση
+switched off in Setup	απενεργοποιημένο στις Ρυθμίσεις
+takes ~10 s	διαρκεί ~10 s
+tap and listen	πατήστε και ακούστε
+the last connected (none yet)	το τελευταίο συνδεδεμένο (κανένα ακόμα)
+to Download	στο Download
+to support new units	για υποστήριξη νέων μονάδων
+unavailable	μη διαθέσιμο
+unreadable	μη αναγνώσιμο
+up	επάνω
+your choice below	η επιλογή σας παρακάτω
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Χρήση αυτού του φακέλου
+✗ — tap to enable	✗ — πατήστε για ενεργοποίηση

@@ -1,0 +1,594 @@
+# English text <TAB> translation (de). Keys must match the English text in the code exactly.
+  (partial)	  (teilweise)
+  (test)	  (Test)
+  (this unit: 	  (dieses Gerät: 
+ (back to Android)	 (zurück zu Android)
+ (last connected)	 (zuletzt verbunden)
+ connected	 verbunden
+ days	 Tage
+ downloaded	 heruntergeladen
+ folders	 Ordner
+ is connected.\nTap to show the phone.	 ist verbunden.\nTippen, um das Telefon anzuzeigen.
+ kilometres	 Kilometer
+ metres	 Meter
+ music / video files in this folder	 Musik- / Videodateien in diesem Ordner
+ nearby	 in der Nähe
+ saved	 gespeichert
+ songs	 Titel
+ videos	 Videos
+ · tap to delete	 · tippen zum Löschen
++15,000 km / +1 yr	+15.000 km / +1 Jahr
+24-hour format	24-Stunden-Format
+A phone is connected. Disconnect it first to add a new device.	Ein Telefon ist verbunden. Zuerst trennen, um ein neues Gerät hinzuzufügen.
+Add	Hinzufügen
+Add a folder	Ordner hinzufügen
+Add fill-up	Tankfüllung hinzufügen
+Add to MENU	Zum MENU hinzufügen
+Albums	Alben
+All	Alle
+All Android settings	Alle Android-Einstellungen
+All countries	Alle Länder
+All files access (USB)	Zugriff auf alle Dateien (USB)
+All presets are taken — hold a preset to replace it	Alle Speicherplätze belegt — Speicherplatz gedrückt halten, um ihn zu ersetzen
+All set	Alles bereit
+Allow "All files access" for MibDroid so music on USB sticks can be read.	„Zugriff auf alle Dateien“ für MibDroid erlauben, damit Musik auf USB-Sticks gelesen werden kann.
+Allow access	Zugriff erlauben
+Allow access to music.	Zugriff auf Musik erlauben.
+Allow access to pictures	Zugriff auf Bilder erlauben
+Allow changing the system brightness	Ändern der Systemhelligkeit erlauben
+Allow installing apps for MibDroid, then try again	Installieren von Apps für MibDroid erlauben, dann erneut versuchen
+Allow installing updates	Installieren von Updates erlauben
+Allow location access	Standortzugriff erlauben
+Allow returning from the BT app	Rückkehr aus der BT-App erlauben
+Allowed	Erlaubt
+Altitude	Höhe
+Ambient lighting	Ambientebeleuchtung
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android erlaubt einer normalen App nicht, den Hotspot selbst zu schalten: Es öffnet sich die Hotspot-Seite des Systems (Name, Passwort, ein/aus). Sobald der Launcher eine System-App ist, geht das direkt hier.
+Android system	Android-System
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android fragt nach einer Bestätigung der Installation. Als System-App (Magisk-Modul) aktualisiert sich der Launcher selbst.
+Annual service	Jahresinspektion
+Annual service due now!	Jahresinspektion jetzt fällig!
+Another app (gallery, file manager)	Andere App (Galerie, Dateimanager)
+Any saved network	Beliebiges gespeichertes Netz
+App	App
+App (ZLink, CarPlay…)	App (ZLink, CarPlay…)
+App info	App-Info
+App name	App-Name
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect ist nicht verfügbar.\nAuf diesem Gerät wurde keine ZLink-App gefunden.
+Apps	Apps
+Artists	Interpreten
+At the end, left	Am Ende links
+At the end, right	Am Ende rechts
+Automatic (by region)	Automatisch (nach Region)
+Automatic (detect from media session)	Automatisch (aus der Mediensitzung)
+Automatic (storage and USB)	Automatisch (Speicher und USB)
+Automatic brightness	Automatische Helligkeit
+Automatic check (once a day)	Automatische Prüfung (einmal täglich)
+Available version:	Verfügbare Version:
+Average consumption	Durchschnittsverbrauch
+Average speed	Durchschnittsgeschwindigkeit
+Avg. consumption	Ø Verbrauch
+Avg. fuel price	Ø Kraftstoffpreis
+BT audio as soon as the phone connects	BT-Audio, sobald das Telefon verbunden ist
+BT daemon probe	BT daemon probe
+BT music app	BT-Musik-App
+BT package (from media session)	BT-Paket (aus der Mediensitzung)
+BT screen	BT-Bildschirm
+BT_STATE	BT_STATE
+Back	Zurück
+Bass	Bass
+Bass - Mid - Treble	Bass - Mitten - Höhen
+Bear left	Leicht links halten
+Bear right	Leicht rechts halten
+Bluetooth audio check	Bluetooth-Audio-Prüfung
+Bluetooth devices	Bluetooth-Geräte
+Boot screen	Startbild
+Brand	Marke
+Brightness	Helligkeit
+Browse	Durchsuchen
+Buffering…	Puffern…
+Build for this unit:	Version für dieses Gerät:
+Build for unit:	Version für Gerät:
+Build number	Build-Nummer
+Building the device report…	Gerätebericht wird erstellt…
+Built-in Corsa C pictures (car and cabin)	Eingebaute Corsa-C-Bilder (Auto und Innenraum)
+Built-in launcher radio	Eingebautes Launcher-Radio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Eingebaute Bilder gibt es für den Opel Corsa C; für andere Fahrzeuge ein eigenes Foto vom Gerät oder USB importieren.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO-API-Schlüssel (kostenlos: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO-Schlüssel für die Online-Karte
+Cabin (ambient lighting)	Innenraum (Ambientebeleuchtung)
+Calculating route…	Route wird berechnet…
+Cancel	Abbrechen
+Cancelled	Abgebrochen
+Car picture	Fahrzeugbild
+Car picture (Vehicle status)	Fahrzeugbild (Fahrzeugstatus)
+Change home address	Heimadresse ändern
+Change work address	Arbeitsadresse ändern
+Check again	Erneut prüfen
+Check for updates automatically	Automatisch nach Updates suchen
+Checking for updates…	Suche nach Updates…
+Checking that the software fits this unit…	Prüfen, ob die Software zu diesem Gerät passt…
+Checking…	Prüfen…
+Choose a Wi-Fi network	WLAN-Netz wählen
+Choose a folder	Ordner wählen
+Choose a phone app in Setup	Telefon-App im Setup wählen
+Choose a picture	Bild wählen
+Choose a picture first	Zuerst ein Bild wählen
+Choose a radio app (long-press it in Apps)	Radio-App wählen (in Apps lange drücken)
+Choose a station in the station list	Sender in der Senderliste wählen
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Marke des Fahrzeugs und die Bilder wählen, die der Launcher zeigt: das Auto (Fahrzeug) und den Innenraum (Ambientebeleuchtung).
+Clear presets	Speicherplätze löschen
+Clear recent destinations	Letzte Ziele löschen
+Cleared	Gelöscht
+Colour profile	Farbprofil
+Colour profile and more	Farbprofil und mehr
+Colour: 	Farbe: 
+Compatibility	Kompatibilität
+Compatibility update available	Kompatibilitäts-Update verfügbar
+Confirm the network in the system window	Netz im Systemfenster bestätigen
+Connect a new device	Neues Gerät verbinden
+Connect apps	Apps verbinden
+Connect the phone	Telefon verbinden
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Das Gerät mit dem Internet verbinden (WLAN-Netz oder Hotspot des Telefons), um die Kompatibilität zu prüfen und Updates zu erhalten.
+Connect the unit to the internet to install the version for this unit.	Das Gerät mit dem Internet verbinden, um die Version für dieses Gerät zu installieren.
+Connect your phone for music and calls.	Telefon für Musik und Anrufe verbinden.
+Connected	Verbunden
+Connected: 	Verbunden: 
+Connecting to 	Verbinden mit 
+Connecting: 	Verbinden: 
+Connecting…	Verbinden…
+Connects to	Verbindet mit
+Continue	Weiter
+Continue installs the new version.	Weiter installiert die neue Version.
+Continue installs the version made for this unit.	Weiter installiert die Version für dieses Gerät.
+Continue straight	Geradeaus weiter
+Continue without internet	Ohne Internet fortfahren
+Contrast	Kontrast
+Copying failed	Kopieren fehlgeschlagen
+Copying the factory apps…	Werks-Apps werden kopiert…
+Corsa C (built-in)	Corsa C (eingebaut)
+Cost per 100 km	Kosten pro 100 km
+Could not calculate route	Route konnte nicht berechnet werden
+Could not connect	Verbindung fehlgeschlagen
+Could not connect — turn on Bluetooth on the phone	Verbindung fehlgeschlagen — Bluetooth am Telefon einschalten
+Countries and regions	Länder und Regionen
+Country	Land
+Cover art from the internet	Cover aus dem Internet
+Current odometer (km)	Aktueller Kilometerstand (km)
+Current source / title	Aktuelle Quelle / Titel
+Current speed	Aktuelle Geschwindigkeit
+Custom	Eigenes
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Daten: © OpenStreetMap-Mitwirkende (ODbL), Dateien: mapsforge.org
+Date and time (Android)	Datum und Uhrzeit (Android)
+Day	Tag
+Default launcher	Standard-Launcher
+Delete	Löschen
+Delete last fill-up	Letzte Tankfüllung löschen
+Delete map?	Karte löschen?
+Destination	Ziel
+Device report	Gerätebericht
+Diagnostics	Diagnose
+Diagnostics (QF / Bluetooth)	Diagnose (QF / Bluetooth)
+Disconnect	Trennen
+Disconnect the current phone	Aktuelles Telefon trennen
+Disconnect the phone first	Zuerst das Telefon trennen
+Display over other apps: off	Über anderen Apps einblenden: aus
+Distance	Entfernung
+Do you hear the radio?	Hörst du das Radio?
+Download a map	Karte herunterladen
+Download logos for found stations	Logos für gefundene Sender herunterladen
+Download started: 	Download gestartet: 
+Downloading map: 	Karte wird heruntergeladen: 
+Downloading station logos… 	Senderlogos werden heruntergeladen… 
+Downloading the update… 	Update wird heruntergeladen… 
+Downloading: 	Herunterladen: 
+Driving direction up	Fahrtrichtung oben
+Driving time	Fahrzeit
+Duration	Dauer
+EN	EN
+Empty	Leer
+Enable "MibDroid" so Spotify & other players show up here	„MibDroid“ aktivieren, damit Spotify und andere Player hier erscheinen
+Enough reports were sent today; this one is saved here: 	Heute wurden genug Berichte gesendet; dieser ist hier gespeichert: 
+Error: 	Fehler: 
+Exit	Ausfahrt
+Exit left	Ausfahrt links
+Exit right	Ausfahrt rechts
+Export the factory apps (APK)	Werks-Apps exportieren (APK)
+FM radio	UKW-Radio
+FM radio is not available on this unit	UKW-Radio ist auf diesem Gerät nicht verfügbar
+FM tuner	UKW-Tuner
+Factory radio app	Werks-Radio-App
+Factory software version	Werks-Softwareversion
+Fill-up	Tankfüllung
+Fill-up saved	Tankfüllung gespeichert
+Finish	Fertig
+Folder not readable (file access permission?)	Ordner nicht lesbar (Dateizugriffsberechtigung?)
+Folders	Ordner
+Forget device	Gerät vergessen
+Found: 	Gefunden: 
+Fuel	Kraftstoff
+Fuel tank	Tank
+Fuel tank (l)	Tank (l)
+Full screen (hide Android bars)	Vollbild (Android-Leisten ausblenden)
+Full tank	Volltanken
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardware
+Head unit	Headunit
+Heading	Richtung
+Hide the factory player	Werks-Player ausblenden
+Hide the factory player (music / video)	Werks-Player ausblenden (Musik / Video)
+Home	Zuhause
+Hotspot	Hotspot
+Hotspot settings not found	Hotspot-Einstellungen nicht gefunden
+I hear nothing	Ich höre nichts
+Import a picture from the unit or USB:	Bild vom Gerät oder USB importieren:
+Imported picture	Importiertes Bild
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	In wenigen Minuten richten wir das Gerät ein: Internet, Fahrzeug, Telefon, und prüfen, ob Radio und Bluetooth-Ton funktionieren.
+Installed SW MU version:	Installierte SW-MU-Version:
+Installed SW Train version:	Installierte SW-Train-Version:
+Installing 	Installieren 
+Interior picture (Ambient lighting)	Innenraumbild (Ambientebeleuchtung)
+Keep left	Links halten
+Keep right	Rechts halten
+Kilometres (km/h)	Kilometer (km/h)
+Language and region	Sprache und Region
+Language/Jezik	Sprache/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Letzte Prüfung:
+Last fill-up	Letzte Tankfüllung
+Later	Später
+Learned BT channel	Learned BT channel
+List not available (internet?)	Liste nicht verfügbar (Internet?)
+List not available (needs internet): 	Liste nicht verfügbar (Internet nötig): 
+Litres	Liter
+Loading the list of maps…	Kartenliste wird geladen…
+Loading the list…	Liste wird geladen…
+Loading…	Laden…
+Logos: 	Logos: 
+Long-term	Langzeit
+Looking for pictures…	Bilder werden gesucht…
+Low fuel: about 	Wenig Kraftstoff: etwa 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Haupteinstellungen (dieses Gerät wird noch nicht unterstützt, daher sind seine eigenen Einstellungen ausgeblendet).
+Make a U-turn	Bitte wenden
+Manual	Manuell
+Map data	Kartendaten
+Map style	Kartenstil
+Map turns with the driving direction	Karte dreht sich mit der Fahrtrichtung
+Maps work without internet and are drawn on the unit.	Karten funktionieren ohne Internet und werden auf dem Gerät gezeichnet.
+Media	Medien
+Media access	Medienzugriff
+Media and Bluetooth	Medien und Bluetooth
+Media notification	Medienbenachrichtigung
+Media session	Mediensitzung
+Memory	Speicher
+Merge	Einfädeln
+Mid	Mitten
+Miles (mph)	Meilen (mph)
+Mode: 	Modus: 
+Model	Modell
+Music folders	Musikordner
+Music library	Musikbibliothek
+Music videos (MP4 and other video files)	Musikvideos (MP4 und andere Videodateien)
+My dest.	Meine Ziele
+Nav app	Navi-App
+Navigate to this point?	Zu diesem Punkt navigieren?
+Navigation	Navigation
+Navigation and offline maps	Navigation und Offline-Karten
+Navigation app	Navigations-App
+Nearby	In der Nähe
+Network	Netz
+New dest.	Neues Ziel
+New destination	Neues Ziel
+New device	Neues Gerät
+Next	Weiter
+Next oil change	Nächster Ölwechsel
+Next service scheduled	Nächster Service geplant
+Night	Nacht
+No	Nein
+No GPS position	Keine GPS-Position
+No app to choose a picture	Keine App zur Bildauswahl
+No connection — try again	Keine Verbindung — erneut versuchen
+No destinations yet	Noch keine Ziele
+No devices found. Tap "Search" in the corner.	Keine Geräte gefunden. In der Ecke auf „Suchen“ tippen.
+No entries.	Keine Einträge.
+No media selected.\nTap Browse or Play.	Keine Medien ausgewählt.\nAuf Durchsuchen oder Wiedergabe tippen.
+No media.\nInsert a USB stick or SD card with music.	Keine Medien.\nUSB-Stick oder SD-Karte mit Musik einstecken.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Keine Medien.\nHier tippen und „Zugriff auf alle Dateien“ erlauben, damit USB-Sticks gelesen werden können.
+No music	Keine Musik
+No named stations — update the station list first	Keine benannten Sender — zuerst die Senderliste aktualisieren
+No networks found (location permission is needed).	Keine Netze gefunden (Standortberechtigung nötig).
+No picture	Kein Bild
+No picture selected	Kein Bild ausgewählt
+No pictures on the unit or on USB	Keine Bilder auf dem Gerät oder auf USB
+No remembered devices. Connect a new phone:	Keine gespeicherten Geräte. Neues Telefon verbinden:
+No results	Keine Ergebnisse
+No song from the phone yet	Noch kein Titel vom Telefon
+No track information.	Keine Titelinformationen.
+No update information	Keine Update-Informationen
+None downloaded	Keine heruntergeladen
+None found	Nichts gefunden
+North up	Norden oben
+Not a newer version	Keine neuere Version
+Not allowed – tap	Nicht erlaubt – tippen
+Not connected	Nicht verbunden
+Not found	Nicht gefunden
+Not selected	Nicht ausgewählt
+Not set	Nicht festgelegt
+Not set – OpenStreetMap is used	Nicht festgelegt – OpenStreetMap wird verwendet
+Nothing found	Nichts gefunden
+Nothing within 5 km	Nichts im Umkreis von 5 km
+Notification access	Benachrichtigungszugriff
+Now 	Jetzt 
+Odometer	Kilometerstand
+Off	Aus
+Off (no internet)	Aus (kein Internet)
+Offline maps	Offline-Karten
+Oil change at (km)	Ölwechsel bei (km)
+Oil change due now!	Ölwechsel jetzt fällig!
+Oil change in 	Ölwechsel in 
+On	Ein
+Online radio	Internetradio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Internetradio spielt Sender über das Internet (Radio Browser) auf demselben Radiobildschirm: In der Senderliste wählst du das Land und suchst, und fügst Sender zur Speicherleiste hinzu. Verbraucht etwa 60–120 MB pro Stunde Hören.
+Online stations	Online-Sender
+Open the BT app briefly (plays the sound)	BT-App kurz öffnen (gibt den Ton wieder)
+OpenStreetMap (dimmed)	OpenStreetMap (abgedunkelt)
+Other	Andere
+Other media apps	Andere Medien-Apps
+Pairing…	Koppeln…
+Part number:	Teilenummer:
+Password	Passwort
+Pause	Pause
+Permissions	Berechtigungen
+Phone	Telefon
+Phone (battery / signal)	Telefon (Akku / Signal)
+Phone and radio	Telefon und Radio
+Phone app	Telefon-App
+Phone disconnected	Telefon getrennt
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefone verbinden sich per USB-Kabel oder drahtlos (Android Auto, Apple CarPlay, Bildschirmspiegelung). Der Telefonbildschirm wird von der ZLink-App des Geräts angezeigt.\n\nStatus: 
+Picture set	Bild gesetzt
+Play	Wiedergabe
+Play / pause	Wiedergabe / Pause
+Play a station from the station list first	Zuerst einen Sender aus der Senderliste abspielen
+Play music on your phone. The launcher has switched to BT audio.	Musik auf dem Telefon abspielen. Der Launcher hat auf BT-Audio umgeschaltet.
+Point on map	Punkt auf der Karte
+Presets cleared	Speicherplätze gelöscht
+Previous	Zurück
+Price per litre	Preis pro Liter
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Radio
+Radio app	Radio-App
+Radio check	Radio-Prüfung
+Radio source	Radioquelle
+Range	Reichweite
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Musik von USB und Speicher wird gelesen…
+Recalculating.	Neuberechnung.
+Recent destinations	Letzte Ziele
+Recommended settings for this unit:	Empfohlene Einstellungen für dieses Gerät:
+Registration expires	Zulassung läuft ab
+Registration expires in 	Zulassung läuft ab in 
+Registration has expired!	Zulassung ist abgelaufen!
+Remaining: 	Verbleibend: 
+Remove from MENU	Aus dem MENU entfernen
+Remove the picture	Bild entfernen
+Report not saved	Bericht nicht gespeichert
+Rescan	Neu scannen
+Reset	Zurücksetzen
+Resume playback on start	Wiedergabe beim Start fortsetzen
+Roundabout	Kreisverkehr
+Route calculated.	Route berechnet.
+Run the setup assistant	Einrichtungsassistent starten
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Läuft beim Start des Launchers und wenn das Gerät aufwacht (Zündung an). Das Telefon muss bereits mit dem Gerät gekoppelt sein; die Verbindung wird zwei Minuten lang erneut versucht. Ab Android 10 darf nur eine System-App (Magisk-Modul) WLAN einschalten; Android verbindet sich dann selbst mit gespeicherten Netzen. Für drahtloses CarPlay muss das Telefon einmal über die Telefon-App verbunden worden sein.
+SW download	SW-Download
+Saturation	Sättigung
+Saved: 	Gespeichert: 
+Saving the picture…	Bild wird gespeichert…
+Scanning…	Suchlauf…
+Screen	Bildschirm
+Screen mirroring	Bildschirmspiegelung
+Search	Suchen
+Search again	Erneut suchen
+Search apps	Apps suchen
+Search for networks	Nach Netzen suchen
+Search for stations	Sender suchen
+Search stations	Sender suchen
+Search: 	Suche: 
+Searching for Wi-Fi networks…	WLAN-Netze werden gesucht…
+Searching for devices…	Geräte werden gesucht…
+Searching for radio stations…	Radiosender werden gesucht…
+Searching for radio stations… 	Radiosender werden gesucht… 
+Searching…	Suchen…
+Select	Auswählen
+Send the device report	Gerätebericht senden
+Send to the developer	An den Entwickler senden
+Sending the device report…	Gerätebericht wird gesendet…
+Sent — refresh in 2 s	Gesendet — Aktualisierung in 2 s
+Service	Service
+Service done today	Service heute erledigt
+Service in 	Service in 
+Set	Festlegen
+Settings	Einstellungen
+Setup	Setup
+Setup assistant	Einrichtungsassistent
+Setup → Vehicle	Setup → Fahrzeug
+Sharp left	Scharf links
+Sharp right	Scharf rechts
+Show a picture at start	Beim Start ein Bild anzeigen
+Since refuelling	Seit dem Tanken
+Since start	Seit dem Start
+Skip	Überspringen
+Skip setup	Überspringen
+Software	Software
+Software base	Softwarebasis
+Software update	Software-Update
+Software update failed	Software-Update fehlgeschlagen
+Software update finished	Software-Update abgeschlossen
+Software update in progress…	Software-Update läuft…
+Software version	Softwareversion
+Software version:	Softwareversion:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Etwas funktioniert nicht wie es soll. Der Gerätebericht (mit den Prüfergebnissen) hilft, es in einem kommenden Update zu beheben.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Titel
+Sound	Klang
+Source	Quelle
+Sources	Quellen
+Start	Start
+Start music on your phone.	Musik auf dem Telefon starten.
+Start the phone app (ZLink…)	Telefon-App starten (ZLink…)
+Start update	Update starten
+Start-up connections	Verbindungen beim Start
+Started	Gestartet
+Station list	Senderliste
+Station logos from the internet	Senderlogos aus dem Internet
+Station name	Sendername
+Stations	Sender
+Stations found: 	Gefundene Sender: 
+Stop	Stopp
+Stop scan	Suchlauf stoppen
+Street and number, city or place	Straße und Hausnummer, Stadt oder Ort
+Street, city	Straße, Stadt
+Strong stations only (LOC)	Nur starke Sender (LOC)
+System Wi-Fi settings	WLAN-Einstellungen des Systems
+System date	Systemdatum
+System dialer	System-Telefon
+System information	Systeminformationen
+System settings	Systemeinstellungen
+System version	Systemversion
+Take the ramp	Auffahrt nehmen
+Tap a device to connect. Long press: forget the device.	Gerät antippen zum Verbinden. Lange drücken: Gerät vergessen.
+Test builds	Testversionen
+Test builds (every build)	Testversionen (jeder Build)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Die Farbe der Ambientebeleuchtung ist auch die Farbe des ganzen Launchers.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Das Farbprofil ändert das Bild des Launchers (alle seine Bildschirme, auch die Karte). Die Farben anderer Apps lassen sich erst ändern, wenn der Launcher eine System-App ist.
+The device report was saved; send it to the developer: 	Der Gerätebericht wurde gespeichert; sende ihn an den Entwickler: 
+The device report was sent to the developer.	Der Gerätebericht wurde an den Entwickler gesendet.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Der Gerätebericht wird gesendet, sobald das Gerät online ist. Er ist auch hier gespeichert: 
+The download is not a valid APK	Der Download ist keine gültige APK
+The internet is connected	Das Internet ist verbunden
+The last connected phone	Das zuletzt verbundene Telefon
+The launcher restarts in the new version.	Der Launcher startet in der neuen Version neu.
+The launcher will search for stations and play the first one it finds.	Der Launcher sucht nach Sendern und spielt den ersten gefundenen ab.
+The picture can't be opened	Das Bild kann nicht geöffnet werden
+The picture cannot be opened	Das Bild kann nicht geöffnet werden
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Das Bild erscheint, wenn der Launcher nach dem Einschalten des Geräts startet, und blendet dann aus (eine Berührung entfernt es sofort). Die eigene Android-Startanimation des Geräts wird nicht geändert.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radio und Bluetooth-Musik funktionieren möglicherweise nicht über die eigenen Dienste dieses Geräts. Der Gerätebericht wird gesendet, und sobald Unterstützung kommt, bietet der Launcher die Version für dieses Gerät an.
+The software is up to date	Die Software ist aktuell
+The station can't be played	Der Sender kann nicht abgespielt werden
+The station can't be played (connection?)	Der Sender kann nicht abgespielt werden (Verbindung?)
+The unit is set up. Every setting can be changed later in Setup.	Das Gerät ist eingerichtet. Alle Einstellungen lassen sich später im Setup ändern.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Die Version für dieses Gerät kann gerade nicht heruntergeladen werden. Gleich erneut versuchen.
+This unit is not supported yet	Dieses Gerät wird noch nicht unterstützt
+This unit is supported now. Install the launcher build made for it.	Dieses Gerät wird jetzt unterstützt. Installiere die dafür erstellte Launcher-Version.
+This unit is supported: 	Dieses Gerät wird unterstützt: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Der UKW-Tuner dieses Geräts kann vom Launcher nicht genutzt werden; Internetradio spielt über das Internet.
+Time and date	Uhrzeit und Datum
+Time for winter tyres	Zeit für Winterreifen
+To show the song and cover, enable\nnotification access — tap here.	Um Titel und Cover anzuzeigen,\nBenachrichtigungszugriff aktivieren — hier tippen.
+Treble	Höhen
+Try now	Jetzt versuchen
+Turn Bluetooth on	Bluetooth einschalten
+Turn Wi-Fi on	WLAN einschalten
+Turn left	Links abbiegen
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	„Über anderen Apps einblenden“ für MibDroid einschalten, damit er über die Werks-App zurückkehren kann.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	„Über anderen Apps einblenden“ für MibDroid einschalten, dann BT-Audio erneut wählen.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Bluetooth am Telefon einschalten und sichtbar machen, dann aus der Liste wählen:
+Turn radio off	Radio ausschalten
+Turn right	Rechts abbiegen
+Turn the hotspot on / off	Hotspot ein / aus
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB liegt meist unter /storage/… oder /mnt/… (z. B. usbhost, udisk).
+Uninstall	Deinstallieren
+Units	Einheiten
+Until then, Continue installs the default version (QF).	Bis dahin installiert Weiter die Standardversion (QF).
+Update	Update
+Update available:	Update verfügbar:
+Update failed: 	Update fehlgeschlagen: 
+Update not installed	Update nicht installiert
+Update station list	Senderliste aktualisieren
+Use as phone app	Als Telefon-App verwenden
+Use as radio app	Als Radio-App verwenden
+Use offline map	Offline-Karte verwenden
+Vehicle	Fahrzeug
+Vehicle and pictures	Fahrzeug und Bilder
+Vehicle status	Fahrzeugstatus
+Versions	Versionen
+View	Ansicht
+Voice guidance	Sprachführung
+Waiting for GPS position	Warte auf GPS-Position
+Waiting for GPS…	Warte auf GPS…
+Warmth	Wärme
+Welcome	Willkommen
+Welcome to App-Connect.\nPlease connect a device using the USB.	Willkommen bei App-Connect.\nBitte ein Gerät per USB verbinden.
+When the unit starts	Beim Start des Geräts
+Wi-Fi is off.	WLAN ist aus.
+Wi-Fi not available	WLAN nicht verfügbar
+Winter tyre reminder (1 Nov – 1 Apr)	Winterreifen-Erinnerung (1. Nov – 1. Apr)
+Winter tyres fitted	Winterreifen montiert
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Mit gewählten Ordnern liest der Launcher nur diese (und ihre Unterordner) als einfache Dateien. Ohne findet er Musik im Speicher und auf USB selbst.
+Work	Arbeit
+Wrong package	Falsches Paket
+Yes	Ja
+Yes, I hear the music	Ja, ich höre die Musik
+Yes, I hear the radio	Ja, ich höre das Radio
+You can switch back to summer tyres	Du kannst wieder auf Sommerreifen wechseln
+You have arrived	Sie haben Ihr Ziel erreicht
+You have arrived.	Sie haben Ihr Ziel erreicht.
+ZLink is not installed	ZLink ist nicht installiert
+any saved network	beliebiges gespeichertes Netz
+available: 	verfügbar: 
+chosen	gewählt
+connect / new device	verbinden / neues Gerät
+empty	leer
+enter	Einfahrt
+forget a network, advanced	Netz vergessen, erweitert
+free	frei
+left today: 	heute noch: 
+needed	nötig
+needs 2 full tanks	braucht 2 volle Tankfüllungen
+no build for this unit	keine Version für dieses Gerät
+no data	keine Daten
+no more today	heute keine mehr
+none	keine
+none found	nichts gefunden
+none yet	noch keine
+none yet — play BT music	noch keine — BT-Musik abspielen
+nothing received	nichts empfangen
+now only inside the launcher	jetzt nur im Launcher
+off	aus
+on	ein
+open	öffnen
+remove	entfernen
+save and show	speichern und anzeigen
+secured	gesichert
+service list unavailable	Serviceliste nicht verfügbar
+set	festgelegt
+state unknown	Status unbekannt
+switched off in Setup	im Setup ausgeschaltet
+takes ~10 s	dauert ~10 s
+tap and listen	tippen und zuhören
+the last connected (none yet)	das zuletzt verbundene (noch keins)
+to Download	nach Download
+to support new units	um neue Geräte zu unterstützen
+unavailable	nicht verfügbar
+unreadable	nicht lesbar
+up	oben
+your choice below	deine Wahl unten
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Diesen Ordner verwenden
+✗ — tap to enable	✗ — tippen zum Aktivieren

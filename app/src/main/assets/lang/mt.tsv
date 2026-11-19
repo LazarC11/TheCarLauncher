@@ -1,0 +1,594 @@
+# English text <TAB> translation (mt). Keys must match the English text in the code exactly.
+  (partial)	  (parzjali)
+  (test)	  (test)
+  (this unit: 	  (din l-unità: 
+ (back to Android)	 (lura għal Android)
+ (last connected)	 (l-aħħar imqabbad)
+ connected	 imqabbad
+ days	 jiem
+ downloaded	 imniżżel
+ folders	 folders
+ is connected.\nTap to show the phone.	 huwa mqabbad.\nMiss biex turi t-telefon.
+ kilometres	 kilometri
+ metres	 metri
+ music / video files in this folder	 fajls tal-mużika / vidjo f'dan il-folder
+ nearby	 fil-qrib
+ saved	 issejvjat
+ songs	 kanzunetti
+ videos	 vidjows
+ · tap to delete	 · miss biex tħassar
++15,000 km / +1 yr	+15,000 km / +1 sena
+24-hour format	Format ta' 24 siegħa
+A phone is connected. Disconnect it first to add a new device.	Telefon huwa mqabbad. Aqtgħu l-ewwel biex iżżid apparat ġdid.
+Add	Żid
+Add a folder	Żid folder
+Add fill-up	Żid mili tal-fjuwil
+Add to MENU	Żid mal-MENU
+Albums	Albums
+All	Kollox
+All Android settings	L-issettjar kollu ta' Android
+All countries	Il-pajjiżi kollha
+All files access (USB)	Aċċess għall-fajls kollha (USB)
+All presets are taken — hold a preset to replace it	Il-memorji kollha huma okkupati — żomm memorja biex tissostitwixxiha
+All set	Kollox lest
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Ippermetti „Aċċess għall-fajls kollha” għal MibDroid biex ikun jista' jaqra l-mużika minn USB sticks.
+Allow access	Ippermetti l-aċċess
+Allow access to music.	Ippermetti l-aċċess għall-mużika.
+Allow access to pictures	Ippermetti l-aċċess għall-istampi
+Allow changing the system brightness	Ippermetti l-bidla tal-luminożità tas-sistema
+Allow installing apps for MibDroid, then try again	Ippermetti lil MibDroid jinstalla apps u erġa' pprova
+Allow installing updates	Ippermetti l-installazzjoni tal-aġġornamenti
+Allow location access	Ippermetti l-aċċess għall-post
+Allow returning from the BT app	Ippermetti r-ritorn mill-app BT
+Allowed	Permess
+Altitude	Altitudni
+Ambient lighting	Dawl ambjentali
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android ma jħallix app normali tixgħel il-hotspot waħedha: tinfetaħ il-paġna tal-hotspot tas-sistema (isem, password, mixgħul/mitfi). Meta l-launcher ikun app tas-sistema, dan jaħdem direttament hawn.
+Android system	Sistema Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android jitlob konferma tal-installazzjoni. Bħala app tas-sistema (modulu Magisk) il-launcher jaġġorna lilu nnifsu.
+Annual service	Servizz annwali
+Annual service due now!	Is-servizz annwali meħtieġ issa!
+Another app (gallery, file manager)	App oħra (gallerija, maniġer tal-fajls)
+Any saved network	Kwalunkwe netwerk issejvjat
+App	App
+App (ZLink, CarPlay…)	App (ZLink, CarPlay…)
+App info	Informazzjoni dwar l-app
+App name	Isem l-app
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect mhux disponibbli.\nMa nstabet l-ebda app ZLink fuq l-unità.
+Apps	Apps
+Artists	Artisti
+At the end, left	Fl-aħħar lejn ix-xellug
+At the end, right	Fl-aħħar lejn il-lemin
+Automatic (by region)	Awtomatiku (skont ir-reġjun)
+Automatic (detect from media session)	Awtomatiku (mis-sessjoni tal-midja)
+Automatic (storage and USB)	Awtomatiku (ħażna u USB)
+Automatic brightness	Luminożità awtomatika
+Automatic check (once a day)	Kontroll awtomatiku (darba kuljum)
+Available version:	Verżjoni disponibbli:
+Average consumption	Konsum medju
+Average speed	Veloċità medja
+Avg. consumption	Konsum medju
+Avg. fuel price	Prezz medju tal-fjuwil
+BT audio as soon as the phone connects	Awdjo BT meta t-telefon jitqabbad
+BT daemon probe	BT daemon probe
+BT music app	App tal-mużika BT
+BT package (from media session)	Pakkett BT (mis-sessjoni tal-midja)
+BT screen	Skrin BT
+BT_STATE	BT_STATE
+Back	Lura
+Bass	Bass
+Bass - Mid - Treble	Bass - Nofs - Għoli
+Bear left	Ftit lejn ix-xellug
+Bear right	Ftit lejn il-lemin
+Bluetooth audio check	Kontroll tal-awdjo Bluetooth
+Bluetooth devices	Apparati Bluetooth
+Boot screen	Skrin tal-bidu
+Brand	Marka
+Brightness	Luminożità
+Browse	Ibbrawżja
+Buffering…	Qed jillowdja…
+Build for this unit:	Verżjoni għal din l-unità:
+Build for unit:	Verżjoni għall-unità:
+Build number	Numru tal-bini
+Building the device report…	Qed jinħoloq ir-rapport tal-unità…
+Built-in Corsa C pictures (car and cabin)	Stampi Corsa C integrati (karozza u kabina)
+Built-in launcher radio	Radju integrat tal-launcher
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Hemm stampi integrati għall-Opel Corsa C; għal vetturi oħra importa ritratt tiegħek mill-unità jew USB.
+CARTO API key (free: carto.com/basemaps/apikey)	Ċavetta CARTO API (b'xejn: carto.com/basemaps/apikey)
+CARTO key for the online map	Ċavetta CARTO għall-mappa onlajn
+Cabin (ambient lighting)	Kabina (dawl ambjentali)
+Calculating route…	Qed tiġi kkalkulata r-rotta…
+Cancel	Ikkanċella
+Cancelled	Ikkanċellat
+Car picture	Stampa tal-karozza
+Car picture (Vehicle status)	Stampa tal-karozza (stat tal-vettura)
+Change home address	Ibdel l-indirizz tad-dar
+Change work address	Ibdel l-indirizz tax-xogħol
+Check again	Iċċekkja mill-ġdid
+Check for updates automatically	Fittex aġġornamenti awtomatikament
+Checking for updates…	Qed jiġu mfittxija aġġornamenti…
+Checking that the software fits this unit…	Qed jiġi ċċekkjat jekk is-softwer jaqbel ma' din l-unità…
+Checking…	Qed jiċċekkja…
+Choose a Wi-Fi network	Agħżel netwerk Wi-Fi
+Choose a folder	Agħżel folder
+Choose a phone app in Setup	Agħżel app tat-telefon fl-Issettjar
+Choose a picture	Agħżel stampa
+Choose a picture first	Agħżel stampa l-ewwel
+Choose a radio app (long-press it in Apps)	Agħżel app tar-radju (żommha magħfusa fl-Apps)
+Choose a station in the station list	Agħżel stazzjon mil-lista tal-istazzjonijiet
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Agħżel il-marka tal-vettura u l-istampi li juri l-launcher: il-karozza (Vettura) u l-kabina (dawl ambjentali).
+Clear presets	Ħassar il-memorji
+Clear recent destinations	Ħassar id-destinazzjonijiet riċenti
+Cleared	Imħassar
+Colour profile	Profil tal-kuluri
+Colour profile and more	Profil tal-kuluri u aktar
+Colour: 	Kulur: 
+Compatibility	Kompatibbiltà
+Compatibility update available	Aġġornament tal-kompatibbiltà disponibbli
+Confirm the network in the system window	Ikkonferma n-netwerk fit-tieqa tas-sistema
+Connect a new device	Qabbad apparat ġdid
+Connect apps	Qabbad apps
+Connect the phone	Qabbad it-telefon
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Qabbad l-unità mal-internet (netwerk Wi-Fi jew il-hotspot tat-telefon) biex tiġi ċċekkjata l-kompatibbiltà u jaslu l-aġġornamenti.
+Connect the unit to the internet to install the version for this unit.	Qabbad l-unità mal-internet biex tinstalla l-verżjoni għal din l-unità.
+Connect your phone for music and calls.	Qabbad it-telefon tiegħek għall-mużika u t-telefonati.
+Connected	Imqabbad
+Connected: 	Imqabbad: 
+Connecting to 	Qed jitqabbad ma' 
+Connecting: 	Qed jitqabbad: 
+Connecting…	Qed jitqabbad…
+Connects to	Qed jitqabbad ma'
+Continue	Kompli
+Continue installs the new version.	Kompli jinstalla l-verżjoni l-ġdida.
+Continue installs the version made for this unit.	Kompli jinstalla l-verżjoni magħmula għal din l-unità.
+Continue straight	Dritt
+Continue without internet	Kompli mingħajr internet
+Contrast	Kuntrast
+Copying failed	L-ikkupjar falla
+Copying the factory apps…	Qed jiġu kkupjati l-apps tal-fabbrika…
+Corsa C (built-in)	Corsa C (integrat)
+Cost per 100 km	Spiża għal kull 100 km
+Could not calculate route	Ir-rotta ma setgħetx tiġi kkalkulata
+Could not connect	Ma setax jitqabbad
+Could not connect — turn on Bluetooth on the phone	Ma setax jitqabbad — ixgħel il-Bluetooth fuq it-telefon
+Countries and regions	Pajjiżi u reġjuni
+Country	Pajjiż
+Cover art from the internet	Qoxriet mill-internet
+Current odometer (km)	Kilometraġġ attwali (km)
+Current source / title	Sors / titlu attwali
+Current speed	Veloċità attwali
+Custom	Personalizzat
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Data: © kontributuri ta' OpenStreetMap (ODbL), fajls: mapsforge.org
+Date and time (Android)	Data u ħin (Android)
+Day	Jum
+Default launcher	Launcher default
+Delete	Ħassar
+Delete last fill-up	Ħassar l-aħħar mili tal-fjuwil
+Delete map?	Tħassar il-mappa?
+Destination	Destinazzjoni
+Device report	Rapport tal-unità
+Diagnostics	Dijanjostika
+Diagnostics (QF / Bluetooth)	Dijanjostika (QF / Bluetooth)
+Disconnect	Aqta'
+Disconnect the current phone	Aqta' t-telefon attwali
+Disconnect the phone first	Aqta' t-telefon l-ewwel
+Display over other apps: off	Uri fuq apps oħra: mitfi
+Distance	Distanza
+Do you hear the radio?	Qed tisma' r-radju?
+Download a map	Niżżel il-mappa
+Download logos for found stations	Niżżel il-logos tal-istazzjonijiet misjuba
+Download started: 	It-tniżżil beda: 
+Downloading map: 	Tniżżil tal-mappa: 
+Downloading station logos… 	Qed jitniżżlu l-logos tal-istazzjonijiet… 
+Downloading the update… 	Qed jitniżżel l-aġġornament… 
+Downloading: 	Qed jitniżżel: 
+Driving direction up	Direzzjoni tas-sewqan 'il fuq
+Driving time	Ħin tas-sewqan
+Duration	Tul ta' żmien
+EN	EN
+Empty	Vojt
+Enable "MibDroid" so Spotify & other players show up here	Attiva „MibDroid” biex Spotify u plejers oħra jidhru hawn
+Enough reports were sent today; this one is saved here: 	Intbagħtu biżżejjed rapporti llum; dan ir-rapport huwa ssejvjat hawn: 
+Error: 	Żball: 
+Exit	Ħruġ
+Exit left	Ħruġ lejn ix-xellug
+Exit right	Ħruġ lejn il-lemin
+Export the factory apps (APK)	Esporta l-apps tal-fabbrika (APK)
+FM radio	Radju FM
+FM radio is not available on this unit	Ir-radju FM mhux disponibbli fuq din l-unità
+FM tuner	Tuner FM
+Factory radio app	App tar-radju tal-fabbrika
+Factory software version	Verżjoni tas-softwer tal-fabbrika
+Fill-up	Mili tal-fjuwil
+Fill-up saved	Mili tal-fjuwil issejvjat
+Finish	Lest
+Folder not readable (file access permission?)	Il-folder ma jinqarax (permess għall-aċċess tal-fajls?)
+Folders	Folders
+Forget device	Insa l-apparat
+Found: 	Instabu: 
+Fuel	Fjuwil
+Fuel tank	Tank tal-fjuwil
+Fuel tank (l)	Tank tal-fjuwil (l)
+Full screen (hide Android bars)	Skrin sħiħ (aħbi l-vireg ta' Android)
+Full tank	Tank mimli
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardwer
+Head unit	Unità ewlenija
+Heading	Direzzjoni
+Hide the factory player	Aħbi l-plejer tal-fabbrika
+Hide the factory player (music / video)	Aħbi l-plejer tal-fabbrika (mużika / vidjo)
+Home	Dar
+Hotspot	Hotspot
+Hotspot settings not found	L-issettjar tal-hotspot ma nstabx
+I hear nothing	Ma nisma' xejn
+Import a picture from the unit or USB:	Importa stampa mill-unità jew USB:
+Imported picture	Stampa importata
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	F'ftit minuti nissettjaw l-unità: internet, vettura, telefon, u niċċekkjaw li r-radju u l-ħoss Bluetooth jaħdmu.
+Installed SW MU version:	Verżjoni SW MU installata:
+Installed SW Train version:	Verżjoni SW Train installata:
+Installing 	Qed jiġi installat 
+Interior picture (Ambient lighting)	Stampa tal-kabina (dawl ambjentali)
+Keep left	Żomm fuq ix-xellug
+Keep right	Żomm fuq il-lemin
+Kilometres (km/h)	Kilometri (km/h)
+Language and region	Lingwa u reġjun
+Language/Jezik	Lingwa/Language
+Last QF broadcast	Last QF broadcast
+Last check:	L-aħħar kontroll:
+Last fill-up	L-aħħar mili tal-fjuwil
+Later	Aktar tard
+Learned BT channel	Learned BT channel
+List not available (internet?)	Il-lista mhix disponibbli (internet?)
+List not available (needs internet): 	Il-lista mhix disponibbli (jeħtieġ internet): 
+Litres	Litri
+Loading the list of maps…	Qed tillowdja l-lista tal-mapep…
+Loading the list…	Qed tillowdja l-lista…
+Loading…	Qed jillowdja…
+Logos: 	Logos: 
+Long-term	Fit-tul
+Looking for pictures…	Qed jiġu mfittxija stampi…
+Low fuel: about 	Ftit fjuwil: madwar 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Issettjar ewlieni (din l-unità għadha mhix appoġġjata, għalhekk l-issettjar tagħha huwa moħbi).
+Make a U-turn	Dur lura
+Manual	Manwali
+Map data	Data tal-mappa
+Map style	Stil tal-mappa
+Map turns with the driving direction	Il-mappa ddur mad-direzzjoni tas-sewqan
+Maps work without internet and are drawn on the unit.	Il-mapep jaħdmu mingħajr internet u jitpinġew fuq l-unità.
+Media	Midja
+Media access	Aċċess għall-midja
+Media and Bluetooth	Midja u Bluetooth
+Media notification	Notifika tal-midja
+Media session	Sessjoni tal-midja
+Memory	Memorja
+Merge	Daħħal fit-traffiku
+Mid	Nofs
+Miles (mph)	Mili (mph)
+Mode: 	Modalità: 
+Model	Mudell
+Music folders	Folders tal-mużika
+Music library	Librerija tal-mużika
+Music videos (MP4 and other video files)	Vidjows mużikali (MP4 u fajls oħra tal-vidjo)
+My dest.	Dest. tiegħi
+Nav app	App navi
+Navigate to this point?	Tinnaviga għal dan il-punt?
+Navigation	Navigazzjoni
+Navigation and offline maps	Navigazzjoni u mapep offline
+Navigation app	App tan-navigazzjoni
+Nearby	Fil-qrib
+Network	Netwerk
+New dest.	Dest. ġdida
+New destination	Destinazzjoni ġdida
+New device	Apparat ġdid
+Next	Li jmiss
+Next oil change	Il-bidla taż-żejt li jmiss
+Next service scheduled	Is-servizz li jmiss skedat
+Night	Lejl
+No	Le
+No GPS position	L-ebda pożizzjoni GPS
+No app to choose a picture	L-ebda app biex tagħżel stampa
+No connection — try again	L-ebda konnessjoni — erġa' pprova
+No destinations yet	Għad m'hemm l-ebda destinazzjoni
+No devices found. Tap "Search" in the corner.	Ma nstab l-ebda apparat. Miss „Fittex” fil-kantuniera.
+No entries.	L-ebda oġġett.
+No media selected.\nTap Browse or Play.	L-ebda midja magħżula.\nMiss Ibbrawżja jew Ħaddem.
+No media.\nInsert a USB stick or SD card with music.	L-ebda midja.\nDaħħal USB stick jew karta SD bil-mużika.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	L-ebda midja.\nMiss hawn u ippermetti „Aċċess għall-fajls kollha” biex l-USB sticks ikunu jistgħu jinqraw.
+No music	L-ebda mużika
+No named stations — update the station list first	L-ebda stazzjon b'isem — aġġorna l-lista tal-istazzjonijiet l-ewwel
+No networks found (location permission is needed).	Ma nstab l-ebda netwerk (meħtieġ permess tal-post).
+No picture	L-ebda stampa
+No picture selected	L-ebda stampa magħżula
+No pictures on the unit or on USB	L-ebda stampa fuq l-unità jew fuq USB
+No remembered devices. Connect a new phone:	L-ebda apparat imfakkar. Qabbad telefon ġdid:
+No results	L-ebda riżultat
+No song from the phone yet	Għad m'hemm l-ebda kanzunetta mit-telefon
+No track information.	L-ebda informazzjoni dwar il-kanzunetta.
+No update information	L-ebda informazzjoni dwar l-aġġornament
+None downloaded	Xejn ma tniżżel
+None found	Xejn ma nstab
+North up	It-tramuntana 'l fuq
+Not a newer version	L-ebda verżjoni aktar ġdida
+Not allowed – tap	Mhux permess – miss
+Not connected	Mhux imqabbad
+Not found	Ma nstabx
+Not selected	Mhux magħżul
+Not set	Mhux issettjat
+Not set – OpenStreetMap is used	Mhux issettjat – qed jintuża OpenStreetMap
+Nothing found	Xejn ma nstab
+Nothing within 5 km	Xejn f'5 km
+Notification access	Aċċess għan-notifiki
+Now 	Issa 
+Odometer	Odometru
+Off	Mitfi
+Off (no internet)	Mitfi (l-ebda internet)
+Offline maps	Mapep offline
+Oil change at (km)	Bidla taż-żejt f' (km)
+Oil change due now!	Il-bidla taż-żejt meħtieġa issa!
+Oil change in 	Bidla taż-żejt fi 
+On	Mixgħul
+Online radio	Radju onlajn
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Ir-radju onlajn idoqq stazzjonijiet permezz tal-internet (Radio Browser) fuq l-istess skrin tar-radju: fil-lista tal-istazzjonijiet agħżel il-pajjiż u fittex, u żid stazzjonijiet mal-virga tal-memorji. Juża madwar 60–120 MB kull siegħa ta' smigħ.
+Online stations	Stazzjonijiet onlajn
+Open the BT app briefly (plays the sound)	Iftaħ l-app BT għal ftit (tibda l-ħoss)
+OpenStreetMap (dimmed)	OpenStreetMap (mtaffi)
+Other	Oħrajn
+Other media apps	Apps oħra tal-midja
+Pairing…	Qed jitqabbad…
+Part number:	Numru tal-parti:
+Password	Password
+Pause	Pawża
+Permissions	Permessi
+Phone	Telefon
+Phone (battery / signal)	Telefon (batterija / sinjal)
+Phone and radio	Telefon u radju
+Phone app	App tat-telefon
+Phone disconnected	It-telefon inqata'
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	It-telefowns jitqabbdu b'kejbil USB jew mingħajr fili (Android Auto, Apple CarPlay, screen mirroring). L-iskrin tat-telefon jintwera mill-app ZLink tal-unità.\n\nStatus: 
+Picture set	Stampa ssettjata
+Play	Ħaddem
+Play / pause	Ħaddem / pawża
+Play a station from the station list first	Ħaddem stazzjon mil-lista tal-istazzjonijiet l-ewwel
+Play music on your phone. The launcher has switched to BT audio.	Ħaddem il-mużika fuq it-telefon tiegħek. Il-launcher qaleb għall-awdjo BT.
+Point on map	Punt fuq il-mappa
+Presets cleared	Memorji mħassra
+Previous	Ta' qabel
+Price per litre	Prezz għal kull litru
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Radju
+Radio app	App tar-radju
+Radio check	Kontroll tar-radju
+Radio source	Sors tar-radju
+Range	Firxa
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Qed tinqara l-mużika minn USB u ħażna…
+Recalculating.	Qed tiġi kkalkulata mill-ġdid.
+Recent destinations	Destinazzjonijiet riċenti
+Recommended settings for this unit:	Issettjar rakkomandat għal din l-unità:
+Registration expires	Ir-reġistrazzjoni tiskadi
+Registration expires in 	Ir-reġistrazzjoni tiskadi fi 
+Registration has expired!	Ir-reġistrazzjoni skadiet!
+Remaining: 	Fadal: 
+Remove from MENU	Neħħi mill-MENU
+Remove the picture	Neħħi l-istampa
+Report not saved	Ir-rapport ma ġiex issejvjat
+Rescan	Fittex mill-ġdid
+Reset	Irrestawra
+Resume playback on start	Kompli d-daqq fil-bidu
+Roundabout	Roundabout
+Route calculated.	Ir-rotta ġiet ikkalkulata.
+Run the setup assistant	Ħaddem l-assistent tas-setup
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Jaħdem meta jibda l-launcher u meta l-unità tqum (ignition). It-telefon irid ikun diġà mqabbad mal-unità; il-konnessjoni tiġi ppruvata għal żewġ minuti. Minn Android 10, app tas-sistema biss (modulu Magisk) tista' tixgħel il-Wi-Fi; imbagħad Android jitqabbad waħdu man-netwerks issejvjati. Għal CarPlay mingħajr fili, it-telefon irid ikun tqabbad darba permezz tal-app tat-telefon.
+SW download	Tniżżil SW
+Saturation	Saturazzjoni
+Saved: 	Issejvjat: 
+Saving the picture…	Qed tiġi ssejvjata l-istampa…
+Scanning…	Qed ifittex…
+Screen	Skrin
+Screen mirroring	Screen mirroring
+Search	Fittex
+Search again	Fittex mill-ġdid
+Search apps	Fittex apps
+Search for networks	Fittex netwerks
+Search for stations	Fittex stazzjonijiet
+Search stations	Fittex stazzjonijiet
+Search: 	Fittex: 
+Searching for Wi-Fi networks…	Qed jiġu mfittxija netwerks Wi-Fi…
+Searching for devices…	Qed jiġu mfittxija apparati…
+Searching for radio stations…	Qed jiġu mfittxija stazzjonijiet tar-radju…
+Searching for radio stations… 	Qed jiġu mfittxija stazzjonijiet tar-radju… 
+Searching…	Qed ifittex…
+Select	Agħżel
+Send the device report	Ibgħat ir-rapport tal-unità
+Send to the developer	Ibgħat lill-iżviluppatur
+Sending the device report…	Qed jintbagħat ir-rapport tal-unità…
+Sent — refresh in 2 s	Mibgħut — aġġornament fi 2 s
+Service	Servizz
+Service done today	Is-servizz sar illum
+Service in 	Servizz fi 
+Set	Issettja
+Settings	Issettjar
+Setup	Issettjar
+Setup assistant	Assistent tas-setup
+Setup → Vehicle	Issettjar → Vettura
+Sharp left	Qawwi lejn ix-xellug
+Sharp right	Qawwi lejn il-lemin
+Show a picture at start	Uri stampa fil-bidu
+Since refuelling	Mill-mili tal-fjuwil
+Since start	Mit-tluq
+Skip	Aqbeż
+Skip setup	Aqbeż is-setup
+Software	Softwer
+Software base	Bażi tas-softwer
+Software update	Aġġornament tas-softwer
+Software update failed	L-aġġornament tas-softwer falla
+Software update finished	L-aġġornament tas-softwer tlesta
+Software update in progress…	Aġġornament tas-softwer għaddej…
+Software version	Verżjoni tas-softwer
+Software version:	Verżjoni tas-softwer:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Xi ħaġa mhix taħdem kif suppost. Ir-rapport tal-unità (bir-riżultati tal-kontrolli) jgħin biex tissewwa f'aġġornament li jmiss.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Kanzunetti
+Sound	Ħoss
+Source	Sors
+Sources	Sorsi
+Start	Ibda
+Start music on your phone.	Ibda l-mużika fuq it-telefon tiegħek.
+Start the phone app (ZLink…)	Ibda l-app tat-telefon (ZLink…)
+Start update	Ibda l-aġġornament
+Start-up connections	Konnessjonijiet fil-bidu
+Started	Beda
+Station list	Lista tal-istazzjonijiet
+Station logos from the internet	Logos tal-istazzjonijiet mill-internet
+Station name	Isem l-istazzjon
+Stations	Stazzjonijiet
+Stations found: 	Stazzjonijiet misjuba: 
+Stop	Waqqaf
+Stop scan	Waqqaf it-tfittxija
+Street and number, city or place	Triq u numru, belt jew post
+Street, city	Triq, belt
+Strong stations only (LOC)	Stazzjonijiet b'saħħithom biss (LOC)
+System Wi-Fi settings	Issettjar Wi-Fi tas-sistema
+System date	Data tas-sistema
+System dialer	Telefon tas-sistema
+System information	Informazzjoni tas-sistema
+System settings	Issettjar tas-sistema
+System version	Verżjoni tas-sistema
+Take the ramp	Ħu r-rampa
+Tap a device to connect. Long press: forget the device.	Miss apparat biex tqabbad. Għafsa twila: insa l-apparat.
+Test builds	Verżjonijiet tat-test
+Test builds (every build)	Verżjonijiet tat-test (kull bini)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Il-kulur tad-dawl ambjentali huwa wkoll il-kulur tal-launcher kollu.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Il-profil tal-kuluri jbiddel l-istampa tal-launcher (l-iskrins kollha tiegħu, anke l-mappa). Il-kuluri ta' apps oħra jistgħu jinbidlu biss meta l-launcher ikun app tas-sistema.
+The device report was saved; send it to the developer: 	Ir-rapport tal-unità huwa ssejvjat; ibagħtu lill-iżviluppatur: 
+The device report was sent to the developer.	Ir-rapport tal-unità intbagħat lill-iżviluppatur.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Ir-rapport tal-unità jintbagħat meta l-unità tkun onlajn. Huwa ssejvjat ukoll hawn: 
+The download is not a valid APK	It-tniżżil mhuwiex APK validu
+The internet is connected	L-internet huwa mqabbad
+The last connected phone	L-aħħar telefon imqabbad
+The launcher restarts in the new version.	Il-launcher jerġa' jibda fil-verżjoni l-ġdida.
+The launcher will search for stations and play the first one it finds.	Il-launcher ifittex stazzjonijiet u jdoqq l-ewwel wieħed li jsib.
+The picture can't be opened	L-istampa ma tistax tinfetaħ
+The picture cannot be opened	L-istampa ma tistax tinfetaħ
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	L-istampa tidher meta l-launcher jibda wara li tinxtegħel l-unità, imbagħad tisparixxi (mess ineħħiha mill-ewwel). L-animazzjoni tal-bidu ta' Android tal-unità nnifisha ma tinbidilx.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Ir-radju u l-mużika Bluetooth jistgħu ma jaħdmux permezz tas-servizzi proprji ta' din l-unità. Ir-rapport tal-unità qed jintbagħat, u meta l-appoġġ ikun lest il-launcher joffri l-verżjoni għal din l-unità.
+The software is up to date	Is-softwer huwa aġġornat
+The station can't be played	L-istazzjon ma jistax jindaqq
+The station can't be played (connection?)	L-istazzjon ma jistax jindaqq (konnessjoni?)
+The unit is set up. Every setting can be changed later in Setup.	L-unità hija ssettjata. Kull issettjar jista' jinbidel aktar tard fl-Issettjar.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Il-verżjoni għal din l-unità ma tistax titniżżel issa. Erġa' pprova dalwaqt.
+This unit is not supported yet	Din l-unità għadha mhix appoġġjata
+This unit is supported now. Install the launcher build made for it.	Din l-unità issa hija appoġġjata. Installa l-verżjoni tal-launcher magħmula għaliha.
+This unit is supported: 	Din l-unità hija appoġġjata: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	It-tuner FM ta' din l-unità ma jistax jintuża mil-launcher; ir-radju onlajn idoqq permezz tal-internet.
+Time and date	Ħin u data
+Time for winter tyres	Wasal iż-żmien għat-tajers tax-xitwa
+To show the song and cover, enable\nnotification access — tap here.	Ixgħel l-aċċess għan-notifiki biex turi l-kanzunetta u l-qoxra\n— miss hawn.
+Treble	Għoli
+Try now	Ipprova issa
+Turn Bluetooth on	Ixgħel il-Bluetooth
+Turn Wi-Fi on	Ixgħel il-Wi-Fi
+Turn left	Dur lejn ix-xellug
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Ixgħel „Uri fuq apps oħra” għal MibDroid biex ikun jista' jerġa' lura fuq l-app tal-fabbrika.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Ixgħel „Uri fuq apps oħra” għal MibDroid, imbagħad agħżel l-awdjo BT mill-ġdid.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Ixgħel il-Bluetooth fuq it-telefon u agħmlu viżibbli, imbagħad agħżlu mil-lista:
+Turn radio off	Itfi r-radju
+Turn right	Dur lejn il-lemin
+Turn the hotspot on / off	Hotspot mixgħul / mitfi
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	L-USB normalment ikun taħt /storage/… jew /mnt/… (eż. usbhost, udisk).
+Uninstall	Neħħi l-installazzjoni
+Units	Unitajiet
+Until then, Continue installs the default version (QF).	Sa dakinhar, Kompli jinstalla l-verżjoni default (QF).
+Update	Aġġorna
+Update available:	Aġġornament disponibbli:
+Update failed: 	L-aġġornament falla: 
+Update not installed	L-aġġornament ma ġiex installat
+Update station list	Aġġorna l-lista tal-istazzjonijiet
+Use as phone app	Uża bħala app tat-telefon
+Use as radio app	Uża bħala app tar-radju
+Use offline map	Uża l-mappa offline
+Vehicle	Vettura
+Vehicle and pictures	Vettura u stampi
+Vehicle status	Stat tal-vettura
+Versions	Verżjonijiet
+View	Dehra
+Voice guidance	Gwida bil-vuċi
+Waiting for GPS position	Qed jistenna l-pożizzjoni GPS
+Waiting for GPS…	Qed jistenna l-GPS…
+Warmth	Sħana
+Welcome	Merħba
+Welcome to App-Connect.\nPlease connect a device using the USB.	Merħba f'App-Connect.\nQabbad apparat permezz ta' USB.
+When the unit starts	Meta tibda l-unità
+Wi-Fi is off.	Il-Wi-Fi huwa mitfi.
+Wi-Fi not available	Il-Wi-Fi mhux disponibbli
+Winter tyre reminder (1 Nov – 1 Apr)	Tfakkira tat-tajers tax-xitwa (1 Nov – 1 Apr)
+Winter tyres fitted	Tajers tax-xitwa mwaħħla
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	B'folders magħżula, il-launcher jaqra dawk biss (u s-sub-folders tagħhom) bħala fajls normali. Mingħajrhom, isib il-mużika waħdu fil-ħażna u fuq USB.
+Work	Xogħol
+Wrong package	Pakkett ħażin
+Yes	Iva
+Yes, I hear the music	Iva, nisma' l-mużika
+Yes, I hear the radio	Iva, nisma' r-radju
+You can switch back to summer tyres	Tista' terġa' lura għat-tajers tas-sajf
+You have arrived	Wasalt
+You have arrived.	Wasalt.
+ZLink is not installed	ZLink mhux installat
+any saved network	kwalunkwe netwerk issejvjat
+available: 	disponibbli: 
+chosen	magħżul
+connect / new device	qabbad / apparat ġdid
+empty	vojt
+enter	dħul fit-traffiku
+forget a network, advanced	insa n-netwerk, avvanzat
+free	ħieles
+left today: 	għadu llum: 
+needed	meħtieġ
+needs 2 full tanks	jeħtieġ 2 tankijiet mimlija
+no build for this unit	l-ebda verżjoni għal din l-unità
+no data	l-ebda data
+no more today	mhux aktar illum
+none	xejn
+none found	xejn ma nstab
+none yet	għad xejn
+none yet — play BT music	għad xejn — ħaddem mużika BT
+nothing received	xejn ma wasal
+now only inside the launcher	issa fil-launcher biss
+off	mitfi
+on	mixgħul
+open	iftaħ
+remove	neħħi
+save and show	issejvja u uri
+secured	sigur
+service list unavailable	il-lista tas-servizzi mhix disponibbli
+set	issettjat
+state unknown	status mhux magħruf
+switched off in Setup	diżattivat fl-Issettjar
+takes ~10 s	jieħu ~10 s
+tap and listen	miss u isma'
+the last connected (none yet)	l-aħħar imqabbad (għad xejn)
+to Download	għal Download
+to support new units	biex jiġu appoġġjati unitajiet ġodda
+unavailable	mhux disponibbli
+unreadable	ma jinqarax
+up	'il fuq
+your choice below	l-għażla tiegħek hawn taħt
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Uża dan il-folder
+✗ — tap to enable	✗ — miss biex tixgħel

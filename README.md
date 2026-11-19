@@ -9,11 +9,13 @@ A home-screen launcher for Android head units, built for a double-DIN unit on th
 classic German factory infotainment system: black background, MENU tiles with blue underlines,
 soft-key bars along the bottom, bordered popups and light settings bars.
 
-Languages: Serbian (Latin), English, Polish and Turkish. By default the language follows the unit's
-region (its Android language, else its time zone, else English); it can be fixed under
-*Setup → Jezik/Language*. Polish and Turkish texts live in `app/src/main/assets/lang/pl.tsv` and
-`tr.tsv`, keyed by the English text; `scripts/check-lang.py` lists any text still missing a
-translation. The screenshots below use English.
+Languages: all 24 official EU languages (Bulgarian, Croatian, Czech, Danish, Dutch, English,
+Estonian, Finnish, French, German, Greek, Hungarian, Irish, Italian, Latvian, Lithuanian, Maltese,
+Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish, Swedish) plus Serbian (Latin) and Turkish.
+By default the language follows the unit's region (its Android language, else its country, else its
+time zone, else English); it can be fixed under *Setup → Jezik/Language*. Each translation lives in
+`app/src/main/assets/lang/<code>.tsv`, keyed by the English text; `scripts/check-lang.py` lists any
+text still missing a translation. The screenshots below use English.
 
 ![Main menu](docs/screenshots/menu.png)
 
@@ -466,7 +468,9 @@ The text and icons are a touch dimmer than the screen content, like the factory 
 
 ## Install on the head unit
 
-1. Download **TheCarLauncher.apk** from the latest release on the [Releases page](../../releases).
+1. Download **MibDroid.apk** from the latest release on the [Releases page](../../releases). It runs on
+   every unit; on first start its setup assistant recognises the unit and installs the build made
+   for it over itself (same app). The per-unit APKs (`TheCarLauncher*.apk`) are still there too.
    Builds of `main` are published as releases (`v4.6.0`); other branches publish test builds
    (pre-releases, `build-N`).
 2. Copy it to a USB stick, or download it on the unit, and open it. Allow *Install unknown apps*

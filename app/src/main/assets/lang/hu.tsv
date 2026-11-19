@@ -1,0 +1,594 @@
+# English text <TAB> translation (hu). Keys must match the English text in the code exactly.
+  (partial)	  (részben)
+  (test)	  (teszt)
+  (this unit: 	  (ez az egység: 
+ (back to Android)	 (vissza az Androidhoz)
+ (last connected)	 (utoljára csatlakozott)
+ connected	 csatlakozva
+ days	 nap
+ downloaded	 letöltve
+ folders	 mappa
+ is connected.\nTap to show the phone.	 csatlakozva.\nKoppintson a telefon megjelenítéséhez.
+ kilometres	 kilométer
+ metres	 méter
+ music / video files in this folder	 zene- / videofájlok ebben a mappában
+ nearby	 a közelben
+ saved	 mentve
+ songs	 szám
+ videos	 videó
+ · tap to delete	 · koppintson a törléshez
++15,000 km / +1 yr	+15 000 km / +1 év
+24-hour format	24 órás formátum
+A phone is connected. Disconnect it first to add a new device.	Egy telefon csatlakozik. Új eszköz hozzáadásához előbb bontsa a kapcsolatot.
+Add	Hozzáadás
+Add a folder	Mappa hozzáadása
+Add fill-up	Tankolás hozzáadása
+Add to MENU	Hozzáadás a MENU-höz
+Albums	Albumok
+All	Összes
+All Android settings	Minden Android-beállítás
+All countries	Minden ország
+All files access (USB)	Hozzáférés minden fájlhoz (USB)
+All presets are taken — hold a preset to replace it	Minden memóriahely foglalt — tartson nyomva egyet a cseréhez
+All set	Minden kész
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Engedélyezze a MibDroid számára a „Hozzáférés minden fájlhoz” jogot, hogy olvashassa a zenét az USB-meghajtókról.
+Allow access	Hozzáférés engedélyezése
+Allow access to music.	Engedélyezze a hozzáférést a zenékhez.
+Allow access to pictures	Hozzáférés a képekhez
+Allow changing the system brightness	Rendszerfényerő módosításának engedélyezése
+Allow installing apps for MibDroid, then try again	Engedélyezze a MibDroid számára az alkalmazások telepítését, majd próbálja újra
+Allow installing updates	Frissítések telepítésének engedélyezése
+Allow location access	Helyhozzáférés engedélyezése
+Allow returning from the BT app	Visszatérés engedélyezése a BT-alkalmazásból
+Allowed	Engedélyezve
+Altitude	Magasság
+Ambient lighting	Hangulatvilágítás
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Az Android nem engedi, hogy egy egyszerű alkalmazás maga kapcsolja a hotspotot: megnyílik a rendszer hotspot-oldala (név, jelszó, be/ki). Ha az indító rendszeralkalmazás, ez közvetlenül itt működik.
+Android system	Android-rendszer
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Az Android megerősítést kér a telepítéshez. Rendszeralkalmazásként (Magisk-modul) az indító magát frissíti.
+Annual service	Éves szerviz
+Annual service due now!	Éves szerviz most esedékes!
+Another app (gallery, file manager)	Másik alkalmazás (galéria, fájlkezelő)
+Any saved network	Bármely mentett hálózat
+App	Alkalmazás
+App (ZLink, CarPlay…)	Alkalmazás (ZLink, CarPlay…)
+App info	Alkalmazásinfó
+App name	Alkalmazás neve
+App-Connect is not available.\nNo ZLink app was found on this unit.	Az App-Connect nem érhető el.\nNem található ZLink alkalmazás az egységen.
+Apps	Alkalmazások
+Artists	Előadók
+At the end, left	A végén balra
+At the end, right	A végén jobbra
+Automatic (by region)	Automatikus (régió szerint)
+Automatic (detect from media session)	Automatikus (a médiamunkamenetből)
+Automatic (storage and USB)	Automatikus (tárhely és USB)
+Automatic brightness	Automatikus fényerő
+Automatic check (once a day)	Automatikus ellenőrzés (naponta egyszer)
+Available version:	Elérhető verzió:
+Average consumption	Átlagfogyasztás
+Average speed	Átlagsebesség
+Avg. consumption	Átl. fogyasztás
+Avg. fuel price	Átl. üzemanyagár
+BT audio as soon as the phone connects	BT-hang, amikor a telefon csatlakozik
+BT daemon probe	BT daemon probe
+BT music app	BT-zenealkalmazás
+BT package (from media session)	BT-csomag (a médiamunkamenetből)
+BT screen	BT-képernyő
+BT_STATE	BT_STATE
+Back	Vissza
+Bass	Mély
+Bass - Mid - Treble	Mély - Közép - Magas
+Bear left	Enyhén balra
+Bear right	Enyhén jobbra
+Bluetooth audio check	Bluetooth-hang ellenőrzése
+Bluetooth devices	Bluetooth-eszközök
+Boot screen	Indítóképernyő
+Brand	Márka
+Brightness	Fényerő
+Browse	Böngészés
+Buffering…	Pufferelés…
+Build for this unit:	Verzió ehhez az egységhez:
+Build for unit:	Verzió az egységhez:
+Build number	Buildszám
+Building the device report…	Egységjelentés készítése…
+Built-in Corsa C pictures (car and cabin)	Beépített Corsa C képek (autó és utastér)
+Built-in launcher radio	Az indító beépített rádiója
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Az Opel Corsa C-hez beépített képek vannak; más járművekhez importáljon saját fotót az egységről vagy USB-ről.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API-kulcs (ingyenes: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO-kulcs az online térképhez
+Cabin (ambient lighting)	Utastér (hangulatvilágítás)
+Calculating route…	Útvonal számítása…
+Cancel	Mégse
+Cancelled	Megszakítva
+Car picture	Autó képe
+Car picture (Vehicle status)	Autó képe (járműállapot)
+Change home address	Otthoni cím módosítása
+Change work address	Munkahelyi cím módosítása
+Check again	Ellenőrzés újra
+Check for updates automatically	Frissítések automatikus keresése
+Checking for updates…	Frissítések keresése…
+Checking that the software fits this unit…	Annak ellenőrzése, hogy a szoftver illik-e ehhez az egységhez…
+Checking…	Ellenőrzés…
+Choose a Wi-Fi network	Válasszon Wi-Fi-hálózatot
+Choose a folder	Válasszon mappát
+Choose a phone app in Setup	Válasszon telefonalkalmazást a Beállításokban
+Choose a picture	Válasszon képet
+Choose a picture first	Először válasszon képet
+Choose a radio app (long-press it in Apps)	Válasszon rádióalkalmazást (tartsa nyomva az Alkalmazásokban)
+Choose a station in the station list	Válasszon állomást az állomáslistából
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Válassza ki a jármű márkáját és az indító által mutatott képeket: az autót (Jármű) és az utasteret (hangulatvilágítás).
+Clear presets	Memóriahelyek törlése
+Clear recent destinations	Legutóbbi célok törlése
+Cleared	Törölve
+Colour profile	Színprofil
+Colour profile and more	Színprofil és egyebek
+Colour: 	Szín: 
+Compatibility	Kompatibilitás
+Compatibility update available	Kompatibilitási frissítés érhető el
+Confirm the network in the system window	Erősítse meg a hálózatot a rendszerablakban
+Connect a new device	Új eszköz csatlakoztatása
+Connect apps	Alkalmazások csatlakoztatása
+Connect the phone	Telefon csatlakoztatása
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Csatlakoztassa az egységet az internethez (Wi-Fi-hálózat vagy a telefon hotspotja), hogy ellenőrizhető legyen a kompatibilitás és frissítéseket kapjon.
+Connect the unit to the internet to install the version for this unit.	Csatlakoztassa az egységet az internethez az ehhez az egységhez készült verzió telepítéséhez.
+Connect your phone for music and calls.	Csatlakoztassa a telefonját zenéhez és hívásokhoz.
+Connected	Csatlakozva
+Connected: 	Csatlakozva: 
+Connecting to 	Csatlakozás ehhez: 
+Connecting: 	Csatlakozás: 
+Connecting…	Csatlakozás…
+Connects to	Csatlakozik ehhez:
+Continue	Tovább
+Continue installs the new version.	A Tovább telepíti az új verziót.
+Continue installs the version made for this unit.	A Tovább telepíti az ehhez az egységhez készült verziót.
+Continue straight	Egyenesen
+Continue without internet	Tovább internet nélkül
+Contrast	Kontraszt
+Copying failed	A másolás nem sikerült
+Copying the factory apps…	Gyári alkalmazások másolása…
+Corsa C (built-in)	Corsa C (beépített)
+Cost per 100 km	Költség 100 km-enként
+Could not calculate route	Az útvonal nem számítható ki
+Could not connect	Nem sikerült csatlakozni
+Could not connect — turn on Bluetooth on the phone	Nem sikerült csatlakozni — kapcsolja be a Bluetooth-t a telefonon
+Countries and regions	Országok és régiók
+Country	Ország
+Cover art from the internet	Borítók az internetről
+Current odometer (km)	Jelenlegi kilométeróra-állás (km)
+Current source / title	Jelenlegi forrás / cím
+Current speed	Jelenlegi sebesség
+Custom	Egyéni
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Adatok: © OpenStreetMap közreműködők (ODbL), fájlok: mapsforge.org
+Date and time (Android)	Dátum és idő (Android)
+Day	Nappal
+Default launcher	Alapértelmezett indító
+Delete	Törlés
+Delete last fill-up	Utolsó tankolás törlése
+Delete map?	Törli a térképet?
+Destination	Úti cél
+Device report	Egységjelentés
+Diagnostics	Diagnosztika
+Diagnostics (QF / Bluetooth)	Diagnosztika (QF / Bluetooth)
+Disconnect	Kapcsolat bontása
+Disconnect the current phone	Jelenlegi telefon leválasztása
+Disconnect the phone first	Először bontsa a telefon kapcsolatát
+Display over other apps: off	Megjelenítés más alkalmazások felett: ki
+Distance	Távolság
+Do you hear the radio?	Hallja a rádiót?
+Download a map	Térkép letöltése
+Download logos for found stations	A talált állomások logóinak letöltése
+Download started: 	Letöltés elindult: 
+Downloading map: 	Térkép letöltése: 
+Downloading station logos… 	Állomáslogók letöltése… 
+Downloading the update… 	Frissítés letöltése… 
+Downloading: 	Letöltés: 
+Driving direction up	Menetirány felül
+Driving time	Vezetési idő
+Duration	Időtartam
+EN	EN
+Empty	Üres
+Enable "MibDroid" so Spotify & other players show up here	Engedélyezze a „MibDroid”-ot, hogy a Spotify és más lejátszók itt megjelenjenek
+Enough reports were sent today; this one is saved here: 	Ma már elég jelentés ment el; ez a jelentés ide lett mentve: 
+Error: 	Hiba: 
+Exit	Kijárat
+Exit left	Kijárat balra
+Exit right	Kijárat jobbra
+Export the factory apps (APK)	Gyári alkalmazások exportálása (APK)
+FM radio	FM-rádió
+FM radio is not available on this unit	Az FM-rádió nem érhető el ezen az egységen
+FM tuner	FM-tuner
+Factory radio app	Gyári rádióalkalmazás
+Factory software version	Gyári szoftververzió
+Fill-up	Tankolás
+Fill-up saved	Tankolás mentve
+Finish	Befejezés
+Folder not readable (file access permission?)	A mappa nem olvasható (fájlhozzáférési engedély?)
+Folders	Mappák
+Forget device	Eszköz elfelejtése
+Found: 	Találat: 
+Fuel	Üzemanyag
+Fuel tank	Üzemanyagtartály
+Fuel tank (l)	Üzemanyagtartály (l)
+Full screen (hide Android bars)	Teljes képernyő (Android-sávok elrejtése)
+Full tank	Tele tank
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardver
+Head unit	Fejegység
+Heading	Irány
+Hide the factory player	Gyári lejátszó elrejtése
+Hide the factory player (music / video)	Gyári lejátszó elrejtése (zene / videó)
+Home	Otthon
+Hotspot	Hotspot
+Hotspot settings not found	A hotspot-beállítások nem találhatók
+I hear nothing	Nem hallok semmit
+Import a picture from the unit or USB:	Kép importálása az egységről vagy USB-ről:
+Imported picture	Importált kép
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Néhány perc alatt beállítjuk az egységet: internet, jármű, telefon, és ellenőrizzük, hogy a rádió és a Bluetooth-hang működik.
+Installed SW MU version:	Telepített SW MU verzió:
+Installed SW Train version:	Telepített SW Train verzió:
+Installing 	Telepítés: 
+Interior picture (Ambient lighting)	Utastér képe (hangulatvilágítás)
+Keep left	Tartson balra
+Keep right	Tartson jobbra
+Kilometres (km/h)	Kilométer (km/h)
+Language and region	Nyelv és régió
+Language/Jezik	Nyelv/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Utolsó ellenőrzés:
+Last fill-up	Utolsó tankolás
+Later	Később
+Learned BT channel	Learned BT channel
+List not available (internet?)	A lista nem érhető el (internet?)
+List not available (needs internet): 	A lista nem érhető el (internet szükséges): 
+Litres	Liter
+Loading the list of maps…	Térképlista betöltése…
+Loading the list…	Lista betöltése…
+Loading…	Betöltés…
+Logos: 	Logók: 
+Long-term	Hosszú távú
+Looking for pictures…	Képek keresése…
+Low fuel: about 	Kevés üzemanyag: kb. 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Fő beállítások (ez az egység még nem támogatott, ezért a saját beállításai rejtve vannak).
+Make a U-turn	Forduljon meg
+Manual	Kézi
+Map data	Térképadatok
+Map style	Térképstílus
+Map turns with the driving direction	A térkép a menetiránnyal forog
+Maps work without internet and are drawn on the unit.	A térképek internet nélkül működnek, és az egységen rajzolódnak ki.
+Media	Média
+Media access	Médiahozzáférés
+Media and Bluetooth	Média és Bluetooth
+Media notification	Médiaértesítés
+Media session	Médiamunkamenet
+Memory	Memória
+Merge	Sorolja be
+Mid	Közép
+Miles (mph)	Mérföld (mph)
+Mode: 	Mód: 
+Model	Modell
+Music folders	Zenei mappák
+Music library	Zenetár
+Music videos (MP4 and other video files)	Zenei videók (MP4 és más videofájlok)
+My dest.	Saját célok
+Nav app	Navi alk.
+Navigate to this point?	Navigál ehhez a ponthoz?
+Navigation	Navigáció
+Navigation and offline maps	Navigáció és offline térképek
+Navigation app	Navigációs alkalmazás
+Nearby	A közelben
+Network	Hálózat
+New dest.	Új cél
+New destination	Új úti cél
+New device	Új eszköz
+Next	Következő
+Next oil change	Következő olajcsere
+Next service scheduled	Következő szerviz ütemezve
+Night	Éjszaka
+No	Nem
+No GPS position	Nincs GPS-pozíció
+No app to choose a picture	Nincs alkalmazás kép kiválasztásához
+No connection — try again	Nincs kapcsolat — próbálja újra
+No destinations yet	Még nincsenek úti célok
+No devices found. Tap "Search" in the corner.	Nem található eszköz. Koppintson a sarokban lévő „Keresés” gombra.
+No entries.	Nincsenek elemek.
+No media selected.\nTap Browse or Play.	Nincs kiválasztott média.\nKoppintson a Böngészés vagy a Lejátszás gombra.
+No media.\nInsert a USB stick or SD card with music.	Nincs média.\nHelyezzen be zenét tartalmazó USB-meghajtót vagy SD-kártyát.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Nincs média.\nKoppintson ide, és engedélyezze a „Hozzáférés minden fájlhoz” jogot, hogy az USB-meghajtók olvashatók legyenek.
+No music	Nincs zene
+No named stations — update the station list first	Nincsenek névvel rendelkező állomások — előbb frissítse az állomáslistát
+No networks found (location permission is needed).	Nem található hálózat (helyengedély szükséges).
+No picture	Nincs kép
+No picture selected	Nincs kiválasztott kép
+No pictures on the unit or on USB	Nincsenek képek az egységen vagy USB-n
+No remembered devices. Connect a new phone:	Nincsenek megjegyzett eszközök. Csatlakoztasson új telefont:
+No results	Nincs találat
+No song from the phone yet	Még nincs szám a telefonról
+No track information.	Nincs száminformáció.
+No update information	Nincs frissítési információ
+None downloaded	Nincs letöltés
+None found	Nincs találat
+North up	Észak felül
+Not a newer version	Nincs újabb verzió
+Not allowed – tap	Nem engedélyezett – koppintson
+Not connected	Nincs csatlakozva
+Not found	Nem található
+Not selected	Nincs kiválasztva
+Not set	Nincs beállítva
+Not set – OpenStreetMap is used	Nincs beállítva – OpenStreetMap használata
+Nothing found	Nincs találat
+Nothing within 5 km	Semmi 5 km-en belül
+Notification access	Értesítési hozzáférés
+Now 	Most 
+Odometer	Kilométeróra
+Off	Ki
+Off (no internet)	Ki (nincs internet)
+Offline maps	Offline térképek
+Oil change at (km)	Olajcsere ekkor (km)
+Oil change due now!	Olajcsere most esedékes!
+Oil change in 	Olajcsere ennyi múlva: 
+On	Be
+Online radio	Internetes rádió
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Az internetes rádió az interneten keresztül (Radio Browser) játszik állomásokat ugyanazon a rádióképernyőn: az állomáslistában válasszon országot és keressen, az állomásokat adja hozzá a memóriasávhoz. Óránként kb. 60–120 MB adatot használ.
+Online stations	Online állomások
+Open the BT app briefly (plays the sound)	BT-alkalmazás rövid megnyitása (elindítja a hangot)
+OpenStreetMap (dimmed)	OpenStreetMap (tompított)
+Other	Egyéb
+Other media apps	Egyéb médiaalkalmazások
+Pairing…	Párosítás…
+Part number:	Cikkszám:
+Password	Jelszó
+Pause	Szünet
+Permissions	Engedélyek
+Phone	Telefon
+Phone (battery / signal)	Telefon (akkumulátor / jel)
+Phone and radio	Telefon és rádió
+Phone app	Telefonalkalmazás
+Phone disconnected	Telefon leválasztva
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	A telefonok USB-kábellel vagy vezeték nélkül csatlakoznak (Android Auto, Apple CarPlay, képernyőtükrözés). A telefon képernyőjét az egység ZLink alkalmazása mutatja.\n\nÁllapot: 
+Picture set	Kép beállítva
+Play	Lejátszás
+Play / pause	Lejátszás / szünet
+Play a station from the station list first	Először játsszon le egy állomást az állomáslistából
+Play music on your phone. The launcher has switched to BT audio.	Játsszon le zenét a telefonon. Az indító BT-hangra váltott.
+Point on map	Pont a térképen
+Presets cleared	Memóriahelyek törölve
+Previous	Előző
+Price per litre	Literár
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Rádió
+Radio app	Rádióalkalmazás
+Radio check	Rádió ellenőrzése
+Radio source	Rádióforrás
+Range	Hatótáv
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Zene olvasása USB-ről és tárhelyről…
+Recalculating.	Újraszámítás.
+Recent destinations	Legutóbbi úti célok
+Recommended settings for this unit:	Ajánlott beállítások ehhez az egységhez:
+Registration expires	A forgalmi engedély lejár
+Registration expires in 	A forgalmi engedély lejár: 
+Registration has expired!	A forgalmi engedély lejárt!
+Remaining: 	Hátralévő: 
+Remove from MENU	Eltávolítás a MENU-ből
+Remove the picture	Kép eltávolítása
+Report not saved	A jelentés nincs mentve
+Rescan	Keresés újra
+Reset	Visszaállítás
+Resume playback on start	Lejátszás folytatása indításkor
+Roundabout	Körforgalom
+Route calculated.	Útvonal kiszámítva.
+Run the setup assistant	Beállítási segéd indítása
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Az indító indulásakor és az egység ébredésekor (gyújtás) fut. A telefonnak már párosítva kell lennie az egységgel; a csatlakozás két percig ismétlődik. Android 10-től csak rendszeralkalmazás (Magisk-modul) kapcsolhatja be a Wi-Fi-t; ezután az Android magától csatlakozik a mentett hálózatokhoz. Vezeték nélküli CarPlayhez a telefonnak egyszer csatlakoznia kell a telefonalkalmazáson keresztül.
+SW download	SW letöltés
+Saturation	Telítettség
+Saved: 	Mentve: 
+Saving the picture…	Kép mentése…
+Scanning…	Keresés…
+Screen	Képernyő
+Screen mirroring	Képernyőtükrözés
+Search	Keresés
+Search again	Keresés újra
+Search apps	Alkalmazások keresése
+Search for networks	Hálózatok keresése
+Search for stations	Állomások keresése
+Search stations	Állomások keresése
+Search: 	Keresés: 
+Searching for Wi-Fi networks…	Wi-Fi-hálózatok keresése…
+Searching for devices…	Eszközök keresése…
+Searching for radio stations…	Rádióállomások keresése…
+Searching for radio stations… 	Rádióállomások keresése… 
+Searching…	Keresés…
+Select	Kiválasztás
+Send the device report	Egységjelentés küldése
+Send to the developer	Küldés a fejlesztőnek
+Sending the device report…	Egységjelentés küldése…
+Sent — refresh in 2 s	Elküldve — frissítés 2 mp múlva
+Service	Szerviz
+Service done today	A szerviz ma elvégezve
+Service in 	Szerviz ennyi múlva: 
+Set	Beállítás
+Settings	Beállítások
+Setup	Beállítások
+Setup assistant	Beállítási segéd
+Setup → Vehicle	Beállítások → Jármű
+Sharp left	Élesen balra
+Sharp right	Élesen jobbra
+Show a picture at start	Kép megjelenítése indításkor
+Since refuelling	Tankolás óta
+Since start	Indulás óta
+Skip	Kihagyás
+Skip setup	Kihagyás
+Software	Szoftver
+Software base	Szoftveralap
+Software update	Szoftverfrissítés
+Software update failed	A szoftverfrissítés sikertelen
+Software update finished	A szoftverfrissítés befejeződött
+Software update in progress…	Szoftverfrissítés folyamatban…
+Software version	Szoftververzió
+Software version:	Szoftververzió:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Valami nem úgy működik, ahogy kellene. Az egységjelentés (az ellenőrzések eredményeivel) segít a javításban a következő frissítésben.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Számok
+Sound	Hang
+Source	Forrás
+Sources	Források
+Start	Indítás
+Start music on your phone.	Indítson zenét a telefonon.
+Start the phone app (ZLink…)	Telefonalkalmazás indítása (ZLink…)
+Start update	Frissítés indítása
+Start-up connections	Kapcsolatok indításkor
+Started	Elindítva
+Station list	Állomáslista
+Station logos from the internet	Állomáslogók az internetről
+Station name	Állomásnév
+Stations	Állomások
+Stations found: 	Talált állomások: 
+Stop	Leállítás
+Stop scan	Keresés leállítása
+Street and number, city or place	Utca és házszám, város vagy hely
+Street, city	Utca, város
+Strong stations only (LOC)	Csak erős állomások (LOC)
+System Wi-Fi settings	Rendszer Wi-Fi-beállításai
+System date	Rendszerdátum
+System dialer	Rendszertelefon
+System information	Rendszerinformáció
+System settings	Rendszerbeállítások
+System version	Rendszerverzió
+Take the ramp	Hajtson fel a felhajtóra
+Tap a device to connect. Long press: forget the device.	Koppintson egy eszközre a csatlakozáshoz. Hosszú nyomás: eszköz elfelejtése.
+Test builds	Tesztverziók
+Test builds (every build)	Tesztverziók (minden build)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	A hangulatvilágítás színe az egész indító színe is.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	A színprofil az indító képét módosítja (minden képernyőjét, a térképet is). Más alkalmazások színei csak akkor módosíthatók, ha az indító rendszeralkalmazás.
+The device report was saved; send it to the developer: 	Az egységjelentés mentve; küldje el a fejlesztőnek: 
+The device report was sent to the developer.	Az egységjelentés elküldve a fejlesztőnek.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Az egységjelentés elküldésre kerül, amint az egység online lesz. Ide is mentve: 
+The download is not a valid APK	A letöltött fájl nem érvényes APK
+The internet is connected	Az internet csatlakozik
+The last connected phone	Utoljára csatlakozott telefon
+The launcher restarts in the new version.	Az indító újraindul az új verzióval.
+The launcher will search for stations and play the first one it finds.	Az indító állomásokat keres, és lejátssza az elsőt, amit talál.
+The picture can't be opened	A kép nem nyitható meg
+The picture cannot be opened	A kép nem nyitható meg
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	A kép akkor jelenik meg, amikor az indító elindul az egység bekapcsolása után, majd elhalványul (érintésre azonnal eltűnik). Az egység saját Android-indítóanimációja nem változik.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Előfordulhat, hogy a rádió és a Bluetooth-zene nem működik az egység saját szolgáltatásain keresztül. Az egységjelentés elküldésre kerül, és amint a támogatás kész, az indító felajánlja az ehhez az egységhez készült verziót.
+The software is up to date	A szoftver naprakész
+The station can't be played	Az állomás nem játszható le
+The station can't be played (connection?)	Az állomás nem játszható le (kapcsolat?)
+The unit is set up. Every setting can be changed later in Setup.	Az egység be van állítva. Minden beállítás később módosítható a Beállításokban.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Az ehhez az egységhez készült verzió most nem tölthető le. Próbálja újra hamarosan.
+This unit is not supported yet	Ez az egység még nem támogatott
+This unit is supported now. Install the launcher build made for it.	Ez az egység már támogatott. Telepítse az indító hozzá készült verzióját.
+This unit is supported: 	Ez az egység támogatott: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Ennek az egységnek az FM-tunere nem használható az indítóból; az internetes rádió az interneten keresztül szól.
+Time and date	Idő és dátum
+Time for winter tyres	Ideje a téli gumiknak
+To show the song and cover, enable\nnotification access — tap here.	Kapcsolja be az értesítési hozzáférést a szám és borító\nmegjelenítéséhez — koppintson ide.
+Treble	Magas
+Try now	Kipróbálás most
+Turn Bluetooth on	Bluetooth bekapcsolása
+Turn Wi-Fi on	Wi-Fi bekapcsolása
+Turn left	Forduljon balra
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Kapcsolja be a „Megjelenítés más alkalmazások felett” opciót a MibDroid számára, hogy vissza tudjon térni a gyári alkalmazás fölé.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Kapcsolja be a „Megjelenítés más alkalmazások felett” opciót a MibDroid számára, majd válassza újra a BT-hangot.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Kapcsolja be a Bluetooth-t a telefonon és tegye láthatóvá, majd válassza ki a listából:
+Turn radio off	Rádió kikapcsolása
+Turn right	Forduljon jobbra
+Turn the hotspot on / off	Hotspot be / ki
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	Az USB általában a /storage/… vagy /mnt/… alatt van (pl. usbhost, udisk).
+Uninstall	Eltávolítás
+Units	Mértékegységek
+Until then, Continue installs the default version (QF).	Addig a Tovább az alapértelmezett verziót (QF) telepíti.
+Update	Frissítés
+Update available:	Frissítés érhető el:
+Update failed: 	A frissítés sikertelen: 
+Update not installed	A frissítés nincs telepítve
+Update station list	Állomáslista frissítése
+Use as phone app	Használat telefonalkalmazásként
+Use as radio app	Használat rádióalkalmazásként
+Use offline map	Offline térkép használata
+Vehicle	Jármű
+Vehicle and pictures	Jármű és képek
+Vehicle status	Járműállapot
+Versions	Verziók
+View	Nézet
+Voice guidance	Hangos útmutatás
+Waiting for GPS position	Várakozás GPS-pozícióra
+Waiting for GPS…	Várakozás GPS-re…
+Warmth	Melegség
+Welcome	Üdvözöljük
+Welcome to App-Connect.\nPlease connect a device using the USB.	Üdvözli az App-Connect.\nCsatlakoztasson egy eszközt USB-n.
+When the unit starts	Az egység indításakor
+Wi-Fi is off.	A Wi-Fi ki van kapcsolva.
+Wi-Fi not available	A Wi-Fi nem érhető el
+Winter tyre reminder (1 Nov – 1 Apr)	Téli gumi emlékeztető (nov. 1. – ápr. 1.)
+Winter tyres fitted	Téli gumik felszerelve
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Kiválasztott mappák esetén az indító csak azokat (és almappáikat) olvassa egyszerű fájlokként. Nélkülük maga keresi meg a zenét a tárhelyen és az USB-n.
+Work	Munkahely
+Wrong package	Hibás csomag
+Yes	Igen
+Yes, I hear the music	Igen, hallom a zenét
+Yes, I hear the radio	Igen, hallom a rádiót
+You can switch back to summer tyres	Visszatérhet a nyári gumikra
+You have arrived	Megérkezett
+You have arrived.	Megérkezett.
+ZLink is not installed	A ZLink nincs telepítve
+any saved network	bármely mentett hálózat
+available: 	elérhető: 
+chosen	kiválasztva
+connect / new device	csatlakozás / új eszköz
+empty	üres
+enter	besorolás
+forget a network, advanced	hálózat elfelejtése, speciális
+free	szabad
+left today: 	ma még: 
+needed	esedékes
+needs 2 full tanks	2 teli tank szükséges
+no build for this unit	nincs verzió ehhez az egységhez
+no data	nincs adat
+no more today	ma már nem
+none	nincs
+none found	nincs találat
+none yet	még nincs
+none yet — play BT music	még nincs — játsszon BT-zenét
+nothing received	semmi sem érkezett
+now only inside the launcher	most csak az indítóban
+off	ki
+on	be
+open	megnyitás
+remove	eltávolítás
+save and show	mentés és megjelenítés
+secured	védett
+service list unavailable	a szolgáltatáslista nem érhető el
+set	beállítva
+state unknown	állapot ismeretlen
+switched off in Setup	kikapcsolva a Beállításokban
+takes ~10 s	kb. 10 mp
+tap and listen	koppintson és hallgasson
+the last connected (none yet)	utoljára csatlakozott (még nincs)
+to Download	a Download mappába
+to support new units	új egységek támogatásához
+unavailable	nem érhető el
+unreadable	nem olvasható
+up	felül
+your choice below	az Ön választása lent
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Ez a mappa
+✗ — tap to enable	✗ — koppintson a bekapcsoláshoz

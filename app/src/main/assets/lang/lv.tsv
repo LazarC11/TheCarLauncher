@@ -1,0 +1,594 @@
+# English text <TAB> translation (lv). Keys must match the English text in the code exactly.
+  (partial)	  (daļēji)
+  (test)	  (tests)
+  (this unit: 	  (šī ierīce: 
+ (back to Android)	 (atpakaļ uz Android)
+ (last connected)	 (pēdējais savienotais)
+ connected	 savienots
+ days	 dienas
+ downloaded	 lejupielādēts
+ folders	 mapes
+ is connected.\nTap to show the phone.	 ir savienots.\nPieskarieties, lai parādītu tālruni.
+ kilometres	 kilometri
+ metres	 metri
+ music / video files in this folder	 mūzikas / video faili šajā mapē
+ nearby	 tuvumā
+ saved	 saglabāts
+ songs	 dziesmas
+ videos	 video
+ · tap to delete	 · pieskarieties, lai dzēstu
++15,000 km / +1 yr	+15 000 km / +1 gads
+24-hour format	24 stundu formāts
+A phone is connected. Disconnect it first to add a new device.	Ir savienots tālrunis. Lai pievienotu jaunu ierīci, vispirms atvienojiet to.
+Add	Pievienot
+Add a folder	Pievienot mapi
+Add fill-up	Pievienot uzpildi
+Add to MENU	Pievienot MENU
+Albums	Albumi
+All	Visi
+All Android settings	Visi Android iestatījumi
+All countries	Visas valstis
+All files access (USB)	Piekļuve visiem failiem (USB)
+All presets are taken — hold a preset to replace it	Visas atmiņas ir aizņemtas — turiet atmiņu, lai to aizstātu
+All set	Viss gatavs
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Atļaujiet MibDroid „Piekļuvi visiem failiem”, lai tas varētu lasīt mūziku no USB zibatmiņām.
+Allow access	Atļaut piekļuvi
+Allow access to music.	Atļaujiet piekļuvi mūzikai.
+Allow access to pictures	Atļaut piekļuvi attēliem
+Allow changing the system brightness	Atļaut mainīt sistēmas spilgtumu
+Allow installing apps for MibDroid, then try again	Atļaujiet MibDroid instalēt lietotnes un mēģiniet vēlreiz
+Allow installing updates	Atļaut instalēt atjauninājumus
+Allow location access	Atļaut piekļuvi atrašanās vietai
+Allow returning from the BT app	Atļaut atgriezties no BT lietotnes
+Allowed	Atļauts
+Altitude	Augstums
+Ambient lighting	Apkārtējais apgaismojums
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android neļauj parastai lietotnei pašai ieslēgt tīklāju: atveras sistēmas tīklāja lapa (nosaukums, parole, iesl./izsl.). Kad palaidējs ir sistēmas lietotne, tas darbojas tieši šeit.
+Android system	Android sistēma
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android lūdz apstiprināt instalēšanu. Kā sistēmas lietotne (Magisk modulis) palaidējs atjaunina sevi pats.
+Annual service	Ikgadējā apkope
+Annual service due now!	Ikgadējā apkope nepieciešama tagad!
+Another app (gallery, file manager)	Cita lietotne (galerija, failu pārvaldnieks)
+Any saved network	Jebkurš saglabāts tīkls
+App	Lietotne
+App (ZLink, CarPlay…)	Lietotne (ZLink, CarPlay…)
+App info	Lietotnes informācija
+App name	Lietotnes nosaukums
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect nav pieejams.\nIerīcē netika atrasta ZLink lietotne.
+Apps	Lietotnes
+Artists	Izpildītāji
+At the end, left	Beigās pa kreisi
+At the end, right	Beigās pa labi
+Automatic (by region)	Automātiski (pēc reģiona)
+Automatic (detect from media session)	Automātiski (no multivides sesijas)
+Automatic (storage and USB)	Automātiski (krātuve un USB)
+Automatic brightness	Automātisks spilgtums
+Automatic check (once a day)	Automātiska pārbaude (reizi dienā)
+Available version:	Pieejamā versija:
+Average consumption	Vidējais patēriņš
+Average speed	Vidējais ātrums
+Avg. consumption	Vid. patēriņš
+Avg. fuel price	Vid. degvielas cena
+BT audio as soon as the phone connects	BT audio, kad tālrunis savienojas
+BT daemon probe	BT daemon probe
+BT music app	BT mūzikas lietotne
+BT package (from media session)	BT pakotne (no multivides sesijas)
+BT screen	BT ekrāns
+BT_STATE	BT_STATE
+Back	Atpakaļ
+Bass	Basi
+Bass - Mid - Treble	Basi - Vidējie - Augstie
+Bear left	Nedaudz pa kreisi
+Bear right	Nedaudz pa labi
+Bluetooth audio check	Bluetooth audio pārbaude
+Bluetooth devices	Bluetooth ierīces
+Boot screen	Sākuma ekrāns
+Brand	Marka
+Brightness	Spilgtums
+Browse	Pārlūkot
+Buffering…	Buferizācija…
+Build for this unit:	Versija šai ierīcei:
+Build for unit:	Versija ierīcei:
+Build number	Būvējuma numurs
+Building the device report…	Veido ierīces pārskatu…
+Built-in Corsa C pictures (car and cabin)	Iebūvēti Corsa C attēli (auto un salons)
+Built-in launcher radio	Palaidēja iebūvētais radio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Opel Corsa C ir iebūvēti attēli; citiem transportlīdzekļiem importējiet savu fotoattēlu no ierīces vai USB.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API atslēga (bezmaksas: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO atslēga tiešsaistes kartei
+Cabin (ambient lighting)	Salons (apkārtējais apgaismojums)
+Calculating route…	Aprēķina maršrutu…
+Cancel	Atcelt
+Cancelled	Atcelts
+Car picture	Automašīnas attēls
+Car picture (Vehicle status)	Automašīnas attēls (transportlīdzekļa stāvoklis)
+Change home address	Mainīt mājas adresi
+Change work address	Mainīt darba adresi
+Check again	Pārbaudīt vēlreiz
+Check for updates automatically	Automātiski meklēt atjauninājumus
+Checking for updates…	Meklē atjauninājumus…
+Checking that the software fits this unit…	Pārbauda, vai programmatūra atbilst šai ierīcei…
+Checking…	Pārbauda…
+Choose a Wi-Fi network	Izvēlieties Wi-Fi tīklu
+Choose a folder	Izvēlieties mapi
+Choose a phone app in Setup	Izvēlieties tālruņa lietotni sadaļā Iestatījumi
+Choose a picture	Izvēlieties attēlu
+Choose a picture first	Vispirms izvēlieties attēlu
+Choose a radio app (long-press it in Apps)	Izvēlieties radio lietotni (turiet to sadaļā Lietotnes)
+Choose a station in the station list	Izvēlieties staciju no staciju saraksta
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Izvēlieties transportlīdzekļa marku un attēlus, ko rāda palaidējs: automašīnu (Transportlīdzeklis) un salonu (apkārtējais apgaismojums).
+Clear presets	Notīrīt atmiņas
+Clear recent destinations	Notīrīt nesenos galamērķus
+Cleared	Notīrīts
+Colour profile	Krāsu profils
+Colour profile and more	Krāsu profils un vairāk
+Colour: 	Krāsa: 
+Compatibility	Saderība
+Compatibility update available	Pieejams saderības atjauninājums
+Confirm the network in the system window	Apstipriniet tīklu sistēmas logā
+Connect a new device	Savienot jaunu ierīci
+Connect apps	Savienot lietotnes
+Connect the phone	Savienojiet tālruni
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Savienojiet ierīci ar internetu (Wi-Fi tīkls vai tālruņa tīklājs), lai pārbaudītu saderību un saņemtu atjauninājumus.
+Connect the unit to the internet to install the version for this unit.	Savienojiet ierīci ar internetu, lai instalētu šīs ierīces versiju.
+Connect your phone for music and calls.	Savienojiet tālruni mūzikai un zvaniem.
+Connected	Savienots
+Connected: 	Savienots: 
+Connecting to 	Savieno ar 
+Connecting: 	Savieno: 
+Connecting…	Savieno…
+Connects to	Savienojas ar
+Continue	Turpināt
+Continue installs the new version.	Turpināt instalē jauno versiju.
+Continue installs the version made for this unit.	Turpināt instalē šai ierīcei izveidoto versiju.
+Continue straight	Taisni
+Continue without internet	Turpināt bez interneta
+Contrast	Kontrasts
+Copying failed	Kopēšana neizdevās
+Copying the factory apps…	Kopē rūpnīcas lietotnes…
+Corsa C (built-in)	Corsa C (iebūvēts)
+Cost per 100 km	Izmaksas uz 100 km
+Could not calculate route	Maršrutu nevarēja aprēķināt
+Could not connect	Neizdevās savienot
+Could not connect — turn on Bluetooth on the phone	Neizdevās savienot — ieslēdziet Bluetooth tālrunī
+Countries and regions	Valstis un reģioni
+Country	Valsts
+Cover art from the internet	Vāciņi no interneta
+Current odometer (km)	Pašreizējais nobraukums (km)
+Current source / title	Pašreizējais avots / nosaukums
+Current speed	Pašreizējais ātrums
+Custom	Pielāgots
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Dati: © OpenStreetMap līdzautori (ODbL), faili: mapsforge.org
+Date and time (Android)	Datums un laiks (Android)
+Day	Diena
+Default launcher	Noklusējuma palaidējs
+Delete	Dzēst
+Delete last fill-up	Dzēst pēdējo uzpildi
+Delete map?	Dzēst karti?
+Destination	Galamērķis
+Device report	Ierīces pārskats
+Diagnostics	Diagnostika
+Diagnostics (QF / Bluetooth)	Diagnostika (QF / Bluetooth)
+Disconnect	Atvienot
+Disconnect the current phone	Atvienot pašreizējo tālruni
+Disconnect the phone first	Vispirms atvienojiet tālruni
+Display over other apps: off	Rādīt virs citām lietotnēm: izsl.
+Distance	Attālums
+Do you hear the radio?	Vai dzirdat radio?
+Download a map	Lejupielādēt karti
+Download logos for found stations	Lejupielādēt atrasto staciju logotipus
+Download started: 	Lejupielāde sākta: 
+Downloading map: 	Kartes lejupielāde: 
+Downloading station logos… 	Lejupielādē staciju logotipus… 
+Downloading the update… 	Lejupielādē atjauninājumu… 
+Downloading: 	Lejupielādē: 
+Driving direction up	Braukšanas virziens augšā
+Driving time	Braukšanas laiks
+Duration	Ilgums
+EN	EN
+Empty	Tukšs
+Enable "MibDroid" so Spotify & other players show up here	Iespējojiet „MibDroid”, lai Spotify un citi atskaņotāji parādītos šeit
+Enough reports were sent today; this one is saved here: 	Šodien nosūtīts pietiekami daudz pārskatu; šis pārskats saglabāts šeit: 
+Error: 	Kļūda: 
+Exit	Izbraucamā
+Exit left	Izbraucamā pa kreisi
+Exit right	Izbraucamā pa labi
+Export the factory apps (APK)	Eksportēt rūpnīcas lietotnes (APK)
+FM radio	FM radio
+FM radio is not available on this unit	FM radio šajā ierīcē nav pieejams
+FM tuner	FM uztvērējs
+Factory radio app	Rūpnīcas radio lietotne
+Factory software version	Rūpnīcas programmatūras versija
+Fill-up	Uzpilde
+Fill-up saved	Uzpilde saglabāta
+Finish	Pabeigt
+Folder not readable (file access permission?)	Mapi nevar nolasīt (failu piekļuves atļauja?)
+Folders	Mapes
+Forget device	Aizmirst ierīci
+Found: 	Atrasts: 
+Fuel	Degviela
+Fuel tank	Degvielas tvertne
+Fuel tank (l)	Degvielas tvertne (l)
+Full screen (hide Android bars)	Pilnekrāns (paslēpt Android joslas)
+Full tank	Pilna tvertne
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Aparatūra
+Head unit	Galvenā ierīce
+Heading	Kurss
+Hide the factory player	Paslēpt rūpnīcas atskaņotāju
+Hide the factory player (music / video)	Paslēpt rūpnīcas atskaņotāju (mūzika / video)
+Home	Mājas
+Hotspot	Tīklājs
+Hotspot settings not found	Tīklāja iestatījumi netika atrasti
+I hear nothing	Neko nedzirdu
+Import a picture from the unit or USB:	Importēt attēlu no ierīces vai USB:
+Imported picture	Importēts attēls
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Dažu minūšu laikā iestatīsim ierīci: internetu, transportlīdzekli, tālruni, un pārbaudīsim, vai radio un Bluetooth skaņa darbojas.
+Installed SW MU version:	Instalētā SW MU versija:
+Installed SW Train version:	Instalētā SW Train versija:
+Installing 	Instalē 
+Interior picture (Ambient lighting)	Salona attēls (apkārtējais apgaismojums)
+Keep left	Turieties pa kreisi
+Keep right	Turieties pa labi
+Kilometres (km/h)	Kilometri (km/h)
+Language and region	Valoda un reģions
+Language/Jezik	Valoda/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Pēdējā pārbaude:
+Last fill-up	Pēdējā uzpilde
+Later	Vēlāk
+Learned BT channel	Learned BT channel
+List not available (internet?)	Saraksts nav pieejams (internets?)
+List not available (needs internet): 	Saraksts nav pieejams (nepieciešams internets): 
+Litres	Litri
+Loading the list of maps…	Ielādē karšu sarakstu…
+Loading the list…	Ielādē sarakstu…
+Loading…	Ielādē…
+Logos: 	Logotipi: 
+Long-term	Ilgtermiņā
+Looking for pictures…	Meklē attēlus…
+Low fuel: about 	Maz degvielas: apmēram 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Galvenie iestatījumi (šī ierīce vēl netiek atbalstīta, tāpēc tās iestatījumi ir paslēpti).
+Make a U-turn	Apgriezieties
+Manual	Manuāli
+Map data	Kartes dati
+Map style	Kartes stils
+Map turns with the driving direction	Karte griežas līdz ar braukšanas virzienu
+Maps work without internet and are drawn on the unit.	Kartes darbojas bez interneta un tiek zīmētas ierīcē.
+Media	Multivide
+Media access	Piekļuve multividei
+Media and Bluetooth	Multivide un Bluetooth
+Media notification	Multivides paziņojums
+Media session	Multivides sesija
+Memory	Atmiņa
+Merge	Iekļaujieties
+Mid	Vidējie
+Miles (mph)	Jūdzes (mph)
+Mode: 	Režīms: 
+Model	Modelis
+Music folders	Mūzikas mapes
+Music library	Mūzikas bibliotēka
+Music videos (MP4 and other video files)	Mūzikas video (MP4 un citi video faili)
+My dest.	Mani galam.
+Nav app	Navi lietotne
+Navigate to this point?	Navigēt uz šo punktu?
+Navigation	Navigācija
+Navigation and offline maps	Navigācija un bezsaistes kartes
+Navigation app	Navigācijas lietotne
+Nearby	Tuvumā
+Network	Tīkls
+New dest.	Jauns galam.
+New destination	Jauns galamērķis
+New device	Jauna ierīce
+Next	Nākamais
+Next oil change	Nākamā eļļas maiņa
+Next service scheduled	Nākamā apkope ieplānota
+Night	Nakts
+No	Nē
+No GPS position	Nav GPS pozīcijas
+No app to choose a picture	Nav lietotnes attēla izvēlei
+No connection — try again	Nav savienojuma — mēģiniet vēlreiz
+No destinations yet	Vēl nav galamērķu
+No devices found. Tap "Search" in the corner.	Ierīces netika atrastas. Pieskarieties „Meklēt” stūrī.
+No entries.	Nav vienumu.
+No media selected.\nTap Browse or Play.	Nav izvēlēta multivide.\nPieskarieties Pārlūkot vai Atskaņot.
+No media.\nInsert a USB stick or SD card with music.	Nav multivides.\nIevietojiet USB zibatmiņu vai SD karti ar mūziku.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Nav multivides.\nPieskarieties šeit un atļaujiet „Piekļuvi visiem failiem”, lai varētu lasīt USB zibatmiņas.
+No music	Nav mūzikas
+No named stations — update the station list first	Nav staciju ar nosaukumu — vispirms atjauniniet staciju sarakstu
+No networks found (location permission is needed).	Tīkli netika atrasti (nepieciešama atrašanās vietas atļauja).
+No picture	Nav attēla
+No picture selected	Attēls nav izvēlēts
+No pictures on the unit or on USB	Ierīcē vai USB nav attēlu
+No remembered devices. Connect a new phone:	Nav atcerētu ierīču. Savienojiet jaunu tālruni:
+No results	Nav rezultātu
+No song from the phone yet	Vēl nav dziesmas no tālruņa
+No track information.	Nav informācijas par dziesmu.
+No update information	Nav informācijas par atjauninājumu
+None downloaded	Nekas nav lejupielādēts
+None found	Nekas netika atrasts
+North up	Ziemeļi augšā
+Not a newer version	Nav jaunākas versijas
+Not allowed – tap	Nav atļauts – pieskarieties
+Not connected	Nav savienots
+Not found	Nav atrasts
+Not selected	Nav izvēlēts
+Not set	Nav iestatīts
+Not set – OpenStreetMap is used	Nav iestatīts – tiek izmantots OpenStreetMap
+Nothing found	Nekas netika atrasts
+Nothing within 5 km	Nekā 5 km rādiusā
+Notification access	Piekļuve paziņojumiem
+Now 	Tagad 
+Odometer	Odometrs
+Off	Izsl.
+Off (no internet)	Izsl. (nav interneta)
+Offline maps	Bezsaistes kartes
+Oil change at (km)	Eļļas maiņa pie (km)
+Oil change due now!	Eļļas maiņa nepieciešama tagad!
+Oil change in 	Eļļas maiņa pēc 
+On	Iesl.
+Online radio	Interneta radio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Interneta radio atskaņo stacijas caur internetu (Radio Browser) tajā pašā radio ekrānā: staciju sarakstā izvēlieties valsti un meklējiet, un pievienojiet stacijas atmiņu joslai. Izmanto aptuveni 60–120 MB stundā klausoties.
+Online stations	Tiešsaistes stacijas
+Open the BT app briefly (plays the sound)	Īslaicīgi atvērt BT lietotni (palaiž skaņu)
+OpenStreetMap (dimmed)	OpenStreetMap (aptumšots)
+Other	Citi
+Other media apps	Citas multivides lietotnes
+Pairing…	Sapārošana…
+Part number:	Detaļas numurs:
+Password	Parole
+Pause	Pauze
+Permissions	Atļaujas
+Phone	Tālrunis
+Phone (battery / signal)	Tālrunis (akumulators / signāls)
+Phone and radio	Tālrunis un radio
+Phone app	Tālruņa lietotne
+Phone disconnected	Tālrunis atvienots
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Tālruņi tiek savienoti ar USB kabeli vai bezvadu (Android Auto, Apple CarPlay, ekrāna spoguļošana). Tālruņa ekrānu rāda ierīces ZLink lietotne.\n\nStatuss: 
+Picture set	Attēls iestatīts
+Play	Atskaņot
+Play / pause	Atskaņot / pauze
+Play a station from the station list first	Vispirms atskaņojiet staciju no staciju saraksta
+Play music on your phone. The launcher has switched to BT audio.	Atskaņojiet mūziku tālrunī. Palaidējs pārslēdzās uz BT audio.
+Point on map	Punkts kartē
+Presets cleared	Atmiņas notīrītas
+Previous	Iepriekšējais
+Price per litre	Cena par litru
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profils
+Radio	Radio
+Radio app	Radio lietotne
+Radio check	Radio pārbaude
+Radio source	Radio avots
+Range	Darbības rādiuss
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Nolasa mūziku no USB un krātuves…
+Recalculating.	Pārrēķina.
+Recent destinations	Nesenie galamērķi
+Recommended settings for this unit:	Ieteicamie iestatījumi šai ierīcei:
+Registration expires	Reģistrācija beidzas
+Registration expires in 	Reģistrācija beidzas pēc 
+Registration has expired!	Reģistrācija ir beigusies!
+Remaining: 	Atlicis: 
+Remove from MENU	Noņemt no MENU
+Remove the picture	Noņemt attēlu
+Report not saved	Pārskats nav saglabāts
+Rescan	Meklēt vēlreiz
+Reset	Atjaunot
+Resume playback on start	Atsākt atskaņošanu startējot
+Roundabout	Aplis
+Route calculated.	Maršruts aprēķināts.
+Run the setup assistant	Palaist iestatīšanas vedni
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Darbojas, kad palaidējs startē un kad ierīce pamostas (aizdedze). Tālrunim jau jābūt sapārotam ar ierīci; savienošana tiek mēģināta divas minūtes. Kopš Android 10 Wi-Fi drīkst ieslēgt tikai sistēmas lietotne (Magisk modulis); pēc tam Android pats savienojas ar saglabātajiem tīkliem. Bezvadu CarPlay tālrunim vienreiz jābūt savienotam caur tālruņa lietotni.
+SW download	SW lejupielāde
+Saturation	Piesātinājums
+Saved: 	Saglabāts: 
+Saving the picture…	Saglabā attēlu…
+Scanning…	Meklē…
+Screen	Ekrāns
+Screen mirroring	Ekrāna spoguļošana
+Search	Meklēt
+Search again	Meklēt vēlreiz
+Search apps	Meklēt lietotnes
+Search for networks	Meklēt tīklus
+Search for stations	Meklēt stacijas
+Search stations	Meklēt stacijas
+Search: 	Meklēt: 
+Searching for Wi-Fi networks…	Meklē Wi-Fi tīklus…
+Searching for devices…	Meklē ierīces…
+Searching for radio stations…	Meklē radio stacijas…
+Searching for radio stations… 	Meklē radio stacijas… 
+Searching…	Meklē…
+Select	Izvēlēties
+Send the device report	Nosūtīt ierīces pārskatu
+Send to the developer	Nosūtīt izstrādātājam
+Sending the device report…	Nosūta ierīces pārskatu…
+Sent — refresh in 2 s	Nosūtīts — atsvaidzināšana pēc 2 s
+Service	Apkope
+Service done today	Apkope veikta šodien
+Service in 	Apkope pēc 
+Set	Iestatīt
+Settings	Iestatījumi
+Setup	Iestatījumi
+Setup assistant	Iestatīšanas vednis
+Setup → Vehicle	Iestatījumi → Transportlīdzeklis
+Sharp left	Strauji pa kreisi
+Sharp right	Strauji pa labi
+Show a picture at start	Rādīt attēlu startējot
+Since refuelling	Kopš uzpildes
+Since start	Kopš izbraukšanas
+Skip	Izlaist
+Skip setup	Izlaist iestatīšanu
+Software	Programmatūra
+Software base	Programmatūras bāze
+Software update	Programmatūras atjauninājums
+Software update failed	Programmatūras atjaunināšana neizdevās
+Software update finished	Programmatūras atjaunināšana pabeigta
+Software update in progress…	Notiek programmatūras atjaunināšana…
+Software version	Programmatūras versija
+Software version:	Programmatūras versija:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Kaut kas nedarbojas, kā vajadzētu. Ierīces pārskats (ar pārbaužu rezultātiem) palīdz to labot nākamajā atjauninājumā.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Dziesmas
+Sound	Skaņa
+Source	Avots
+Sources	Avoti
+Start	Sākt
+Start music on your phone.	Palaidiet mūziku tālrunī.
+Start the phone app (ZLink…)	Palaist tālruņa lietotni (ZLink…)
+Start update	Sākt atjaunināšanu
+Start-up connections	Savienojumi startējot
+Started	Palaists
+Station list	Staciju saraksts
+Station logos from the internet	Staciju logotipi no interneta
+Station name	Stacijas nosaukums
+Stations	Stacijas
+Stations found: 	Atrastās stacijas: 
+Stop	Apturēt
+Stop scan	Apturēt meklēšanu
+Street and number, city or place	Iela un numurs, pilsēta vai vieta
+Street, city	Iela, pilsēta
+Strong stations only (LOC)	Tikai spēcīgas stacijas (LOC)
+System Wi-Fi settings	Sistēmas Wi-Fi iestatījumi
+System date	Sistēmas datums
+System dialer	Sistēmas tālrunis
+System information	Sistēmas informācija
+System settings	Sistēmas iestatījumi
+System version	Sistēmas versija
+Take the ramp	Iebrauciet uzbrauktuvē
+Tap a device to connect. Long press: forget the device.	Pieskarieties ierīcei, lai savienotu. Ilga nospiešana: aizmirst ierīci.
+Test builds	Testa versijas
+Test builds (every build)	Testa versijas (katrs būvējums)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Apkārtējā apgaismojuma krāsa ir arī visa palaidēja krāsa.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Krāsu profils maina palaidēja attēlu (visus tā ekrānus, arī karti). Citu lietotņu krāsas var mainīt tikai tad, kad palaidējs ir sistēmas lietotne.
+The device report was saved; send it to the developer: 	Ierīces pārskats saglabāts; nosūtiet to izstrādātājam: 
+The device report was sent to the developer.	Ierīces pārskats nosūtīts izstrādātājam.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Ierīces pārskats tiks nosūtīts, kad ierīce būs tiešsaistē. Tas saglabāts arī šeit: 
+The download is not a valid APK	Lejupielādētais fails nav derīgs APK
+The internet is connected	Internets ir savienots
+The last connected phone	Pēdējais savienotais tālrunis
+The launcher restarts in the new version.	Palaidējs restartējas jaunajā versijā.
+The launcher will search for stations and play the first one it finds.	Palaidējs meklē stacijas un atskaņo pirmo atrasto.
+The picture can't be opened	Attēlu nevar atvērt
+The picture cannot be opened	Attēlu nevar atvērt
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Attēls parādās, kad palaidējs startē pēc ierīces ieslēgšanas, un pēc tam izgaist (pieskāriens to uzreiz noņem). Ierīces pašas Android sāknēšanas animācija nemainās.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radio un Bluetooth mūzika var nedarboties caur šīs ierīces pašas pakalpojumiem. Ierīces pārskats tiek nosūtīts, un, kad atbalsts būs gatavs, palaidējs piedāvās šīs ierīces versiju.
+The software is up to date	Programmatūra ir atjaunināta
+The station can't be played	Staciju nevar atskaņot
+The station can't be played (connection?)	Staciju nevar atskaņot (savienojums?)
+The unit is set up. Every setting can be changed later in Setup.	Ierīce ir iestatīta. Katru iestatījumu vēlāk var mainīt sadaļā Iestatījumi.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Šīs ierīces versiju pašlaik nevar lejupielādēt. Drīz mēģiniet vēlreiz.
+This unit is not supported yet	Šī ierīce vēl netiek atbalstīta
+This unit is supported now. Install the launcher build made for it.	Šī ierīce tagad tiek atbalstīta. Instalējiet tai izveidoto palaidēja versiju.
+This unit is supported: 	Šī ierīce tiek atbalstīta: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Šīs ierīces FM uztvērēju nevar izmantot no palaidēja; interneta radio skan caur internetu.
+Time and date	Laiks un datums
+Time for winter tyres	Laiks ziemas riepām
+To show the song and cover, enable\nnotification access — tap here.	Ieslēdziet piekļuvi paziņojumiem, lai rādītu dziesmu un vāciņu\n— pieskarieties šeit.
+Treble	Augstie
+Try now	Izmēģināt tagad
+Turn Bluetooth on	Ieslēgt Bluetooth
+Turn Wi-Fi on	Ieslēgt Wi-Fi
+Turn left	Pagriezieties pa kreisi
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Ieslēdziet „Rādīt virs citām lietotnēm” MibDroid, lai tas varētu atgriezties virs rūpnīcas lietotnes.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Ieslēdziet „Rādīt virs citām lietotnēm” MibDroid un pēc tam vēlreiz izvēlieties BT audio.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Ieslēdziet Bluetooth tālrunī un padariet to redzamu, tad izvēlieties to sarakstā:
+Turn radio off	Izslēgt radio
+Turn right	Pagriezieties pa labi
+Turn the hotspot on / off	Tīklājs iesl. / izsl.
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB parasti atrodas zem /storage/… vai /mnt/… (piem., usbhost, udisk).
+Uninstall	Atinstalēt
+Units	Mērvienības
+Until then, Continue installs the default version (QF).	Līdz tam Turpināt instalē noklusējuma versiju (QF).
+Update	Atjaunināt
+Update available:	Pieejams atjauninājums:
+Update failed: 	Atjaunināšana neizdevās: 
+Update not installed	Atjauninājums nav instalēts
+Update station list	Atjaunināt staciju sarakstu
+Use as phone app	Izmantot kā tālruņa lietotni
+Use as radio app	Izmantot kā radio lietotni
+Use offline map	Izmantot bezsaistes karti
+Vehicle	Transportlīdzeklis
+Vehicle and pictures	Transportlīdzeklis un attēli
+Vehicle status	Transportlīdzekļa stāvoklis
+Versions	Versijas
+View	Skats
+Voice guidance	Balss norādes
+Waiting for GPS position	Gaida GPS pozīciju
+Waiting for GPS…	Gaida GPS…
+Warmth	Siltums
+Welcome	Laipni lūdzam
+Welcome to App-Connect.\nPlease connect a device using the USB.	Laipni lūdzam App-Connect.\nSavienojiet ierīci caur USB.
+When the unit starts	Kad ierīce startē
+Wi-Fi is off.	Wi-Fi ir izslēgts.
+Wi-Fi not available	Wi-Fi nav pieejams
+Winter tyre reminder (1 Nov – 1 Apr)	Ziemas riepu atgādinājums (1. nov. – 1. apr.)
+Winter tyres fitted	Ziemas riepas uzliktas
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Ar izvēlētām mapēm palaidējs nolasa tikai tās (un to apakšmapes) kā parastus failus. Bez tām tas pats atrod mūziku krātuvē un USB.
+Work	Darbs
+Wrong package	Nepareiza pakotne
+Yes	Jā
+Yes, I hear the music	Jā, dzirdu mūziku
+Yes, I hear the radio	Jā, dzirdu radio
+You can switch back to summer tyres	Varat atgriezties pie vasaras riepām
+You have arrived	Jūs esat ieradies
+You have arrived.	Jūs esat ieradies.
+ZLink is not installed	ZLink nav instalēts
+any saved network	jebkurš saglabāts tīkls
+available: 	pieejams: 
+chosen	izvēlēts
+connect / new device	savienot / jauna ierīce
+empty	tukšs
+enter	iekļaušanās
+forget a network, advanced	aizmirst tīklu, papildu
+free	brīvs
+left today: 	vēl šodien: 
+needed	nepieciešams
+needs 2 full tanks	vajag 2 pilnas tvertnes
+no build for this unit	nav versijas šai ierīcei
+no data	nav datu
+no more today	šodien vairs ne
+none	nav
+none found	nekas netika atrasts
+none yet	vēl nav
+none yet — play BT music	vēl nav — atskaņojiet BT mūziku
+nothing received	nekas nav saņemts
+now only inside the launcher	tagad tikai palaidējā
+off	izsl.
+on	iesl.
+open	atvērt
+remove	noņemt
+save and show	saglabāt un rādīt
+secured	aizsargāts
+service list unavailable	pakalpojumu saraksts nav pieejams
+set	iestatīts
+state unknown	stāvoklis nezināms
+switched off in Setup	atspējots sadaļā Iestatījumi
+takes ~10 s	aizņem ~10 s
+tap and listen	pieskarieties un klausieties
+the last connected (none yet)	pēdējais savienotais (vēl nav)
+to Download	uz Download
+to support new units	lai atbalstītu jaunas ierīces
+unavailable	nav pieejams
+unreadable	nav nolasāms
+up	augšā
+your choice below	jūsu izvēle zemāk
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Izmantot šo mapi
+✗ — tap to enable	✗ — pieskarieties, lai ieslēgtu

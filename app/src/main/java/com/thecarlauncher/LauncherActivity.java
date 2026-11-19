@@ -125,12 +125,32 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
     };
 
+    /** Set when the universal build is kept on a unit no build exists for yet (after its report). */
+    public static final String P_UNIVERSAL_UNLOCKED = "universal_unlocked";
+
+    /**
+     * The universal build (MibDroid.apk) is only the setup app: welcome, language, Wi-Fi and the
+     * compatibility check, which installs the build for the unit over it. It becomes the general
+     * launcher only on a unit no build exists for yet.
+     */
+    public static boolean setupOnly(Context c) {
+        return com.thecarlauncher.util.UnitKind.UNIVERSAL.equals(com.thecarlauncher.unit.Unit.ID)
+                && !Prefs.bool(c, P_UNIVERSAL_UNLOCKED, false);
+    }
+
+    /** Pages the setup app may show. */
+    private static boolean setupPage(int idx) {
+        return idx == INTRO || idx == WELCOME || idx == SETTINGS || idx == SOFTWARE;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         com.thecarlauncher.util.CrashLog.install(this);
-        com.thecarlauncher.util.StartupConnect.onLauncherStart(this);
-        com.thecarlauncher.media.Tone.get(this).init();
+        final boolean setup = setupOnly(this);
+        // The setup app leaves the unit's radio, Bluetooth module and audio alone.
+        if (!setup) com.thecarlauncher.util.StartupConnect.onLauncherStart(this);
+        if (!setup) com.thecarlauncher.media.Tone.get(this).init();
         com.thecarlauncher.util.BringBack.launcherTask = getTaskId();
         hadAllFiles = Storage.hasAllFiles();
         IntentFilter mf = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
@@ -141,10 +161,12 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         registerReceiver(mediaMount, mf);
         Mib.loadAmbient(this);
         enableAnimations();
-        com.thecarlauncher.media.Tone.get(this).attachGlobal();
-        com.thecarlauncher.media.QfMediaBridge.get(this);
-        com.thecarlauncher.media.GocBluetooth.get(this).start();
-        RadioController.get(this).mcuChannel(); // connects the MCU listener (also feeds the sniffer)
+        if (!setup) {
+            com.thecarlauncher.media.Tone.get(this).attachGlobal();
+            com.thecarlauncher.media.QfMediaBridge.get(this);
+            com.thecarlauncher.media.GocBluetooth.get(this).start();
+            RadioController.get(this).mcuChannel(); // connects the MCU listener (also feeds the sniffer)
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0xFF000000);
         getWindow().setNavigationBarColor(0xFF000000);
@@ -192,13 +214,15 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
         int start = MENU;
         if (savedInstanceState != null) start = savedInstanceState.getInt("screen", MENU);
-        else if (com.thecarlauncher.screens.WelcomeScreen.needed(this)) {
+        else if (setup || com.thecarlauncher.screens.WelcomeScreen.needed(this)) {
             start = com.thecarlauncher.screens.WelcomeScreen.inProgress(this) ? WELCOME : INTRO;
         }
         show(screenFromIntent(getIntent(), start), false);
 
-        MediaHub.get(this).connectExternal();
-        if (MusicLibrary.hasPermission(this)) MusicService.start(this);
+        if (!setup) {
+            MediaHub.get(this).connectExternal();
+            if (MusicLibrary.hasPermission(this)) MusicService.start(this);
+        }
         AppRepository.get(this);
         TripComputer.get(this);
 
@@ -212,7 +236,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         sf.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(statusReceiver, sf);
 
-        requestMissingPermissions(false);
+        if (!setup) requestMissingPermissions(false); // the unit's own build asks
     }
 
     /** Status bar text / icons: a touch dimmer than the white screen content. */
@@ -335,7 +359,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         super.onResume();
         // Remember the connected phone for "Start-up connections" (unit service calls: background).
         final android.content.Context app = getApplicationContext();
-        new Thread(new Runnable() {
+        if (!setupOnly(this)) new Thread(new Runnable() {
             @Override
             public void run() {
                 com.thecarlauncher.util.StartupConnect.learnPhone(app);
@@ -354,7 +378,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         Weather.get(this).update(LocationTracker.get(this));
         com.thecarlauncher.util.Updater.autoCheck(this);
         checkCompatibility();
-        MediaHub.get(this).connectExternal();
+        if (!setupOnly(this)) MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
 
@@ -436,6 +460,9 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     public void show(int idx, boolean animate) {
         if (idx < 0 || idx >= screens.length || screens[idx] == null) return;
+        if (setupOnly(this) && !setupPage(idx)) {
+            idx = com.thecarlauncher.screens.WelcomeScreen.inProgress(this) ? WELCOME : INTRO;
+        }
         hideKeyboard();
         if (idx == current) return;
         if (!goingBack) {

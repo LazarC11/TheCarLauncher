@@ -152,7 +152,13 @@ public final class Updater {
     public static boolean busy() { return busy; }
 
     /** Looks for the newest release (in the background); the answer comes on the main thread. */
-    public static void check(final Context c, final Checked done) {
+    public static void check(final Context c, final Checked done) { check(c, null, done); }
+
+    /**
+     * Like {@link #check(Context, Checked)}, for a given build's APK (e.g. the default QF build
+     * for a unit no build exists for yet); null = the build for this unit.
+     */
+    public static void check(final Context c, final String assetOverride, final Checked done) {
         final boolean beta = Prefs.bool(c, P_BETA, false);
         new Thread(new Runnable() {
             @Override
@@ -165,7 +171,7 @@ public final class Updater {
                     JSONArray a = beta ? new JSONArray(json) : new JSONArray().put(new JSONObject(json));
                     // The release's unit rules first: they may know units added after this version.
                     fetchRules(c, a);
-                    String want = UnitKind.assetName(c, UnitKind.detect(c));
+                    String want = assetOverride != null ? assetOverride : UnitKind.assetName(c, UnitKind.detect(c));
                     if (beta) {
                         for (int i = 0; i < a.length(); i++) {
                             Release r = parse(a.getJSONObject(i), want);

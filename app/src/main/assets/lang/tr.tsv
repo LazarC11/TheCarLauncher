@@ -631,3 +631,10 @@ Enough reports were sent today; this one is saved here: 	Bugün yeterince rapor 
 Send to the developer	Geliştiriciye gönder
 left today: 	bugün kalan: 
 no more today	bugün artık yok
+Connect the unit to the internet to install the version for this unit (Setup → Software update).	Bu cihazın sürümünü yüklemek için cihazı internete bağlayın (Ayarlar → Yazılım güncellemesi).
+Connect the unit to the internet to install the version for this unit.	Bu cihazın sürümünü yüklemek için cihazı internete bağlayın.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Bu cihazın sürümü şu anda indirilemiyor. Birazdan tekrar deneyin.
+Continue installs the new version.	Devam, yeni sürümü yükler.
+Continue installs the version made for this unit.	Devam, bu cihaz için hazırlanan sürümü yükler.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radyo ve Bluetooth müzik bu cihazın kendi hizmetleri üzerinden çalışmayabilir. Cihaz raporu gönderilir; destek geldiğinde başlatıcı bu cihazın sürümünü önerecek.
+Until then, Continue installs the default version (QF).	O zamana kadar Devam, varsayılan sürümü (QF) yükler.

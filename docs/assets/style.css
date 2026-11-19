@@ -103,3 +103,8 @@ footer { padding: 36px 0 50px; border-top: 1px solid var(--line); color: var(--d
   th:nth-child(3), td:nth-child(3) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.card.main { margin: 26px 0 8px; max-width: 520px; padding: 20px 24px; }
+.card.main b { font-size: 24px; }
+.card.main em { color: #1f5f9f; font-weight: 600; }
+h3 { font-size: 18px; font-weight: 600; color: var(--grey); margin: 34px 0 0; }
