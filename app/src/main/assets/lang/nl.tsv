@@ -1,0 +1,594 @@
+# English text <TAB> translation (nl). Keys must match the English text in the code exactly.
+  (partial)	  (gedeeltelijk)
+  (test)	  (test)
+  (this unit: 	  (dit apparaat: 
+ (back to Android)	 (terug naar Android)
+ (last connected)	 (laatst verbonden)
+ connected	 verbonden
+ days	 dagen
+ downloaded	 gedownload
+ folders	 mappen
+ is connected.\nTap to show the phone.	 is verbonden.\nTik om de telefoon te tonen.
+ kilometres	 kilometer
+ metres	 meter
+ music / video files in this folder	 muziek- / videobestanden in deze map
+ nearby	 in de buurt
+ saved	 opgeslagen
+ songs	 nummers
+ videos	 video's
+ · tap to delete	 · tik om te verwijderen
++15,000 km / +1 yr	+15.000 km / +1 jaar
+24-hour format	24-uursnotatie
+A phone is connected. Disconnect it first to add a new device.	Er is een telefoon verbonden. Verbreek eerst de verbinding om een nieuw apparaat toe te voegen.
+Add	Toevoegen
+Add a folder	Map toevoegen
+Add fill-up	Tankbeurt toevoegen
+Add to MENU	Aan MENU toevoegen
+Albums	Albums
+All	Alles
+All Android settings	Alle Android-instellingen
+All countries	Alle landen
+All files access (USB)	Toegang tot alle bestanden (USB)
+All presets are taken — hold a preset to replace it	Alle voorkeuzes zijn bezet — houd een voorkeuze ingedrukt om die te vervangen
+All set	Alles klaar
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Sta „Toegang tot alle bestanden” toe voor MibDroid, zodat muziek op USB-sticks gelezen kan worden.
+Allow access	Toegang toestaan
+Allow access to music.	Toegang tot muziek toestaan.
+Allow access to pictures	Toegang tot afbeeldingen toestaan
+Allow changing the system brightness	Wijzigen van de systeemhelderheid toestaan
+Allow installing apps for MibDroid, then try again	Sta het installeren van apps toe voor MibDroid en probeer het opnieuw
+Allow installing updates	Installeren van updates toestaan
+Allow location access	Locatietoegang toestaan
+Allow returning from the BT app	Terugkeren uit de BT-app toestaan
+Allowed	Toegestaan
+Altitude	Hoogte
+Ambient lighting	Sfeerverlichting
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android laat een gewone app de hotspot niet zelf schakelen: de hotspotpagina van het systeem opent (naam, wachtwoord, aan/uit). Zodra de launcher een systeemapp is, werkt dit hier direct.
+Android system	Android-systeem
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android vraagt om de installatie te bevestigen. Als systeemapp (Magisk-module) werkt de launcher zichzelf bij.
+Annual service	Jaarlijkse onderhoudsbeurt
+Annual service due now!	Jaarlijkse onderhoudsbeurt nu nodig!
+Another app (gallery, file manager)	Andere app (galerij, bestandsbeheer)
+Any saved network	Elk opgeslagen netwerk
+App	App
+App (ZLink, CarPlay…)	App (ZLink, CarPlay…)
+App info	App-info
+App name	App-naam
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect is niet beschikbaar.\nEr is geen ZLink-app op dit apparaat gevonden.
+Apps	Apps
+Artists	Artiesten
+At the end, left	Aan het eind links
+At the end, right	Aan het eind rechts
+Automatic (by region)	Automatisch (per regio)
+Automatic (detect from media session)	Automatisch (uit de mediasessie)
+Automatic (storage and USB)	Automatisch (opslag en USB)
+Automatic brightness	Automatische helderheid
+Automatic check (once a day)	Automatische controle (eenmaal per dag)
+Available version:	Beschikbare versie:
+Average consumption	Gemiddeld verbruik
+Average speed	Gemiddelde snelheid
+Avg. consumption	Gem. verbruik
+Avg. fuel price	Gem. brandstofprijs
+BT audio as soon as the phone connects	BT-audio zodra de telefoon verbindt
+BT daemon probe	BT daemon probe
+BT music app	BT-muziekapp
+BT package (from media session)	BT-pakket (uit de mediasessie)
+BT screen	BT-scherm
+BT_STATE	BT_STATE
+Back	Terug
+Bass	Lage tonen
+Bass - Mid - Treble	Laag - Midden - Hoog
+Bear left	Flauwe bocht links
+Bear right	Flauwe bocht rechts
+Bluetooth audio check	Controle Bluetooth-audio
+Bluetooth devices	Bluetooth-apparaten
+Boot screen	Opstartscherm
+Brand	Merk
+Brightness	Helderheid
+Browse	Bladeren
+Buffering…	Bufferen…
+Build for this unit:	Versie voor dit apparaat:
+Build for unit:	Versie voor apparaat:
+Build number	Buildnummer
+Building the device report…	Apparaatrapport maken…
+Built-in Corsa C pictures (car and cabin)	Ingebouwde Corsa C-afbeeldingen (auto en interieur)
+Built-in launcher radio	Ingebouwde launcherradio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Er zijn ingebouwde afbeeldingen voor de Opel Corsa C; importeer voor andere voertuigen je eigen foto van het apparaat of USB.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API-sleutel (gratis: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO-sleutel voor de online kaart
+Cabin (ambient lighting)	Interieur (sfeerverlichting)
+Calculating route…	Route berekenen…
+Cancel	Annuleren
+Cancelled	Geannuleerd
+Car picture	Afbeelding van de auto
+Car picture (Vehicle status)	Afbeelding van de auto (voertuigstatus)
+Change home address	Thuisadres wijzigen
+Change work address	Werkadres wijzigen
+Check again	Opnieuw controleren
+Check for updates automatically	Automatisch naar updates zoeken
+Checking for updates…	Zoeken naar updates…
+Checking that the software fits this unit…	Controleren of de software bij dit apparaat past…
+Checking…	Controleren…
+Choose a Wi-Fi network	Kies een wifinetwerk
+Choose a folder	Kies een map
+Choose a phone app in Setup	Kies een telefoonapp in Instellingen
+Choose a picture	Kies een afbeelding
+Choose a picture first	Kies eerst een afbeelding
+Choose a radio app (long-press it in Apps)	Kies een radioapp (houd hem ingedrukt in Apps)
+Choose a station in the station list	Kies een zender in de zenderlijst
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Kies het merk van het voertuig en de afbeeldingen die de launcher toont: de auto (Voertuig) en het interieur (sfeerverlichting).
+Clear presets	Voorkeuzes wissen
+Clear recent destinations	Recente bestemmingen wissen
+Cleared	Gewist
+Colour profile	Kleurprofiel
+Colour profile and more	Kleurprofiel en meer
+Colour: 	Kleur: 
+Compatibility	Compatibiliteit
+Compatibility update available	Compatibiliteitsupdate beschikbaar
+Confirm the network in the system window	Bevestig het netwerk in het systeemvenster
+Connect a new device	Nieuw apparaat verbinden
+Connect apps	Apps verbinden
+Connect the phone	De telefoon verbinden
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Verbind het apparaat met internet (een wifinetwerk of de hotspot van je telefoon) om de compatibiliteit te controleren en updates te krijgen.
+Connect the unit to the internet to install the version for this unit.	Verbind het apparaat met internet om de versie voor dit apparaat te installeren.
+Connect your phone for music and calls.	Verbind je telefoon voor muziek en gesprekken.
+Connected	Verbonden
+Connected: 	Verbonden: 
+Connecting to 	Verbinden met 
+Connecting: 	Verbinden: 
+Connecting…	Verbinden…
+Connects to	Verbindt met
+Continue	Doorgaan
+Continue installs the new version.	Doorgaan installeert de nieuwe versie.
+Continue installs the version made for this unit.	Doorgaan installeert de versie voor dit apparaat.
+Continue straight	Rechtdoor
+Continue without internet	Doorgaan zonder internet
+Contrast	Contrast
+Copying failed	Kopiëren mislukt
+Copying the factory apps…	Fabrieksapps kopiëren…
+Corsa C (built-in)	Corsa C (ingebouwd)
+Cost per 100 km	Kosten per 100 km
+Could not calculate route	Route kon niet worden berekend
+Could not connect	Kon geen verbinding maken
+Could not connect — turn on Bluetooth on the phone	Kon geen verbinding maken — zet Bluetooth op de telefoon aan
+Countries and regions	Landen en regio's
+Country	Land
+Cover art from the internet	Hoesjes van internet
+Current odometer (km)	Huidige kilometerstand (km)
+Current source / title	Huidige bron / titel
+Current speed	Huidige snelheid
+Custom	Aangepast
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Gegevens: © OpenStreetMap-bijdragers (ODbL), bestanden: mapsforge.org
+Date and time (Android)	Datum en tijd (Android)
+Day	Dag
+Default launcher	Standaardlauncher
+Delete	Verwijderen
+Delete last fill-up	Laatste tankbeurt verwijderen
+Delete map?	Kaart verwijderen?
+Destination	Bestemming
+Device report	Apparaatrapport
+Diagnostics	Diagnose
+Diagnostics (QF / Bluetooth)	Diagnose (QF / Bluetooth)
+Disconnect	Verbinding verbreken
+Disconnect the current phone	Huidige telefoon loskoppelen
+Disconnect the phone first	Koppel eerst de telefoon los
+Display over other apps: off	Weergeven boven andere apps: uit
+Distance	Afstand
+Do you hear the radio?	Hoor je de radio?
+Download a map	Kaart downloaden
+Download logos for found stations	Logo's van gevonden zenders downloaden
+Download started: 	Download gestart: 
+Downloading map: 	Kaart downloaden: 
+Downloading station logos… 	Zenderlogo's downloaden… 
+Downloading the update… 	Update downloaden… 
+Downloading: 	Downloaden: 
+Driving direction up	Rijrichting boven
+Driving time	Rijtijd
+Duration	Duur
+EN	EN
+Empty	Leeg
+Enable "MibDroid" so Spotify & other players show up here	Schakel „MibDroid” in zodat Spotify en andere spelers hier verschijnen
+Enough reports were sent today; this one is saved here: 	Vandaag zijn genoeg rapporten verzonden; dit rapport is hier opgeslagen: 
+Error: 	Fout: 
+Exit	Afrit
+Exit left	Afrit links
+Exit right	Afrit rechts
+Export the factory apps (APK)	Fabrieksapps exporteren (APK)
+FM radio	FM-radio
+FM radio is not available on this unit	FM-radio is niet beschikbaar op dit apparaat
+FM tuner	FM-tuner
+Factory radio app	Fabrieksradioapp
+Factory software version	Fabriekssoftwareversie
+Fill-up	Tankbeurt
+Fill-up saved	Tankbeurt opgeslagen
+Finish	Voltooien
+Folder not readable (file access permission?)	Map niet leesbaar (toestemming voor bestandstoegang?)
+Folders	Mappen
+Forget device	Apparaat vergeten
+Found: 	Gevonden: 
+Fuel	Brandstof
+Fuel tank	Brandstoftank
+Fuel tank (l)	Brandstoftank (l)
+Full screen (hide Android bars)	Volledig scherm (Android-balken verbergen)
+Full tank	Volle tank
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardware
+Head unit	Autoradio
+Heading	Koers
+Hide the factory player	Fabrieksspeler verbergen
+Hide the factory player (music / video)	Fabrieksspeler verbergen (muziek / video)
+Home	Thuis
+Hotspot	Hotspot
+Hotspot settings not found	Hotspotinstellingen niet gevonden
+I hear nothing	Ik hoor niets
+Import a picture from the unit or USB:	Afbeelding importeren van het apparaat of USB:
+Imported picture	Geïmporteerde afbeelding
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	In een paar minuten stellen we het apparaat in: internet, voertuig, telefoon, en controleren we of de radio en het Bluetooth-geluid werken.
+Installed SW MU version:	Geïnstalleerde SW MU-versie:
+Installed SW Train version:	Geïnstalleerde SW Train-versie:
+Installing 	Installeren van 
+Interior picture (Ambient lighting)	Interieurafbeelding (sfeerverlichting)
+Keep left	Links aanhouden
+Keep right	Rechts aanhouden
+Kilometres (km/h)	Kilometer (km/u)
+Language and region	Taal en regio
+Language/Jezik	Taal/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Laatste controle:
+Last fill-up	Laatste tankbeurt
+Later	Later
+Learned BT channel	Learned BT channel
+List not available (internet?)	Lijst niet beschikbaar (internet?)
+List not available (needs internet): 	Lijst niet beschikbaar (internet nodig): 
+Litres	Liter
+Loading the list of maps…	Lijst met kaarten laden…
+Loading the list…	Lijst laden…
+Loading…	Laden…
+Logos: 	Logo's: 
+Long-term	Lange termijn
+Looking for pictures…	Afbeeldingen zoeken…
+Low fuel: about 	Weinig brandstof: ongeveer 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Hoofdinstellingen (dit apparaat wordt nog niet ondersteund, dus de eigen instellingen zijn verborgen).
+Make a U-turn	Keer om
+Manual	Handmatig
+Map data	Kaartgegevens
+Map style	Kaartstijl
+Map turns with the driving direction	Kaart draait mee met de rijrichting
+Maps work without internet and are drawn on the unit.	Kaarten werken zonder internet en worden op het apparaat getekend.
+Media	Media
+Media access	Mediatoegang
+Media and Bluetooth	Media en Bluetooth
+Media notification	Mediamelding
+Media session	Mediasessie
+Memory	Geheugen
+Merge	Invoegen
+Mid	Midden
+Miles (mph)	Mijl (mph)
+Mode: 	Modus: 
+Model	Model
+Music folders	Muziekmappen
+Music library	Muziekbibliotheek
+Music videos (MP4 and other video files)	Muziekvideo's (MP4 en andere videobestanden)
+My dest.	Mijn best.
+Nav app	Navi-app
+Navigate to this point?	Naar dit punt navigeren?
+Navigation	Navigatie
+Navigation and offline maps	Navigatie en offline kaarten
+Navigation app	Navigatieapp
+Nearby	In de buurt
+Network	Netwerk
+New dest.	Nieuwe best.
+New destination	Nieuwe bestemming
+New device	Nieuw apparaat
+Next	Volgende
+Next oil change	Volgende olieverversing
+Next service scheduled	Volgende onderhoudsbeurt gepland
+Night	Nacht
+No	Nee
+No GPS position	Geen GPS-positie
+No app to choose a picture	Geen app om een afbeelding te kiezen
+No connection — try again	Geen verbinding — probeer het opnieuw
+No destinations yet	Nog geen bestemmingen
+No devices found. Tap "Search" in the corner.	Geen apparaten gevonden. Tik op „Zoeken” in de hoek.
+No entries.	Geen items.
+No media selected.\nTap Browse or Play.	Geen media gekozen.\nTik op Bladeren of Afspelen.
+No media.\nInsert a USB stick or SD card with music.	Geen media.\nPlaats een USB-stick of SD-kaart met muziek.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Geen media.\nTik hier en sta „Toegang tot alle bestanden” toe zodat USB-sticks gelezen kunnen worden.
+No music	Geen muziek
+No named stations — update the station list first	Geen zenders met naam — werk eerst de zenderlijst bij
+No networks found (location permission is needed).	Geen netwerken gevonden (locatietoestemming is nodig).
+No picture	Geen afbeelding
+No picture selected	Geen afbeelding gekozen
+No pictures on the unit or on USB	Geen afbeeldingen op het apparaat of op USB
+No remembered devices. Connect a new phone:	Geen onthouden apparaten. Verbind een nieuwe telefoon:
+No results	Geen resultaten
+No song from the phone yet	Nog geen nummer van de telefoon
+No track information.	Geen nummerinformatie.
+No update information	Geen update-informatie
+None downloaded	Niets gedownload
+None found	Niets gevonden
+North up	Noorden boven
+Not a newer version	Geen nieuwere versie
+Not allowed – tap	Niet toegestaan – tik
+Not connected	Niet verbonden
+Not found	Niet gevonden
+Not selected	Niet gekozen
+Not set	Niet ingesteld
+Not set – OpenStreetMap is used	Niet ingesteld – OpenStreetMap wordt gebruikt
+Nothing found	Niets gevonden
+Nothing within 5 km	Niets binnen 5 km
+Notification access	Toegang tot meldingen
+Now 	Nu 
+Odometer	Kilometerstand
+Off	Uit
+Off (no internet)	Uit (geen internet)
+Offline maps	Offline kaarten
+Oil change at (km)	Olieverversing bij (km)
+Oil change due now!	Olieverversing nu nodig!
+Oil change in 	Olieverversing over 
+On	Aan
+Online radio	Internetradio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Internetradio speelt zenders via internet (Radio Browser) op hetzelfde radioscherm: in de zenderlijst kies je het land en zoek je, en voeg je zenders toe aan de voorkeuzebalk. Gebruikt ongeveer 60–120 MB per uur luisteren.
+Online stations	Online zenders
+Open the BT app briefly (plays the sound)	BT-app kort openen (speelt het geluid af)
+OpenStreetMap (dimmed)	OpenStreetMap (gedimd)
+Other	Overig
+Other media apps	Andere media-apps
+Pairing…	Koppelen…
+Part number:	Onderdeelnummer:
+Password	Wachtwoord
+Pause	Pauze
+Permissions	Toestemmingen
+Phone	Telefoon
+Phone (battery / signal)	Telefoon (batterij / signaal)
+Phone and radio	Telefoon en radio
+Phone app	Telefoonapp
+Phone disconnected	Telefoon losgekoppeld
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefoons verbinden via USB-kabel of draadloos (Android Auto, Apple CarPlay, schermspiegeling). Het scherm van de telefoon wordt getoond door de ZLink-app van het apparaat.\n\nStatus: 
+Picture set	Afbeelding ingesteld
+Play	Afspelen
+Play / pause	Afspelen / pauze
+Play a station from the station list first	Speel eerst een zender uit de zenderlijst af
+Play music on your phone. The launcher has switched to BT audio.	Speel muziek af op je telefoon. De launcher is overgeschakeld op BT-audio.
+Point on map	Punt op de kaart
+Presets cleared	Voorkeuzes gewist
+Previous	Vorige
+Price per litre	Prijs per liter
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profiel
+Radio	Radio
+Radio app	Radioapp
+Radio check	Radiocontrole
+Radio source	Radiobron
+Range	Actieradius
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Muziek van USB en opslag lezen…
+Recalculating.	Opnieuw berekenen.
+Recent destinations	Recente bestemmingen
+Recommended settings for this unit:	Aanbevolen instellingen voor dit apparaat:
+Registration expires	Kenteken verloopt
+Registration expires in 	Kenteken verloopt over 
+Registration has expired!	Kenteken is verlopen!
+Remaining: 	Resterend: 
+Remove from MENU	Uit MENU verwijderen
+Remove the picture	Afbeelding verwijderen
+Report not saved	Rapport niet opgeslagen
+Rescan	Opnieuw zoeken
+Reset	Herstellen
+Resume playback on start	Afspelen hervatten bij het starten
+Roundabout	Rotonde
+Route calculated.	Route berekend.
+Run the setup assistant	Installatieassistent starten
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Draait bij het starten van de launcher en wanneer het apparaat ontwaakt (contact aan). De telefoon moet al met het apparaat gekoppeld zijn; verbinden wordt twee minuten lang opnieuw geprobeerd. Vanaf Android 10 mag alleen een systeemapp (Magisk-module) wifi inschakelen; Android maakt dan zelf verbinding met opgeslagen netwerken. Voor draadloos CarPlay moet de telefoon één keer via de telefoonapp verbonden zijn geweest.
+SW download	SW-download
+Saturation	Verzadiging
+Saved: 	Opgeslagen: 
+Saving the picture…	Afbeelding opslaan…
+Scanning…	Zoeken…
+Screen	Scherm
+Screen mirroring	Schermspiegeling
+Search	Zoeken
+Search again	Opnieuw zoeken
+Search apps	Apps zoeken
+Search for networks	Netwerken zoeken
+Search for stations	Zenders zoeken
+Search stations	Zenders zoeken
+Search: 	Zoeken: 
+Searching for Wi-Fi networks…	Wifinetwerken zoeken…
+Searching for devices…	Apparaten zoeken…
+Searching for radio stations…	Radiozenders zoeken…
+Searching for radio stations… 	Radiozenders zoeken… 
+Searching…	Zoeken…
+Select	Kiezen
+Send the device report	Apparaatrapport verzenden
+Send to the developer	Naar de ontwikkelaar sturen
+Sending the device report…	Apparaatrapport verzenden…
+Sent — refresh in 2 s	Verzonden — vernieuwen over 2 s
+Service	Onderhoud
+Service done today	Onderhoud vandaag gedaan
+Service in 	Onderhoud over 
+Set	Instellen
+Settings	Instellingen
+Setup	Instellingen
+Setup assistant	Installatieassistent
+Setup → Vehicle	Instellingen → Voertuig
+Sharp left	Scherp links
+Sharp right	Scherp rechts
+Show a picture at start	Een afbeelding tonen bij het starten
+Since refuelling	Sinds het tanken
+Since start	Sinds het vertrek
+Skip	Overslaan
+Skip setup	Installatie overslaan
+Software	Software
+Software base	Softwarebasis
+Software update	Software-update
+Software update failed	Software-update mislukt
+Software update finished	Software-update voltooid
+Software update in progress…	Software-update bezig…
+Software version	Softwareversie
+Software version:	Softwareversie:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Iets werkt niet zoals het hoort. Het apparaatrapport (met de controleresultaten) helpt het in een volgende update op te lossen.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Nummers
+Sound	Geluid
+Source	Bron
+Sources	Bronnen
+Start	Starten
+Start music on your phone.	Start muziek op je telefoon.
+Start the phone app (ZLink…)	Telefoonapp starten (ZLink…)
+Start update	Update starten
+Start-up connections	Verbindingen bij het starten
+Started	Gestart
+Station list	Zenderlijst
+Station logos from the internet	Zenderlogo's van internet
+Station name	Zendernaam
+Stations	Zenders
+Stations found: 	Gevonden zenders: 
+Stop	Stoppen
+Stop scan	Zoeken stoppen
+Street and number, city or place	Straat en nummer, stad of plaats
+Street, city	Straat, stad
+Strong stations only (LOC)	Alleen sterke zenders (LOC)
+System Wi-Fi settings	Wifi-instellingen van het systeem
+System date	Systeemdatum
+System dialer	Systeemtelefoon
+System information	Systeeminformatie
+System settings	Systeeminstellingen
+System version	Systeemversie
+Take the ramp	Neem de oprit
+Tap a device to connect. Long press: forget the device.	Tik op een apparaat om te verbinden. Lang drukken: apparaat vergeten.
+Test builds	Testversies
+Test builds (every build)	Testversies (elke build)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	De kleur van de sfeerverlichting is ook de kleur van de hele launcher.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Het kleurprofiel verandert het beeld van de launcher (al zijn schermen, ook de kaart). De kleuren van andere apps kunnen pas worden gewijzigd als de launcher een systeemapp is.
+The device report was saved; send it to the developer: 	Het apparaatrapport is opgeslagen; stuur het naar de ontwikkelaar: 
+The device report was sent to the developer.	Het apparaatrapport is naar de ontwikkelaar gestuurd.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Het apparaatrapport wordt verzonden zodra het apparaat online is. Het is ook hier opgeslagen: 
+The download is not a valid APK	De download is geen geldige APK
+The internet is connected	Internet is verbonden
+The last connected phone	De laatst verbonden telefoon
+The launcher restarts in the new version.	De launcher start opnieuw in de nieuwe versie.
+The launcher will search for stations and play the first one it finds.	De launcher zoekt zenders en speelt de eerste die hij vindt.
+The picture can't be opened	De afbeelding kan niet worden geopend
+The picture cannot be opened	De afbeelding kan niet worden geopend
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	De afbeelding verschijnt wanneer de launcher start nadat het apparaat is ingeschakeld en vervaagt daarna (een aanraking haalt hem meteen weg). De eigen Android-opstartanimatie van het apparaat verandert niet.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	De radio en Bluetooth-muziek werken mogelijk niet via de eigen diensten van dit apparaat. Het apparaatrapport wordt verzonden en zodra er ondersteuning is, biedt de launcher de versie voor dit apparaat aan.
+The software is up to date	De software is up-to-date
+The station can't be played	De zender kan niet worden afgespeeld
+The station can't be played (connection?)	De zender kan niet worden afgespeeld (verbinding?)
+The unit is set up. Every setting can be changed later in Setup.	Het apparaat is ingesteld. Elke instelling kan later worden gewijzigd in Instellingen.
+The version for this unit cannot be downloaded right now. Try again in a moment.	De versie voor dit apparaat kan nu niet worden gedownload. Probeer het zo opnieuw.
+This unit is not supported yet	Dit apparaat wordt nog niet ondersteund
+This unit is supported now. Install the launcher build made for it.	Dit apparaat wordt nu ondersteund. Installeer de launcherversie die ervoor is gemaakt.
+This unit is supported: 	Dit apparaat wordt ondersteund: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	De FM-tuner van dit apparaat kan niet vanuit de launcher worden gebruikt; internetradio speelt via internet.
+Time and date	Tijd en datum
+Time for winter tyres	Tijd voor winterbanden
+To show the song and cover, enable\nnotification access — tap here.	Schakel toegang tot meldingen in om nummer en hoesje\nte tonen — tik hier.
+Treble	Hoge tonen
+Try now	Nu proberen
+Turn Bluetooth on	Bluetooth inschakelen
+Turn Wi-Fi on	Wifi inschakelen
+Turn left	Sla linksaf
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Schakel „Weergeven boven andere apps” in voor MibDroid, zodat hij terug kan komen over de fabrieksapp.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Schakel „Weergeven boven andere apps” in voor MibDroid en kies daarna opnieuw BT-audio.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Zet Bluetooth op de telefoon aan en maak hem zichtbaar, kies hem dan uit de lijst:
+Turn radio off	Radio uitzetten
+Turn right	Sla rechtsaf
+Turn the hotspot on / off	Hotspot aan / uit
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB staat meestal onder /storage/… of /mnt/… (bijv. usbhost, udisk).
+Uninstall	Verwijderen
+Units	Eenheden
+Until then, Continue installs the default version (QF).	Tot die tijd installeert Doorgaan de standaardversie (QF).
+Update	Bijwerken
+Update available:	Update beschikbaar:
+Update failed: 	Update mislukt: 
+Update not installed	Update niet geïnstalleerd
+Update station list	Zenderlijst bijwerken
+Use as phone app	Als telefoonapp gebruiken
+Use as radio app	Als radioapp gebruiken
+Use offline map	Offline kaart gebruiken
+Vehicle	Voertuig
+Vehicle and pictures	Voertuig en afbeeldingen
+Vehicle status	Voertuigstatus
+Versions	Versies
+View	Weergave
+Voice guidance	Gesproken begeleiding
+Waiting for GPS position	Wachten op GPS-positie
+Waiting for GPS…	Wachten op GPS…
+Warmth	Warmte
+Welcome	Welkom
+Welcome to App-Connect.\nPlease connect a device using the USB.	Welkom bij App-Connect.\nVerbind een apparaat via USB.
+When the unit starts	Bij het starten van het apparaat
+Wi-Fi is off.	Wifi is uit.
+Wi-Fi not available	Wifi niet beschikbaar
+Winter tyre reminder (1 Nov – 1 Apr)	Herinnering winterbanden (1 nov – 1 apr)
+Winter tyres fitted	Winterbanden gemonteerd
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Met gekozen mappen leest de launcher alleen die (en hun submappen) als gewone bestanden. Zonder vindt hij zelf muziek in de opslag en op USB.
+Work	Werk
+Wrong package	Verkeerd pakket
+Yes	Ja
+Yes, I hear the music	Ja, ik hoor de muziek
+Yes, I hear the radio	Ja, ik hoor de radio
+You can switch back to summer tyres	Je kunt terug naar zomerbanden
+You have arrived	U bent gearriveerd
+You have arrived.	U bent gearriveerd.
+ZLink is not installed	ZLink is niet geïnstalleerd
+any saved network	elk opgeslagen netwerk
+available: 	beschikbaar: 
+chosen	gekozen
+connect / new device	verbinden / nieuw apparaat
+empty	leeg
+enter	invoegen
+forget a network, advanced	netwerk vergeten, geavanceerd
+free	vrij
+left today: 	vandaag nog: 
+needed	nodig
+needs 2 full tanks	heeft 2 volle tanks nodig
+no build for this unit	geen versie voor dit apparaat
+no data	geen gegevens
+no more today	vandaag niet meer
+none	geen
+none found	niets gevonden
+none yet	nog geen
+none yet — play BT music	nog geen — speel BT-muziek af
+nothing received	niets ontvangen
+now only inside the launcher	nu alleen in de launcher
+off	uit
+on	aan
+open	openen
+remove	verwijderen
+save and show	opslaan en tonen
+secured	beveiligd
+service list unavailable	lijst met diensten niet beschikbaar
+set	ingesteld
+state unknown	status onbekend
+switched off in Setup	uitgeschakeld in Instellingen
+takes ~10 s	duurt ~10 s
+tap and listen	tik en luister
+the last connected (none yet)	de laatst verbonden (nog geen)
+to Download	naar Download
+to support new units	om nieuwe apparaten te ondersteunen
+unavailable	niet beschikbaar
+unreadable	niet leesbaar
+up	boven
+your choice below	jouw keuze hieronder
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Deze map gebruiken
+✗ — tap to enable	✗ — tik om in te schakelen
