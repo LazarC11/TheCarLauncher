@@ -1,0 +1,594 @@
+# English text <TAB> translation (sl). Keys must match the English text in the code exactly.
+  (partial)	  (delno)
+  (test)	  (test)
+  (this unit: 	  (ta enota: 
+ (back to Android)	 (nazaj v Android)
+ (last connected)	 (nazadnje povezan)
+ connected	 povezan
+ days	 dni
+ downloaded	 preneseno
+ folders	 map
+ is connected.\nTap to show the phone.	 je povezan.\nDotaknite se za prikaz telefona.
+ kilometres	 kilometrov
+ metres	 metrov
+ music / video files in this folder	 glasbene / video datoteke v tej mapi
+ nearby	 v bližini
+ saved	 shranjeno
+ songs	 skladb
+ videos	 videoposnetkov
+ · tap to delete	 · dotaknite se za brisanje
++15,000 km / +1 yr	+15.000 km / +1 leto
+24-hour format	24-urni zapis
+A phone is connected. Disconnect it first to add a new device.	Telefon je povezan. Najprej ga prekinite, da dodate novo napravo.
+Add	Dodaj
+Add a folder	Dodaj mapo
+Add fill-up	Dodaj točenje goriva
+Add to MENU	Dodaj v MENU
+Albums	Albumi
+All	Vse
+All Android settings	Vse nastavitve Androida
+All countries	Vse države
+All files access (USB)	Dostop do vseh datotek (USB)
+All presets are taken — hold a preset to replace it	Vsi spomini so zasedeni — pridržite spomin, da ga zamenjate
+All set	Vse pripravljeno
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Dovolite MibDroidu »Dostop do vseh datotek«, da lahko bere glasbo z USB ključev.
+Allow access	Dovoli dostop
+Allow access to music.	Dovolite dostop do glasbe.
+Allow access to pictures	Dovoli dostop do slik
+Allow changing the system brightness	Dovoli spreminjanje svetlosti sistema
+Allow installing apps for MibDroid, then try again	Dovolite MibDroidu nameščanje aplikacij in poskusite znova
+Allow installing updates	Dovoli nameščanje posodobitev
+Allow location access	Dovoli dostop do lokacije
+Allow returning from the BT app	Dovoli vrnitev iz aplikacije BT
+Allowed	Dovoljeno
+Altitude	Nadmorska višina
+Ambient lighting	Ambientalna osvetlitev
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android navadni aplikaciji ne dovoli, da sama vklopi dostopno točko: odpre se sistemska stran dostopne točke (ime, geslo, vklop/izklop). Ko je zaganjalnik sistemska aplikacija, to deluje neposredno tukaj.
+Android system	Sistem Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android zahteva potrditev namestitve. Kot sistemska aplikacija (modul Magisk) se zaganjalnik posodobi sam.
+Annual service	Letni servis
+Annual service due now!	Letni servis je potreben zdaj!
+Another app (gallery, file manager)	Druga aplikacija (galerija, upravitelj datotek)
+Any saved network	Katero koli shranjeno omrežje
+App	Aplikacija
+App (ZLink, CarPlay…)	Aplikacija (ZLink, CarPlay…)
+App info	Podatki o aplikaciji
+App name	Ime aplikacije
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect ni na voljo.\nNa enoti ni bilo najdene aplikacije ZLink.
+Apps	Aplikacije
+Artists	Izvajalci
+At the end, left	Na koncu levo
+At the end, right	Na koncu desno
+Automatic (by region)	Samodejno (po regiji)
+Automatic (detect from media session)	Samodejno (iz predstavnostne seje)
+Automatic (storage and USB)	Samodejno (pomnilnik in USB)
+Automatic brightness	Samodejna svetlost
+Automatic check (once a day)	Samodejno preverjanje (enkrat na dan)
+Available version:	Razpoložljiva različica:
+Average consumption	Povprečna poraba
+Average speed	Povprečna hitrost
+Avg. consumption	Povpr. poraba
+Avg. fuel price	Povpr. cena goriva
+BT audio as soon as the phone connects	BT zvok, ko se telefon poveže
+BT daemon probe	BT daemon probe
+BT music app	Glasbena aplikacija BT
+BT package (from media session)	Paket BT (iz predstavnostne seje)
+BT screen	Zaslon BT
+BT_STATE	BT_STATE
+Back	Nazaj
+Bass	Nizki toni
+Bass - Mid - Treble	Nizki - Srednji - Visoki
+Bear left	Rahlo levo
+Bear right	Rahlo desno
+Bluetooth audio check	Preverjanje zvoka Bluetooth
+Bluetooth devices	Naprave Bluetooth
+Boot screen	Zagonski zaslon
+Brand	Znamka
+Brightness	Svetlost
+Browse	Brskaj
+Buffering…	Medpomnjenje…
+Build for this unit:	Različica za to enoto:
+Build for unit:	Različica za enoto:
+Build number	Številka različice
+Building the device report…	Izdelava poročila o enoti…
+Built-in Corsa C pictures (car and cabin)	Vgrajene slike Corsa C (vozilo in notranjost)
+Built-in launcher radio	Vgrajeni radio zaganjalnika
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Za Opel Corsa C so na voljo vgrajene slike; za druga vozila uvozite svojo fotografijo iz enote ali USB-ja.
+CARTO API key (free: carto.com/basemaps/apikey)	Ključ CARTO API (brezplačno: carto.com/basemaps/apikey)
+CARTO key for the online map	Ključ CARTO za spletni zemljevid
+Cabin (ambient lighting)	Notranjost (ambientalna osvetlitev)
+Calculating route…	Izračun poti…
+Cancel	Prekliči
+Cancelled	Preklicano
+Car picture	Slika vozila
+Car picture (Vehicle status)	Slika vozila (stanje vozila)
+Change home address	Spremeni domači naslov
+Change work address	Spremeni službeni naslov
+Check again	Preveri znova
+Check for updates automatically	Samodejno išči posodobitve
+Checking for updates…	Iskanje posodobitev…
+Checking that the software fits this unit…	Preverjanje, ali programska oprema ustreza tej enoti…
+Checking…	Preverjanje…
+Choose a Wi-Fi network	Izberite omrežje Wi-Fi
+Choose a folder	Izberite mapo
+Choose a phone app in Setup	Izberite aplikacijo telefona v Nastavitvah
+Choose a picture	Izberite sliko
+Choose a picture first	Najprej izberite sliko
+Choose a radio app (long-press it in Apps)	Izberite radijsko aplikacijo (pridržite jo v Aplikacijah)
+Choose a station in the station list	Izberite postajo s seznama postaj
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Izberite znamko vozila in slike, ki jih prikazuje zaganjalnik: vozilo (Vozilo) in notranjost (ambientalna osvetlitev).
+Clear presets	Počisti spomine
+Clear recent destinations	Počisti nedavne cilje
+Cleared	Počiščeno
+Colour profile	Barvni profil
+Colour profile and more	Barvni profil in več
+Colour: 	Barva: 
+Compatibility	Združljivost
+Compatibility update available	Na voljo je posodobitev združljivosti
+Confirm the network in the system window	Potrdite omrežje v sistemskem oknu
+Connect a new device	Poveži novo napravo
+Connect apps	Poveži aplikacije
+Connect the phone	Povežite telefon
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Povežite enoto z internetom (omrežje Wi-Fi ali dostopna točka telefona), da preverite združljivost in prejmete posodobitve.
+Connect the unit to the internet to install the version for this unit.	Povežite enoto z internetom, da namestite različico za to enoto.
+Connect your phone for music and calls.	Povežite telefon za glasbo in klice.
+Connected	Povezano
+Connected: 	Povezano: 
+Connecting to 	Povezovanje z 
+Connecting: 	Povezovanje: 
+Connecting…	Povezovanje…
+Connects to	Povezuje se z
+Continue	Nadaljuj
+Continue installs the new version.	Nadaljuj namesti novo različico.
+Continue installs the version made for this unit.	Nadaljuj namesti različico, narejeno za to enoto.
+Continue straight	Naravnost
+Continue without internet	Nadaljuj brez interneta
+Contrast	Kontrast
+Copying failed	Kopiranje ni uspelo
+Copying the factory apps…	Kopiranje tovarniških aplikacij…
+Corsa C (built-in)	Corsa C (vgrajeno)
+Cost per 100 km	Strošek na 100 km
+Could not calculate route	Poti ni bilo mogoče izračunati
+Could not connect	Povezava ni uspela
+Could not connect — turn on Bluetooth on the phone	Povezava ni uspela — vklopite Bluetooth na telefonu
+Countries and regions	Države in regije
+Country	Država
+Cover art from the internet	Ovitki z interneta
+Current odometer (km)	Trenutni števec (km)
+Current source / title	Trenutni vir / naslov
+Current speed	Trenutna hitrost
+Custom	Po meri
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Podatki: © sodelavci OpenStreetMap (ODbL), datoteke: mapsforge.org
+Date and time (Android)	Datum in čas (Android)
+Day	Dan
+Default launcher	Privzeti zaganjalnik
+Delete	Izbriši
+Delete last fill-up	Izbriši zadnje točenje
+Delete map?	Izbrišem zemljevid?
+Destination	Cilj
+Device report	Poročilo o enoti
+Diagnostics	Diagnostika
+Diagnostics (QF / Bluetooth)	Diagnostika (QF / Bluetooth)
+Disconnect	Prekini povezavo
+Disconnect the current phone	Prekini trenutni telefon
+Disconnect the phone first	Najprej prekinite povezavo s telefonom
+Display over other apps: off	Prikaz čez druge aplikacije: izklopljeno
+Distance	Razdalja
+Do you hear the radio?	Ali slišite radio?
+Download a map	Prenesi zemljevid
+Download logos for found stations	Prenesi logotipe najdenih postaj
+Download started: 	Prenos se je začel: 
+Downloading map: 	Prenos zemljevida: 
+Downloading station logos… 	Prenos logotipov postaj… 
+Downloading the update… 	Prenos posodobitve… 
+Downloading: 	Prenos: 
+Driving direction up	Smer vožnje zgoraj
+Driving time	Čas vožnje
+Duration	Trajanje
+EN	EN
+Empty	Prazno
+Enable "MibDroid" so Spotify & other players show up here	Omogočite »MibDroid«, da se Spotify in drugi predvajalniki prikažejo tukaj
+Enough reports were sent today; this one is saved here: 	Danes je bilo poslanih dovolj poročil; to poročilo je shranjeno tukaj: 
+Error: 	Napaka: 
+Exit	Izvoz
+Exit left	Izvoz levo
+Exit right	Izvoz desno
+Export the factory apps (APK)	Izvozi tovarniške aplikacije (APK)
+FM radio	Radio FM
+FM radio is not available on this unit	Radio FM na tej enoti ni na voljo
+FM tuner	Sprejemnik FM
+Factory radio app	Tovarniška radijska aplikacija
+Factory software version	Različica tovarniške programske opreme
+Fill-up	Točenje goriva
+Fill-up saved	Točenje shranjeno
+Finish	Končaj
+Folder not readable (file access permission?)	Mape ni mogoče brati (dovoljenje za dostop do datotek?)
+Folders	Mape
+Forget device	Pozabi napravo
+Found: 	Najdeno: 
+Fuel	Gorivo
+Fuel tank	Rezervoar
+Fuel tank (l)	Rezervoar (l)
+Full screen (hide Android bars)	Celozaslonsko (skrij vrstice Androida)
+Full tank	Poln rezervoar
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Strojna oprema
+Head unit	Glavna enota
+Heading	Smer
+Hide the factory player	Skrij tovarniški predvajalnik
+Hide the factory player (music / video)	Skrij tovarniški predvajalnik (glasba / video)
+Home	Domov
+Hotspot	Dostopna točka
+Hotspot settings not found	Nastavitev dostopne točke ni mogoče najti
+I hear nothing	Nič ne slišim
+Import a picture from the unit or USB:	Uvozi sliko iz enote ali USB-ja:
+Imported picture	Uvožena slika
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	V nekaj minutah bomo nastavili enoto: internet, vozilo, telefon, in preverili, ali radio in zvok Bluetooth delujeta.
+Installed SW MU version:	Nameščena različica SW MU:
+Installed SW Train version:	Nameščena različica SW Train:
+Installing 	Nameščanje 
+Interior picture (Ambient lighting)	Slika notranjosti (ambientalna osvetlitev)
+Keep left	Držite se levo
+Keep right	Držite se desno
+Kilometres (km/h)	Kilometri (km/h)
+Language and region	Jezik in regija
+Language/Jezik	Jezik/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Zadnje preverjanje:
+Last fill-up	Zadnje točenje
+Later	Pozneje
+Learned BT channel	Learned BT channel
+List not available (internet?)	Seznam ni na voljo (internet?)
+List not available (needs internet): 	Seznam ni na voljo (potreben internet): 
+Litres	Litri
+Loading the list of maps…	Nalaganje seznama zemljevidov…
+Loading the list…	Nalaganje seznama…
+Loading…	Nalaganje…
+Logos: 	Logotipi: 
+Long-term	Dolgoročno
+Looking for pictures…	Iskanje slik…
+Low fuel: about 	Malo goriva: približno 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Glavne nastavitve (ta enota še ni podprta, zato so njene nastavitve skrite).
+Make a U-turn	Obrnite se
+Manual	Ročno
+Map data	Podatki zemljevida
+Map style	Slog zemljevida
+Map turns with the driving direction	Zemljevid se vrti s smerjo vožnje
+Maps work without internet and are drawn on the unit.	Zemljevidi delujejo brez interneta in se izrišejo na enoti.
+Media	Predstavnost
+Media access	Dostop do predstavnosti
+Media and Bluetooth	Predstavnost in Bluetooth
+Media notification	Obvestilo predstavnosti
+Media session	Predstavnostna seja
+Memory	Pomnilnik
+Merge	Vključite se
+Mid	Srednji
+Miles (mph)	Milje (mph)
+Mode: 	Način: 
+Model	Model
+Music folders	Glasbene mape
+Music library	Glasbena knjižnica
+Music videos (MP4 and other video files)	Glasbeni videi (MP4 in druge video datoteke)
+My dest.	Moji cilji
+Nav app	Navi aplikacija
+Navigate to this point?	Navigacija do te točke?
+Navigation	Navigacija
+Navigation and offline maps	Navigacija in zemljevidi brez povezave
+Navigation app	Navigacijska aplikacija
+Nearby	V bližini
+Network	Omrežje
+New dest.	Nov cilj
+New destination	Nov cilj
+New device	Nova naprava
+Next	Naprej
+Next oil change	Naslednja menjava olja
+Next service scheduled	Naslednji servis načrtovan
+Night	Noč
+No	Ne
+No GPS position	Ni položaja GPS
+No app to choose a picture	Ni aplikacije za izbiro slike
+No connection — try again	Ni povezave — poskusite znova
+No destinations yet	Še ni ciljev
+No devices found. Tap "Search" in the corner.	Ni najdenih naprav. Dotaknite se »Išči« v kotu.
+No entries.	Ni elementov.
+No media selected.\nTap Browse or Play.	Ni izbrane predstavnosti.\nDotaknite se Brskaj ali Predvajaj.
+No media.\nInsert a USB stick or SD card with music.	Ni predstavnosti.\nVstavite USB ključ ali kartico SD z glasbo.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Ni predstavnosti.\nDotaknite se tukaj in dovolite »Dostop do vseh datotek«, da se lahko berejo USB ključi.
+No music	Ni glasbe
+No named stations — update the station list first	Ni postaj z imenom — najprej osvežite seznam postaj
+No networks found (location permission is needed).	Ni najdenih omrežij (potrebno je dovoljenje za lokacijo).
+No picture	Ni slike
+No picture selected	Slika ni izbrana
+No pictures on the unit or on USB	Ni slik na enoti ali USB-ju
+No remembered devices. Connect a new phone:	Ni shranjenih naprav. Povežite nov telefon:
+No results	Ni rezultatov
+No song from the phone yet	Še ni skladbe s telefona
+No track information.	Ni podatkov o skladbi.
+No update information	Ni podatkov o posodobitvi
+None downloaded	Nič preneseno
+None found	Nič ni bilo najdeno
+North up	Sever zgoraj
+Not a newer version	Ni novejše različice
+Not allowed – tap	Ni dovoljeno – dotaknite se
+Not connected	Ni povezano
+Not found	Ni najdeno
+Not selected	Ni izbrano
+Not set	Ni nastavljeno
+Not set – OpenStreetMap is used	Ni nastavljeno – uporablja se OpenStreetMap
+Nothing found	Nič ni bilo najdeno
+Nothing within 5 km	Nič v 5 km
+Notification access	Dostop do obvestil
+Now 	Zdaj 
+Odometer	Števec kilometrov
+Off	Izklopljeno
+Off (no internet)	Izklopljeno (ni interneta)
+Offline maps	Zemljevidi brez povezave
+Oil change at (km)	Menjava olja pri (km)
+Oil change due now!	Menjava olja je potrebna zdaj!
+Oil change in 	Menjava olja čez 
+On	Vklopljeno
+Online radio	Spletni radio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Spletni radio predvaja postaje prek interneta (Radio Browser) na istem radijskem zaslonu: na seznamu postaj izberite državo in iščite ter dodajte postaje v vrstico spominov. Porabi približno 60–120 MB na uro poslušanja.
+Online stations	Spletne postaje
+Open the BT app briefly (plays the sound)	Na kratko odpri aplikacijo BT (zažene zvok)
+OpenStreetMap (dimmed)	OpenStreetMap (zatemnjeno)
+Other	Drugo
+Other media apps	Druge predstavnostne aplikacije
+Pairing…	Seznanjanje…
+Part number:	Številka dela:
+Password	Geslo
+Pause	Premor
+Permissions	Dovoljenja
+Phone	Telefon
+Phone (battery / signal)	Telefon (baterija / signal)
+Phone and radio	Telefon in radio
+Phone app	Aplikacija telefona
+Phone disconnected	Telefon prekinjen
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefoni se povežejo s kablom USB ali brezžično (Android Auto, Apple CarPlay, zrcaljenje zaslona). Zaslon telefona prikazuje aplikacija ZLink enote.\n\nStanje: 
+Picture set	Slika nastavljena
+Play	Predvajaj
+Play / pause	Predvajaj / premor
+Play a station from the station list first	Najprej predvajajte postajo s seznama postaj
+Play music on your phone. The launcher has switched to BT audio.	Predvajajte glasbo na telefonu. Zaganjalnik je preklopil na zvok BT.
+Point on map	Točka na zemljevidu
+Presets cleared	Spomini počiščeni
+Previous	Prejšnja
+Price per litre	Cena na liter
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Radio
+Radio app	Radijska aplikacija
+Radio check	Preverjanje radia
+Radio source	Vir radia
+Range	Doseg
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Branje glasbe z USB-ja in pomnilnika…
+Recalculating.	Ponovni izračun.
+Recent destinations	Nedavni cilji
+Recommended settings for this unit:	Priporočene nastavitve za to enoto:
+Registration expires	Registracija poteče
+Registration expires in 	Registracija poteče čez 
+Registration has expired!	Registracija je potekla!
+Remaining: 	Preostalo: 
+Remove from MENU	Odstrani iz MENU
+Remove the picture	Odstrani sliko
+Report not saved	Poročilo ni shranjeno
+Rescan	Ponovi iskanje
+Reset	Obnovi
+Resume playback on start	Nadaljuj predvajanje ob zagonu
+Roundabout	Krožišče
+Route calculated.	Pot izračunana.
+Run the setup assistant	Zaženi pomočnika za nastavitev
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Teče ob zagonu zaganjalnika in ko se enota zbudi (kontakt). Telefon mora biti že seznanjen z enoto; povezovanje se ponavlja dve minuti. Od Androida 10 sme Wi-Fi vklopiti le sistemska aplikacija (modul Magisk); Android se nato sam poveže s shranjenimi omrežji. Za brezžični CarPlay mora biti telefon enkrat povezan prek aplikacije telefona.
+SW download	Prenos SW
+Saturation	Nasičenost
+Saved: 	Shranjeno: 
+Saving the picture…	Shranjevanje slike…
+Scanning…	Iskanje…
+Screen	Zaslon
+Screen mirroring	Zrcaljenje zaslona
+Search	Išči
+Search again	Išči znova
+Search apps	Išči aplikacije
+Search for networks	Išči omrežja
+Search for stations	Išči postaje
+Search stations	Išči postaje
+Search: 	Išči: 
+Searching for Wi-Fi networks…	Iskanje omrežij Wi-Fi…
+Searching for devices…	Iskanje naprav…
+Searching for radio stations…	Iskanje radijskih postaj…
+Searching for radio stations… 	Iskanje radijskih postaj… 
+Searching…	Iskanje…
+Select	Izberi
+Send the device report	Pošlji poročilo o enoti
+Send to the developer	Pošlji razvijalcu
+Sending the device report…	Pošiljanje poročila o enoti…
+Sent — refresh in 2 s	Poslano — osvežitev čez 2 s
+Service	Servis
+Service done today	Servis opravljen danes
+Service in 	Servis čez 
+Set	Nastavi
+Settings	Nastavitve
+Setup	Nastavitve
+Setup assistant	Pomočnik za nastavitev
+Setup → Vehicle	Nastavitve → Vozilo
+Sharp left	Ostro levo
+Sharp right	Ostro desno
+Show a picture at start	Prikaži sliko ob zagonu
+Since refuelling	Od točenja
+Since start	Od odhoda
+Skip	Preskoči
+Skip setup	Preskoči nastavitev
+Software	Programska oprema
+Software base	Osnova programske opreme
+Software update	Posodobitev programske opreme
+Software update failed	Posodobitev programske opreme ni uspela
+Software update finished	Posodobitev programske opreme končana
+Software update in progress…	Posodobitev programske opreme poteka…
+Software version	Različica programske opreme
+Software version:	Različica programske opreme:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Nekaj ne deluje, kot bi moralo. Poročilo o enoti (z rezultati preverjanj) pomaga to odpraviti v naslednji posodobitvi.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Skladbe
+Sound	Zvok
+Source	Vir
+Sources	Viri
+Start	Zaženi
+Start music on your phone.	Zaženite glasbo na telefonu.
+Start the phone app (ZLink…)	Zaženi aplikacijo telefona (ZLink…)
+Start update	Zaženi posodobitev
+Start-up connections	Povezave ob zagonu
+Started	Zagnano
+Station list	Seznam postaj
+Station logos from the internet	Logotipi postaj z interneta
+Station name	Ime postaje
+Stations	Postaje
+Stations found: 	Najdene postaje: 
+Stop	Ustavi
+Stop scan	Ustavi iskanje
+Street and number, city or place	Ulica in hišna številka, mesto ali kraj
+Street, city	Ulica, mesto
+Strong stations only (LOC)	Samo močne postaje (LOC)
+System Wi-Fi settings	Sistemske nastavitve Wi-Fi
+System date	Sistemski datum
+System dialer	Sistemski telefon
+System information	Podatki o sistemu
+System settings	Sistemske nastavitve
+System version	Različica sistema
+Take the ramp	Zapeljite na priključek
+Tap a device to connect. Long press: forget the device.	Dotaknite se naprave za povezavo. Dolg pritisk: pozabi napravo.
+Test builds	Testne različice
+Test builds (every build)	Testne različice (vsaka izdaja)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Barva ambientalne osvetlitve je tudi barva celotnega zaganjalnika.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Barvni profil spremeni sliko zaganjalnika (vse njegove zaslone, tudi zemljevid). Barve drugih aplikacij je mogoče spremeniti šele, ko je zaganjalnik sistemska aplikacija.
+The device report was saved; send it to the developer: 	Poročilo o enoti je shranjeno; pošljite ga razvijalcu: 
+The device report was sent to the developer.	Poročilo o enoti je bilo poslano razvijalcu.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Poročilo o enoti bo poslano, ko bo enota povezana. Shranjeno je tudi tukaj: 
+The download is not a valid APK	Prenesena datoteka ni veljaven APK
+The internet is connected	Internet je povezan
+The last connected phone	Nazadnje povezan telefon
+The launcher restarts in the new version.	Zaganjalnik se znova zažene v novi različici.
+The launcher will search for stations and play the first one it finds.	Zaganjalnik išče postaje in predvaja prvo, ki jo najde.
+The picture can't be opened	Slike ni mogoče odpreti
+The picture cannot be opened	Slike ni mogoče odpreti
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Slika se prikaže, ko se zaganjalnik zažene po vklopu enote, nato zbledi (dotik jo takoj odstrani). Lastna zagonska animacija Androida na enoti se ne spremeni.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radio in glasba Bluetooth morda ne bosta delovala prek lastnih storitev te enote. Poročilo o enoti se pošlje in ko bo podpora pripravljena, bo zaganjalnik ponudil različico za to enoto.
+The software is up to date	Programska oprema je posodobljena
+The station can't be played	Postaje ni mogoče predvajati
+The station can't be played (connection?)	Postaje ni mogoče predvajati (povezava?)
+The unit is set up. Every setting can be changed later in Setup.	Enota je nastavljena. Vsako nastavitev lahko pozneje spremenite v Nastavitvah.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Različice za to enoto trenutno ni mogoče prenesti. Kmalu poskusite znova.
+This unit is not supported yet	Ta enota še ni podprta
+This unit is supported now. Install the launcher build made for it.	Ta enota je zdaj podprta. Namestite različico zaganjalnika, narejeno zanjo.
+This unit is supported: 	Ta enota je podprta: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Sprejemnika FM te enote ni mogoče uporabljati iz zaganjalnika; spletni radio predvaja prek interneta.
+Time and date	Čas in datum
+Time for winter tyres	Čas za zimske pnevmatike
+To show the song and cover, enable\nnotification access — tap here.	Vklopite dostop do obvestil za prikaz skladbe in ovitka\n— dotaknite se tukaj.
+Treble	Visoki toni
+Try now	Poskusi zdaj
+Turn Bluetooth on	Vklopi Bluetooth
+Turn Wi-Fi on	Vklopi Wi-Fi
+Turn left	Zavijte levo
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Vklopite »Prikaz čez druge aplikacije« za MibDroid, da se lahko vrne čez tovarniško aplikacijo.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Vklopite »Prikaz čez druge aplikacije« za MibDroid in nato znova izberite zvok BT.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Vklopite Bluetooth na telefonu in ga naredite vidnega, nato ga izberite s seznama:
+Turn radio off	Izklopi radio
+Turn right	Zavijte desno
+Turn the hotspot on / off	Vklop / izklop dostopne točke
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB je običajno pod /storage/… ali /mnt/… (npr. usbhost, udisk).
+Uninstall	Odstrani
+Units	Enote
+Until then, Continue installs the default version (QF).	Do takrat Nadaljuj namesti privzeto različico (QF).
+Update	Posodobi
+Update available:	Na voljo je posodobitev:
+Update failed: 	Posodobitev ni uspela: 
+Update not installed	Posodobitev ni nameščena
+Update station list	Osveži seznam postaj
+Use as phone app	Uporabi kot aplikacijo telefona
+Use as radio app	Uporabi kot radijsko aplikacijo
+Use offline map	Uporabi zemljevid brez povezave
+Vehicle	Vozilo
+Vehicle and pictures	Vozilo in slike
+Vehicle status	Stanje vozila
+Versions	Različice
+View	Prikaz
+Voice guidance	Glasovno vodenje
+Waiting for GPS position	Čakanje na položaj GPS
+Waiting for GPS…	Čakanje na GPS…
+Warmth	Toplina
+Welcome	Dobrodošli
+Welcome to App-Connect.\nPlease connect a device using the USB.	Dobrodošli v App-Connect.\nPovežite napravo prek USB-ja.
+When the unit starts	Ob zagonu enote
+Wi-Fi is off.	Wi-Fi je izklopljen.
+Wi-Fi not available	Wi-Fi ni na voljo
+Winter tyre reminder (1 Nov – 1 Apr)	Opomnik za zimske pnevmatike (1. nov – 1. apr)
+Winter tyres fitted	Zimske pnevmatike nameščene
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Z izbranimi mapami zaganjalnik bere samo te (in njihove podmape) kot navadne datoteke. Brez njih sam poišče glasbo v pomnilniku in na USB-ju.
+Work	Služba
+Wrong package	Napačen paket
+Yes	Da
+Yes, I hear the music	Da, slišim glasbo
+Yes, I hear the radio	Da, slišim radio
+You can switch back to summer tyres	Lahko se vrnete na letne pnevmatike
+You have arrived	Prispeli ste
+You have arrived.	Prispeli ste.
+ZLink is not installed	ZLink ni nameščen
+any saved network	katero koli shranjeno omrežje
+available: 	na voljo: 
+chosen	izbrano
+connect / new device	poveži / nova naprava
+empty	prazno
+enter	vključevanje
+forget a network, advanced	pozabi omrežje, napredno
+free	prosto
+left today: 	še danes: 
+needed	potrebno
+needs 2 full tanks	potrebna sta 2 polna rezervoarja
+no build for this unit	ni različice za to enoto
+no data	ni podatkov
+no more today	danes ne več
+none	nobena
+none found	nič ni najdeno
+none yet	še nobena
+none yet — play BT music	še nobena — predvajajte glasbo BT
+nothing received	nič prejeto
+now only inside the launcher	zdaj samo v zaganjalniku
+off	izklopljeno
+on	vklopljeno
+open	odpri
+remove	odstrani
+save and show	shrani in prikaži
+secured	zaščiteno
+service list unavailable	seznam storitev ni na voljo
+set	nastavljeno
+state unknown	stanje neznano
+switched off in Setup	izklopljeno v Nastavitvah
+takes ~10 s	traja ~10 s
+tap and listen	dotaknite se in poslušajte
+the last connected (none yet)	nazadnje povezan (še nobeden)
+to Download	v Download
+to support new units	za podporo novim enotam
+unavailable	ni na voljo
+unreadable	ni berljivo
+up	zgoraj
+your choice below	vaša izbira spodaj
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Uporabi to mapo
+✗ — tap to enable	✗ — dotaknite se za vklop

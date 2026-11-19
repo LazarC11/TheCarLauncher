@@ -1,0 +1,594 @@
+# English text <TAB> translation (sk). Keys must match the English text in the code exactly.
+  (partial)	  (čiastočne)
+  (test)	  (test)
+  (this unit: 	  (táto jednotka: 
+ (back to Android)	 (späť do Androidu)
+ (last connected)	 (naposledy pripojený)
+ connected	 pripojený
+ days	 dní
+ downloaded	 stiahnuté
+ folders	 priečinkov
+ is connected.\nTap to show the phone.	 je pripojený.\nŤuknutím zobrazíte telefón.
+ kilometres	 kilometrov
+ metres	 metrov
+ music / video files in this folder	 hudobné / video súbory v tomto priečinku
+ nearby	 v okolí
+ saved	 uložené
+ songs	 skladieb
+ videos	 videí
+ · tap to delete	 · ťuknutím vymažete
++15,000 km / +1 yr	+15 000 km / +1 rok
+24-hour format	24-hodinový formát
+A phone is connected. Disconnect it first to add a new device.	Je pripojený telefón. Najprv ho odpojte, ak chcete pridať nové zariadenie.
+Add	Pridať
+Add a folder	Pridať priečinok
+Add fill-up	Pridať tankovanie
+Add to MENU	Pridať do MENU
+Albums	Albumy
+All	Všetko
+All Android settings	Všetky nastavenia Androidu
+All countries	Všetky krajiny
+All files access (USB)	Prístup ku všetkým súborom (USB)
+All presets are taken — hold a preset to replace it	Všetky predvoľby sú obsadené — podržaním predvoľbu nahradíte
+All set	Všetko pripravené
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Povoľte MibDroidu „Prístup ku všetkým súborom“, aby mohol čítať hudbu z USB kľúčov.
+Allow access	Povoliť prístup
+Allow access to music.	Povoľte prístup k hudbe.
+Allow access to pictures	Povoliť prístup k obrázkom
+Allow changing the system brightness	Povoliť zmenu jasu systému
+Allow installing apps for MibDroid, then try again	Povoľte MibDroidu inštalovať aplikácie a skúste to znova
+Allow installing updates	Povoliť inštaláciu aktualizácií
+Allow location access	Povoliť prístup k polohe
+Allow returning from the BT app	Povoliť návrat z aplikácie BT
+Allowed	Povolené
+Altitude	Nadmorská výška
+Ambient lighting	Ambientné osvetlenie
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android nedovolí bežnej aplikácii zapnúť hotspot sama: otvorí sa systémová stránka hotspotu (názov, heslo, zap./vyp.). Keď je spúšťač systémovou aplikáciou, funguje to priamo tu.
+Android system	Systém Android
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android žiada o potvrdenie inštalácie. Ako systémová aplikácia (modul Magisk) sa spúšťač aktualizuje sám.
+Annual service	Ročný servis
+Annual service due now!	Ročný servis je potrebný teraz!
+Another app (gallery, file manager)	Iná aplikácia (galéria, správca súborov)
+Any saved network	Ľubovoľná uložená sieť
+App	Aplikácia
+App (ZLink, CarPlay…)	Aplikácia (ZLink, CarPlay…)
+App info	Informácie o aplikácii
+App name	Názov aplikácie
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect nie je k dispozícii.\nV jednotke sa nenašla aplikácia ZLink.
+Apps	Aplikácie
+Artists	Interpreti
+At the end, left	Na konci vľavo
+At the end, right	Na konci vpravo
+Automatic (by region)	Automaticky (podľa regiónu)
+Automatic (detect from media session)	Automaticky (z mediálnej relácie)
+Automatic (storage and USB)	Automaticky (úložisko a USB)
+Automatic brightness	Automatický jas
+Automatic check (once a day)	Automatická kontrola (raz denne)
+Available version:	Dostupná verzia:
+Average consumption	Priemerná spotreba
+Average speed	Priemerná rýchlosť
+Avg. consumption	Priem. spotreba
+Avg. fuel price	Priem. cena paliva
+BT audio as soon as the phone connects	BT audio pri pripojení telefónu
+BT daemon probe	BT daemon probe
+BT music app	Hudobná aplikácia BT
+BT package (from media session)	Balík BT (z mediálnej relácie)
+BT screen	Obrazovka BT
+BT_STATE	BT_STATE
+Back	Späť
+Bass	Basy
+Bass - Mid - Treble	Basy - Stredy - Výšky
+Bear left	Mierne vľavo
+Bear right	Mierne vpravo
+Bluetooth audio check	Kontrola zvuku Bluetooth
+Bluetooth devices	Zariadenia Bluetooth
+Boot screen	Úvodná obrazovka
+Brand	Značka
+Brightness	Jas
+Browse	Prehľadávať
+Buffering…	Načítavanie do vyrovnávacej pamäte…
+Build for this unit:	Verzia pre túto jednotku:
+Build for unit:	Verzia pre jednotku:
+Build number	Číslo zostavy
+Building the device report…	Vytváranie správy o jednotke…
+Built-in Corsa C pictures (car and cabin)	Vstavané obrázky Corsa C (auto a interiér)
+Built-in launcher radio	Vstavané rádio spúšťača
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Pre Opel Corsa C sú k dispozícii vstavané obrázky; pre iné vozidlá importujte vlastnú fotografiu z jednotky alebo USB.
+CARTO API key (free: carto.com/basemaps/apikey)	Kľúč CARTO API (zadarmo: carto.com/basemaps/apikey)
+CARTO key for the online map	Kľúč CARTO pre online mapu
+Cabin (ambient lighting)	Interiér (ambientné osvetlenie)
+Calculating route…	Výpočet trasy…
+Cancel	Zrušiť
+Cancelled	Zrušené
+Car picture	Obrázok auta
+Car picture (Vehicle status)	Obrázok auta (stav vozidla)
+Change home address	Zmeniť adresu domova
+Change work address	Zmeniť adresu práce
+Check again	Skontrolovať znova
+Check for updates automatically	Automaticky hľadať aktualizácie
+Checking for updates…	Hľadanie aktualizácií…
+Checking that the software fits this unit…	Kontrola, či softvér zodpovedá tejto jednotke…
+Checking…	Kontrola…
+Choose a Wi-Fi network	Vyberte sieť Wi-Fi
+Choose a folder	Vyberte priečinok
+Choose a phone app in Setup	Vyberte aplikáciu telefónu v Nastaveniach
+Choose a picture	Vyberte obrázok
+Choose a picture first	Najprv vyberte obrázok
+Choose a radio app (long-press it in Apps)	Vyberte aplikáciu rádia (podržte ju v Aplikáciách)
+Choose a station in the station list	Vyberte stanicu zo zoznamu staníc
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Vyberte značku vozidla a obrázky, ktoré spúšťač zobrazuje: auto (Vozidlo) a interiér (ambientné osvetlenie).
+Clear presets	Vymazať predvoľby
+Clear recent destinations	Vymazať nedávne ciele
+Cleared	Vymazané
+Colour profile	Farebný profil
+Colour profile and more	Farebný profil a ďalšie
+Colour: 	Farba: 
+Compatibility	Kompatibilita
+Compatibility update available	K dispozícii je aktualizácia kompatibility
+Confirm the network in the system window	Potvrďte sieť v systémovom okne
+Connect a new device	Pripojiť nové zariadenie
+Connect apps	Pripojiť aplikácie
+Connect the phone	Pripojte telefón
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Pripojte jednotku k internetu (sieť Wi-Fi alebo hotspot telefónu), aby sa dala overiť kompatibilita a získať aktualizácie.
+Connect the unit to the internet to install the version for this unit.	Pripojte jednotku k internetu, aby ste mohli nainštalovať verziu pre túto jednotku.
+Connect your phone for music and calls.	Pripojte telefón pre hudbu a hovory.
+Connected	Pripojené
+Connected: 	Pripojené: 
+Connecting to 	Pripájanie k 
+Connecting: 	Pripájanie: 
+Connecting…	Pripájanie…
+Connects to	Pripája sa k
+Continue	Pokračovať
+Continue installs the new version.	Pokračovať nainštaluje novú verziu.
+Continue installs the version made for this unit.	Pokračovať nainštaluje verziu vytvorenú pre túto jednotku.
+Continue straight	Rovno
+Continue without internet	Pokračovať bez internetu
+Contrast	Kontrast
+Copying failed	Kopírovanie zlyhalo
+Copying the factory apps…	Kopírovanie továrenských aplikácií…
+Corsa C (built-in)	Corsa C (vstavané)
+Cost per 100 km	Náklady na 100 km
+Could not calculate route	Trasu nemožno vypočítať
+Could not connect	Nedá sa pripojiť
+Could not connect — turn on Bluetooth on the phone	Nedá sa pripojiť — zapnite Bluetooth v telefóne
+Countries and regions	Krajiny a regióny
+Country	Krajina
+Cover art from the internet	Obaly z internetu
+Current odometer (km)	Aktuálny stav tachometra (km)
+Current source / title	Aktuálny zdroj / názov
+Current speed	Aktuálna rýchlosť
+Custom	Vlastné
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Dáta: © prispievatelia OpenStreetMap (ODbL), súbory: mapsforge.org
+Date and time (Android)	Dátum a čas (Android)
+Day	Deň
+Default launcher	Predvolený spúšťač
+Delete	Vymazať
+Delete last fill-up	Vymazať posledné tankovanie
+Delete map?	Vymazať mapu?
+Destination	Cieľ
+Device report	Správa o jednotke
+Diagnostics	Diagnostika
+Diagnostics (QF / Bluetooth)	Diagnostika (QF / Bluetooth)
+Disconnect	Odpojiť
+Disconnect the current phone	Odpojiť aktuálny telefón
+Disconnect the phone first	Najprv odpojte telefón
+Display over other apps: off	Zobrazenie cez iné aplikácie: vypnuté
+Distance	Vzdialenosť
+Do you hear the radio?	Počujete rádio?
+Download a map	Stiahnuť mapu
+Download logos for found stations	Stiahnuť logá nájdených staníc
+Download started: 	Sťahovanie sa začalo: 
+Downloading map: 	Sťahovanie mapy: 
+Downloading station logos… 	Sťahovanie lôg staníc… 
+Downloading the update… 	Sťahovanie aktualizácie… 
+Downloading: 	Sťahovanie: 
+Driving direction up	Smer jazdy hore
+Driving time	Čas jazdy
+Duration	Trvanie
+EN	EN
+Empty	Prázdne
+Enable "MibDroid" so Spotify & other players show up here	Povoľte „MibDroid“, aby sa tu zobrazil Spotify a ďalšie prehrávače
+Enough reports were sent today; this one is saved here: 	Dnes bolo odoslaných dosť správ; táto správa je uložená tu: 
+Error: 	Chyba: 
+Exit	Výjazd
+Exit left	Výjazd vľavo
+Exit right	Výjazd vpravo
+Export the factory apps (APK)	Exportovať továrenské aplikácie (APK)
+FM radio	Rádio FM
+FM radio is not available on this unit	Rádio FM nie je na tejto jednotke k dispozícii
+FM tuner	Tuner FM
+Factory radio app	Továrenská aplikácia rádia
+Factory software version	Verzia továrenského softvéru
+Fill-up	Tankovanie
+Fill-up saved	Tankovanie uložené
+Finish	Dokončiť
+Folder not readable (file access permission?)	Priečinok sa nedá čítať (povolenie prístupu k súborom?)
+Folders	Priečinky
+Forget device	Zabudnúť zariadenie
+Found: 	Nájdené: 
+Fuel	Palivo
+Fuel tank	Palivová nádrž
+Fuel tank (l)	Palivová nádrž (l)
+Full screen (hide Android bars)	Celá obrazovka (skryť lišty Androidu)
+Full tank	Plná nádrž
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Hardvér
+Head unit	Hlavná jednotka
+Heading	Kurz
+Hide the factory player	Skryť továrenský prehrávač
+Hide the factory player (music / video)	Skryť továrenský prehrávač (hudba / video)
+Home	Domov
+Hotspot	Hotspot
+Hotspot settings not found	Nastavenia hotspotu sa nenašli
+I hear nothing	Nič nepočujem
+Import a picture from the unit or USB:	Importovať obrázok z jednotky alebo USB:
+Imported picture	Importovaný obrázok
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	V priebehu niekoľkých minút nastavíme jednotku: internet, vozidlo, telefón, a overíme, že rádio a zvuk Bluetooth fungujú.
+Installed SW MU version:	Nainštalovaná verzia SW MU:
+Installed SW Train version:	Nainštalovaná verzia SW Train:
+Installing 	Inštalácia 
+Interior picture (Ambient lighting)	Obrázok interiéru (ambientné osvetlenie)
+Keep left	Držte sa vľavo
+Keep right	Držte sa vpravo
+Kilometres (km/h)	Kilometre (km/h)
+Language and region	Jazyk a región
+Language/Jezik	Jazyk/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Posledná kontrola:
+Last fill-up	Posledné tankovanie
+Later	Neskôr
+Learned BT channel	Learned BT channel
+List not available (internet?)	Zoznam nie je k dispozícii (internet?)
+List not available (needs internet): 	Zoznam nie je k dispozícii (potrebný internet): 
+Litres	Litre
+Loading the list of maps…	Načítavanie zoznamu máp…
+Loading the list…	Načítavanie zoznamu…
+Loading…	Načítavanie…
+Logos: 	Logá: 
+Long-term	Dlhodobo
+Looking for pictures…	Hľadanie obrázkov…
+Low fuel: about 	Málo paliva: asi 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Hlavné nastavenia (táto jednotka zatiaľ nie je podporovaná, preto sú jej nastavenia skryté).
+Make a U-turn	Otočte sa
+Manual	Ručne
+Map data	Mapové dáta
+Map style	Štýl mapy
+Map turns with the driving direction	Mapa sa otáča so smerom jazdy
+Maps work without internet and are drawn on the unit.	Mapy fungujú bez internetu a vykresľujú sa v jednotke.
+Media	Médiá
+Media access	Prístup k médiám
+Media and Bluetooth	Médiá a Bluetooth
+Media notification	Oznámenie médií
+Media session	Mediálna relácia
+Memory	Pamäť
+Merge	Zaraďte sa
+Mid	Stredy
+Miles (mph)	Míle (mph)
+Mode: 	Režim: 
+Model	Model
+Music folders	Hudobné priečinky
+Music library	Hudobná knižnica
+Music videos (MP4 and other video files)	Hudobné videá (MP4 a iné video súbory)
+My dest.	Moje ciele
+Nav app	Navi aplikácia
+Navigate to this point?	Navigovať k tomuto bodu?
+Navigation	Navigácia
+Navigation and offline maps	Navigácia a offline mapy
+Navigation app	Navigačná aplikácia
+Nearby	V okolí
+Network	Sieť
+New dest.	Nový cieľ
+New destination	Nový cieľ
+New device	Nové zariadenie
+Next	Ďalej
+Next oil change	Ďalšia výmena oleja
+Next service scheduled	Ďalší servis naplánovaný
+Night	Noc
+No	Nie
+No GPS position	Žiadna poloha GPS
+No app to choose a picture	Žiadna aplikácia na výber obrázka
+No connection — try again	Bez pripojenia — skúste znova
+No destinations yet	Zatiaľ žiadne ciele
+No devices found. Tap "Search" in the corner.	Nenašli sa žiadne zariadenia. Ťuknite na „Hľadať“ v rohu.
+No entries.	Žiadne položky.
+No media selected.\nTap Browse or Play.	Nie sú vybrané médiá.\nŤuknite na Prehľadávať alebo Prehrať.
+No media.\nInsert a USB stick or SD card with music.	Žiadne médiá.\nVložte USB kľúč alebo SD kartu s hudbou.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Žiadne médiá.\nŤuknite sem a povoľte „Prístup ku všetkým súborom“, aby sa dali čítať USB kľúče.
+No music	Žiadna hudba
+No named stations — update the station list first	Žiadne stanice s názvom — najprv obnovte zoznam staníc
+No networks found (location permission is needed).	Nenašli sa žiadne siete (je potrebné povolenie k polohe).
+No picture	Žiadny obrázok
+No picture selected	Nie je vybraný obrázok
+No pictures on the unit or on USB	V jednotke ani na USB nie sú žiadne obrázky
+No remembered devices. Connect a new phone:	Žiadne uložené zariadenia. Pripojte nový telefón:
+No results	Žiadne výsledky
+No song from the phone yet	Zatiaľ žiadna skladba z telefónu
+No track information.	Žiadne informácie o skladbe.
+No update information	Žiadne informácie o aktualizácii
+None downloaded	Nič nestiahnuté
+None found	Nič sa nenašlo
+North up	Sever hore
+Not a newer version	Žiadna novšia verzia
+Not allowed – tap	Nepovolené – ťuknite
+Not connected	Nepripojené
+Not found	Nenájdené
+Not selected	Nevybrané
+Not set	Nenastavené
+Not set – OpenStreetMap is used	Nenastavené – použije sa OpenStreetMap
+Nothing found	Nič sa nenašlo
+Nothing within 5 km	Nič do 5 km
+Notification access	Prístup k oznámeniam
+Now 	Teraz 
+Odometer	Tachometer
+Off	Vypnuté
+Off (no internet)	Vypnuté (bez internetu)
+Offline maps	Offline mapy
+Oil change at (km)	Výmena oleja pri (km)
+Oil change due now!	Výmena oleja je potrebná teraz!
+Oil change in 	Výmena oleja o 
+On	Zapnuté
+Online radio	Internetové rádio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Internetové rádio prehráva stanice cez internet (Radio Browser) na tej istej obrazovke rádia: v zozname staníc vyberte krajinu a hľadajte, stanice pridajte do lišty predvolieb. Spotrebuje asi 60–120 MB za hodinu počúvania.
+Online stations	Online stanice
+Open the BT app briefly (plays the sound)	Krátko otvoriť aplikáciu BT (spustí zvuk)
+OpenStreetMap (dimmed)	OpenStreetMap (stlmené)
+Other	Ostatné
+Other media apps	Ostatné mediálne aplikácie
+Pairing…	Párovanie…
+Part number:	Číslo dielu:
+Password	Heslo
+Pause	Pauza
+Permissions	Povolenia
+Phone	Telefón
+Phone (battery / signal)	Telefón (batéria / signál)
+Phone and radio	Telefón a rádio
+Phone app	Aplikácia telefónu
+Phone disconnected	Telefón odpojený
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefóny sa pripájajú káblom USB alebo bezdrôtovo (Android Auto, Apple CarPlay, zrkadlenie obrazovky). Obrazovku telefónu zobrazuje aplikácia ZLink jednotky.\n\nStav: 
+Picture set	Obrázok nastavený
+Play	Prehrať
+Play / pause	Prehrať / pauza
+Play a station from the station list first	Najprv prehrajte stanicu zo zoznamu staníc
+Play music on your phone. The launcher has switched to BT audio.	Pustite hudbu v telefóne. Spúšťač prepol na BT audio.
+Point on map	Bod na mape
+Presets cleared	Predvoľby vymazané
+Previous	Predchádzajúce
+Price per litre	Cena za liter
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profil
+Radio	Rádio
+Radio app	Aplikácia rádia
+Radio check	Kontrola rádia
+Radio source	Zdroj rádia
+Range	Dojazd
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Čítanie hudby z USB a úložiska…
+Recalculating.	Prepočítavam.
+Recent destinations	Nedávne ciele
+Recommended settings for this unit:	Odporúčané nastavenia pre túto jednotku:
+Registration expires	Platnosť evidencie končí
+Registration expires in 	Platnosť evidencie končí o 
+Registration has expired!	Platnosť evidencie skončila!
+Remaining: 	Zostáva: 
+Remove from MENU	Odstrániť z MENU
+Remove the picture	Odstrániť obrázok
+Report not saved	Správa nebola uložená
+Rescan	Opakovať hľadanie
+Reset	Obnoviť
+Resume playback on start	Pokračovať v prehrávaní pri spustení
+Roundabout	Kruhový objazd
+Route calculated.	Trasa vypočítaná.
+Run the setup assistant	Spustiť sprievodcu nastavením
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Spúšťa sa pri štarte spúšťača a pri prebudení jednotky (zapaľovanie). Telefón musí byť už spárovaný s jednotkou; pripájanie sa opakuje dve minúty. Od Androidu 10 smie Wi-Fi zapnúť len systémová aplikácia (modul Magisk); Android sa potom sám pripojí k uloženým sieťam. Pre bezdrôtový CarPlay musí byť telefón raz pripojený cez aplikáciu telefónu.
+SW download	Stiahnutie SW
+Saturation	Sýtosť
+Saved: 	Uložené: 
+Saving the picture…	Ukladanie obrázka…
+Scanning…	Vyhľadávanie…
+Screen	Obrazovka
+Screen mirroring	Zrkadlenie obrazovky
+Search	Hľadať
+Search again	Hľadať znova
+Search apps	Hľadať aplikácie
+Search for networks	Hľadať siete
+Search for stations	Hľadať stanice
+Search stations	Hľadať stanice
+Search: 	Hľadať: 
+Searching for Wi-Fi networks…	Hľadanie sietí Wi-Fi…
+Searching for devices…	Hľadanie zariadení…
+Searching for radio stations…	Hľadanie rozhlasových staníc…
+Searching for radio stations… 	Hľadanie rozhlasových staníc… 
+Searching…	Hľadanie…
+Select	Vybrať
+Send the device report	Odoslať správu o jednotke
+Send to the developer	Odoslať vývojárovi
+Sending the device report…	Odosielanie správy o jednotke…
+Sent — refresh in 2 s	Odoslané — obnovenie o 2 s
+Service	Servis
+Service done today	Servis vykonaný dnes
+Service in 	Servis o 
+Set	Nastaviť
+Settings	Nastavenia
+Setup	Nastavenia
+Setup assistant	Sprievodca nastavením
+Setup → Vehicle	Nastavenia → Vozidlo
+Sharp left	Ostro vľavo
+Sharp right	Ostro vpravo
+Show a picture at start	Zobraziť obrázok pri spustení
+Since refuelling	Od tankovania
+Since start	Od štartu
+Skip	Preskočiť
+Skip setup	Preskočiť nastavenie
+Software	Softvér
+Software base	Základ softvéru
+Software update	Aktualizácia softvéru
+Software update failed	Aktualizácia softvéru zlyhala
+Software update finished	Aktualizácia softvéru dokončená
+Software update in progress…	Prebieha aktualizácia softvéru…
+Software version	Verzia softvéru
+Software version:	Verzia softvéru:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Niečo nefunguje, ako má. Správa o jednotke (s výsledkami kontrol) pomôže chybu opraviť v ďalšej aktualizácii.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Skladby
+Sound	Zvuk
+Source	Zdroj
+Sources	Zdroje
+Start	Spustiť
+Start music on your phone.	Spustite hudbu v telefóne.
+Start the phone app (ZLink…)	Spustiť aplikáciu telefónu (ZLink…)
+Start update	Spustiť aktualizáciu
+Start-up connections	Pripojenia pri spustení
+Started	Spustené
+Station list	Zoznam staníc
+Station logos from the internet	Logá staníc z internetu
+Station name	Názov stanice
+Stations	Stanice
+Stations found: 	Nájdené stanice: 
+Stop	Zastaviť
+Stop scan	Zastaviť hľadanie
+Street and number, city or place	Ulica a číslo, mesto alebo miesto
+Street, city	Ulica, mesto
+Strong stations only (LOC)	Len silné stanice (LOC)
+System Wi-Fi settings	Systémové nastavenia Wi-Fi
+System date	Systémový dátum
+System dialer	Systémový telefón
+System information	Informácie o systéme
+System settings	Systémové nastavenia
+System version	Verzia systému
+Take the ramp	Vojdite na nájazd
+Tap a device to connect. Long press: forget the device.	Ťuknutím na zariadenie sa pripojíte. Dlhé stlačenie: zabudnúť zariadenie.
+Test builds	Testovacie verzie
+Test builds (every build)	Testovacie verzie (každá zostava)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Farba ambientného osvetlenia je aj farbou celého spúšťača.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Farebný profil mení obraz spúšťača (všetky jeho obrazovky, aj mapu). Farby iných aplikácií sa dajú zmeniť, až keď je spúšťač systémovou aplikáciou.
+The device report was saved; send it to the developer: 	Správa o jednotke je uložená; pošlite ju vývojárovi: 
+The device report was sent to the developer.	Správa o jednotke bola odoslaná vývojárovi.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Správa o jednotke sa odošle, keď bude jednotka online. Je uložená aj tu: 
+The download is not a valid APK	Stiahnutý súbor nie je platný APK
+The internet is connected	Internet je pripojený
+The last connected phone	Naposledy pripojený telefón
+The launcher restarts in the new version.	Spúšťač sa reštartuje v novej verzii.
+The launcher will search for stations and play the first one it finds.	Spúšťač hľadá stanice a prehrá prvú, ktorú nájde.
+The picture can't be opened	Obrázok sa nedá otvoriť
+The picture cannot be opened	Obrázok sa nedá otvoriť
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Obrázok sa zobrazí, keď sa spúšťač spustí po zapnutí jednotky, potom zmizne (dotyk ho hneď odstráni). Vlastná spúšťacia animácia Androidu v jednotke sa nemení.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Rádio a hudba cez Bluetooth nemusia fungovať cez vlastné služby tejto jednotky. Správa o jednotke sa odosiela a keď bude podpora pripravená, spúšťač ponúkne verziu pre túto jednotku.
+The software is up to date	Softvér je aktuálny
+The station can't be played	Stanicu nemožno prehrať
+The station can't be played (connection?)	Stanicu nemožno prehrať (pripojenie?)
+The unit is set up. Every setting can be changed later in Setup.	Jednotka je nastavená. Každé nastavenie môžete neskôr zmeniť v Nastaveniach.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Verziu pre túto jednotku sa teraz nedá stiahnuť. Skúste to čoskoro znova.
+This unit is not supported yet	Táto jednotka zatiaľ nie je podporovaná
+This unit is supported now. Install the launcher build made for it.	Táto jednotka je teraz podporovaná. Nainštalujte verziu spúšťača vytvorenú pre ňu.
+This unit is supported: 	Táto jednotka je podporovaná: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Tuner FM tejto jednotky sa nedá používať zo spúšťača; internetové rádio hrá cez internet.
+Time and date	Čas a dátum
+Time for winter tyres	Čas na zimné pneumatiky
+To show the song and cover, enable\nnotification access — tap here.	Zapnite prístup k oznámeniam na zobrazenie skladby a obalu\n— ťuknite sem.
+Treble	Výšky
+Try now	Vyskúšať teraz
+Turn Bluetooth on	Zapnúť Bluetooth
+Turn Wi-Fi on	Zapnúť Wi-Fi
+Turn left	Odbočte vľavo
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Zapnite „Zobrazenie cez iné aplikácie“ pre MibDroid, aby sa mohol vrátiť cez továrenskú aplikáciu.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Zapnite „Zobrazenie cez iné aplikácie“ pre MibDroid a potom znova vyberte BT audio.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Zapnite Bluetooth v telefóne a zviditeľnite ho, potom ho vyberte zo zoznamu:
+Turn radio off	Vypnúť rádio
+Turn right	Odbočte vpravo
+Turn the hotspot on / off	Zapnúť / vypnúť hotspot
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB je zvyčajne pod /storage/… alebo /mnt/… (napr. usbhost, udisk).
+Uninstall	Odinštalovať
+Units	Jednotky
+Until then, Continue installs the default version (QF).	Dovtedy Pokračovať nainštaluje predvolenú verziu (QF).
+Update	Aktualizovať
+Update available:	K dispozícii je aktualizácia:
+Update failed: 	Aktualizácia zlyhala: 
+Update not installed	Aktualizácia nebola nainštalovaná
+Update station list	Obnoviť zoznam staníc
+Use as phone app	Použiť ako aplikáciu telefónu
+Use as radio app	Použiť ako aplikáciu rádia
+Use offline map	Použiť offline mapu
+Vehicle	Vozidlo
+Vehicle and pictures	Vozidlo a obrázky
+Vehicle status	Stav vozidla
+Versions	Verzie
+View	Zobrazenie
+Voice guidance	Hlasová navigácia
+Waiting for GPS position	Čakanie na polohu GPS
+Waiting for GPS…	Čakanie na GPS…
+Warmth	Teplota farieb
+Welcome	Vitajte
+Welcome to App-Connect.\nPlease connect a device using the USB.	Vitajte v App-Connect.\nPripojte zariadenie cez USB.
+When the unit starts	Pri spustení jednotky
+Wi-Fi is off.	Wi-Fi je vypnuté.
+Wi-Fi not available	Wi-Fi nie je k dispozícii
+Winter tyre reminder (1 Nov – 1 Apr)	Pripomienka zimných pneumatík (1. 11. – 1. 4.)
+Winter tyres fitted	Zimné pneumatiky nasadené
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	S vybranými priečinkami spúšťač číta len ich (a ich podpriečinky) ako bežné súbory. Bez nich nájde hudbu v úložisku a na USB sám.
+Work	Práca
+Wrong package	Nesprávny balík
+Yes	Áno
+Yes, I hear the music	Áno, počujem hudbu
+Yes, I hear the radio	Áno, počujem rádio
+You can switch back to summer tyres	Môžete sa vrátiť k letným pneumatikám
+You have arrived	Ste v cieli
+You have arrived.	Ste v cieli.
+ZLink is not installed	ZLink nie je nainštalovaný
+any saved network	ľubovoľná uložená sieť
+available: 	k dispozícii: 
+chosen	vybrané
+connect / new device	pripojiť / nové zariadenie
+empty	prázdne
+enter	zaradenie
+forget a network, advanced	zabudnúť sieť, rozšírené
+free	voľné
+left today: 	ešte dnes: 
+needed	potrebné
+needs 2 full tanks	potrebuje 2 plné nádrže
+no build for this unit	žiadna verzia pre túto jednotku
+no data	žiadne dáta
+no more today	dnes už nie
+none	žiadne
+none found	nič sa nenašlo
+none yet	zatiaľ žiadne
+none yet — play BT music	zatiaľ žiadne — pustite BT hudbu
+nothing received	nič neprijaté
+now only inside the launcher	teraz len v spúšťači
+off	vypnuté
+on	zapnuté
+open	otvoriť
+remove	odstrániť
+save and show	uložiť a zobraziť
+secured	zabezpečené
+service list unavailable	zoznam služieb nie je k dispozícii
+set	nastavené
+state unknown	stav neznámy
+switched off in Setup	vypnuté v Nastaveniach
+takes ~10 s	trvá ~10 s
+tap and listen	ťuknite a počúvajte
+the last connected (none yet)	naposledy pripojený (zatiaľ žiadny)
+to Download	do Download
+to support new units	na podporu nových jednotiek
+unavailable	nedostupné
+unreadable	nečitateľné
+up	hore
+your choice below	váš výber nižšie
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Použiť tento priečinok
+✗ — tap to enable	✗ — ťuknutím zapnete
