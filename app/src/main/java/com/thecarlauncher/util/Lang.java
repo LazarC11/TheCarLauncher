@@ -17,10 +17,10 @@ import java.util.TimeZone;
  * assets/lang/&lt;code&gt;.tsv, keyed by the English text (missing ones stay English).
  */
 public final class Lang {
-    public static final String AUTO = "auto", SR = "sr", EN = "en", PL = "pl", TR = "tr";
+    public static final String AUTO = "auto", SR = "sr", EN = "en", PL = "pl", TR = "tr", DE = "de";
     /** Choices in Setup: code, name. */
     public static final String[][] CHOICES = {
-            {SR, "Srpski (latinica)"}, {EN, "English"}, {PL, "Polski"}, {TR, "Türkçe"}};
+            {SR, "Srpski (latinica)"}, {EN, "English"}, {PL, "Polski"}, {TR, "Türkçe"}, {DE, "Deutsch"}};
 
     private static final Map<String, Map<String, String>> TABLES = new HashMap<>();
     private static String sCached, sCachedPref;
@@ -50,16 +50,19 @@ public final class Lang {
         if (l.equals("sr") || l.equals("hr") || l.equals("bs") || l.equals("me") || l.equals("cnr")) return SR;
         if (l.equals("pl")) return PL;
         if (l.equals("tr")) return TR;
+        if (l.equals("de")) return DE;
         String c = locale == null ? "" : locale.getCountry();
         if (c.equals("RS") || c.equals("BA") || c.equals("ME") || c.equals("HR")) return SR;
         if (c.equals("PL")) return PL;
         if (c.equals("TR")) return TR;
+        if (c.equals("AT") || c.equals("CH") || c.equals("DE")) return DE;
         if (l.length() > 0 && !l.equals("en")) return EN; // another language the launcher does not have
         String z = timeZone == null ? "" : timeZone;
         if (z.equals("Europe/Belgrade") || z.equals("Europe/Sarajevo") || z.equals("Europe/Podgorica")
                 || z.equals("Europe/Zagreb")) return SR;
         if (z.equals("Europe/Warsaw")) return PL;
         if (z.equals("Europe/Istanbul") || z.equals("Asia/Istanbul")) return TR;
+        if (z.equals("Europe/Vienna") || z.equals("Europe/Zurich") || z.equals("Europe/Berlin")) return DE;
         return EN;
     }
 
@@ -81,6 +84,7 @@ public final class Lang {
         if (SR.equals(l)) return new Locale("sr", "RS");
         if (PL.equals(l)) return new Locale("pl", "PL");
         if (TR.equals(l)) return new Locale("tr", "TR");
+        if (DE.equals(l)) return new Locale("de", "DE");
         return Locale.ENGLISH;
     }
 
