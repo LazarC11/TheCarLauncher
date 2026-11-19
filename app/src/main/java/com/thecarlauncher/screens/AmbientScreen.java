@@ -23,6 +23,7 @@ import com.thecarlauncher.LauncherActivity;
 import com.thecarlauncher.R;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.util.Prefs;
+import com.thecarlauncher.util.WledUart;
 
 /**
  * MIB "Ambijentalno osvetljenje": the Corsa C interior picture, a 30-colour
@@ -162,8 +163,11 @@ public class AmbientScreen extends Screen {
     private void pick(int i, boolean done) {
         show(i);
         if (!done) return;
-        if (color(i) != Prefs.integer(act, Prefs.AMBIENT, Mib.DEFAULT_AMBIENT)) {
-            Prefs.put(act, Prefs.AMBIENT, color(i));
+        int color = color(i);
+        if (color != Prefs.integer(act, Prefs.AMBIENT, Mib.DEFAULT_AMBIENT)) {
+            // Context (act) übergeben für USB Host API
+            WledUart.send(act, color);
+            Prefs.put(act, Prefs.AMBIENT, color);
             act.restartUi();
         }
     }

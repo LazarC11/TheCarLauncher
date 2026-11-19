@@ -140,6 +140,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         mf.addDataScheme("file");
         registerReceiver(mediaMount, mf);
         Mib.loadAmbient(this);
+        com.thecarlauncher.util.WledUart.boot(this);
         enableAnimations();
         com.thecarlauncher.media.Tone.get(this).attachGlobal();
         com.thecarlauncher.media.QfMediaBridge.get(this);
