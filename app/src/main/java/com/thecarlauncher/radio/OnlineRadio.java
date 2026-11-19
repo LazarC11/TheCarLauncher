@@ -143,7 +143,10 @@ public final class OnlineRadio {
         if ("pl".equals(lang)) return "PL";
         if ("tr".equals(lang)) return "TR";
         String l = Locale.getDefault().getCountry();
-        return l.length() == 2 ? l : "";
+        if (l.length() == 2) return l;
+        // No country on the unit: the chosen language's country (de → DE, el → GR, …).
+        String lc = com.thecarlauncher.util.Lang.locale(app).getCountry();
+        return "en".equals(lang) ? "" : lc;
     }
 
     // ---- Playback ------------------------------------------------------------------------------

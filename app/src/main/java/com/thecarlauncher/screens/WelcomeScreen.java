@@ -236,13 +236,60 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
     }
 
     private void finishCheck(Updater.Release r) {
-        checking = false;
-        checked = true;
         release = r;
         supported = Compat.recognised(act);
         Prefs.put(act, Compat.P_UNSUPPORTED, !supported);
         if (!supported) sendReport();
+        // No build for this unit yet: the default (QF) build is installed until one is released.
+        if (!supported && !offline && !com.thecarlauncher.unit.Unit.QF) {
+            Updater.check(act, UnitKind.assetName(act, "qf"), new Updater.Checked() {
+                @Override
+                public void onChecked(Updater.Release q, String error) {
+                    release = q;
+                    checking = false;
+                    checked = true;
+                    if (step == COMPAT) render();
+                }
+            });
+            return;
+        }
+        checking = false;
+        checked = true;
         if (step == COMPAT) render();
+    }
+
+    /** What Continue installs on the compatibility step, or null when this build is right. */
+    private Updater.Release toInstall() {
+        if (release == null) return null;
+        if (supported) return Updater.isNewer(act, release) ? release : null;
+        // Unsupported: the default build unless it is already installed (and current).
+        if (com.thecarlauncher.unit.Unit.QF) return Updater.isNewer(act, release) ? release : null;
+        return release;
+    }
+
+    /** Continue on the compatibility step: install what is due, else the next step. */
+    private void compatContinue() {
+        final Updater.Release r = toInstall();
+        if (r == null) {
+            if (LauncherActivity.setupOnly(act)) {
+                // The setup app cannot go on without a build: check again (after Wi-Fi).
+                checked = false;
+                render();
+                return;
+            }
+            go(SCREEN);
+            return;
+        }
+        Prefs.put(act, P_STEP, SCREEN); // the assistant goes on after the update
+        if (!Updater.mayInstall(act)) {
+            Updater.askInstallPermission(act);
+            return;
+        }
+        // Straight to the progress page: download, check, install over this one; the new build
+        // then opens by itself into the next step.
+        Prefs.put(act, com.thecarlauncher.util.ReplacedReceiver.P_OPEN_AFTER_UPDATE, true);
+        act.show(LauncherActivity.SOFTWARE, true);
+        if (!Updater.busy()) Updater.install(act, r);
     }
 
     private void sendReport() {
@@ -269,77 +316,35 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             if (!checking && !checked) check();
             return;
         }
+        Updater.Release r = toInstall();
         if (supported) {
-            String name = UnitKind.name(act, UnitKind.detect(act));
-            status(s("Uređaj je podržan: ", "This unit is supported: ") + name, true);
-            if (release != null && Updater.isNewer(act, release)) {
-                text(Updater.switching(act)
-                        ? s("Za ovaj uređaj postoji posebna verzija launchera. Instaliraj je da bi radio i Bluetooth radili kako treba.",
-                        "There is a launcher build made for this unit. Install it so the radio and Bluetooth work properly.")
-                        + " (" + release.versionName + ")"
-                        : s("Dostupna je nova verzija:", "A new version is available:") + " " + release.versionName);
-                button(s("Instaliraj sada", "Install now"), new Runnable() {
-                    public void run() {
-                        Prefs.put(act, P_STEP, SCREEN); // the assistant goes on after the update
-                        if (!Updater.mayInstall(act)) {
-                            Updater.askInstallPermission(act);
-                            return;
-                        }
-                        // Straight to the progress page: download, check, install over this one;
-                        // the new build then opens by itself into the next step.
-                        Prefs.put(act, com.thecarlauncher.util.ReplacedReceiver.P_OPEN_AFTER_UPDATE, true);
-                        act.show(LauncherActivity.SOFTWARE, true);
-                        if (!Updater.busy()) Updater.install(act, release);
-                    }
-                });
-                if (!LauncherActivity.setupOnly(act)) button(s("Kasnije", "Later"), new Runnable() {
-                    public void run() { go(SCREEN); }
-                });
-            } else if (LauncherActivity.setupOnly(act)) {
-                // The setup app cannot go on without the unit's build: get online and check again.
-                note(offline ? s("Poveži uređaj sa internetom da bi se instalirala verzija za ovaj uređaj.",
-                        "Connect the unit to the internet to install the version for this unit.")
-                        : s("Verzija za ovaj uređaj trenutno ne može da se preuzme. Pokušaj ponovo za koji trenutak.",
-                        "The version for this unit cannot be downloaded right now. Try again in a moment."));
-                button(s("Izaberi Wi-Fi mrežu", "Choose a Wi-Fi network"), new Runnable() {
-                    public void run() { act.showSettings(SettingsScreen.PAGE_WIFI); }
-                });
-                button(s("Proveri ponovo", "Check again"), new Runnable() {
-                    public void run() {
-                        checked = false;
-                        render();
-                    }
-                });
-            } else {
-                if (offline && Updater.switching(act)) {
-                    // Universal build, no internet: the build for this unit cannot be fetched yet.
-                    note(s("Poveži uređaj sa internetom da bi se instalirala verzija za ovaj uređaj (Podešavanje → Ažuriranje softvera).",
-                            "Connect the unit to the internet to install the version for this unit (Setup → Software update)."));
-                } else if (offline) {
-                    note(s("Bez interneta: provereno prema pravilima ugrađenim u launcher.",
-                            "No internet: checked against the rules built into the launcher."));
-                }
-                button(s("Dalje", "Next"), new Runnable() {
-                    public void run() { go(SCREEN); }
-                });
+            status(s("Uređaj je podržan: ", "This unit is supported: ") + UnitKind.name(act, UnitKind.detect(act)), true);
+            if (r != null) {
+                text((Updater.switching(act)
+                        ? s("Nastavi instalira verziju napravljenu za ovaj uređaj.", "Continue installs the version made for this unit.")
+                        : s("Nastavi instalira novu verziju.", "Continue installs the new version.")) + " (" + r.versionName + ")");
             }
-            return;
+        } else {
+            status(s("Ovaj uređaj još nije podržan", "This unit is not supported yet"), false);
+            text(s("Radio i Bluetooth muzika možda neće raditi preko fabričkih servisa ovog uređaja. Izveštaj o uređaju je poslat, a kada podrška stigne, launcher će ponuditi verziju za ovaj uređaj.",
+                    "The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit."));
+            if (r != null) {
+                text(s("Do tada, Nastavi instalira osnovnu verziju (QF).", "Until then, Continue installs the default version (QF).")
+                        + " (" + r.versionName + ")");
+            }
+            note(reportBusy || reportResult == null ? s("Slanje izveštaja o uređaju…", "Sending the device report…") : reportResult);
         }
-        status(s("Ovaj uređaj još nije podržan", "This unit is not supported yet"), false);
-        text(s("Launcher radi, ali radio i Bluetooth muzika možda neće raditi preko fabričkih servisa ovog uređaja. Podrška može stići uskoro: kada uređaj bude na internetu i bude dostupno ažuriranje kompatibilnosti, launcher će to javiti.",
-                "The launcher works, but the radio and Bluetooth music may not work through this unit's own services. Support may come soon: when the unit is online and a compatibility update is available, the launcher will tell you."));
-        note(reportBusy || reportResult == null ? s("Slanje izveštaja o uređaju…", "Sending the device report…") : reportResult);
+        if (r == null && (offline || LauncherActivity.setupOnly(act))) {
+            note(offline ? s("Poveži uređaj sa internetom da bi se instalirala verzija za ovaj uređaj.",
+                    "Connect the unit to the internet to install the version for this unit.")
+                    : s("Verzija za ovaj uređaj trenutno ne može da se preuzme. Pokušaj ponovo za koji trenutak.",
+                    "The version for this unit cannot be downloaded right now. Try again in a moment."));
+            button(s("Izaberi Wi-Fi mrežu", "Choose a Wi-Fi network"), new Runnable() {
+                public void run() { act.showSettings(SettingsScreen.PAGE_WIFI); }
+            });
+        }
         button(s("Nastavi", "Continue"), new Runnable() {
-            public void run() {
-                if (LauncherActivity.setupOnly(act)) {
-                    // No build for this unit yet: the universal build becomes the launcher.
-                    Prefs.put(act, LauncherActivity.P_UNIVERSAL_UNLOCKED, true);
-                    Prefs.put(act, P_STEP, SCREEN);
-                    act.restartUi();
-                    return;
-                }
-                go(SCREEN);
-            }
+            public void run() { compatContinue(); }
         });
     }
 
