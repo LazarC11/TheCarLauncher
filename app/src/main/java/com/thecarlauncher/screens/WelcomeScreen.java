@@ -280,15 +280,27 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
                 button(s("Instaliraj sada", "Install now"), new Runnable() {
                     public void run() {
                         Prefs.put(act, P_STEP, SCREEN); // the assistant goes on after the update
+                        if (!Updater.mayInstall(act)) {
+                            Updater.askInstallPermission(act);
+                            return;
+                        }
+                        // Straight to the progress page: download, check, install over this one.
                         act.show(LauncherActivity.SOFTWARE, true);
+                        if (!Updater.busy()) Updater.install(act, release);
                     }
                 });
                 button(s("Kasnije", "Later"), new Runnable() {
                     public void run() { go(SCREEN); }
                 });
             } else {
-                if (offline) note(s("Bez interneta: provereno prema pravilima ugrađenim u launcher.",
-                        "No internet: checked against the rules built into the launcher."));
+                if (offline && Updater.switching(act)) {
+                    // Universal build, no internet: the build for this unit cannot be fetched yet.
+                    note(s("Poveži uređaj sa internetom da bi se instalirala verzija za ovaj uređaj (Podešavanje → Ažuriranje softvera).",
+                            "Connect the unit to the internet to install the version for this unit (Setup → Software update)."));
+                } else if (offline) {
+                    note(s("Bez interneta: provereno prema pravilima ugrađenim u launcher.",
+                            "No internet: checked against the rules built into the launcher."));
+                }
                 button(s("Dalje", "Next"), new Runnable() {
                     public void run() { go(SCREEN); }
                 });

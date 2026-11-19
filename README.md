@@ -466,7 +466,9 @@ The text and icons are a touch dimmer than the screen content, like the factory 
 
 ## Install on the head unit
 
-1. Download **TheCarLauncher.apk** from the latest release on the [Releases page](../../releases).
+1. Download **MibDroid.apk** from the latest release on the [Releases page](../../releases). It runs on
+   every unit; on first start its setup assistant recognises the unit and installs the build made
+   for it over itself (same app). The per-unit APKs (`TheCarLauncher*.apk`) are still there too.
    Builds of `main` are published as releases (`v4.6.0`); other branches publish test builds
    (pre-releases, `build-N`).
 2. Copy it to a USB stick, or download it on the unit, and open it. Allow *Install unknown apps*

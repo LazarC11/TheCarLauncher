@@ -10,8 +10,8 @@ android {
         applicationId 'com.thecarlauncher'
         minSdk 21
         targetSdk 34
-        versionCode 90
-        versionName '4.17.1'
+        versionCode 91
+        versionName '4.17.2'
     }
 
     // One build per head-unit family (same app id, so a unit can switch between them).
@@ -36,6 +36,12 @@ android {
         hcn {
             dimension 'unit'
             versionNameSuffix '-hcn'
+        }
+        // MibDroid.apk: the one download for every unit; its setup assistant installs the
+        // build made for the unit over it.
+        universal {
+            dimension 'unit'
+            versionNameSuffix '-universal'
         }
     }
 

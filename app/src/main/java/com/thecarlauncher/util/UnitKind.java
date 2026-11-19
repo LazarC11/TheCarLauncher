@@ -56,20 +56,27 @@ public final class UnitKind {
                     if (m != null && matches(c, m)) return u.getString("id");
                 }
             }
+            // The universal (setup) build stays itself on a unit no rule knows yet.
+            if (UNIVERSAL.equals(com.thecarlauncher.unit.Unit.ID)) return UNIVERSAL;
             return rules.optString("default", "qf");
         } catch (Exception e) {
-            return "qf";
+            return UNIVERSAL.equals(com.thecarlauncher.unit.Unit.ID) ? UNIVERSAL : "qf";
         }
     }
 
+    /** The one APK people download first: it installs the build made for their unit. */
+    public static final String UNIVERSAL = "universal", UNIVERSAL_ASSET = "MibDroid.apk";
+
     /** Release asset holding the build for this unit. */
     public static String assetName(Context c, String id) {
+        if (UNIVERSAL.equals(id)) return UNIVERSAL_ASSET;
         JSONObject u = unit(c, id);
         if (u != null && u.optString("asset").length() > 0) return u.optString("asset");
         return "qf".equals(id) ? "TheCarLauncher.apk" : "TheCarLauncher_" + id + ".apk";
     }
 
     public static String name(Context c, String id) {
+        if (UNIVERSAL.equals(id)) return "MibDroid (universal)";
         JSONObject u = unit(c, id);
         return u != null && u.optString("name").length() > 0 ? u.optString("name") : id;
     }
