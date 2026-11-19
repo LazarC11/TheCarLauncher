@@ -1,0 +1,594 @@
+# English text <TAB> translation (et). Keys must match the English text in the code exactly.
+  (partial)	  (osaliselt)
+  (test)	  (test)
+  (this unit: 	  (see seade: 
+ (back to Android)	 (tagasi Androidi)
+ (last connected)	 (viimati ühendatud)
+ connected	 ühendatud
+ days	 päeva
+ downloaded	 alla laaditud
+ folders	 kausta
+ is connected.\nTap to show the phone.	 on ühendatud.\nPuudutage telefoni kuvamiseks.
+ kilometres	 kilomeetrit
+ metres	 meetrit
+ music / video files in this folder	 muusika- / videofailid selles kaustas
+ nearby	 läheduses
+ saved	 salvestatud
+ songs	 lugu
+ videos	 videot
+ · tap to delete	 · puudutage kustutamiseks
++15,000 km / +1 yr	+15 000 km / +1 aasta
+24-hour format	24-tunnine vorming
+A phone is connected. Disconnect it first to add a new device.	Telefon on ühendatud. Uue seadme lisamiseks katkestage esmalt ühendus.
+Add	Lisa
+Add a folder	Lisa kaust
+Add fill-up	Lisa tankimine
+Add to MENU	Lisa MENU-sse
+Albums	Albumid
+All	Kõik
+All Android settings	Kõik Androidi seaded
+All countries	Kõik riigid
+All files access (USB)	Juurdepääs kõigile failidele (USB)
+All presets are taken — hold a preset to replace it	Kõik eelvalikud on hõivatud — asendamiseks hoidke eelvalikut all
+All set	Kõik valmis
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Lubage MibDroidile „Juurdepääs kõigile failidele”, et see saaks lugeda muusikat USB-mälupulkadelt.
+Allow access	Luba juurdepääs
+Allow access to music.	Lubage juurdepääs muusikale.
+Allow access to pictures	Luba juurdepääs piltidele
+Allow changing the system brightness	Luba süsteemi heleduse muutmine
+Allow installing apps for MibDroid, then try again	Lubage MibDroidil rakendusi installida ja proovige uuesti
+Allow installing updates	Luba värskenduste installimine
+Allow location access	Luba asukohale juurdepääs
+Allow returning from the BT app	Luba naasmine BT-rakendusest
+Allowed	Lubatud
+Altitude	Kõrgus
+Ambient lighting	Ambientvalgustus
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android ei luba tavalisel rakendusel ise kuumkohta sisse lülitada: avaneb süsteemi kuumkoha leht (nimi, parool, sees/väljas). Kui käivitaja on süsteemirakendus, töötab see otse siin.
+Android system	Androidi süsteem
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android palub installimist kinnitada. Süsteemirakendusena (Magiski moodul) värskendab käivitaja end ise.
+Annual service	Iga-aastane hooldus
+Annual service due now!	Iga-aastane hooldus on vajalik kohe!
+Another app (gallery, file manager)	Muu rakendus (galerii, failihaldur)
+Any saved network	Mis tahes salvestatud võrk
+App	Rakendus
+App (ZLink, CarPlay…)	Rakendus (ZLink, CarPlay…)
+App info	Rakenduse teave
+App name	Rakenduse nimi
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect pole saadaval.\nSeadmest ei leitud ZLinki rakendust.
+Apps	Rakendused
+Artists	Esitajad
+At the end, left	Lõpus vasakule
+At the end, right	Lõpus paremale
+Automatic (by region)	Automaatne (piirkonna järgi)
+Automatic (detect from media session)	Automaatne (meediaseansist)
+Automatic (storage and USB)	Automaatne (mälu ja USB)
+Automatic brightness	Automaatne heledus
+Automatic check (once a day)	Automaatne kontroll (kord päevas)
+Available version:	Saadaval versioon:
+Average consumption	Keskmine kulu
+Average speed	Keskmine kiirus
+Avg. consumption	Kesk. kulu
+Avg. fuel price	Kütuse kesk. hind
+BT audio as soon as the phone connects	BT-heli, kui telefon ühendub
+BT daemon probe	BT daemon probe
+BT music app	BT-muusikarakendus
+BT package (from media session)	BT-pakett (meediaseansist)
+BT screen	BT-ekraan
+BT_STATE	BT_STATE
+Back	Tagasi
+Bass	Bass
+Bass - Mid - Treble	Bass - Kesk - Kõrged
+Bear left	Kergelt vasakule
+Bear right	Kergelt paremale
+Bluetooth audio check	Bluetoothi heli kontroll
+Bluetooth devices	Bluetoothi seadmed
+Boot screen	Käivituskuva
+Brand	Mark
+Brightness	Heledus
+Browse	Sirvi
+Buffering…	Puhverdamine…
+Build for this unit:	Versioon selle seadme jaoks:
+Build for unit:	Versioon seadme jaoks:
+Build number	Järgu number
+Building the device report…	Seadme aruande loomine…
+Built-in Corsa C pictures (car and cabin)	Sisseehitatud Corsa C pildid (auto ja salong)
+Built-in launcher radio	Käivitaja sisseehitatud raadio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Opel Corsa C jaoks on sisseehitatud pildid; teiste sõidukite jaoks importige oma foto seadmest või USB-lt.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API võti (tasuta: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO võti veebikaardi jaoks
+Cabin (ambient lighting)	Salong (ambientvalgustus)
+Calculating route…	Marsruudi arvutamine…
+Cancel	Tühista
+Cancelled	Tühistatud
+Car picture	Auto pilt
+Car picture (Vehicle status)	Auto pilt (sõiduki olek)
+Change home address	Muuda kodu aadressi
+Change work address	Muuda töö aadressi
+Check again	Kontrolli uuesti
+Check for updates automatically	Otsi värskendusi automaatselt
+Checking for updates…	Värskenduste otsimine…
+Checking that the software fits this unit…	Kontrollimine, kas tarkvara sobib selle seadmega…
+Checking…	Kontrollimine…
+Choose a Wi-Fi network	Valige WiFi-võrk
+Choose a folder	Valige kaust
+Choose a phone app in Setup	Valige telefonirakendus menüüs Seaded
+Choose a picture	Valige pilt
+Choose a picture first	Valige esmalt pilt
+Choose a radio app (long-press it in Apps)	Valige raadiorakendus (hoidke seda menüüs Rakendused all)
+Choose a station in the station list	Valige jaam jaamade loendist
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Valige sõiduki mark ja pildid, mida käivitaja näitab: auto (Sõiduk) ja salong (ambientvalgustus).
+Clear presets	Tühjenda eelvalikud
+Clear recent destinations	Tühjenda hiljutised sihtkohad
+Cleared	Tühjendatud
+Colour profile	Värviprofiil
+Colour profile and more	Värviprofiil ja muu
+Colour: 	Värv: 
+Compatibility	Ühilduvus
+Compatibility update available	Ühilduvusvärskendus saadaval
+Confirm the network in the system window	Kinnitage võrk süsteemi aknas
+Connect a new device	Ühenda uus seade
+Connect apps	Ühenda rakendused
+Connect the phone	Ühendage telefon
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Ühendage seade internetiga (WiFi-võrk või telefoni kuumkoht), et kontrollida ühilduvust ja saada värskendusi.
+Connect the unit to the internet to install the version for this unit.	Ühendage seade internetiga, et installida selle seadme versioon.
+Connect your phone for music and calls.	Ühendage telefon muusika ja kõnede jaoks.
+Connected	Ühendatud
+Connected: 	Ühendatud: 
+Connecting to 	Ühendamine: 
+Connecting: 	Ühendamine: 
+Connecting…	Ühendamine…
+Connects to	Ühendub seadmega
+Continue	Jätka
+Continue installs the new version.	Jätka installib uue versiooni.
+Continue installs the version made for this unit.	Jätka installib selle seadme jaoks tehtud versiooni.
+Continue straight	Otse
+Continue without internet	Jätka ilma internetita
+Contrast	Kontrastsus
+Copying failed	Kopeerimine ebaõnnestus
+Copying the factory apps…	Tehaserakenduste kopeerimine…
+Corsa C (built-in)	Corsa C (sisseehitatud)
+Cost per 100 km	Kulu 100 km kohta
+Could not calculate route	Marsruuti ei saanud arvutada
+Could not connect	Ühendamine ebaõnnestus
+Could not connect — turn on Bluetooth on the phone	Ühendamine ebaõnnestus — lülitage telefonis Bluetooth sisse
+Countries and regions	Riigid ja piirkonnad
+Country	Riik
+Cover art from the internet	Kaanepildid internetist
+Current odometer (km)	Praegune läbisõit (km)
+Current source / title	Praegune allikas / pealkiri
+Current speed	Praegune kiirus
+Custom	Kohandatud
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Andmed: © OpenStreetMapi kaastöölised (ODbL), failid: mapsforge.org
+Date and time (Android)	Kuupäev ja kellaaeg (Android)
+Day	Päev
+Default launcher	Vaikekäivitaja
+Delete	Kustuta
+Delete last fill-up	Kustuta viimane tankimine
+Delete map?	Kas kustutada kaart?
+Destination	Sihtkoht
+Device report	Seadme aruanne
+Diagnostics	Diagnostika
+Diagnostics (QF / Bluetooth)	Diagnostika (QF / Bluetooth)
+Disconnect	Katkesta ühendus
+Disconnect the current phone	Katkesta praeguse telefoni ühendus
+Disconnect the phone first	Katkestage esmalt telefoni ühendus
+Display over other apps: off	Kuva teiste rakenduste peal: väljas
+Distance	Vahemaa
+Do you hear the radio?	Kas kuulete raadiot?
+Download a map	Laadi kaart alla
+Download logos for found stations	Laadi alla leitud jaamade logod
+Download started: 	Allalaadimine algas: 
+Downloading map: 	Kaardi allalaadimine: 
+Downloading station logos… 	Jaamade logode allalaadimine… 
+Downloading the update… 	Värskenduse allalaadimine… 
+Downloading: 	Allalaadimine: 
+Driving direction up	Sõidusuund üleval
+Driving time	Sõiduaeg
+Duration	Kestus
+EN	EN
+Empty	Tühi
+Enable "MibDroid" so Spotify & other players show up here	Lubage „MibDroid”, et Spotify ja teised mängijad siin kuvataks
+Enough reports were sent today; this one is saved here: 	Täna on saadetud piisavalt aruandeid; see aruanne on salvestatud siia: 
+Error: 	Viga: 
+Exit	Mahasõit
+Exit left	Mahasõit vasakule
+Exit right	Mahasõit paremale
+Export the factory apps (APK)	Ekspordi tehaserakendused (APK)
+FM radio	FM-raadio
+FM radio is not available on this unit	FM-raadio pole selles seadmes saadaval
+FM tuner	FM-tuuner
+Factory radio app	Tehase raadiorakendus
+Factory software version	Tehase tarkvara versioon
+Fill-up	Tankimine
+Fill-up saved	Tankimine salvestatud
+Finish	Lõpeta
+Folder not readable (file access permission?)	Kausta ei saa lugeda (failidele juurdepääsu luba?)
+Folders	Kaustad
+Forget device	Unusta seade
+Found: 	Leitud: 
+Fuel	Kütus
+Fuel tank	Kütusepaak
+Fuel tank (l)	Kütusepaak (l)
+Full screen (hide Android bars)	Täisekraan (peida Androidi ribad)
+Full tank	Täis paak
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Riistvara
+Head unit	Peaseade
+Heading	Kurss
+Hide the factory player	Peida tehase mängija
+Hide the factory player (music / video)	Peida tehase mängija (muusika / video)
+Home	Kodu
+Hotspot	Kuumkoht
+Hotspot settings not found	Kuumkoha seadeid ei leitud
+I hear nothing	Ma ei kuule midagi
+Import a picture from the unit or USB:	Impordi pilt seadmest või USB-lt:
+Imported picture	Imporditud pilt
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Mõne minutiga seadistame seadme: internet, sõiduk, telefon, ja kontrollime, et raadio ja Bluetoothi heli töötavad.
+Installed SW MU version:	Installitud SW MU versioon:
+Installed SW Train version:	Installitud SW Train versioon:
+Installing 	Installimine: 
+Interior picture (Ambient lighting)	Salongi pilt (ambientvalgustus)
+Keep left	Hoidke vasakule
+Keep right	Hoidke paremale
+Kilometres (km/h)	Kilomeetrid (km/h)
+Language and region	Keel ja piirkond
+Language/Jezik	Keel/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Viimane kontroll:
+Last fill-up	Viimane tankimine
+Later	Hiljem
+Learned BT channel	Learned BT channel
+List not available (internet?)	Loend pole saadaval (internet?)
+List not available (needs internet): 	Loend pole saadaval (vaja internetti): 
+Litres	Liitrid
+Loading the list of maps…	Kaartide loendi laadimine…
+Loading the list…	Loendi laadimine…
+Loading…	Laadimine…
+Logos: 	Logod: 
+Long-term	Pikaajaline
+Looking for pictures…	Piltide otsimine…
+Low fuel: about 	Vähe kütust: umbes 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Põhiseaded (seda seadet veel ei toetata, seega on selle enda seaded peidetud).
+Make a U-turn	Pöörake ümber
+Manual	Käsitsi
+Map data	Kaardiandmed
+Map style	Kaardi stiil
+Map turns with the driving direction	Kaart pöörleb sõidusuunaga
+Maps work without internet and are drawn on the unit.	Kaardid töötavad ilma internetita ja joonistatakse seadmes.
+Media	Meedia
+Media access	Meedia juurdepääs
+Media and Bluetooth	Meedia ja Bluetooth
+Media notification	Meediateade
+Media session	Meediaseanss
+Memory	Mälu
+Merge	Liituge liiklusega
+Mid	Kesk
+Miles (mph)	Miilid (mph)
+Mode: 	Režiim: 
+Model	Mudel
+Music folders	Muusikakaustad
+Music library	Muusikakogu
+Music videos (MP4 and other video files)	Muusikavideod (MP4 ja muud videofailid)
+My dest.	Minu sihtk.
+Nav app	Navi rak.
+Navigate to this point?	Kas navigeerida sellesse punkti?
+Navigation	Navigeerimine
+Navigation and offline maps	Navigeerimine ja võrguühenduseta kaardid
+Navigation app	Navigeerimisrakendus
+Nearby	Läheduses
+Network	Võrk
+New dest.	Uus sihtk.
+New destination	Uus sihtkoht
+New device	Uus seade
+Next	Järgmine
+Next oil change	Järgmine õlivahetus
+Next service scheduled	Järgmine hooldus planeeritud
+Night	Öö
+No	Ei
+No GPS position	GPS-asukoht puudub
+No app to choose a picture	Pildi valimiseks pole rakendust
+No connection — try again	Ühendus puudub — proovige uuesti
+No destinations yet	Sihtkohti veel pole
+No devices found. Tap "Search" in the corner.	Seadmeid ei leitud. Puudutage nurgas „Otsi”.
+No entries.	Üksusi pole.
+No media selected.\nTap Browse or Play.	Meediat pole valitud.\nPuudutage Sirvi või Esita.
+No media.\nInsert a USB stick or SD card with music.	Meediat pole.\nSisestage muusikaga USB-mälupulk või SD-kaart.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Meediat pole.\nPuudutage siin ja lubage „Juurdepääs kõigile failidele”, et USB-mälupulki saaks lugeda.
+No music	Muusikat pole
+No named stations — update the station list first	Nimega jaamu pole — värskendage esmalt jaamade loendit
+No networks found (location permission is needed).	Võrke ei leitud (vaja on asukohaluba).
+No picture	Pilti pole
+No picture selected	Pilti pole valitud
+No pictures on the unit or on USB	Seadmes ega USB-l pole pilte
+No remembered devices. Connect a new phone:	Meelde jäetud seadmeid pole. Ühendage uus telefon:
+No results	Tulemusi pole
+No song from the phone yet	Telefonist pole veel lugu
+No track information.	Loo teave puudub.
+No update information	Värskenduse teave puudub
+None downloaded	Midagi pole alla laaditud
+None found	Midagi ei leitud
+North up	Põhi üleval
+Not a newer version	Uuemat versiooni pole
+Not allowed – tap	Pole lubatud – puudutage
+Not connected	Pole ühendatud
+Not found	Ei leitud
+Not selected	Pole valitud
+Not set	Pole määratud
+Not set – OpenStreetMap is used	Pole määratud – kasutatakse OpenStreetMapi
+Nothing found	Midagi ei leitud
+Nothing within 5 km	5 km raadiuses ei midagi
+Notification access	Juurdepääs märguannetele
+Now 	Praegu 
+Odometer	Läbisõidumõõdik
+Off	Väljas
+Off (no internet)	Väljas (internet puudub)
+Offline maps	Võrguühenduseta kaardid
+Oil change at (km)	Õlivahetus (km)
+Oil change due now!	Õlivahetus on vajalik kohe!
+Oil change in 	Õlivahetuseni 
+On	Sees
+Online radio	Internetiraadio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Internetiraadio esitab jaamu interneti kaudu (Radio Browser) samal raadioekraanil: valige jaamade loendis riik ja otsige, ning lisage jaamu eelvalikute ribale. Kasutab umbes 60–120 MB kuulamistunni kohta.
+Online stations	Veebijaamad
+Open the BT app briefly (plays the sound)	Ava BT-rakendus korraks (käivitab heli)
+OpenStreetMap (dimmed)	OpenStreetMap (tuhmistatud)
+Other	Muu
+Other media apps	Muud meediarakendused
+Pairing…	Sidumine…
+Part number:	Osa number:
+Password	Parool
+Pause	Paus
+Permissions	Load
+Phone	Telefon
+Phone (battery / signal)	Telefon (aku / signaal)
+Phone and radio	Telefon ja raadio
+Phone app	Telefonirakendus
+Phone disconnected	Telefoni ühendus katkestatud
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Telefonid ühendatakse USB-kaabliga või juhtmeta (Android Auto, Apple CarPlay, ekraani peegeldamine). Telefoni ekraani näitab seadme ZLinki rakendus.\n\nOlek: 
+Picture set	Pilt määratud
+Play	Esita
+Play / pause	Esita / paus
+Play a station from the station list first	Esitage esmalt jaam jaamade loendist
+Play music on your phone. The launcher has switched to BT audio.	Mängige telefonis muusikat. Käivitaja lülitus BT-helile.
+Point on map	Punkt kaardil
+Presets cleared	Eelvalikud tühjendatud
+Previous	Eelmine
+Price per litre	Liitri hind
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profiil
+Radio	Raadio
+Radio app	Raadiorakendus
+Radio check	Raadio kontroll
+Radio source	Raadio allikas
+Range	Sõiduulatus
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Muusika lugemine USB-lt ja mälust…
+Recalculating.	Ümberarvutamine.
+Recent destinations	Hiljutised sihtkohad
+Recommended settings for this unit:	Soovitatud seaded selle seadme jaoks:
+Registration expires	Registreering aegub
+Registration expires in 	Registreering aegub 
+Registration has expired!	Registreering on aegunud!
+Remaining: 	Jäänud: 
+Remove from MENU	Eemalda MENU-st
+Remove the picture	Eemalda pilt
+Report not saved	Aruannet ei salvestatud
+Rescan	Otsi uuesti
+Reset	Taasta
+Resume playback on start	Jätka esitamist käivitamisel
+Roundabout	Ringristmik
+Route calculated.	Marsruut arvutatud.
+Run the setup assistant	Käivita seadistusviisard
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Töötab käivitaja käivitumisel ja seadme ärkamisel (süüde). Telefon peab olema seadmega juba seotud; ühendamist proovitakse kaks minutit. Alates Android 10-st tohib WiFi sisse lülitada ainult süsteemirakendus (Magiski moodul); seejärel ühendub Android ise salvestatud võrkudega. Juhtmeta CarPlay jaoks peab telefon olema korra ühendatud telefonirakenduse kaudu.
+SW download	SW allalaadimine
+Saturation	Küllastus
+Saved: 	Salvestatud: 
+Saving the picture…	Pildi salvestamine…
+Scanning…	Otsimine…
+Screen	Ekraan
+Screen mirroring	Ekraani peegeldamine
+Search	Otsi
+Search again	Otsi uuesti
+Search apps	Otsi rakendusi
+Search for networks	Otsi võrke
+Search for stations	Otsi jaamu
+Search stations	Otsi jaamu
+Search: 	Otsi: 
+Searching for Wi-Fi networks…	WiFi-võrkude otsimine…
+Searching for devices…	Seadmete otsimine…
+Searching for radio stations…	Raadiojaamade otsimine…
+Searching for radio stations… 	Raadiojaamade otsimine… 
+Searching…	Otsimine…
+Select	Vali
+Send the device report	Saada seadme aruanne
+Send to the developer	Saada arendajale
+Sending the device report…	Seadme aruande saatmine…
+Sent — refresh in 2 s	Saadetud — värskendus 2 s pärast
+Service	Hooldus
+Service done today	Hooldus tehtud täna
+Service in 	Hoolduseni 
+Set	Määra
+Settings	Seaded
+Setup	Seaded
+Setup assistant	Seadistusviisard
+Setup → Vehicle	Seaded → Sõiduk
+Sharp left	Järsult vasakule
+Sharp right	Järsult paremale
+Show a picture at start	Kuva käivitamisel pilt
+Since refuelling	Tankimisest
+Since start	Väljasõidust
+Skip	Jäta vahele
+Skip setup	Jäta seadistus vahele
+Software	Tarkvara
+Software base	Tarkvara alus
+Software update	Tarkvaravärskendus
+Software update failed	Tarkvaravärskendus ebaõnnestus
+Software update finished	Tarkvaravärskendus lõpetatud
+Software update in progress…	Tarkvaravärskendus käib…
+Software version	Tarkvara versioon
+Software version:	Tarkvara versioon:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Midagi ei tööta nii, nagu peaks. Seadme aruanne (kontrollide tulemustega) aitab selle järgmises värskenduses parandada.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Lood
+Sound	Heli
+Source	Allikas
+Sources	Allikad
+Start	Käivita
+Start music on your phone.	Käivitage muusika telefonis.
+Start the phone app (ZLink…)	Käivita telefonirakendus (ZLink…)
+Start update	Alusta värskendust
+Start-up connections	Ühendused käivitamisel
+Started	Käivitatud
+Station list	Jaamade loend
+Station logos from the internet	Jaamade logod internetist
+Station name	Jaama nimi
+Stations	Jaamad
+Stations found: 	Leitud jaamad: 
+Stop	Peata
+Stop scan	Peata otsing
+Street and number, city or place	Tänav ja number, linn või koht
+Street, city	Tänav, linn
+Strong stations only (LOC)	Ainult tugevad jaamad (LOC)
+System Wi-Fi settings	Süsteemi WiFi-seaded
+System date	Süsteemi kuupäev
+System dialer	Süsteemi telefon
+System information	Süsteemiteave
+System settings	Süsteemiseaded
+System version	Süsteemi versioon
+Take the ramp	Sõitke pealesõidule
+Tap a device to connect. Long press: forget the device.	Ühendamiseks puudutage seadet. Pikk vajutus: unusta seade.
+Test builds	Testversioonid
+Test builds (every build)	Testversioonid (iga järk)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Ambientvalgustuse värv on ka kogu käivitaja värv.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Värviprofiil muudab käivitaja pilti (kõiki selle ekraane, ka kaarti). Teiste rakenduste värve saab muuta alles siis, kui käivitaja on süsteemirakendus.
+The device report was saved; send it to the developer: 	Seadme aruanne on salvestatud; saatke see arendajale: 
+The device report was sent to the developer.	Seadme aruanne on arendajale saadetud.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Seadme aruanne saadetakse, kui seade on võrgus. See on salvestatud ka siia: 
+The download is not a valid APK	Allalaaditud fail pole kehtiv APK
+The internet is connected	Internet on ühendatud
+The last connected phone	Viimati ühendatud telefon
+The launcher restarts in the new version.	Käivitaja taaskäivitub uues versioonis.
+The launcher will search for stations and play the first one it finds.	Käivitaja otsib jaamu ja esitab esimese leitud jaama.
+The picture can't be opened	Pilti ei saa avada
+The picture cannot be opened	Pilti ei saa avada
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Pilt ilmub, kui käivitaja käivitub pärast seadme sisselülitamist, ja hääbub seejärel (puudutus eemaldab selle kohe). Seadme enda Androidi käivitusanimatsioon ei muutu.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Raadio ja Bluetoothi muusika ei pruugi selle seadme enda teenuste kaudu töötada. Seadme aruanne saadetakse ja kui tugi on valmis, pakub käivitaja selle seadme versiooni.
+The software is up to date	Tarkvara on ajakohane
+The station can't be played	Jaama ei saa esitada
+The station can't be played (connection?)	Jaama ei saa esitada (ühendus?)
+The unit is set up. Every setting can be changed later in Setup.	Seade on seadistatud. Iga seadet saab hiljem muuta menüüs Seaded.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Selle seadme versiooni ei saa praegu alla laadida. Proovige varsti uuesti.
+This unit is not supported yet	Seda seadet veel ei toetata
+This unit is supported now. Install the launcher build made for it.	Seda seadet nüüd toetatakse. Installige selle jaoks tehtud käivitaja versioon.
+This unit is supported: 	Seda seadet toetatakse: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Selle seadme FM-tuunerit ei saa käivitajast kasutada; internetiraadio mängib interneti kaudu.
+Time and date	Kellaaeg ja kuupäev
+Time for winter tyres	Talverehvide aeg
+To show the song and cover, enable\nnotification access — tap here.	Lülitage sisse juurdepääs märguannetele, et kuvada lugu ja kaanepilt\n— puudutage siin.
+Treble	Kõrged
+Try now	Proovi kohe
+Turn Bluetooth on	Lülita Bluetooth sisse
+Turn Wi-Fi on	Lülita WiFi sisse
+Turn left	Pöörake vasakule
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Lülitage MibDroidi jaoks sisse „Kuva teiste rakenduste peal”, et see saaks tehaserakenduse peale naasta.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Lülitage MibDroidi jaoks sisse „Kuva teiste rakenduste peal” ja valige seejärel uuesti BT-heli.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Lülitage telefonis Bluetooth sisse ja tehke see nähtavaks, seejärel valige see loendist:
+Turn radio off	Lülita raadio välja
+Turn right	Pöörake paremale
+Turn the hotspot on / off	Kuumkoht sisse / välja
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB on tavaliselt asukohas /storage/… või /mnt/… (nt usbhost, udisk).
+Uninstall	Desinstalli
+Units	Ühikud
+Until then, Continue installs the default version (QF).	Seni installib Jätka vaikeversiooni (QF).
+Update	Värskenda
+Update available:	Värskendus saadaval:
+Update failed: 	Värskendus ebaõnnestus: 
+Update not installed	Värskendust ei installitud
+Update station list	Värskenda jaamade loendit
+Use as phone app	Kasuta telefonirakendusena
+Use as radio app	Kasuta raadiorakendusena
+Use offline map	Kasuta võrguühenduseta kaarti
+Vehicle	Sõiduk
+Vehicle and pictures	Sõiduk ja pildid
+Vehicle status	Sõiduki olek
+Versions	Versioonid
+View	Vaade
+Voice guidance	Häälnavigeerimine
+Waiting for GPS position	GPS-asukoha ootamine
+Waiting for GPS…	GPS-i ootamine…
+Warmth	Soojus
+Welcome	Tere tulemast
+Welcome to App-Connect.\nPlease connect a device using the USB.	Tere tulemast App-Connecti.\nÜhendage seade USB kaudu.
+When the unit starts	Seadme käivitamisel
+Wi-Fi is off.	WiFi on välja lülitatud.
+Wi-Fi not available	WiFi pole saadaval
+Winter tyre reminder (1 Nov – 1 Apr)	Talverehvide meeldetuletus (1. nov – 1. apr)
+Winter tyres fitted	Talverehvid paigaldatud
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Valitud kaustadega loeb käivitaja ainult neid (ja nende alamkaustu) tavaliste failidena. Ilma nendeta leiab see muusika mälust ja USB-lt ise.
+Work	Töö
+Wrong package	Vale pakett
+Yes	Jah
+Yes, I hear the music	Jah, kuulen muusikat
+Yes, I hear the radio	Jah, kuulen raadiot
+You can switch back to summer tyres	Võite naasta suverehvidele
+You have arrived	Olete kohal
+You have arrived.	Olete kohal.
+ZLink is not installed	ZLink pole installitud
+any saved network	mis tahes salvestatud võrk
+available: 	saadaval: 
+chosen	valitud
+connect / new device	ühenda / uus seade
+empty	tühi
+enter	liitumine
+forget a network, advanced	unusta võrk, täpsemalt
+free	vaba
+left today: 	veel täna: 
+needed	vajalik
+needs 2 full tanks	vajab 2 täis paaki
+no build for this unit	selle seadme versiooni pole
+no data	andmed puuduvad
+no more today	täna enam mitte
+none	puudub
+none found	midagi ei leitud
+none yet	veel pole
+none yet — play BT music	veel pole — mängige BT-muusikat
+nothing received	midagi ei saadud
+now only inside the launcher	nüüd ainult käivitajas
+off	väljas
+on	sees
+open	ava
+remove	eemalda
+save and show	salvesta ja kuva
+secured	turvatud
+service list unavailable	teenuste loend pole saadaval
+set	määratud
+state unknown	olek teadmata
+switched off in Setup	keelatud menüüs Seaded
+takes ~10 s	võtab ~10 s
+tap and listen	puudutage ja kuulake
+the last connected (none yet)	viimati ühendatud (veel pole)
+to Download	kausta Download
+to support new units	uute seadmete toetamiseks
+unavailable	pole saadaval
+unreadable	pole loetav
+up	üleval
+your choice below	teie valik allpool
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Kasuta seda kausta
+✗ — tap to enable	✗ — puudutage sisselülitamiseks

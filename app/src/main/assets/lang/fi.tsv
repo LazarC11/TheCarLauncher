@@ -1,0 +1,594 @@
+# English text <TAB> translation (fi). Keys must match the English text in the code exactly.
+  (partial)	  (osittain)
+  (test)	  (testi)
+  (this unit: 	  (tämä laite: 
+ (back to Android)	 (takaisin Androidiin)
+ (last connected)	 (viimeksi yhdistetty)
+ connected	 yhdistetty
+ days	 päivää
+ downloaded	 ladattu
+ folders	 kansiota
+ is connected.\nTap to show the phone.	 on yhdistetty.\nNäytä puhelin napauttamalla.
+ kilometres	 kilometriä
+ metres	 metriä
+ music / video files in this folder	 musiikki- / videotiedostot tässä kansiossa
+ nearby	 lähellä
+ saved	 tallennettu
+ songs	 kappaletta
+ videos	 videota
+ · tap to delete	 · poista napauttamalla
++15,000 km / +1 yr	+15 000 km / +1 vuosi
+24-hour format	24 tunnin muoto
+A phone is connected. Disconnect it first to add a new device.	Puhelin on yhdistetty. Katkaise yhteys ensin lisätäksesi uuden laitteen.
+Add	Lisää
+Add a folder	Lisää kansio
+Add fill-up	Lisää tankkaus
+Add to MENU	Lisää MENU-valikkoon
+Albums	Albumit
+All	Kaikki
+All Android settings	Kaikki Android-asetukset
+All countries	Kaikki maat
+All files access (USB)	Pääsy kaikkiin tiedostoihin (USB)
+All presets are taken — hold a preset to replace it	Kaikki pikavalinnat ovat käytössä — korvaa pikavalinta pitämällä sitä painettuna
+All set	Kaikki valmista
+Allow "All files access" for MibDroid so music on USB sticks can be read.	Salli MibDroidille ”Pääsy kaikkiin tiedostoihin”, jotta se voi lukea musiikkia USB-tikuilta.
+Allow access	Salli pääsy
+Allow access to music.	Salli pääsy musiikkiin.
+Allow access to pictures	Salli pääsy kuviin
+Allow changing the system brightness	Salli järjestelmän kirkkauden muuttaminen
+Allow installing apps for MibDroid, then try again	Salli MibDroidin asentaa sovelluksia ja yritä uudelleen
+Allow installing updates	Salli päivitysten asentaminen
+Allow location access	Salli sijainnin käyttö
+Allow returning from the BT app	Salli paluu BT-sovelluksesta
+Allowed	Sallittu
+Altitude	Korkeus
+Ambient lighting	Tunnelmavalaistus
+Android does not let an ordinary app switch the hotspot itself: the system hotspot page opens (name, password, on/off). Once the launcher is a system app this works right here.	Android ei anna tavallisen sovelluksen kytkeä hotspotia itse: järjestelmän hotspot-sivu avautuu (nimi, salasana, päälle/pois). Kun käynnistin on järjestelmäsovellus, tämä toimii suoraan täällä.
+Android system	Android-järjestelmä
+Android will ask to confirm the install. As a system app (Magisk module) the launcher updates on its own.	Android pyytää vahvistamaan asennuksen. Järjestelmäsovelluksena (Magisk-moduuli) käynnistin päivittää itsensä.
+Annual service	Vuosihuolto
+Annual service due now!	Vuosihuolto tarvitaan nyt!
+Another app (gallery, file manager)	Muu sovellus (galleria, tiedostonhallinta)
+Any saved network	Mikä tahansa tallennettu verkko
+App	Sovellus
+App (ZLink, CarPlay…)	Sovellus (ZLink, CarPlay…)
+App info	Sovelluksen tiedot
+App name	Sovelluksen nimi
+App-Connect is not available.\nNo ZLink app was found on this unit.	App-Connect ei ole käytettävissä.\nLaitteesta ei löytynyt ZLink-sovellusta.
+Apps	Sovellukset
+Artists	Esittäjät
+At the end, left	Lopussa vasemmalle
+At the end, right	Lopussa oikealle
+Automatic (by region)	Automaattinen (alueen mukaan)
+Automatic (detect from media session)	Automaattinen (mediaistunnosta)
+Automatic (storage and USB)	Automaattinen (tallennustila ja USB)
+Automatic brightness	Automaattinen kirkkaus
+Automatic check (once a day)	Automaattinen tarkistus (kerran päivässä)
+Available version:	Saatavilla oleva versio:
+Average consumption	Keskikulutus
+Average speed	Keskinopeus
+Avg. consumption	Keskikul.
+Avg. fuel price	Polttoaineen keskihinta
+BT audio as soon as the phone connects	BT-ääni, kun puhelin yhdistyy
+BT daemon probe	BT daemon probe
+BT music app	BT-musiikkisovellus
+BT package (from media session)	BT-paketti (mediaistunnosta)
+BT screen	BT-näyttö
+BT_STATE	BT_STATE
+Back	Takaisin
+Bass	Basso
+Bass - Mid - Treble	Basso - Keski - Diskantti
+Bear left	Loivasti vasemmalle
+Bear right	Loivasti oikealle
+Bluetooth audio check	Bluetooth-äänen tarkistus
+Bluetooth devices	Bluetooth-laitteet
+Boot screen	Käynnistysnäyttö
+Brand	Merkki
+Brightness	Kirkkaus
+Browse	Selaa
+Buffering…	Puskuroidaan…
+Build for this unit:	Versio tälle laitteelle:
+Build for unit:	Versio laitteelle:
+Build number	Koontiversio
+Building the device report…	Luodaan laiteraporttia…
+Built-in Corsa C pictures (car and cabin)	Sisäänrakennetut Corsa C -kuvat (auto ja matkustamo)
+Built-in launcher radio	Käynnistimen sisäänrakennettu radio
+Built-in pictures exist for the Opel Corsa C; for other vehicles import your own photo from the unit or USB.	Opel Corsa C:lle on sisäänrakennetut kuvat; muille ajoneuvoille tuo oma kuva laitteesta tai USB:ltä.
+CARTO API key (free: carto.com/basemaps/apikey)	CARTO API -avain (ilmainen: carto.com/basemaps/apikey)
+CARTO key for the online map	CARTO-avain verkkokartalle
+Cabin (ambient lighting)	Matkustamo (tunnelmavalaistus)
+Calculating route…	Lasketaan reittiä…
+Cancel	Peruuta
+Cancelled	Peruutettu
+Car picture	Kuva autosta
+Car picture (Vehicle status)	Kuva autosta (ajoneuvon tila)
+Change home address	Vaihda kotiosoite
+Change work address	Vaihda työosoite
+Check again	Tarkista uudelleen
+Check for updates automatically	Etsi päivityksiä automaattisesti
+Checking for updates…	Etsitään päivityksiä…
+Checking that the software fits this unit…	Tarkistetaan, sopiiko ohjelmisto tähän laitteeseen…
+Checking…	Tarkistetaan…
+Choose a Wi-Fi network	Valitse Wi-Fi-verkko
+Choose a folder	Valitse kansio
+Choose a phone app in Setup	Valitse puhelinsovellus Asetuksista
+Choose a picture	Valitse kuva
+Choose a picture first	Valitse ensin kuva
+Choose a radio app (long-press it in Apps)	Valitse radiosovellus (pidä sitä painettuna Sovelluksissa)
+Choose a station in the station list	Valitse asema asemaluettelosta
+Choose the vehicle's brand and the pictures the launcher shows: the car (Vehicle) and the cabin (ambient lighting).	Valitse ajoneuvon merkki ja kuvat, jotka käynnistin näyttää: auto (Ajoneuvo) ja matkustamo (tunnelmavalaistus).
+Clear presets	Tyhjennä pikavalinnat
+Clear recent destinations	Tyhjennä viimeisimmät määränpäät
+Cleared	Tyhjennetty
+Colour profile	Väriprofiili
+Colour profile and more	Väriprofiili ja muuta
+Colour: 	Väri: 
+Compatibility	Yhteensopivuus
+Compatibility update available	Yhteensopivuuspäivitys saatavilla
+Confirm the network in the system window	Vahvista verkko järjestelmän ikkunassa
+Connect a new device	Yhdistä uusi laite
+Connect apps	Yhdistä sovelluksia
+Connect the phone	Yhdistä puhelin
+Connect the unit to the internet (a Wi-Fi network or your phone's hotspot) to check compatibility and get updates.	Yhdistä laite internetiin (Wi-Fi-verkko tai puhelimen hotspot), jotta yhteensopivuus voidaan tarkistaa ja päivityksiä saada.
+Connect the unit to the internet to install the version for this unit.	Yhdistä laite internetiin asentaaksesi tälle laitteelle tehdyn version.
+Connect your phone for music and calls.	Yhdistä puhelimesi musiikkia ja puheluita varten.
+Connected	Yhdistetty
+Connected: 	Yhdistetty: 
+Connecting to 	Yhdistetään: 
+Connecting: 	Yhdistetään: 
+Connecting…	Yhdistetään…
+Connects to	Yhdistää kohteeseen
+Continue	Jatka
+Continue installs the new version.	Jatka asentaa uuden version.
+Continue installs the version made for this unit.	Jatka asentaa tälle laitteelle tehdyn version.
+Continue straight	Suoraan
+Continue without internet	Jatka ilman internetiä
+Contrast	Kontrasti
+Copying failed	Kopiointi epäonnistui
+Copying the factory apps…	Kopioidaan tehdassovelluksia…
+Corsa C (built-in)	Corsa C (sisäänrakennettu)
+Cost per 100 km	Hinta 100 km:llä
+Could not calculate route	Reittiä ei voitu laskea
+Could not connect	Yhteyden muodostus epäonnistui
+Could not connect — turn on Bluetooth on the phone	Yhteyden muodostus epäonnistui — kytke puhelimen Bluetooth päälle
+Countries and regions	Maat ja alueet
+Country	Maa
+Cover art from the internet	Kansikuvat internetistä
+Current odometer (km)	Nykyinen matkamittarilukema (km)
+Current source / title	Nykyinen lähde / nimi
+Current speed	Nykyinen nopeus
+Custom	Mukautettu
+Data: © OpenStreetMap contributors (ODbL), files: mapsforge.org	Tiedot: © OpenStreetMapin tekijät (ODbL), tiedostot: mapsforge.org
+Date and time (Android)	Päivämäärä ja aika (Android)
+Day	Päivä
+Default launcher	Oletuskäynnistin
+Delete	Poista
+Delete last fill-up	Poista viimeisin tankkaus
+Delete map?	Poistetaanko kartta?
+Destination	Määränpää
+Device report	Laiteraportti
+Diagnostics	Diagnostiikka
+Diagnostics (QF / Bluetooth)	Diagnostiikka (QF / Bluetooth)
+Disconnect	Katkaise yhteys
+Disconnect the current phone	Katkaise nykyisen puhelimen yhteys
+Disconnect the phone first	Katkaise ensin puhelimen yhteys
+Display over other apps: off	Näytä muiden sovellusten päällä: pois
+Distance	Matka
+Do you hear the radio?	Kuuletko radion?
+Download a map	Lataa kartta
+Download logos for found stations	Lataa löydettyjen asemien logot
+Download started: 	Lataus aloitettu: 
+Downloading map: 	Kartan lataus: 
+Downloading station logos… 	Ladataan asemien logoja… 
+Downloading the update… 	Ladataan päivitystä… 
+Downloading: 	Ladataan: 
+Driving direction up	Ajosuunta ylös
+Driving time	Ajoaika
+Duration	Kesto
+EN	EN
+Empty	Tyhjä
+Enable "MibDroid" so Spotify & other players show up here	Ota ”MibDroid” käyttöön, jotta Spotify ja muut soittimet näkyvät täällä
+Enough reports were sent today; this one is saved here: 	Tänään on lähetetty tarpeeksi raportteja; tämä raportti on tallennettu tänne: 
+Error: 	Virhe: 
+Exit	Liittymä
+Exit left	Liittymä vasemmalle
+Exit right	Liittymä oikealle
+Export the factory apps (APK)	Vie tehdassovellukset (APK)
+FM radio	FM-radio
+FM radio is not available on this unit	FM-radio ei ole käytettävissä tässä laitteessa
+FM tuner	FM-viritin
+Factory radio app	Tehtaan radiosovellus
+Factory software version	Tehtaan ohjelmistoversio
+Fill-up	Tankkaus
+Fill-up saved	Tankkaus tallennettu
+Finish	Valmis
+Folder not readable (file access permission?)	Kansiota ei voi lukea (tiedostojen käyttöoikeus?)
+Folders	Kansiot
+Forget device	Unohda laite
+Found: 	Löydetty: 
+Fuel	Polttoaine
+Fuel tank	Polttoainesäiliö
+Fuel tank (l)	Polttoainesäiliö (l)
+Full screen (hide Android bars)	Koko näyttö (piilota Androidin palkit)
+Full tank	Täysi tankki
+GOC Bluetooth daemon	GOC Bluetooth daemon
+GOC length / position	GOC length / position
+GOC not connected: 	GOC not connected: 
+GOC position (MP)	GOC position (MP)
+GOC received: 	GOC received: 
+GOC song	GOC song
+GOC song numbers (MI)	GOC song numbers (MI)
+GOC: ask for song info	GOC: ask for song info
+Hardware	Laitteisto
+Head unit	Päälaite
+Heading	Suunta
+Hide the factory player	Piilota tehtaan soitin
+Hide the factory player (music / video)	Piilota tehtaan soitin (musiikki / video)
+Home	Koti
+Hotspot	Hotspot
+Hotspot settings not found	Hotspot-asetuksia ei löytynyt
+I hear nothing	En kuule mitään
+Import a picture from the unit or USB:	Tuo kuva laitteesta tai USB:ltä:
+Imported picture	Tuotu kuva
+In a few minutes we set up the unit: internet, vehicle, phone, and check that the radio and Bluetooth sound work.	Muutamassa minuutissa määritämme laitteen: internet, ajoneuvo, puhelin, ja tarkistamme, että radio ja Bluetooth-ääni toimivat.
+Installed SW MU version:	Asennettu SW MU -versio:
+Installed SW Train version:	Asennettu SW Train -versio:
+Installing 	Asennetaan 
+Interior picture (Ambient lighting)	Kuva matkustamosta (tunnelmavalaistus)
+Keep left	Pysy vasemmalla
+Keep right	Pysy oikealla
+Kilometres (km/h)	Kilometrit (km/h)
+Language and region	Kieli ja alue
+Language/Jezik	Kieli/Language
+Last QF broadcast	Last QF broadcast
+Last check:	Viimeisin tarkistus:
+Last fill-up	Viimeisin tankkaus
+Later	Myöhemmin
+Learned BT channel	Learned BT channel
+List not available (internet?)	Luettelo ei saatavilla (internet?)
+List not available (needs internet): 	Luettelo ei saatavilla (vaatii internetin): 
+Litres	Litrat
+Loading the list of maps…	Ladataan karttaluetteloa…
+Loading the list…	Ladataan luetteloa…
+Loading…	Ladataan…
+Logos: 	Logot: 
+Long-term	Pitkällä aikavälillä
+Looking for pictures…	Etsitään kuvia…
+Low fuel: about 	Vähän polttoainetta: noin 
+MCU audio channel now	MCU audio channel now
+MCU channel → 	MCU channel → 
+MCU not available	MCU not available
+MCU version	MCU version
+Main settings (this unit is not supported yet, so its own settings are hidden).	Pääasetukset (tätä laitetta ei vielä tueta, joten sen omat asetukset on piilotettu).
+Make a U-turn	Käänny ympäri
+Manual	Manuaalinen
+Map data	Karttatiedot
+Map style	Karttatyyli
+Map turns with the driving direction	Kartta kääntyy ajosuunnan mukaan
+Maps work without internet and are drawn on the unit.	Kartat toimivat ilman internetiä ja piirretään laitteella.
+Media	Media
+Media access	Median käyttö
+Media and Bluetooth	Media ja Bluetooth
+Media notification	Mediailmoitus
+Media session	Mediaistunto
+Memory	Muisti
+Merge	Liity liikenteeseen
+Mid	Keski
+Miles (mph)	Mailit (mph)
+Mode: 	Tila: 
+Model	Malli
+Music folders	Musiikkikansiot
+Music library	Musiikkikirjasto
+Music videos (MP4 and other video files)	Musiikkivideot (MP4 ja muut videotiedostot)
+My dest.	Omat kohteet
+Nav app	Navi-sovellus
+Navigate to this point?	Navigoidaanko tähän pisteeseen?
+Navigation	Navigointi
+Navigation and offline maps	Navigointi ja offline-kartat
+Navigation app	Navigointisovellus
+Nearby	Lähellä
+Network	Verkko
+New dest.	Uusi kohde
+New destination	Uusi määränpää
+New device	Uusi laite
+Next	Seuraava
+Next oil change	Seuraava öljynvaihto
+Next service scheduled	Seuraava huolto suunniteltu
+Night	Yö
+No	Ei
+No GPS position	Ei GPS-sijaintia
+No app to choose a picture	Ei sovellusta kuvan valitsemiseen
+No connection — try again	Ei yhteyttä — yritä uudelleen
+No destinations yet	Ei vielä määränpäitä
+No devices found. Tap "Search" in the corner.	Laitteita ei löytynyt. Napauta kulmassa olevaa ”Etsi”.
+No entries.	Ei kohteita.
+No media selected.\nTap Browse or Play.	Mediaa ei ole valittu.\nNapauta Selaa tai Toista.
+No media.\nInsert a USB stick or SD card with music.	Ei mediaa.\nAseta USB-tikku tai SD-kortti, jolla on musiikkia.
+No media.\nTap here and allow "All files access" so USB sticks can be read.	Ei mediaa.\nNapauta tästä ja salli ”Pääsy kaikkiin tiedostoihin”, jotta USB-tikkuja voidaan lukea.
+No music	Ei musiikkia
+No named stations — update the station list first	Ei nimettyjä asemia — päivitä ensin asemaluettelo
+No networks found (location permission is needed).	Verkkoja ei löytynyt (sijaintilupa tarvitaan).
+No picture	Ei kuvaa
+No picture selected	Kuvaa ei valittu
+No pictures on the unit or on USB	Laitteessa tai USB:llä ei ole kuvia
+No remembered devices. Connect a new phone:	Ei muistettuja laitteita. Yhdistä uusi puhelin:
+No results	Ei tuloksia
+No song from the phone yet	Ei vielä kappaletta puhelimesta
+No track information.	Ei kappaletietoja.
+No update information	Ei päivitystietoja
+None downloaded	Mitään ei ladattu
+None found	Mitään ei löytynyt
+North up	Pohjoinen ylös
+Not a newer version	Ei uudempaa versiota
+Not allowed – tap	Ei sallittu – napauta
+Not connected	Ei yhdistetty
+Not found	Ei löytynyt
+Not selected	Ei valittu
+Not set	Ei asetettu
+Not set – OpenStreetMap is used	Ei asetettu – käytetään OpenStreetMapia
+Nothing found	Mitään ei löytynyt
+Nothing within 5 km	Ei mitään 5 km:n säteellä
+Notification access	Ilmoitusten käyttöoikeus
+Now 	Nyt 
+Odometer	Matkamittari
+Off	Pois
+Off (no internet)	Pois (ei internetiä)
+Offline maps	Offline-kartat
+Oil change at (km)	Öljynvaihto kohdassa (km)
+Oil change due now!	Öljynvaihto tarvitaan nyt!
+Oil change in 	Öljynvaihtoon 
+On	Päällä
+Online radio	Nettiradio
+Online radio plays stations over the internet (Radio Browser) on the same radio screen: in the station list you choose the country and search, and add stations to the preset bar. Uses about 60–120 MB per hour of listening.	Nettiradio toistaa asemia internetin kautta (Radio Browser) samalla radionäytöllä: valitse asemaluettelossa maa ja hae, ja lisää asemia pikavalintapalkkiin. Käyttää noin 60–120 Mt tunnissa kuuntelua.
+Online stations	Verkkoasemat
+Open the BT app briefly (plays the sound)	Avaa BT-sovellus hetkeksi (käynnistää äänen)
+OpenStreetMap (dimmed)	OpenStreetMap (himmennetty)
+Other	Muut
+Other media apps	Muut mediasovellukset
+Pairing…	Muodostetaan pariliitosta…
+Part number:	Osanumero:
+Password	Salasana
+Pause	Tauko
+Permissions	Käyttöoikeudet
+Phone	Puhelin
+Phone (battery / signal)	Puhelin (akku / signaali)
+Phone and radio	Puhelin ja radio
+Phone app	Puhelinsovellus
+Phone disconnected	Puhelimen yhteys katkaistu
+Phones connect by USB cable or wirelessly (Android Auto, Apple CarPlay, screen mirroring). The phone's screen is shown by the unit's ZLink app.\n\nStatus: 	Puhelimet yhdistetään USB-kaapelilla tai langattomasti (Android Auto, Apple CarPlay, näytön peilaus). Puhelimen näytön näyttää laitteen ZLink-sovellus.\n\nTila: 
+Picture set	Kuva asetettu
+Play	Toista
+Play / pause	Toista / tauko
+Play a station from the station list first	Toista ensin asema asemaluettelosta
+Play music on your phone. The launcher has switched to BT audio.	Soita musiikkia puhelimessa. Käynnistin vaihtoi BT-ääneen.
+Point on map	Piste kartalla
+Presets cleared	Pikavalinnat tyhjennetty
+Previous	Edellinen
+Price per litre	Litrahinta
+Probe BT daemon (play music)	Probe BT daemon (play music)
+Probing for about ten seconds…	Probing for about ten seconds…
+Profile	Profiili
+Radio	Radio
+Radio app	Radiosovellus
+Radio check	Radion tarkistus
+Radio source	Radiolähde
+Range	Toimintamatka
+Read the BT module directly (only without the factory BT app)	Read the BT module directly (only without the factory BT app)
+Reading music from USB and storage…	Luetaan musiikkia USB:ltä ja tallennustilasta…
+Recalculating.	Lasketaan uudelleen.
+Recent destinations	Viimeisimmät määränpäät
+Recommended settings for this unit:	Suositellut asetukset tälle laitteelle:
+Registration expires	Rekisteröinti päättyy
+Registration expires in 	Rekisteröinti päättyy 
+Registration has expired!	Rekisteröinti on päättynyt!
+Remaining: 	Jäljellä: 
+Remove from MENU	Poista MENU-valikosta
+Remove the picture	Poista kuva
+Report not saved	Raporttia ei tallennettu
+Rescan	Etsi uudelleen
+Reset	Palauta
+Resume playback on start	Jatka toistoa käynnistettäessä
+Roundabout	Liikenneympyrä
+Route calculated.	Reitti laskettu.
+Run the setup assistant	Käynnistä ohjattu asennus
+Runs when the launcher starts and when the unit wakes up (ignition on). The phone must already be paired with the unit; connecting is retried for two minutes. From Android 10 only a system app (Magisk module) may switch Wi-Fi on; Android then joins saved networks itself. For wireless CarPlay the phone must have been connected through the phone app once.	Suoritetaan, kun käynnistin käynnistyy ja kun laite herää (virta-avain). Puhelimen on oltava jo laiteparina laitteen kanssa; yhdistämistä yritetään kahden minuutin ajan. Android 10:stä alkaen vain järjestelmäsovellus (Magisk-moduuli) saa kytkeä Wi-Fin päälle; sen jälkeen Android yhdistää itse tallennettuihin verkkoihin. Langatonta CarPlayta varten puhelin on täytynyt yhdistää kerran puhelinsovelluksen kautta.
+SW download	SW-lataus
+Saturation	Kylläisyys
+Saved: 	Tallennettu: 
+Saving the picture…	Tallennetaan kuvaa…
+Scanning…	Haetaan…
+Screen	Näyttö
+Screen mirroring	Näytön peilaus
+Search	Etsi
+Search again	Etsi uudelleen
+Search apps	Hae sovelluksia
+Search for networks	Etsi verkkoja
+Search for stations	Etsi asemia
+Search stations	Hae asemia
+Search: 	Haku: 
+Searching for Wi-Fi networks…	Etsitään Wi-Fi-verkkoja…
+Searching for devices…	Etsitään laitteita…
+Searching for radio stations…	Etsitään radioasemia…
+Searching for radio stations… 	Etsitään radioasemia… 
+Searching…	Etsitään…
+Select	Valitse
+Send the device report	Lähetä laiteraportti
+Send to the developer	Lähetä kehittäjälle
+Sending the device report…	Lähetetään laiteraporttia…
+Sent — refresh in 2 s	Lähetetty — päivitys 2 s kuluttua
+Service	Huolto
+Service done today	Huolto tehty tänään
+Service in 	Huoltoon 
+Set	Aseta
+Settings	Asetukset
+Setup	Asetukset
+Setup assistant	Ohjattu asennus
+Setup → Vehicle	Asetukset → Ajoneuvo
+Sharp left	Jyrkästi vasemmalle
+Sharp right	Jyrkästi oikealle
+Show a picture at start	Näytä kuva käynnistettäessä
+Since refuelling	Tankkauksesta
+Since start	Lähdöstä
+Skip	Ohita
+Skip setup	Ohita asennus
+Software	Ohjelmisto
+Software base	Ohjelmistopohja
+Software update	Ohjelmistopäivitys
+Software update failed	Ohjelmistopäivitys epäonnistui
+Software update finished	Ohjelmistopäivitys valmis
+Software update in progress…	Ohjelmistopäivitys käynnissä…
+Software version	Ohjelmistoversio
+Software version:	Ohjelmistoversio:
+Something does not work as it should. The device report (with the check results) helps fix it in a coming update.	Jokin ei toimi niin kuin pitäisi. Laiteraportti (tarkistusten tuloksineen) auttaa korjaamaan sen tulevassa päivityksessä.
+Song from BT app (broadcast)	Song from BT app (broadcast)
+Songs	Kappaleet
+Sound	Ääni
+Source	Lähde
+Sources	Lähteet
+Start	Käynnistä
+Start music on your phone.	Käynnistä musiikki puhelimessa.
+Start the phone app (ZLink…)	Käynnistä puhelinsovellus (ZLink…)
+Start update	Aloita päivitys
+Start-up connections	Yhteydet käynnistettäessä
+Started	Käynnistetty
+Station list	Asemaluettelo
+Station logos from the internet	Asemien logot internetistä
+Station name	Aseman nimi
+Stations	Asemat
+Stations found: 	Löydetyt asemat: 
+Stop	Pysäytä
+Stop scan	Pysäytä haku
+Street and number, city or place	Katu ja numero, kaupunki tai paikka
+Street, city	Katu, kaupunki
+Strong stations only (LOC)	Vain vahvat asemat (LOC)
+System Wi-Fi settings	Järjestelmän Wi-Fi-asetukset
+System date	Järjestelmän päivämäärä
+System dialer	Järjestelmän puhelin
+System information	Järjestelmätiedot
+System settings	Järjestelmäasetukset
+System version	Järjestelmäversio
+Take the ramp	Aja liittymään
+Tap a device to connect. Long press: forget the device.	Yhdistä napauttamalla laitetta. Pitkä painallus: unohda laite.
+Test builds	Testiversiot
+Test builds (every build)	Testiversiot (jokainen koontiversio)
+Test channel 	Test channel 
+Text 	Text 
+The ambient lighting colour is also the colour of the whole launcher.	Tunnelmavalaistuksen väri on myös koko käynnistimen väri.
+The colour profile changes the launcher's picture (all its screens, the map too). Other apps' colours can only be changed once the launcher is a system app.	Väriprofiili muuttaa käynnistimen kuvaa (kaikkia sen näyttöjä, myös karttaa). Muiden sovellusten värejä voi muuttaa vasta, kun käynnistin on järjestelmäsovellus.
+The device report was saved; send it to the developer: 	Laiteraportti on tallennettu; lähetä se kehittäjälle: 
+The device report was sent to the developer.	Laiteraportti on lähetetty kehittäjälle.
+The device report will be sent as soon as the unit is online. It is also saved here: 	Laiteraportti lähetetään, kun laite on verkossa. Se on tallennettu myös tänne: 
+The download is not a valid APK	Ladattu tiedosto ei ole kelvollinen APK
+The internet is connected	Internet on yhdistetty
+The last connected phone	Viimeksi yhdistetty puhelin
+The launcher restarts in the new version.	Käynnistin käynnistyy uudelleen uudessa versiossa.
+The launcher will search for stations and play the first one it finds.	Käynnistin etsii asemia ja toistaa ensimmäisen löytämänsä.
+The picture can't be opened	Kuvaa ei voi avata
+The picture cannot be opened	Kuvaa ei voi avata
+The picture shows when the launcher starts after the unit powers on, then fades away (a touch removes it at once). The unit's own Android boot animation is not changed.	Kuva näkyy, kun käynnistin käynnistyy laitteen päälle kytkemisen jälkeen, ja häivyttyy sitten (kosketus poistaa sen heti). Laitteen oma Androidin käynnistysanimaatio ei muutu.
+The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radio ja Bluetooth-musiikki eivät ehkä toimi tämän laitteen omien palvelujen kautta. Laiteraportti lähetetään, ja kun tuki on valmis, käynnistin tarjoaa tälle laitteelle tehdyn version.
+The software is up to date	Ohjelmisto on ajan tasalla
+The station can't be played	Asemaa ei voi toistaa
+The station can't be played (connection?)	Asemaa ei voi toistaa (yhteys?)
+The unit is set up. Every setting can be changed later in Setup.	Laite on määritetty. Jokaista asetusta voi myöhemmin muuttaa Asetuksissa.
+The version for this unit cannot be downloaded right now. Try again in a moment.	Tälle laitteelle tehtyä versiota ei voi ladata juuri nyt. Yritä pian uudelleen.
+This unit is not supported yet	Tätä laitetta ei vielä tueta
+This unit is supported now. Install the launcher build made for it.	Tätä laitetta tuetaan nyt. Asenna sille tehty käynnistimen versio.
+This unit is supported: 	Tätä laitetta tuetaan: 
+This unit's FM tuner cannot be used from the launcher; online radio plays over the internet.	Tämän laitteen FM-viritintä ei voi käyttää käynnistimestä; nettiradio soi internetin kautta.
+Time and date	Aika ja päivämäärä
+Time for winter tyres	Talvirenkaiden aika
+To show the song and cover, enable\nnotification access — tap here.	Ota ilmoitusten käyttöoikeus käyttöön, jotta kappale ja kansikuva\nnäkyvät — napauta tästä.
+Treble	Diskantti
+Try now	Kokeile nyt
+Turn Bluetooth on	Kytke Bluetooth päälle
+Turn Wi-Fi on	Kytke Wi-Fi päälle
+Turn left	Käänny vasemmalle
+Turn on "Display over other apps" for MibDroid, so it can come back over the factory app.	Kytke ”Näytä muiden sovellusten päällä” päälle MibDroidille, jotta se voi palata tehdassovelluksen päälle.
+Turn on "Display over other apps" for MibDroid, then choose BT audio again.	Kytke ”Näytä muiden sovellusten päällä” päälle MibDroidille ja valitse sitten BT-ääni uudelleen.
+Turn on Bluetooth on the phone and make it visible, then pick it from the list:	Kytke puhelimen Bluetooth päälle ja tee siitä näkyvä, valitse se sitten luettelosta:
+Turn radio off	Sammuta radio
+Turn right	Käänny oikealle
+Turn the hotspot on / off	Hotspot päälle / pois
+USB is usually under /storage/… or /mnt/… (e.g. usbhost, udisk).	USB on yleensä kohdassa /storage/… tai /mnt/… (esim. usbhost, udisk).
+Uninstall	Poista asennus
+Units	Yksiköt
+Until then, Continue installs the default version (QF).	Siihen asti Jatka asentaa oletusversion (QF).
+Update	Päivitä
+Update available:	Päivitys saatavilla:
+Update failed: 	Päivitys epäonnistui: 
+Update not installed	Päivitystä ei asennettu
+Update station list	Päivitä asemaluettelo
+Use as phone app	Käytä puhelinsovelluksena
+Use as radio app	Käytä radiosovelluksena
+Use offline map	Käytä offline-karttaa
+Vehicle	Ajoneuvo
+Vehicle and pictures	Ajoneuvo ja kuvat
+Vehicle status	Ajoneuvon tila
+Versions	Versiot
+View	Näkymä
+Voice guidance	Ääniopastus
+Waiting for GPS position	Odotetaan GPS-sijaintia
+Waiting for GPS…	Odotetaan GPS:ää…
+Warmth	Lämpö
+Welcome	Tervetuloa
+Welcome to App-Connect.\nPlease connect a device using the USB.	Tervetuloa App-Connectiin.\nYhdistä laite USB:n kautta.
+When the unit starts	Kun laite käynnistyy
+Wi-Fi is off.	Wi-Fi on pois päältä.
+Wi-Fi not available	Wi-Fi ei ole käytettävissä
+Winter tyre reminder (1 Nov – 1 Apr)	Talvirengasmuistutus (1.11. – 1.4.)
+Winter tyres fitted	Talvirenkaat asennettu
+With folders chosen, the launcher reads only those (and their subfolders) as plain files. Without, it finds music in storage and on USB itself.	Kun kansioita on valittu, käynnistin lukee vain niitä (ja niiden alikansioita) tavallisina tiedostoina. Ilman niitä se löytää musiikin itse tallennustilasta ja USB:ltä.
+Work	Työ
+Wrong package	Väärä paketti
+Yes	Kyllä
+Yes, I hear the music	Kyllä, kuulen musiikin
+Yes, I hear the radio	Kyllä, kuulen radion
+You can switch back to summer tyres	Voit vaihtaa takaisin kesärenkaisiin
+You have arrived	Olet perillä
+You have arrived.	Olet perillä.
+ZLink is not installed	ZLink ei ole asennettu
+any saved network	mikä tahansa tallennettu verkko
+available: 	saatavilla: 
+chosen	valittu
+connect / new device	yhdistä / uusi laite
+empty	tyhjä
+enter	liittyminen
+forget a network, advanced	unohda verkko, lisäasetukset
+free	vapaana
+left today: 	vielä tänään: 
+needed	tarpeen
+needs 2 full tanks	vaatii 2 täyttä tankkia
+no build for this unit	ei versiota tälle laitteelle
+no data	ei tietoja
+no more today	ei enää tänään
+none	ei mitään
+none found	mitään ei löytynyt
+none yet	ei vielä
+none yet — play BT music	ei vielä — soita BT-musiikkia
+nothing received	mitään ei vastaanotettu
+now only inside the launcher	nyt vain käynnistimessä
+off	pois
+on	päällä
+open	avaa
+remove	poista
+save and show	tallenna ja näytä
+secured	suojattu
+service list unavailable	palveluluettelo ei saatavilla
+set	asetettu
+state unknown	tila tuntematon
+switched off in Setup	poistettu käytöstä Asetuksissa
+takes ~10 s	kestää ~10 s
+tap and listen	napauta ja kuuntele
+the last connected (none yet)	viimeksi yhdistetty (ei vielä)
+to Download	kansioon Download
+to support new units	uusien laitteiden tukemiseksi
+unavailable	ei saatavilla
+unreadable	ei luettavissa
+up	ylös
+your choice below	valintasi alla
+— BT app components —	— BT app components —
+— MCU packets (non-radio) —	— MCU packets (non-radio) —
+— System services (BT / QF) —	— System services (BT / QF) —
+✓ Use this folder	✓ Käytä tätä kansiota
+✗ — tap to enable	✗ — ota käyttöön napauttamalla
