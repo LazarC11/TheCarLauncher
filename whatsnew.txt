@@ -1,6 +1,4 @@
 [en]
-- Source pop-up redone like the factory one: the factory pop-up body sitting on the soft-key bar, grey separators, the current source in bold instead of blue.
-- Media: song details right-aligned against the cover in the factory order (artist, album, title), a long title wraps onto a second line.
+- Media: repeat and shuffle keys for USB / SD songs (the factory keys, bottom left). Repeat goes off, all songs, one song. Greyed out on Bluetooth and other apps.
 [sr]
-- Prozor Izvor urađen kao fabrički: fabrički prozor naslonjen na traku tastera, sive linije, trenutni izvor podebljan umesto plavog.
-- Mediji: podaci o pesmi poravnati desno uz omot, fabričkim redom (izvođač, album, naziv), dugačak naziv prelazi u drugi red.
+- Mediji: tasteri za ponavljanje i nasumično puštanje za pesme sa USB / SD (fabrički tasteri, dole levo). Ponavljanje: isključeno, sve pesme, jedna pesma. Na Bluetooth-u i drugim aplikacijama su posivljeni.
