@@ -6,7 +6,10 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
-/** Thin MIB progress line; optionally draggable for seeking. */
+/**
+ * MIB progress line: the played part a solid ambient-coloured bar, the rest a row of white
+ * dots, like the factory media page; optionally draggable for seeking.
+ */
 public class MibProgress extends View {
     public interface SeekListener { void onSeek(float fraction); }
 
@@ -18,7 +21,8 @@ public class MibProgress extends View {
 
     public MibProgress(Context c) {
         super(c);
-        track.setColor(0xFF4A4B56);
+        track.setColor(0xFFE6E7EB);
+        track.setAntiAlias(true);
         fill.setColor(Mib.BLUE);
     }
 
@@ -32,10 +36,14 @@ public class MibProgress extends View {
 
     @Override
     protected void onDraw(Canvas c) {
-        float h = Math.max(2, Mib.px(getContext(), 4));
-        float top = (getHeight() - h) / 2f;
-        c.drawRect(0, top, getWidth(), top + h, track);
-        c.drawRect(0, top, getWidth() * fraction, top + h, fill);
+        float h = Math.max(3, Mib.px(getContext(), 6));
+        float top = (getHeight() - h) / 2f, mid = top + h / 2f;
+        float end = getWidth() * fraction;
+        fill.setColor(Mib.BLUE);
+        c.drawRect(0, top, end, top + h, fill);
+        // Unplayed part: dots of the line's thickness, one dot-width apart.
+        float r = h * 0.42f, step = h * 2f;
+        for (float x = end + step / 2f; x <= getWidth() - r; x += step) c.drawCircle(x, mid, r, track);
     }
 
     @Override
