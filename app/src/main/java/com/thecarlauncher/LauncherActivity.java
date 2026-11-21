@@ -67,6 +67,8 @@ import java.util.regex.Pattern;
 public class LauncherActivity extends Activity implements LocationTracker.Listener, MediaHub.Listener,
         StreetName.Listener, PhoneStatus.Listener {
     public static final String EXTRA_SCREEN = "screen";
+    /** The launcher is the app in front (between onResume and onPause). */
+    public static volatile boolean inFront;
     public static final int MENU = 0, NAV = 1, MEDIA = 2, APPS = 3, SETTINGS = 4, VEHICLE = 5, RADIO = 6, AMBIENT = 7, SOUND = 8, APPCONNECT = 9, BTDEVICES = 10, SOFTWARE = 11, WELCOME = 12, INTRO = 13;
 
     private static final int REQ_PERMS = 41;
@@ -356,6 +358,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     @Override
     protected void onResume() {
         super.onResume();
+        inFront = true;
         // Remember the connected phone for "Start-up connections" (unit service calls: background).
         final android.content.Context app = getApplicationContext();
         if (!setupOnly(this)) new Thread(new Runnable() {
@@ -413,6 +416,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
 
     @Override
     protected void onPause() {
+        inFront = false;
         main.removeCallbacks(carAlerts);
         if (current >= 0) screens[current].onHide();
         super.onPause();
