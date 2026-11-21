@@ -8,7 +8,7 @@ import android.view.View;
 
 /**
  * MIB progress line: the played part a solid ambient-coloured bar, the rest a row of white
- * dots and a white knob where they meet, like the factory media page; optionally draggable
+ * dots and a white knob with an ambient-coloured ring where they meet, like the factory media page; optionally draggable
  * for seeking.
  */
 public class MibProgress extends View {
@@ -18,6 +18,7 @@ public class MibProgress extends View {
     private final Paint fill = new Paint();
     private final Paint knob = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint knobShade = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint ring = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float fraction;
     private SeekListener seek;
     private boolean dragging;
@@ -29,6 +30,7 @@ public class MibProgress extends View {
         fill.setColor(Mib.BLUE);
         knob.setColor(0xFFF3F3F5);
         knobShade.setColor(0x66000000);
+        ring.setStyle(Paint.Style.STROKE);
     }
 
     public void setSeekListener(SeekListener l) { seek = l; }
@@ -53,6 +55,10 @@ public class MibProgress extends View {
         for (float x = end + k + step / 2f; x <= getWidth() - r; x += step) c.drawCircle(x, mid, r, track);
         c.drawCircle(end, mid + h * 0.25f, k + 1, knobShade);
         c.drawCircle(end, mid, k, knob);
+        // Ring in the played part's (ambient) colour around the knob.
+        ring.setColor(Mib.BLUE);
+        ring.setStrokeWidth(Math.max(2, h * 0.45f));
+        c.drawCircle(end, mid, k - ring.getStrokeWidth() / 2f, ring);
     }
 
     @Override
