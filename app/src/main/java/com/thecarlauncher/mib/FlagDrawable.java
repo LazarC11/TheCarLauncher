@@ -9,8 +9,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 /**
- * The flag of a launcher language, drawn as simple shapes in a 3:2 box (coats of arms reduced
- * to a plain shield so they still read at icon size). English shows the Union Jack.
+ * The flag of a launcher language for languages the factory MIB skin has no flag for (its
+ * flags are the ui_flag_* pictures), drawn as simple shapes in a 3:2 box with the same dark
+ * frame. Coats of arms are reduced to a plain shield so they still read at icon size.
  */
 public final class FlagDrawable extends Drawable {
     private final String lang;
@@ -27,14 +28,17 @@ public final class FlagDrawable extends Drawable {
     /** An image of the language's flag (unknown codes show a generic flag). */
     public static android.widget.ImageView view(android.content.Context c, String lang) {
         android.widget.ImageView f = new android.widget.ImageView(c);
-        if (has(lang)) f.setImageDrawable(new FlagDrawable(lang));
+        // The factory MIB flag where the skin has one (ui_flag_<code>), else a drawn one.
+        int id = lang == null ? 0 : c.getResources().getIdentifier("ui_flag_" + lang, "drawable", c.getPackageName());
+        if (id != 0) f.setImageResource(id);
+        else if (has(lang)) f.setImageDrawable(new FlagDrawable(lang));
         else f.setImageResource(com.thecarlauncher.R.drawable.ui_ic_flag);
-        f.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+        f.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
         return f;
     }
 
-    @Override public int getIntrinsicWidth() { return 52; }
-    @Override public int getIntrinsicHeight() { return 52; }
+    @Override public int getIntrinsicWidth() { return 40; }
+    @Override public int getIntrinsicHeight() { return 27; }
 
     private float l, t, w, h;
 
@@ -190,6 +194,13 @@ public final class FlagDrawable extends Drawable {
             default: unionJack(c); break;
         }
         c.restore();
+        // Dark frame like the MIB flag pictures.
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(Math.max(2, w * 0.07f));
+        p.setColor(0xFF161616);
+        float hs = p.getStrokeWidth() / 2;
+        c.drawRect(l + hs, t + hs, l + w - hs, t + h - hs, p);
+        p.setStyle(Paint.Style.FILL);
     }
 
     private void unionJack(Canvas c) {

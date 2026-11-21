@@ -8,8 +8,8 @@ import android.view.View;
 
 /**
  * MIB progress line: the played part a solid ambient-coloured bar, the rest a row of white
- * dots and a white knob with an ambient-coloured ring where they meet, like the factory media page; optionally draggable
- * for seeking.
+ * dots and, where they meet, the factory knob (a dark disc with an ambient-coloured ring);
+ * optionally draggable for seeking.
  */
 public class MibProgress extends View {
     public interface SeekListener { void onSeek(float fraction); }
@@ -28,7 +28,7 @@ public class MibProgress extends View {
         track.setColor(0xFFE6E7EB);
         track.setAntiAlias(true);
         fill.setColor(Mib.BLUE);
-        knob.setColor(0xFFF3F3F5);
+        knob.setColor(0xFF010101); // dark centre, as in the factory skin
         knobShade.setColor(0x66000000);
         ring.setStyle(Paint.Style.STROKE);
     }
@@ -45,7 +45,7 @@ public class MibProgress extends View {
     protected void onDraw(Canvas c) {
         float h = Math.max(3, Mib.px(getContext(), 6));
         float top = (getHeight() - h) / 2f, mid = top + h / 2f;
-        float k = Math.min(getHeight() / 2f - 1, h * 1.6f); // knob radius
+        float k = Math.min(getHeight() / 2f - 1, h * 1.75f); // knob radius (factory: 14 px ring on a 4 px line)
         // The knob stays fully inside the view at 0 % and 100 %.
         float end = k + (getWidth() - 2 * k) * fraction;
         fill.setColor(Mib.BLUE);
@@ -57,7 +57,7 @@ public class MibProgress extends View {
         c.drawCircle(end, mid, k, knob);
         // Ring in the played part's (ambient) colour around the knob.
         ring.setColor(Mib.BLUE);
-        ring.setStrokeWidth(Math.max(2, h * 0.45f));
+        ring.setStrokeWidth(Math.max(2, h * 0.5f));
         c.drawCircle(end, mid, k - ring.getStrokeWidth() / 2f, ring);
     }
 
