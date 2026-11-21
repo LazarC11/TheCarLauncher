@@ -110,15 +110,12 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         int glowW = (int) (box * 1.35f), glowH = (int) (box * 0.40f);
         FrameLayout.LayoutParams gl = new FrameLayout.LayoutParams(glowW, glowH, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         gl.rightMargin = boxRight - (glowW - box) / 2;
-        // The cover sits a little low, its top level with the song title.
-        int coverDown = zpx(34);
-        glow.setTranslationY(box / 2f - glowH * 0.12f + coverDown);
+        glow.setTranslationY(box / 2f - glowH * 0.12f);
         upper.addView(glow, gl);
 
         art = new MibArtBox(act);
         FrameLayout.LayoutParams al = new FrameLayout.LayoutParams(box, box, Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         al.rightMargin = boxRight;
-        art.setTranslationY(coverDown);
         upper.addView(art, al);
 
         FrameLayout left = new FrameLayout(act);
