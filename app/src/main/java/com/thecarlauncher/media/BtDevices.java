@@ -57,6 +57,14 @@ public final class BtDevices {
     private boolean searching;
     private String connecting;
     private long connectStarted;
+    /**
+     * nForce (hzbhd): a new phone is being paired; it is connected only once the module lists it
+     * as paired (connecting while the pairing runs cancels it on these modules).
+     */
+    private boolean pairing, pairFallback;
+    private int pairTicks;
+    /** Addresses in the module's own paired list (last answer). */
+    private final java.util.Set<String> modulePaired = new java.util.HashSet<>();
 
     public static synchronized BtDevices get(Context c) {
         if (instance == null) instance = new BtDevices(c.getApplicationContext());
@@ -72,6 +80,8 @@ public final class BtDevices {
                 public void onPairedList(final String[] a, final String[] n) {
                     main.post(new Runnable() {
                         public void run() {
+                            modulePaired.clear();
+                            for (int i = 0; i < a.length; i++) modulePaired.add(norm(a[i]));
                             for (int i = 0; i < a.length; i++) remember(a[i], clean(n != null && i < n.length ? n[i] : null));
                             changed();
                         }
@@ -93,7 +103,11 @@ public final class BtDevices {
                 @Override
                 public void onPhonesChanged() {
                     main.post(new Runnable() {
-                        public void run() { changed(); }
+                        public void run() {
+                            // Paired (or failed): the paired list says which.
+                            if (pairing) hz().requestPaired();
+                            changed();
+                        }
                     });
                 }
             });
@@ -365,9 +379,16 @@ public final class BtDevices {
             if (cur != null) hz().disconnectAll();
             main.postDelayed(new Runnable() {
                 public void run() {
-                    // Connecting an unpaired phone pairs it first; pair explicitly as well.
-                    if (pair) hz().pair(pretty(d.address));
-                    hz().btConnect(pretty(d.address), d.name);
+                    if (pair) {
+                        // Pair only; the watch connects once the module lists the phone as paired
+                        // (the phone may ask to confirm the code first).
+                        pairing = true;
+                        pairFallback = false;
+                        pairTicks = 0;
+                        hz().pair(pretty(d.address));
+                    } else {
+                        hz().btConnect(pretty(d.address), d.name);
+                    }
                 }
             }, cur != null ? 1500 : 100);
             main.postDelayed(watch, 1000);
@@ -393,6 +414,35 @@ public final class BtDevices {
         @Override
         public void run() {
             if (connecting == null) return;
+            if (pairing) {
+                long t = System.currentTimeMillis() - connectStarted;
+                if (modulePaired.contains(connecting)) {
+                    // Paired: now connect calls and music, with the usual time to do so.
+                    pairing = false;
+                    connectStarted = System.currentTimeMillis();
+                    Device d = found.get(connecting);
+                    hz().btConnect(pretty(connecting), d != null ? d.name : null);
+                } else if (t > 25000 && !pairFallback) {
+                    // No paired list answer: some modules pair on connect instead.
+                    pairFallback = true;
+                    Device d = found.get(connecting);
+                    hz().btConnect(pretty(connecting), d != null ? d.name : null);
+                } else if (t > 60000) {
+                    pairing = false;
+                    connecting = null;
+                    LoadingBanner.stop("bt-connect");
+                    LoadingBanner.flash("bt-connect-fail", LoadingBanner.t("Povezivanje nije uspelo — uključi Bluetooth na telefonu",
+                            "Could not connect — turn on Bluetooth on the phone"), 3500);
+                    changed();
+                    return;
+                } else if (++pairTicks % 3 == 0) {
+                    hz().requestPaired();
+                }
+                if (pairing || !connecting.equals(connectedAddress())) {
+                    main.postDelayed(this, 700);
+                    return;
+                }
+            }
             String a = connectedAddress();
             if (connecting.equals(a)) {
                 Device d = known.get(a);

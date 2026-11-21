@@ -1,4 +1,4 @@
 [en]
-- hzbhd units: the radio no longer keeps opening and closing the factory radio app. The launcher leaves the radio sound to the unit and comes back over the factory radio app when the unit opens it.
+- hzbhd units: pairing a new phone from the launcher's Bluetooth screen now waits until the phone is paired (confirm the code on the phone) before connecting calls and music; before, connecting straight away could cancel the pairing.
 [sr]
-- hzbhd uređaji: radio više ne otvara i zatvara fabričku radio aplikaciju u krug. Launcher prepušta zvuk radija uređaju i vraća se preko fabričke radio aplikacije kada je uređaj otvori.
+- hzbhd uređaji: uparivanje novog telefona sa Bluetooth ekrana launchera sada čeka da telefon bude uparen (potvrdite kod na telefonu) pre povezivanja poziva i muzike; ranije je odmah povezivanje moglo da prekine uparivanje.
