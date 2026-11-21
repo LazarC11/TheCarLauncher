@@ -121,25 +121,28 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout left = new FrameLayout(act);
         FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        ll.rightMargin = box + boxRight + zpx(30);
+        ll.rightMargin = box + boxRight + zpx(40);
         upper.addView(left, ll);
 
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER_VERTICAL);
-        col.setPadding(zpx(60), 0, 0, 0);
+        col.setPadding(zpx(140), 0, 0, 0);
         info = col;
         left.addView(col, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box, Gravity.CENTER_VERTICAL));
-        View titleRow = metaRow(R.drawable.ui_ic_note, 36, Mib.semibold(act));
-        title = (TextView) ((ViewGroup) titleRow).getChildAt(1);
-        titleRow.setPadding(0, 0, 0, 0);
-        col.addView(titleRow);
-        artistRow = metaRow(R.drawable.ui_ic_person, 29, Mib.regular(act));
+        // Factory order: artist, album, then the title (up to two lines), all the same size.
+        artistRow = metaRow(R.drawable.ui_ic_person, 30, Mib.semibold(act));
         artist = (TextView) ((ViewGroup) artistRow).getChildAt(1);
+        artistRow.setPadding(0, 0, 0, 0);
         col.addView(artistRow);
-        albumRow = metaRow(R.drawable.ui_ic_cd, 29, Mib.regular(act));
+        albumRow = metaRow(R.drawable.ui_ic_cd, 30, Mib.semibold(act));
         album = (TextView) ((ViewGroup) albumRow).getChildAt(1);
         col.addView(albumRow);
+        View titleRow = metaRow(R.drawable.ui_ic_note, 30, Mib.semibold(act));
+        title = (TextView) ((ViewGroup) titleRow).getChildAt(1);
+        title.setSingleLine(false);
+        title.setMaxLines(2);
+        col.addView(titleRow);
 
         LinearLayout pr = new LinearLayout(act);
         pr.setGravity(Gravity.CENTER_VERTICAL);
@@ -327,12 +330,14 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
         ImageView iv = Mib.icon(act, icon, Mib.WHITE);
+        // Factory: no icons, the lines right-aligned against the cover.
+        iv.setVisibility(View.GONE);
         row.addView(iv, new LinearLayout.LayoutParams(zpx(36), zpx(36)));
         TextView t = ztext("", size, tf, Mib.WHITE);
+        t.setGravity(Gravity.RIGHT);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        tl.leftMargin = zpx(18);
         row.addView(t, tl);
-        row.setPadding(0, zpx(22), 0, 0);
+        row.setPadding(0, zpx(14), 0, 0);
         return row;
     }
 

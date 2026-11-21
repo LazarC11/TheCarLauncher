@@ -34,6 +34,7 @@ uses are copied from here into `app/src/main/res/drawable-nodpi/` as `ui_*.png`.
 | `ui_skin_row` / `ui_skin_row_pressed` — settings and list rows | 1459 / 1458 |
 | `ui_skin_key` / `ui_skin_key_on` — framed keys (normal / pressed or selected) and popups | 1804 / 1803 |
 | `ui_skin_notch` — popup pointer | 251 |
+| `ui_skin_popup` — the Source popup's body (black, grey frame, shadow) | 244 |
 | `ui_skin_dot_on` / `ui_skin_dot_off` — page dots | 67 / 65 |
 | `ui_skin_scroll` / `ui_skin_scroll_track` — scroll bar | 1439 / 28 |
 | `ui_skin_eq`, `ui_skin_eq_knob`, `ui_skin_eq_knob_line` — sound sliders (knob turned 90°) | 2439, 2115, 2114 |

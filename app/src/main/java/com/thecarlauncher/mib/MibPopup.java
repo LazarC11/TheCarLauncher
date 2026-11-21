@@ -38,6 +38,9 @@ public class MibPopup {
         }
     }
 
+    /** Separator lines: the grey of the soft-key separators. */
+    private static final int SEP = 0xFF848484;
+
     private final Context c;
     private final List<Item> items = new ArrayList<>();
     private int columns = 2;
@@ -63,17 +66,19 @@ public class MibPopup {
 
     /** Shows the popup above {@code key}, inside {@code root}, with its pointer on the key. */
     public void show(View root, View key) {
-        int rowH = Mib.px(c, 80);
+        int rowH = Mib.px(c, 78);
+        // The factory pop-up body: black, thin grey frame, soft shadow 8 px wide around it.
+        int shadow = Mib.px(c, 8);
         int rows = (items.size() + columns - 1) / columns;
         int notch = Mib.px(c, 22);
-        int width = Math.min(root.getWidth() - Mib.px(c, 24), Mib.px(c, columns == 1 ? 480 : 760));
+        int width = Math.min(root.getWidth() - Mib.px(c, 24), Mib.px(c, columns == 1 ? 480 : 700)) + 2 * shadow;
         int maxRows = Math.max(1, (root.getHeight() - MibBar.height(c) - notch - Mib.px(c, 60)) / rowH);
 
         final PopupWindow pw = new PopupWindow(c);
         LinearLayout panel = new LinearLayout(c);
         panel.setOrientation(LinearLayout.VERTICAL);
-        panel.setBackground(Mib.panel(c));
-        int pad = Math.max(1, Mib.px(c, 1.6f));
+        panel.setBackground(Mib.skin(c, com.thecarlauncher.R.drawable.ui_skin_popup, 12, 12));
+        int pad = shadow + Math.max(1, Mib.px(c, 1));
         panel.setPadding(pad, pad, pad, pad);
 
         LinearLayout list = new LinearLayout(c);
@@ -81,11 +86,11 @@ public class MibPopup {
         for (int r = 0; r < rows; r++) {
             if (r > 0) {
                 View sep = new View(c);
-                sep.setBackgroundColor(0xFFE2E2E6);
+                sep.setBackgroundColor(SEP);
                 LinearLayout.LayoutParams sl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        Math.max(1, Mib.px(c, 1.4f)));
-                sl.leftMargin = Mib.px(c, 10);
-                sl.rightMargin = Mib.px(c, 10);
+                        Math.max(1, Mib.px(c, 1.5f)));
+                sl.leftMargin = Mib.px(c, 6);
+                sl.rightMargin = Mib.px(c, 6);
                 list.addView(sep, sl);
             }
             LinearLayout row = new LinearLayout(c);
@@ -95,11 +100,9 @@ public class MibPopup {
                 if (col > 0) {
                     FrameLayout dw = new FrameLayout(c);
                     View d = new View(c);
-                    d.setBackgroundColor(0xFFE2E2E6);
-                    FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(Math.max(1, Mib.px(c, 1.4f)),
-                            ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-                    dl.topMargin = Mib.px(c, 12);
-                    dl.bottomMargin = Mib.px(c, 12);
+                    d.setBackgroundColor(SEP);
+                    FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(Math.max(1, Mib.px(c, 1.5f)),
+                            Mib.px(c, 38), Gravity.CENTER);
                     dw.addView(d, dl);
                     row.addView(dw, new LinearLayout.LayoutParams(Mib.px(c, 6), ViewGroup.LayoutParams.MATCH_PARENT));
                 }
@@ -120,15 +123,17 @@ public class MibPopup {
         root.getLocationInWindow(rootLoc);
         key.getLocationInWindow(keyLoc);
         int keyCenter = keyLoc[0] - rootLoc[0] + key.getWidth() / 2;
-        int left = Math.max(Mib.px(c, 12), Math.min(keyCenter - Mib.px(c, 60), root.getWidth() - width - Mib.px(c, 12)));
+        int left = Math.max(Mib.px(c, 12) - shadow,
+                Math.min(keyCenter - Mib.px(c, 60) - shadow, root.getWidth() - width - Mib.px(c, 12) + shadow));
 
         FrameLayout wrap = new FrameLayout(c);
         FrameLayout.LayoutParams pl = new FrameLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
         pl.bottomMargin = notch;
         wrap.addView(panel, pl);
         Notch n = new Notch(c, keyCenter - left);
-        // The pointer overlaps the panel's frame so its black top hides that piece of the frame.
-        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(width, notch + Mib.px(c, 4), Gravity.BOTTOM);
+        // The pointer starts on the panel's frame (above its shadow) so its black top hides that
+        // piece of the frame.
+        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(width, notch + shadow + Mib.px(c, 3), Gravity.BOTTOM);
         wrap.addView(n, nl);
         wrap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,23 +151,25 @@ public class MibPopup {
         pw.setAnimationStyle(android.R.style.Animation_Dialog);
         wrap.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(root.getHeight(), View.MeasureSpec.AT_MOST));
-        int y = keyLoc[1] - wrap.getMeasuredHeight() + Mib.px(c, 6);
+        // Factory: the panel's frame sits on the soft-key bar's line, the pointer reaches into the key.
+        int y = keyLoc[1] - wrap.getMeasuredHeight() + notch + shadow;
         pw.showAtLocation(root, Gravity.TOP | Gravity.LEFT, rootLoc[0] + left, y);
     }
 
     private View cell(final Item it, final PopupWindow pw) {
         LinearLayout cell = new LinearLayout(c);
         cell.setGravity(Gravity.CENTER_VERTICAL);
-        cell.setPadding(Mib.px(c, 22), 0, Mib.px(c, 10), 0);
+        cell.setPadding(Mib.px(c, 18), 0, Mib.px(c, 10), 0);
         cell.setBackground(Mib.keyPressed(c));
         ImageView iv = new ImageView(c);
         iv.setImageDrawable(it.icon);
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        if (it.tint) iv.setImageTintList(android.content.res.ColorStateList.valueOf(it.selected ? Mib.BLUE : Mib.WHITE));
-        cell.addView(iv, new LinearLayout.LayoutParams(Mib.px(c, 38), Mib.px(c, 38)));
-        TextView t = Mib.text(c, it.label, 35, Mib.semibold(c), it.selected ? Mib.BLUE : Mib.WHITE);
+        // Factory: everything white; the source playing now in bold, the others regular.
+        if (it.tint) iv.setImageTintList(android.content.res.ColorStateList.valueOf(Mib.WHITE));
+        cell.addView(iv, new LinearLayout.LayoutParams(Mib.px(c, 42), Mib.px(c, 42)));
+        TextView t = Mib.text(c, it.label, 35, it.selected ? Mib.semibold(c) : Mib.regular(c), Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        tl.leftMargin = Mib.px(c, 22);
+        tl.leftMargin = Mib.px(c, 20);
         cell.addView(t, tl);
         cell.setOnClickListener(new View.OnClickListener() {
             @Override
