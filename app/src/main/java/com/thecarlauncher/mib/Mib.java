@@ -256,11 +256,10 @@ public final class Mib {
         return skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12);
     }
 
-    /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
+    /** Soft-key bar: blue (ambient) rule on top, plain black body as in the factory skin. */
     public static Drawable bar(Context c) {
-        GradientDrawable body = grad(0xFF0E0E10, 0xFF040405);
-        GradientDrawable rule = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{shade(BLUE, 0.8f, 0xFF), BLUE, BLUE, shade(BLUE, 0.8f, 0xFF)});
+        GradientDrawable body = grad(0xFF000000, 0xFF000000); // factory bar body: plain black
+        GradientDrawable rule = grad(BLUE, BLUE);
         LayerDrawable l = new LayerDrawable(new Drawable[]{body, rule});
         l.setLayerInset(1, 0, 0, 0, 0);
         // The rule is drawn as a 2px band at the top.
@@ -268,10 +267,10 @@ public final class Mib {
         return new TopBand(l, Math.max(2, px(c, 2)));
     }
 
-    /** List rows and popup cells: a blue highlight while pressed. */
-    public static Drawable keyPressed() {
+    /** List rows and popup cells: the factory pressed highlight (a light line on top fading down). */
+    public static Drawable keyPressed(Context c) {
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, grad(shade(BLUE, 1f, 0xAA), shade(BLUE, 0.6f, 0x66)));
+        s.addState(new int[]{android.R.attr.state_pressed}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_pressed, 2, 1));
         s.addState(new int[]{}, new GradientDrawable());
         return s;
     }

@@ -14,6 +14,7 @@ public class MibTile extends ViewGroup {
     final FrameLayout box;
     final ImageView icon;
     final View line;
+    private final View glow;
     final TextView label;
     private final boolean appIcon;
     private boolean artwork;
@@ -43,6 +44,12 @@ public class MibTile extends ViewGroup {
         line = new View(c);
         line.setBackgroundColor(Mib.BLUE);
         addView(line);
+        // Factory glow under the line, fading down behind the caption (in the line's colour).
+        glow = new View(c);
+        android.graphics.drawable.Drawable g = Mib.skin(c, com.thecarlauncher.R.drawable.ui_skin_tile_glow, 2, 0);
+        g.setColorFilter(new android.graphics.LightingColorFilter(Mib.BLUE, 0));
+        glow.setBackground(g);
+        addView(glow);
         label = Mib.text(c, text, 27, Mib.bold(c), Mib.WHITE);
         label.setGravity(Gravity.CENTER);
         label.setShadowLayer(Mib.px(c, 2), 0, Mib.px(c, 1), 0xAA000000);
@@ -96,6 +103,9 @@ public class MibTile extends ViewGroup {
         int boxH = box.getMeasuredHeight();
         box.layout(0, 0, W, boxH);
         line.layout(0, boxH, W, boxH + line.getMeasuredHeight());
+        glow.measure(MeasureSpec.makeMeasureSpec(W, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(Mib.px(getContext(), 28), MeasureSpec.EXACTLY));
+        glow.layout(0, boxH + line.getMeasuredHeight(), W, boxH + line.getMeasuredHeight() + glow.getMeasuredHeight());
         int lw = label.getMeasuredWidth();
         int top = boxH + line.getMeasuredHeight();
         label.layout((W - lw) / 2, top, (W - lw) / 2 + lw, top + label.getMeasuredHeight());

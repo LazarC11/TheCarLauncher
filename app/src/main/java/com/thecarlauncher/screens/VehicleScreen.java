@@ -405,7 +405,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         row.setPadding(Mib.px(act, 10), 0, Mib.px(act, 10), 0);
         row.setMinimumHeight(Mib.px(act, 70));
         if (click != null) {
-            row.setBackground(Mib.keyPressed());
+            row.setBackground(Mib.keyPressed(act));
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

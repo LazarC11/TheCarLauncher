@@ -154,7 +154,7 @@ public class MibPopup {
         LinearLayout cell = new LinearLayout(c);
         cell.setGravity(Gravity.CENTER_VERTICAL);
         cell.setPadding(Mib.px(c, 22), 0, Mib.px(c, 10), 0);
-        cell.setBackground(Mib.keyPressed());
+        cell.setBackground(Mib.keyPressed(c));
         ImageView iv = new ImageView(c);
         iv.setImageDrawable(it.icon);
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);

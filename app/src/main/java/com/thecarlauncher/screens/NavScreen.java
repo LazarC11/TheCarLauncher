@@ -568,7 +568,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         row.setPadding(Mib.px(act, 10), Mib.px(act, 8), Mib.px(act, 10), Mib.px(act, 8));
         row.setMinimumHeight(Mib.px(act, 76));
         if (click != null) {
-            row.setBackground(Mib.keyPressed());
+            row.setBackground(Mib.keyPressed(act));
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

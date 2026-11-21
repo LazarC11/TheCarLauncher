@@ -79,8 +79,9 @@ public class SoundScreen extends Screen {
         // Light panel with the three slider groups.
         LinearLayout panel = new LinearLayout(act);
         panel.setPadding(Mib.px(act, 16), Mib.px(act, 12), Mib.px(act, 16), Mib.px(act, 12));
+        // The factory sound panel's light grey (skin 2437), a little lighter towards the bottom.
         panel.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0xFFE4E4E7, 0xFFCFCFD3}));
+                new int[]{0xFFC0C0C0, 0xFFD2D2D2}));
         String[] names = {s("Dubok", "Bass"), s("Srednji", "Mid"), s("Visine", "Treble")};
         for (int i = 0; i < 3; i++) panel.addView(group(i, names[i]), new LinearLayout.LayoutParams(0,
                 ViewGroup.LayoutParams.MATCH_PARENT, 1f));
@@ -119,16 +120,13 @@ public class SoundScreen extends Screen {
         return g;
     }
 
-    /** Light framed + / − key as on the factory sound page. */
+    /** Light + / − key: the factory light key, in the ambient colour while pressed. */
     private View step(String sign, final int idx, final int delta) {
         TextView t = Mib.text(act, sign, 40, Mib.regular(act), 0xFF1C1C22);
         t.setGravity(Gravity.CENTER);
-        GradientDrawable n = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFFF4F4F6, 0xFFDCDCE0});
-        n.setCornerRadius(Mib.px(act, 4));
-        n.setStroke(Math.max(1, Mib.px(act, 1.5f)), 0xFF8E8F96);
-        GradientDrawable p = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{Mib.shade(Mib.BLUE, 1.1f, 0xFF), Mib.shade(Mib.BLUE, 0.7f, 0xFF)});
-        p.setCornerRadius(Mib.px(act, 4));
+        android.graphics.drawable.Drawable n = Mib.skin(act, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
+        android.graphics.drawable.Drawable p = Mib.skin(act, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
+        p.setColorFilter(new android.graphics.LightingColorFilter(Mib.shade(Mib.BLUE, 1.3f, 0xFF), 0));
         StateListDrawable sd = new StateListDrawable();
         sd.addState(new int[]{android.R.attr.state_pressed}, p);
         sd.addState(new int[]{}, n);

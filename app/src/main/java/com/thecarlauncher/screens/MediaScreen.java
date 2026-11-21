@@ -229,7 +229,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         list = new ListView(act);
         list.setDivider(new android.graphics.drawable.ColorDrawable(0xFF55565F));
         list.setDividerHeight(Math.max(1, zpx(1)));
-        list.setSelector(Mib.keyPressed());
+        list.setSelector(Mib.keyPressed(act));
         list.setFastScrollEnabled(true);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

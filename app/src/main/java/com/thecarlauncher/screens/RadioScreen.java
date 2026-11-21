@@ -194,7 +194,7 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
         list = new ListView(act);
         list.setDivider(new android.graphics.drawable.ColorDrawable(0xFF55565F));
         list.setDividerHeight(Math.max(1, Mib.px(act, 1)));
-        list.setSelector(Mib.keyPressed());
+        list.setSelector(Mib.keyPressed(act));
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
