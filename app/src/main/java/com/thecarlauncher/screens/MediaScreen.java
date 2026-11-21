@@ -178,7 +178,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 else Prefs.put(act, Prefs.REPEAT, (Prefs.integer(act, Prefs.REPEAT, MusicService.REPEAT_ALL) + 1) % 3);
             }
         });
-        modes.addView(repeatKey, new LinearLayout.LayoutParams(zpx(76), zpx(52)));
+        modes.addView(repeatKey, new LinearLayout.LayoutParams(Mib.px(act, 66), Mib.px(act, 44)));
         shuffleKey = modeKey(R.drawable.ui_key_shuffle, new Runnable() {
             public void run() {
                 MusicService m = MusicService.get();
@@ -186,14 +186,16 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 else Prefs.put(act, Prefs.SHUFFLE, !Prefs.bool(act, Prefs.SHUFFLE, false));
             }
         });
-        LinearLayout.LayoutParams skl = new LinearLayout.LayoutParams(zpx(76), zpx(52));
-        skl.leftMargin = zpx(14);
+        LinearLayout.LayoutParams skl = new LinearLayout.LayoutParams(Mib.px(act, 66), Mib.px(act, 44));
+        skl.leftMargin = Mib.px(act, 12);
         modes.addView(shuffleKey, skl);
         FrameLayout.LayoutParams modesL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT);
-        modesL.leftMargin = zpx(44);
-        modesL.bottomMargin = zpx(4);
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        // Factory: small keys at the left edge, under the song details, their bottom a little
+        // above the cover's bottom edge.
+        modesL.leftMargin = Mib.px(act, 26);
         upper.addView(modes, modesL);
+        modes.setTranslationY(box / 2f - Mib.px(act, 27) - Mib.px(act, 44) / 2f);
         updateModes();
 
         // Music video: its picture where the cover is; tap for the whole screen.
@@ -362,7 +364,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         ImageView iv = new ImageView(act);
         iv.setImageResource(icon);
         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        k.addView(iv, new FrameLayout.LayoutParams(zpx(62), zpx(44), Gravity.CENTER));
+        k.addView(iv, new FrameLayout.LayoutParams(Mib.px(act, 64), Mib.px(act, 44), Gravity.CENTER));
         k.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
