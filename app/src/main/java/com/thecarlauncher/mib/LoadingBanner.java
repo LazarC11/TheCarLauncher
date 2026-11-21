@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,23 +69,25 @@ public class LoadingBanner extends FrameLayout {
         setBackground(new android.graphics.drawable.InsetDrawable(bg, -sw, -sw, -sw, 0));
         LinearLayout row = new LinearLayout(c);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(Mib.px(c, 30), 0, Mib.px(c, 30), 0);
+        row.setPadding(Mib.px(c, 30), 0, Mib.px(c, 10), 0);
         spinner = new ImageView(c);
         row.addView(spinner, new LinearLayout.LayoutParams(Mib.px(c, 52), Mib.px(c, 52)));
         text = Mib.text(c, "", 26, Mib.semibold(c), Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
         tl.leftMargin = Mib.px(c, 24);
         row.addView(text, tl);
-        // Notices: "i" opens what the notice is about, "x" dismisses it (factory framed keys).
-        infoKey = key(c, com.thecarlauncher.R.drawable.ui_ic_info, new Runnable() {
+        // Notices: "i" opens what the notice is about, "x" dismisses it — the factory notice keys
+        // (bare icons like the soft keys, thin grey separators, the key glow when pressed).
+        infoKey = key(c, com.thecarlauncher.R.drawable.ui_key_info, new Runnable() {
             public void run() { closeShowing(true); }
         });
-        closeKey = key(c, com.thecarlauncher.R.drawable.ui_ic_close, new Runnable() {
+        closeKey = key(c, com.thecarlauncher.R.drawable.ui_key_close, new Runnable() {
             public void run() { closeShowing(false); }
         });
-        LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(c, 66), Mib.px(c, 58));
-        kl.leftMargin = Mib.px(c, 14);
+        LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(c, 104), LayoutParams.MATCH_PARENT);
+        row.addView(separator(c), new LinearLayout.LayoutParams(Math.max(1, Mib.px(c, 1)), Mib.px(c, 60)));
         row.addView(infoKey, kl);
+        row.addView(separator(c), new LinearLayout.LayoutParams(Math.max(1, Mib.px(c, 1)), Mib.px(c, 60)));
         row.addView(closeKey, new LinearLayout.LayoutParams(kl));
         infoKey.setVisibility(GONE);
         closeKey.setVisibility(GONE);
@@ -101,10 +104,20 @@ public class LoadingBanner extends FrameLayout {
         setClickable(false);
     }
 
+    private static android.view.View separator(Context c) {
+        android.view.View v = new android.view.View(c);
+        v.setBackgroundColor(0xFF848484); // factory soft-key separator
+        v.setTag("sep");
+        return v;
+    }
+
     private static android.view.View key(Context c, int icon, final Runnable r) {
         FrameLayout k = new FrameLayout(c);
-        k.setBackground(Mib.box(c));
-        k.addView(Mib.icon(c, icon, Mib.WHITE), new FrameLayout.LayoutParams(Mib.px(c, 34), Mib.px(c, 34), Gravity.CENTER));
+        k.setBackground(Mib.keyPressed(c));
+        ImageView iv = new ImageView(c);
+        iv.setImageResource(icon);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        k.addView(iv, new FrameLayout.LayoutParams(Mib.px(c, 78), Mib.px(c, 52), Gravity.CENTER));
         k.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(android.view.View v) { r.run(); }
@@ -210,6 +223,14 @@ public class LoadingBanner extends FrameLayout {
             setClickable(notice);
             infoKey.setVisibility(notice && job.tap != null ? VISIBLE : GONE);
             closeKey.setVisibility(notice ? VISIBLE : GONE);
+            ViewGroup row = (ViewGroup) closeKey.getParent();
+            for (int i = 0; i < row.getChildCount(); i++) {
+                android.view.View s2 = row.getChildAt(i);
+                if (!"sep".equals(s2.getTag())) continue;
+                // The separator before a hidden key goes with it.
+                android.view.View next = row.getChildAt(i + 1);
+                s2.setVisibility(next != null && next.getVisibility() == VISIBLE ? VISIBLE : GONE);
+            }
             if (!was) slideDown();
             else if (before == null || before.icon != job.icon) showIcon();
         } else if (shown) {
