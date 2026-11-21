@@ -301,8 +301,32 @@ public class SettingsScreen extends Screen {
         });
     }
 
+    /**
+     * The skins found (built in, in the app, on the unit or USB as MibDroid/skins/&lt;name&gt;);
+     * choosing one redraws the launcher with its pictures.
+     */
+    private void buildSkins() {
+        String cur = com.thecarlauncher.util.Prefs.str(act, com.thecarlauncher.mib.Skins.P_SKIN, com.thecarlauncher.mib.Skins.BUILT_IN);
+        for (final com.thecarlauncher.mib.Skins.Skin k : com.thecarlauncher.mib.Skins.all(act)) {
+            choice(k.name + "  ·  " + k.where, k.id.equals(cur), new Runnable() {
+                public void run() {
+                    com.thecarlauncher.mib.Skins.choose(act, k.id);
+                    stack.clear();
+                    act.restartUi();
+                }
+            });
+        }
+        note(s("Skin je skup fabričkih MIB slika iz jedne verzije softvera. Dodatni skinovi: fascikla MibDroid/skins/<ime> na uređaju ili USB-u.",
+                "A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick."));
+    }
+
     private void buildDisplay() {
         final android.app.Activity a = act;
+        action(s("Skin", "Skin"), com.thecarlauncher.mib.Skins.activeName(act), new Runnable() {
+            public void run() {
+                push(s("Skin", "Skin"), new Page() { public void build() { buildSkins(); } });
+            }
+        });
         stepper(s("Osvetljenost", "Brightness"), DisplayControl.brightness(act) + " %", new Runnable() {
             public void run() { DisplayControl.setBrightness(a, DisplayControl.brightness(a) - 10); refreshKeep(); }
         }, new Runnable() {

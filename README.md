@@ -502,6 +502,24 @@ fallback).
 | --- | --- |
 | ![Software update](docs/screenshots/settings-update.png) | ![Update in progress](docs/screenshots/settings-update-progress.png) |
 
+### Skins
+
+*Setup → Screen → Skin* switches between skins: sets of the factory MIB pictures (keys, tiles,
+icons, rows, frames, flags, arrows, warning lights …) from different software trains of the
+original infotainment. The built-in one is from MHI2 P1101. A skin is a folder of PNGs named like
+the launcher's pictures (`ui_*.png`) plus a `skin.json` with its name; any picture a skin leaves
+out stays the built-in one. Skins come with the app (`app/src/main/assets/skins/<id>/`) or are
+copied onto the unit or a USB stick as `MibDroid/skins/<id>/`.
+
+Making a skin from another train:
+
+1. Extract its skin pictures: `python3 mib/tools/extract_mcf.py <folder with images.mcf> <out>`.
+2. `python3 mib/tools/build_skin.py <out>/Unsorted <id> "<name>"` — for every launcher picture
+   listed in [`mib/skin_recipe.json`](mib/skin_recipe.json) it finds the train's matching picture
+   (by comparing with the built-in skin, `mib/skin1`), cuts it the same way and writes the skin.
+3. Check `mib/skins/<id>_report.txt`; weak matches are listed first and left out. Correct a wrong
+   match in `mib/skins/<id>.json` (`{"ui_key_play": 1356}`) and run step 2 again.
+
 ### As a system app (Magisk module)
 
 Each release also carries **TheCarLauncher-magisk.zip**, a Magisk module that installs the launcher

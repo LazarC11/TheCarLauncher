@@ -220,6 +220,11 @@ public final class Mib {
                 nineChunk(b.getWidth(), b.getHeight(), capX, capY), new android.graphics.Rect(), null);
     }
 
+    /** Forgets the decoded skin pictures (after switching skin). */
+    public static void clearSkinCache() {
+        SKIN.clear();
+    }
+
     /** A factory skin picture at its own pixel size (cached), for views that draw it themselves. */
     public static android.graphics.Bitmap skinBitmap(Context c, int res) {
         android.graphics.Bitmap b = SKIN.get(res);

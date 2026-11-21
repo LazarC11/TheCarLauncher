@@ -474,8 +474,8 @@ public final class Updater {
             public void onChecked(Release r, String error) {
                 if (isNewer(c, r)) {
                     LoadingBanner.notice("update-available", com.thecarlauncher.R.drawable.ui_ic_download,
-                            LoadingBanner.t("Dostupna je verzija " + r.versionName + " — dodirnite za novosti",
-                                    "Version " + r.versionName + " is available — tap to see what's new"),
+                            LoadingBanner.t("Dostupna je verzija ", "Version ") + r.versionName
+                                    + LoadingBanner.t(" — dodirnite i za novosti", " is available — tap i for what's new"),
                             12000, openSoftware);
                 }
             }

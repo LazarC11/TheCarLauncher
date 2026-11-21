@@ -108,8 +108,8 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
             public void onCompatibilityUpdate(com.thecarlauncher.util.Updater.Release r) {
                 if (isFinishing()) return;
                 com.thecarlauncher.mib.LoadingBanner.notice("compat-update", R.drawable.ui_ic_download,
-                        Mib.t(LauncherActivity.this, "Ovaj uređaj je sada podržan (" + r.versionName + ") — dodirnite za ažuriranje",
-                                "This unit is supported now (" + r.versionName + ") — tap to update"),
+                        Mib.t(LauncherActivity.this, "Ovaj uređaj je sada podržan: ", "This unit is supported now: ") + r.versionName
+                                + Mib.t(LauncherActivity.this, " — dodirnite i za ažuriranje", " — tap i to update"),
                         15000, new Runnable() {
                             public void run() { show(SOFTWARE, true); }
                         });
@@ -277,7 +277,7 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         globe = Mib.icon(this, R.drawable.ui_sb_globe, SB_GREY);
         leftSlot.addView(globe, new LinearLayout.LayoutParams(Mib.px(this, 23), Mib.px(this, 23)));
         center.addView(leftSlot, new LinearLayout.LayoutParams(slot, ViewGroup.LayoutParams.MATCH_PARENT));
-        timeView = Mib.text(this, "", 28, Mib.semibold(this), SB_GREY);
+        timeView = Mib.text(this, "", 34, Mib.semibold(this), SB_GREY);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         tl.leftMargin = Mib.px(this, 30);
@@ -386,6 +386,18 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         }
         if (!setupOnly(this)) MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
+    }
+
+    private com.thecarlauncher.mib.Skins.Res skinRes;
+
+    /** The launcher's resources hand out the active skin's pictures (see {@link com.thecarlauncher.mib.Skins}). */
+    @Override
+    public android.content.res.Resources getResources() {
+        android.content.res.Resources base = super.getResources();
+        if (skinRes == null || skinRes.getConfiguration().diff(base.getConfiguration()) != 0) {
+            skinRes = new com.thecarlauncher.mib.Skins.Res(getApplicationContext() != null ? getApplicationContext() : this, base);
+        }
+        return skinRes;
     }
 
     /** Vehicle events drop down when they come up: checked on return and every 10 minutes. */

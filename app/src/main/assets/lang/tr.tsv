@@ -638,3 +638,12 @@ Continue installs the new version.	Devam, yeni sürümü yükler.
 Continue installs the version made for this unit.	Devam, bu cihaz için hazırlanan sürümü yükler.
 The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radyo ve Bluetooth müzik bu cihazın kendi hizmetleri üzerinden çalışmayabilir. Cihaz raporu gönderilir; destek geldiğinde başlatıcı bu cihazın sürümünü önerecek.
 Until then, Continue installs the default version (QF).	O zamana kadar Devam, varsayılan sürümü (QF) yükler.
+ is available — tap i for what's new	 kullanılabilir — yenilikler için i'ye dokunun
+ — tap i to update	 — güncellemek için i'ye dokunun
+A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick.	Skin, bir yazılım sürümündeki orijinal MIB resimlerinin bir setidir. Daha fazla skin: cihazda veya USB bellekte MibDroid/skins/<ad> klasörü.
+Skin	Skin
+This unit is supported now: 	Bu ünite artık destekleniyor: 
+Version 	Sürüm 
+What's new	Yenilikler
+built in	yerleşik
+in the app	uygulamada
