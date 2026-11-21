@@ -164,11 +164,11 @@ public final class Mib {
     }
 
     /**
-     * Factory key feedback: a pressed key keeps its background and only its icon (or text) turns
-     * the ambient colour. Icons get the pressed state from their key automatically.
+     * Factory key feedback is a glow on the key's background (see the pressed states of the skin
+     * pictures), not a colour change: icons and captions keep their colour while pressed.
      */
     public static ColorStateList pressTint(int color) {
-        return new ColorStateList(new int[][]{{android.R.attr.state_pressed}, {}}, new int[]{BLUE, color});
+        return ColorStateList.valueOf(color);
     }
 
     /** Text keys (framed boxes without an icon): the caption turns the ambient colour. */
@@ -253,7 +253,14 @@ public final class Mib {
 
     /** Menu tile: the factory tile (near black, a soft sheen from the top). Pressing colours the icon (MibTile). */
     public static Drawable tile(Context c) {
-        return skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12);
+        StateListDrawable s = new StateListDrawable();
+        // Pressed: the factory tile highlight laid over the tile at partial strength (a glow).
+        Drawable lit = skin(c, com.thecarlauncher.R.drawable.ui_skin_tile_pressed, 12, 12);
+        lit.setAlpha(0x48);
+        s.addState(new int[]{android.R.attr.state_pressed}, new LayerDrawable(new Drawable[]{
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12), lit}));
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12));
+        return s;
     }
 
     /** Soft-key bar: blue (ambient) rule on top, plain black body as in the factory skin. */
@@ -298,22 +305,24 @@ public final class Mib {
 
     /** Framed key (map buttons, Reset, page arrows …): black with the factory white frame. */
     public static Drawable box(Context c) {
-        // Pressed looks the same: the icon / caption inside turns the ambient colour.
         KeyBox s = new KeyBox();
+        // Pressed: the factory pressed key (grey inside the frame, soft shadow around it).
+        s.addState(new int[]{android.R.attr.state_pressed},
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_frame_pressed, 16, 16));
         s.addState(new int[]{}, framed(c));
         return s;
     }
 
     /**
      * Light settings bar (system settings list rows): the factory row, shaded inward (shadow
-     * along the top, lighter towards the bottom). Pressed, it takes the ambient colour.
+     * along the top, lighter towards the bottom). Pressed, it lights up with the key glow.
      */
     public static Drawable settingsBar(Context c) {
         StateListDrawable s = new StateListDrawable();
-        Drawable pressed = skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12);
-        // The grey row multiplied by the ambient colour (a little lifted) keeps its shading.
-        pressed.setColorFilter(new android.graphics.LightingColorFilter(shade(BLUE, 1.5f, 0xFF), 0));
-        s.addState(new int[]{android.R.attr.state_pressed}, pressed);
+        // Pressed: the row lit by the factory key glow.
+        s.addState(new int[]{android.R.attr.state_pressed}, new LayerDrawable(new Drawable[]{
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12),
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_key_pressed, 2, 1)}));
         s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12));
         return s;
     }

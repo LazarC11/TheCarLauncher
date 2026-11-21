@@ -120,13 +120,13 @@ public class SoundScreen extends Screen {
         return g;
     }
 
-    /** Light + / − key: the factory light key, in the ambient colour while pressed. */
+    /** Light + / − key: the factory light key, a little darker while pressed. */
     private View step(String sign, final int idx, final int delta) {
         TextView t = Mib.text(act, sign, 40, Mib.regular(act), 0xFF1C1C22);
         t.setGravity(Gravity.CENTER);
         android.graphics.drawable.Drawable n = Mib.skin(act, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
         android.graphics.drawable.Drawable p = Mib.skin(act, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
-        p.setColorFilter(new android.graphics.LightingColorFilter(Mib.shade(Mib.BLUE, 1.3f, 0xFF), 0));
+        p.setColorFilter(new android.graphics.LightingColorFilter(0xFFC4C4C4, 0)); // pressed: a little darker
         StateListDrawable sd = new StateListDrawable();
         sd.addState(new int[]{android.R.attr.state_pressed}, p);
         sd.addState(new int[]{}, n);

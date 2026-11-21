@@ -35,7 +35,7 @@ public class MibTile extends ViewGroup {
         if (!appIcon) {
             icon.setImageTintList(Mib.pressTint(Mib.WHITE));
         } else {
-            // Artwork and app icons keep their colours; pressed they take on the ambient colour.
+            // Artwork and app icons keep their colours (pressed, the tile lights up instead).
             icon.setImageTintMode(android.graphics.PorterDuff.Mode.MULTIPLY);
             icon.setImageTintList(Mib.pressTint(Mib.WHITE));
         }
