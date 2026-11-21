@@ -41,6 +41,34 @@ public final class Updater {
     public static final String P_AUTO = "update_auto_check", P_BETA = "update_test_builds", P_LAST = "update_last_check";
     private static final String ACTION_DONE = "com.thecarlauncher.UPDATE_INSTALLED";
 
+    /** The release body's "## What's new" block, up to the workflow's version lines. */
+    private static final Pattern WHATS_NEW = Pattern.compile("(?s)##\\s*What's new\\s*\\n(.*?)(?:\\n\\s*versionName:|$)");
+
+    /**
+     * What's new in the launcher's language: whatsnew.txt may hold sections "[en]", "[de]", "[sr]" …;
+     * the current language's, else English, else the whole text. Lines are returned as they are
+     * ("- " bullets included).
+     */
+    public static String whatsNew(Context c, Release r) {
+        if (r == null || r.notes == null) return "";
+        String notes = r.notes;
+        if (!notes.contains("[en]")) return notes;
+        java.util.Map<String, StringBuilder> parts = new java.util.LinkedHashMap<>();
+        StringBuilder cur = null;
+        for (String line : notes.split("\\n")) {
+            Matcher h = Pattern.compile("^\\s*\\[([a-z]{2})\\]\\s*$").matcher(line);
+            if (h.find()) {
+                cur = new StringBuilder();
+                parts.put(h.group(1), cur);
+            } else if (cur != null) {
+                cur.append(line).append('\n');
+            }
+        }
+        StringBuilder pick = parts.get(com.thecarlauncher.util.Lang.current(c));
+        if (pick == null || pick.toString().trim().isEmpty()) pick = parts.get("en");
+        return pick == null ? notes : pick.toString().trim();
+    }
+
     public static final class Release {
         public final String tag, name, notes, apkUrl, date;
         public final long versionCode;
@@ -237,8 +265,12 @@ public final class Updater {
         long code = Long.parseLong(m.group(1));
         Matcher n = NAME.matcher(body);
         String vname = n.find() ? n.group(1) : o.optString("tag_name").replaceFirst("^v", "");
-        // Notes: the body without the workflow's version lines.
-        String notes = body.replaceAll("(?m)^.*version(Code|Name)[:= ].*$", "").replaceAll("(?m)^Download .*$", "").trim();
+        // Notes: the "## What's new" block the workflow takes from whatsnew.txt; older releases
+        // without it: the body without the workflow's version lines.
+        String notes;
+        Matcher w = WHATS_NEW.matcher(body);
+        if (w.find()) notes = w.group(1).trim();
+        else notes = body.replaceAll("(?m)^.*version(Code|Name)[:= ].*$", "").replaceAll("(?m)^Download .*$", "").trim();
         String date = o.optString("published_at", "");
         if (date.length() >= 10) date = date.substring(0, 10);
         return new Release(o.optString("tag_name"), o.optString("name"), notes, apk, date, code, vname, o.optBoolean("prerelease"));
@@ -427,7 +459,13 @@ public final class Updater {
         s.close();
     }
 
-    /** Once a day (when allowed): look for an update and mention it in the banner. */
+    /** Opens the Software update page (set by the launcher; tapping the "update available" banner). */
+    public static Runnable openSoftware;
+
+    /**
+     * Once a day (when allowed): look for an update; a newer one drops the banner down with the
+     * factory download icon, and a tap opens Software update (what's new, then install).
+     */
     public static void autoCheck(final Context c) {
         if (!Prefs.bool(c, P_AUTO, true)) return;
         long last = Prefs.longVal(c, P_LAST, 0);
@@ -435,9 +473,10 @@ public final class Updater {
         check(c, new Checked() {
             public void onChecked(Release r, String error) {
                 if (isNewer(c, r)) {
-                    LoadingBanner.flash("update-available", LoadingBanner.t("Dostupna je nova verzija " + r.versionName
-                            + " — Podešavanje → Ažuriranje softvera", "Version " + r.versionName
-                            + " is available — Setup → Software update"), 6000);
+                    LoadingBanner.notice("update-available", com.thecarlauncher.R.drawable.ui_ic_download,
+                            LoadingBanner.t("Dostupna je verzija " + r.versionName + " — dodirnite za novosti",
+                                    "Version " + r.versionName + " is available — tap to see what's new"),
+                            12000, openSoftware);
                 }
             }
         });

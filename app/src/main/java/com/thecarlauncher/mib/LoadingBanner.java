@@ -23,6 +23,8 @@ import java.util.Map;
  * Drop-down loading banner: full width, two status bars tall, slides down from the top with the
  * factory spinner (tinted with the ambient colour) and a line saying what is happening.
  * Any part of the launcher calls {@link #start}, {@link #update} and {@link #stop} with its own key.
+ * {@link #notice} drops the same banner down with a factory icon instead of the spinner (vehicle
+ * events, "update available"); tapping it opens what it is about.
  */
 public class LoadingBanner extends FrameLayout {
     private static final int[] FRAMES = {R.drawable.ui_spin_00, R.drawable.ui_spin_01, R.drawable.ui_spin_02,
@@ -32,8 +34,22 @@ public class LoadingBanner extends FrameLayout {
 
     private static LoadingBanner host;
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
+    /** A running job or a notice: its line, and for notices a factory icon and a tap action. */
+    private static final class Job {
+        final String message;
+        final int icon;
+        final Runnable tap;
+
+        Job(String message, int icon, Runnable tap) {
+            this.message = message;
+            this.icon = icon;
+            this.tap = tap;
+        }
+    }
+
     /** Running jobs, oldest first; the newest one is shown. */
-    private static final Map<String, String> JOBS = new LinkedHashMap<>();
+    private static final Map<String, Job> JOBS = new LinkedHashMap<>();
+    private Job showing;
 
     private final ImageView spinner;
     private final TextView text;
@@ -60,7 +76,23 @@ public class LoadingBanner extends FrameLayout {
         row.addView(text, tl);
         addView(row, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         setVisibility(GONE);
-        // Taps pass through: long jobs (map downloads) must not block the screen.
+        // Taps pass through (long jobs such as map downloads must not block the screen), except
+        // on a notice, where a tap opens what it is about.
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                final Job j = showing;
+                if (j == null || j.tap == null) return;
+                for (Map.Entry<String, Job> e : JOBS.entrySet()) {
+                    if (e.getValue() == j) {
+                        stop(e.getKey());
+                        break;
+                    }
+                }
+                j.tap.run();
+            }
+        });
+        setClickable(false);
     }
 
     /** Serbian / English text for the current language (works without a Context at hand). */
@@ -81,7 +113,7 @@ public class LoadingBanner extends FrameLayout {
             @Override
             public void run() {
                 JOBS.remove(key);
-                JOBS.put(key, message);
+                JOBS.put(key, new Job(message, 0, null));
                 if (host != null) host.refresh();
             }
         });
@@ -91,8 +123,9 @@ public class LoadingBanner extends FrameLayout {
         MAIN.post(new Runnable() {
             @Override
             public void run() {
-                if (!JOBS.containsKey(key)) return;
-                JOBS.put(key, message);
+                Job j = JOBS.get(key);
+                if (j == null) return;
+                JOBS.put(key, new Job(message, j.icon, j.tap));
                 if (host != null) host.refresh();
             }
         });
@@ -101,6 +134,25 @@ public class LoadingBanner extends FrameLayout {
     /** Shows a message for a moment (e.g. "connected"), then removes it. */
     public static void flash(final String key, String message, long ms) {
         start(key, message);
+        MAIN.postDelayed(new Runnable() {
+            @Override
+            public void run() { stop(key); }
+        }, ms);
+    }
+
+    /**
+     * Drops the banner down with a factory icon (shown in its own colours) and a line, for
+     * {@code ms}; a tap runs {@code tap} (may be null) and closes it.
+     */
+    public static void notice(final String key, final int icon, final String message, long ms, final Runnable tap) {
+        MAIN.post(new Runnable() {
+            @Override
+            public void run() {
+                JOBS.remove(key);
+                JOBS.put(key, new Job(message, icon, tap));
+                if (host != null) host.refresh();
+            }
+        });
         MAIN.postDelayed(new Runnable() {
             @Override
             public void run() { stop(key); }
@@ -117,18 +169,30 @@ public class LoadingBanner extends FrameLayout {
     }
 
     private void refresh() {
-        String msg = null;
-        for (String m : JOBS.values()) msg = m;
-        if (msg != null) {
-            text.setText(msg);
-            if (!shown) slideDown();
+        Job job = null;
+        for (Job j : JOBS.values()) job = j;
+        if (job != null) {
+            text.setText(job.message);
+            boolean was = shown;
+            Job before = showing;
+            showing = job;
+            setClickable(job.tap != null);
+            if (!was) slideDown();
+            else if (before == null || before.icon != job.icon) showIcon();
         } else if (shown) {
+            showing = null;
+            setClickable(false);
             slideUp();
         }
     }
 
-    private void slideDown() {
-        shown = true;
+    /** The factory spinner for jobs, the notice's own icon for notices. */
+    private void showIcon() {
+        if (anim != null) anim.stop();
+        if (showing != null && showing.icon != 0) {
+            spinner.setImageResource(showing.icon);
+            return;
+        }
         anim = new AnimationDrawable();
         // The frames run anti-clockwise; play them backwards so the spinner turns clockwise.
         for (int i = FRAMES.length - 1; i >= 0; i--) anim.addFrame(getContext().getDrawable(FRAMES[i]).mutate(), 60);
@@ -136,6 +200,11 @@ public class LoadingBanner extends FrameLayout {
         anim.setColorFilter(new PorterDuffColorFilter(Mib.BLUE, PorterDuff.Mode.SRC_IN));
         spinner.setImageDrawable(anim);
         anim.start();
+    }
+
+    private void slideDown() {
+        shown = true;
+        showIcon();
         setVisibility(VISIBLE);
         animate().cancel();
         setTranslationY(-height(getContext()));

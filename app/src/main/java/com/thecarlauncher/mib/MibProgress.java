@@ -35,6 +35,22 @@ public class MibProgress extends View {
 
     public void setSeekListener(SeekListener l) { seek = l; }
 
+    private boolean showKnob = true;
+    private int fillColor;
+
+    /** Without the knob (plain progress, e.g. software update steps). */
+    public MibProgress noKnob() {
+        showKnob = false;
+        invalidate();
+        return this;
+    }
+
+    /** Colour of the done part (0 = the ambient colour). */
+    public void setFillColor(int color) {
+        fillColor = color;
+        invalidate();
+    }
+
     public void setFraction(float f) {
         if (dragging) return;
         fraction = Math.max(0, Math.min(1, f));
@@ -45,14 +61,15 @@ public class MibProgress extends View {
     protected void onDraw(Canvas c) {
         float h = Math.max(3, Mib.px(getContext(), 6));
         float top = (getHeight() - h) / 2f, mid = top + h / 2f;
-        float k = Math.min(getHeight() / 2f - 1, h * 1.75f); // knob radius (factory: 14 px ring on a 4 px line)
+        float k = showKnob ? Math.min(getHeight() / 2f - 1, h * 1.75f) : 0; // knob radius (factory: 14 px ring on a 4 px line)
         // The knob stays fully inside the view at 0 % and 100 %.
         float end = k + (getWidth() - 2 * k) * fraction;
-        fill.setColor(Mib.BLUE);
+        fill.setColor(fillColor != 0 ? fillColor : Mib.BLUE);
         c.drawRect(0, top, end, top + h, fill);
         // Unplayed part: dots of the line's thickness, one dot-width apart.
         float r = h * 0.42f, step = h * 2f;
         for (float x = end + k + step / 2f; x <= getWidth() - r; x += step) c.drawCircle(x, mid, r, track);
+        if (!showKnob) return;
         c.drawCircle(end, mid + h * 0.25f, k + 1, knobShade);
         c.drawCircle(end, mid, k, knob);
         // Ring in the played part's (ambient) colour around the knob.

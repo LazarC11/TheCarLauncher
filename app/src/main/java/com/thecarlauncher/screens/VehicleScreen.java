@@ -281,7 +281,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
     }
 
     /** The factory warning light for a notice (yellow when due soon, red when due now). */
-    static int lamp(CarData.Notice n) {
+    public static int lamp(CarData.Notice n) {
         switch (n.kind) {
             case CarData.Notice.OIL: return n.urgent ? R.drawable.ui_lamp_oil_alert : R.drawable.ui_lamp_oil;
             case CarData.Notice.SERVICE: return n.urgent ? R.drawable.ui_lamp_alert : R.drawable.ui_lamp_service;

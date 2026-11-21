@@ -99,21 +99,20 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
     };
 
     /**
-     * A unit marked "not supported yet", now online: when a release supports it, a window drops
-     * down from the top offering the compatibility update.
+     * A unit marked "not supported yet", now online: when a release supports it, the banner drops
+     * down from the top; a tap opens Software update with the build for this unit.
      */
     private void checkCompatibility() {
         com.thecarlauncher.util.Compat.checkLater(this, new com.thecarlauncher.util.Compat.Found() {
             @Override
             public void onCompatibilityUpdate(com.thecarlauncher.util.Updater.Release r) {
-                if (isFinishing() || !(rootView instanceof FrameLayout)) return;
-                com.thecarlauncher.mib.DropDown.show((FrameLayout) rootView,
-                        Mib.t(LauncherActivity.this, "Dostupno je ažuriranje kompatibilnosti", "Compatibility update available"),
-                        Mib.t(LauncherActivity.this, "Ovaj uređaj je sada podržan. Instaliraj verziju launchera napravljenu za njega.",
-                                "This unit is supported now. Install the launcher build made for it.") + " (" + r.versionName + ")",
-                        Mib.t(LauncherActivity.this, "Ažuriraj", "Update"), new Runnable() {
+                if (isFinishing()) return;
+                com.thecarlauncher.mib.LoadingBanner.notice("compat-update", R.drawable.ui_ic_download,
+                        Mib.t(LauncherActivity.this, "Ovaj uređaj je sada podržan (" + r.versionName + ") — dodirnite za ažuriranje",
+                                "This unit is supported now (" + r.versionName + ") — tap to update"),
+                        15000, new Runnable() {
                             public void run() { show(SOFTWARE, true); }
-                        }, Mib.t(LauncherActivity.this, "Kasnije", "Later"));
+                        });
             }
         });
     }
@@ -376,14 +375,33 @@ public class LauncherActivity extends Activity implements LocationTracker.Listen
         hadAllFiles = files;
         com.thecarlauncher.nav.OfflineMaps.get(this).finishDownloads();
         Weather.get(this).update(LocationTracker.get(this));
+        com.thecarlauncher.util.Updater.openSoftware = new Runnable() {
+            public void run() { show(SOFTWARE, true); }
+        };
         com.thecarlauncher.util.Updater.autoCheck(this);
         checkCompatibility();
+        if (!setupOnly(this)) {
+            main.removeCallbacks(carAlerts);
+            main.post(carAlerts);
+        }
         if (!setupOnly(this)) MediaHub.get(this).connectExternal();
         if (current >= 0) screens[current].onShow();
     }
 
+    /** Vehicle events drop down when they come up: checked on return and every 10 minutes. */
+    private final Runnable carAlerts = new Runnable() {
+        @Override
+        public void run() {
+            com.thecarlauncher.car.CarAlerts.check(LauncherActivity.this, new Runnable() {
+                public void run() { show(VEHICLE, true); }
+            });
+            main.postDelayed(this, 10 * 60 * 1000L);
+        }
+    };
+
     @Override
     protected void onPause() {
+        main.removeCallbacks(carAlerts);
         if (current >= 0) screens[current].onHide();
         super.onPause();
     }
