@@ -20,6 +20,7 @@ import com.thecarlauncher.media.ArtLoader;
 import com.thecarlauncher.media.MediaHub;
 import com.thecarlauncher.media.MusicLibrary;
 import com.thecarlauncher.media.MusicService;
+import com.thecarlauncher.util.Prefs;
 import com.thecarlauncher.media.Track;
 import com.thecarlauncher.mib.Mib;
 import com.thecarlauncher.mib.CoverGlow;
@@ -50,6 +51,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
     private View root, nowPlaying, info, browser;
     private TextView title, artist, album, message, pos, remain, path, empty;
     private View artistRow, albumRow, progressRow;
+    private FrameLayout repeatKey, shuffleKey;
     private MibArtBox art;
     private CoverGlow glow;
     private MibProgress progress;
@@ -165,6 +167,34 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout.LayoutParams pl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 progH, Gravity.BOTTOM);
         np.addView(pr, pl);
+
+        // Repeat and shuffle: framed factory keys bottom-left above the progress line. They work
+        // the launcher's own player (USB / SD); for Bluetooth and other apps they are greyed out.
+        LinearLayout modes = new LinearLayout(act);
+        repeatKey = modeKey(R.drawable.ui_key_repeat, new Runnable() {
+            public void run() {
+                MusicService m = MusicService.get();
+                if (m != null) m.cycleRepeat();
+                else Prefs.put(act, Prefs.REPEAT, (Prefs.integer(act, Prefs.REPEAT, MusicService.REPEAT_ALL) + 1) % 3);
+            }
+        });
+        modes.addView(repeatKey, new LinearLayout.LayoutParams(zpx(76), zpx(52)));
+        shuffleKey = modeKey(R.drawable.ui_key_shuffle, new Runnable() {
+            public void run() {
+                MusicService m = MusicService.get();
+                if (m != null) m.setShuffle(!m.isShuffle());
+                else Prefs.put(act, Prefs.SHUFFLE, !Prefs.bool(act, Prefs.SHUFFLE, false));
+            }
+        });
+        LinearLayout.LayoutParams skl = new LinearLayout.LayoutParams(zpx(76), zpx(52));
+        skl.leftMargin = zpx(14);
+        modes.addView(shuffleKey, skl);
+        FrameLayout.LayoutParams modesL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT);
+        modesL.leftMargin = zpx(44);
+        modesL.bottomMargin = zpx(4);
+        upper.addView(modes, modesL);
+        updateModes();
 
         // Music video: its picture where the cover is; tap for the whole screen.
         videoBox = box;
@@ -326,6 +356,41 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         return r;
     }
 
+    private FrameLayout modeKey(int icon, final Runnable r) {
+        FrameLayout k = new FrameLayout(act);
+        k.setBackground(Mib.box(act));
+        ImageView iv = new ImageView(act);
+        iv.setImageResource(icon);
+        iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        k.addView(iv, new FrameLayout.LayoutParams(zpx(62), zpx(44), Gravity.CENTER));
+        k.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                r.run();
+                updateModes();
+            }
+        });
+        return k;
+    }
+
+    /** Repeat (off / all / one) and shuffle as the keys show them; greyed out unless USB / SD plays. */
+    private void updateModes() {
+        if (repeatKey == null) return;
+        MediaHub hub = MediaHub.get(act);
+        boolean own = hub.isOwn() && !hub.isBluetooth() && !hub.isRadio();
+        MusicService m = MusicService.get();
+        int repeat = m != null ? m.repeatMode() : Prefs.integer(act, Prefs.REPEAT, MusicService.REPEAT_ALL);
+        boolean shuffle = m != null ? m.isShuffle() : Prefs.bool(act, Prefs.SHUFFLE, false);
+        ((ImageView) repeatKey.getChildAt(0)).setImageResource(
+                repeat == MusicService.REPEAT_ONE ? R.drawable.ui_key_repeat_one : R.drawable.ui_key_repeat);
+        repeatKey.setSelected(own && repeat != MusicService.REPEAT_OFF);
+        shuffleKey.setSelected(own && shuffle);
+        for (View k : new View[]{repeatKey, shuffleKey}) {
+            k.setEnabled(own);
+            k.setAlpha(own ? 1f : 0.35f);
+        }
+    }
+
     private View metaRow(int icon, float size, android.graphics.Typeface tf) {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -465,6 +530,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         art.setCover(fm ? R.drawable.ui_cover_radio : btIdle ? R.drawable.ui_cover_bt : usbIdle ? R.drawable.ui_cover_usb : R.drawable.ui_cover_music);
         art.setBitmap(hub.art());
         updateVideo(hub);
+        updateModes();
 
         String t = hub.hasTrackInfo() ? hub.title() : null;
         if (t == null) {

@@ -340,6 +340,14 @@
    "op": "copy",
    "src": 1282
   },
+  "ui_key_repeat": {
+   "op": "copy",
+   "src": 1162
+  },
+  "ui_key_repeat_one": {
+   "op": "copy",
+   "src": 1158
+  },
   "ui_key_sd": {
    "op": "copy",
    "src": 1336
@@ -347,6 +355,10 @@
   "ui_key_setup": {
    "op": "copy",
    "src": 1266
+  },
+  "ui_key_shuffle": {
+   "op": "copy",
+   "src": 1166
   },
   "ui_key_tv": {
    "op": "copy",
