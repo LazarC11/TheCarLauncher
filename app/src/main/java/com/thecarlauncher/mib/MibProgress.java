@@ -8,13 +8,16 @@ import android.view.View;
 
 /**
  * MIB progress line: the played part a solid ambient-coloured bar, the rest a row of white
- * dots, like the factory media page; optionally draggable for seeking.
+ * dots and a white knob where they meet, like the factory media page; optionally draggable
+ * for seeking.
  */
 public class MibProgress extends View {
     public interface SeekListener { void onSeek(float fraction); }
 
     private final Paint track = new Paint();
     private final Paint fill = new Paint();
+    private final Paint knob = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint knobShade = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float fraction;
     private SeekListener seek;
     private boolean dragging;
@@ -24,6 +27,8 @@ public class MibProgress extends View {
         track.setColor(0xFFE6E7EB);
         track.setAntiAlias(true);
         fill.setColor(Mib.BLUE);
+        knob.setColor(0xFFF3F3F5);
+        knobShade.setColor(0x66000000);
     }
 
     public void setSeekListener(SeekListener l) { seek = l; }
@@ -38,12 +43,16 @@ public class MibProgress extends View {
     protected void onDraw(Canvas c) {
         float h = Math.max(3, Mib.px(getContext(), 6));
         float top = (getHeight() - h) / 2f, mid = top + h / 2f;
-        float end = getWidth() * fraction;
+        float k = Math.min(getHeight() / 2f - 1, h * 1.6f); // knob radius
+        // The knob stays fully inside the view at 0 % and 100 %.
+        float end = k + (getWidth() - 2 * k) * fraction;
         fill.setColor(Mib.BLUE);
         c.drawRect(0, top, end, top + h, fill);
         // Unplayed part: dots of the line's thickness, one dot-width apart.
         float r = h * 0.42f, step = h * 2f;
-        for (float x = end + step / 2f; x <= getWidth() - r; x += step) c.drawCircle(x, mid, r, track);
+        for (float x = end + k + step / 2f; x <= getWidth() - r; x += step) c.drawCircle(x, mid, r, track);
+        c.drawCircle(end, mid + h * 0.25f, k + 1, knobShade);
+        c.drawCircle(end, mid, k, knob);
     }
 
     @Override
