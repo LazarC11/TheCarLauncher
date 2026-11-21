@@ -53,6 +53,7 @@ public class LoadingBanner extends FrameLayout {
 
     private final ImageView spinner;
     private final TextView text;
+    private final android.view.View infoKey, closeKey;
     private AnimationDrawable anim;
     private boolean shown;
 
@@ -74,25 +75,54 @@ public class LoadingBanner extends FrameLayout {
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
         tl.leftMargin = Mib.px(c, 24);
         row.addView(text, tl);
+        // Notices: "i" opens what the notice is about, "x" dismisses it (factory framed keys).
+        infoKey = key(c, com.thecarlauncher.R.drawable.ui_ic_info, new Runnable() {
+            public void run() { closeShowing(true); }
+        });
+        closeKey = key(c, com.thecarlauncher.R.drawable.ui_ic_close, new Runnable() {
+            public void run() { closeShowing(false); }
+        });
+        LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(c, 66), Mib.px(c, 58));
+        kl.leftMargin = Mib.px(c, 14);
+        row.addView(infoKey, kl);
+        row.addView(closeKey, new LinearLayout.LayoutParams(kl));
+        infoKey.setVisibility(GONE);
+        closeKey.setVisibility(GONE);
         addView(row, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         setVisibility(GONE);
-        // Taps pass through (long jobs such as map downloads must not block the screen), except
-        // on a notice, where a tap opens what it is about.
+        // Taps pass through (long jobs such as map downloads must not block the screen); on a
+        // notice the banner takes taps and a tap anywhere does what "i" does.
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                final Job j = showing;
-                if (j == null || j.tap == null) return;
-                for (Map.Entry<String, Job> e : JOBS.entrySet()) {
-                    if (e.getValue() == j) {
-                        stop(e.getKey());
-                        break;
-                    }
-                }
-                j.tap.run();
+                if (showing != null && showing.tap != null) closeShowing(true);
             }
         });
         setClickable(false);
+    }
+
+    private static android.view.View key(Context c, int icon, final Runnable r) {
+        FrameLayout k = new FrameLayout(c);
+        k.setBackground(Mib.box(c));
+        k.addView(Mib.icon(c, icon, Mib.WHITE), new FrameLayout.LayoutParams(Mib.px(c, 34), Mib.px(c, 34), Gravity.CENTER));
+        k.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) { r.run(); }
+        });
+        return k;
+    }
+
+    /** Closes the notice on show; with {@code open}, runs what it is about. */
+    private void closeShowing(boolean open) {
+        final Job j = showing;
+        if (j == null) return;
+        for (Map.Entry<String, Job> e : JOBS.entrySet()) {
+            if (e.getValue() == j) {
+                stop(e.getKey());
+                break;
+            }
+        }
+        if (open && j.tap != null) j.tap.run();
     }
 
     /** Serbian / English text for the current language (works without a Context at hand). */
@@ -176,7 +206,10 @@ public class LoadingBanner extends FrameLayout {
             boolean was = shown;
             Job before = showing;
             showing = job;
-            setClickable(job.tap != null);
+            boolean notice = job.icon != 0;
+            setClickable(notice);
+            infoKey.setVisibility(notice && job.tap != null ? VISIBLE : GONE);
+            closeKey.setVisibility(notice ? VISIBLE : GONE);
             if (!was) slideDown();
             else if (before == null || before.icon != job.icon) showIcon();
         } else if (shown) {
