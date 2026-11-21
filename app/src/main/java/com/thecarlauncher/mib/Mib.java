@@ -204,19 +204,43 @@ public final class Mib {
         return new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{top, bottom});
     }
 
-    /** Menu tile: black with a soft grey haze from the top so it lifts off the black screen. */
+    // ---- Factory skin pictures --------------------------------------------------------------
+
+    private static final java.util.Map<Integer, android.graphics.Bitmap> SKIN = new java.util.HashMap<>();
+
+    /**
+     * A picture from the factory MIB skin (ui_skin_*) stretched like a nine-patch: the outer
+     * {@code capX} / {@code capY} skin pixels (corners, frame, shading) stay as drawn, only the
+     * middle stretches. One skin pixel is one reference-layout unit, like {@link #px}.
+     */
+    public static Drawable skin(Context c, int res, int capX, int capY) {
+        android.graphics.Bitmap b = SKIN.get(res);
+        if (b == null) {
+            android.graphics.BitmapFactory.Options o = new android.graphics.BitmapFactory.Options();
+            o.inScaled = false;
+            b = android.graphics.BitmapFactory.decodeResource(c.getResources(), res, o);
+            SKIN.put(res, b);
+        }
+        b.setDensity(Math.max(1, Math.round(DisplayMetrics.DENSITY_DEFAULT / scale(c))));
+        return new android.graphics.drawable.NinePatchDrawable(c.getResources(), b,
+                nineChunk(b.getWidth(), b.getHeight(), capX, capY), new android.graphics.Rect(), null);
+    }
+
+    /** Serialized nine-patch chunk: one stretchable column and row between the caps. */
+    private static byte[] nineChunk(int w, int h, int cx, int cy) {
+        java.nio.ByteBuffer buf = java.nio.ByteBuffer.allocate(32 + 16 + 9 * 4).order(java.nio.ByteOrder.nativeOrder());
+        buf.put((byte) 1).put((byte) 2).put((byte) 2).put((byte) 9);
+        buf.putInt(0).putInt(0);                         // div offsets (filled in by the framework)
+        buf.putInt(0).putInt(0).putInt(0).putInt(0);     // padding
+        buf.putInt(0);                                   // colour offset
+        buf.putInt(cx).putInt(w - cx).putInt(cy).putInt(h - cy);
+        for (int i = 0; i < 9; i++) buf.putInt(1);       // Res_png_9patch::NO_COLOR
+        return buf.array();
+    }
+
+    /** Menu tile: the factory tile (dark, soft shadow). Pressing colours the icon (MibTile). */
     public static Drawable tile(Context c) {
-        // Nearly black like the factory tiles, with only a faint sheen at the top.
-        GradientDrawable base = grad(0xFF111114, 0xFF040405);
-        base.setStroke(Math.max(1, px(c, 1)), 0xFF1A1A1E);
-        GradientDrawable haze = new GradientDrawable();
-        haze.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-        haze.setGradientCenter(0.35f, 0.0f);
-        haze.setGradientRadius(px(c, 170));
-        haze.setColors(new int[]{0x14C8C8D2, 0x00000000});
-        LayerDrawable normal = new LayerDrawable(new Drawable[]{base, haze});
-        // Pressing a tile colours its icon (MibTile), the tile itself stays as it is.
-        return normal;
+        return skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 14, 14);
     }
 
     /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
@@ -244,63 +268,42 @@ public final class Mib {
         return new GradientDrawable();
     }
 
-    /** Popup panel: near-black with a crisp white frame. */
-    public static GradientDrawable panel(Context c) {
-        GradientDrawable d = new GradientDrawable();
-        d.setColor(0xFF000000);
-        d.setStroke(Math.max(1, px(c, 1.6f)), 0xFFE8E8EC);
-        return d;
+    /** The factory white frame (rounded) over black, for popups and framed keys. */
+    private static Drawable framed(Context c) {
+        GradientDrawable fill = new GradientDrawable();
+        fill.setColor(0xFF000000);
+        fill.setCornerRadius(px(c, 4));
+        LayerDrawable l = new LayerDrawable(new Drawable[]{fill,
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_frame, 10, 10)});
+        l.setLayerInset(0, px(c, 1), px(c, 1), px(c, 1), px(c, 1));
+        return l;
     }
 
-    /** Square map/utility button: black box, light frame. */
+    /** Popup panel: black with the factory white frame. */
+    public static Drawable panel(Context c) {
+        return framed(c);
+    }
+
+    /** Framed key (map buttons, Reset, page arrows …): black with the factory white frame. */
     public static Drawable box(Context c) {
-        GradientDrawable n = new GradientDrawable();
-        n.setColor(0xFF000000);
-        n.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
         // Pressed looks the same: the icon / caption inside turns the ambient colour.
         KeyBox s = new KeyBox();
-        s.addState(new int[]{}, n);
+        s.addState(new int[]{}, framed(c));
         return s;
     }
 
     /**
-     * Light settings bar (Podešavanje sistema list rows). Shaded inward, like the original: the
-     * shadow sits inside along the top edge and both ends, the bar is lightest low in the middle,
-     * with a darker rim (a pressed-in strip, not a raised one).
+     * Light settings bar (system settings list rows): the factory row, shaded inward (shadow
+     * along the top, lighter towards the bottom). Pressed, it takes the ambient colour.
      */
     public static Drawable settingsBar(Context c) {
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed},
-                inset(c, shade(BLUE, 0.6f, 0xFF), shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.5f, 0xFF)));
-        s.addState(new int[]{}, inset(c, 0xFFA8A9AF, 0xFFD5D6DA, 0xFF7F8087));
+        Drawable pressed = skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12);
+        // The grey row multiplied by the ambient colour (a little lifted) keeps its shading.
+        pressed.setColorFilter(new android.graphics.LightingColorFilter(shade(BLUE, 1.5f, 0xFF), 0));
+        s.addState(new int[]{android.R.attr.state_pressed}, pressed);
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12));
         return s;
-    }
-
-    /** Colour between a and b (f = 0 → a, 1 → b). */
-    private static int mix(int a, int b, float f) {
-        int r = 0;
-        for (int sh = 0; sh <= 24; sh += 8) {
-            int x = (a >>> sh) & 0xFF, y = (b >>> sh) & 0xFF;
-            r |= (Math.round(x + (y - x) * f) & 0xFF) << sh;
-        }
-        return r;
-    }
-
-    /** A bar shaded inward: darker top fading to a light middle / bottom, darker ends and rim. */
-    private static Drawable inset(Context c, int top, int body, int rim) {
-        float r = px(c, 3);
-        // The top shadow fades softly down to the middle of the bar.
-        GradientDrawable base = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{top, mix(top, body, 0.55f), mix(top, body, 0.85f), body});
-        base.setCornerRadius(r);
-        GradientDrawable ends = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{0x22000000, 0x0C000000, 0x00000000, 0x00000000, 0x00000000, 0x0C000000, 0x1C000000});
-        ends.setCornerRadius(r);
-        GradientDrawable edge = new GradientDrawable();
-        edge.setColor(0x00000000);
-        edge.setCornerRadius(r);
-        edge.setStroke(Math.max(1, px(c, 1)), rim);
-        return new android.graphics.drawable.LayerDrawable(new Drawable[]{base, ends, edge});
     }
 
     /** Square checkbox used on settings bars. */
