@@ -874,11 +874,12 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             final Runnable r = i == 0 ? minus : plus;
             TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
             k.setGravity(Gravity.CENTER);
+            k.setBackground(Mib.lightKey(act));
             k.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { r.run(); }
             });
-            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 64), ViewGroup.LayoutParams.MATCH_PARENT);
-            kl.leftMargin = Mib.px(act, 8);
+            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
+            kl.leftMargin = Mib.px(act, 12);
             row.addView(k, kl);
         }
     }

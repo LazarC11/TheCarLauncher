@@ -425,12 +425,7 @@ public class SettingsScreen extends Screen {
             final Runnable r = i == 0 ? minus : plus;
             TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
             k.setGravity(Gravity.CENTER);
-            GradientDrawable g = new GradientDrawable();
-            g.setColor(0x00000000);
-            g.setStroke(Math.max(1, Mib.px(act, 1.5f)), Mib.BAR_VALUE);
-            g.setCornerRadius(Mib.px(act, 4));
-            k.setBackground(g);
-            Mib.pressText(k);
+            k.setBackground(Mib.lightKey(act));
             LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
             kl.leftMargin = Mib.px(act, 12);
             row.addView(k, kl);

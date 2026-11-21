@@ -287,29 +287,35 @@ public final class Mib {
         return new GradientDrawable();
     }
 
-    /** The factory white frame (rounded) over black, for popups and framed keys. */
+    /** The factory key / popup frame: a thin white rounded frame, filled black. */
     private static Drawable framed(Context c) {
-        GradientDrawable fill = new GradientDrawable();
-        fill.setColor(0xFF000000);
-        fill.setCornerRadius(px(c, 4));
-        LayerDrawable l = new LayerDrawable(new Drawable[]{fill,
-                skin(c, com.thecarlauncher.R.drawable.ui_skin_frame, 10, 10)});
-        l.setLayerInset(0, px(c, 1), px(c, 1), px(c, 1), px(c, 1));
-        return l;
+        return skin(c, com.thecarlauncher.R.drawable.ui_skin_key, 8, 8);
     }
 
-    /** Popup panel: black with the factory white frame. */
+    /** Popup panel: the factory frame. */
     public static Drawable panel(Context c) {
         return framed(c);
     }
 
-    /** Framed key (map buttons, Reset, page arrows …): black with the factory white frame. */
+    /**
+     * Framed key (back, tabs, Reset, Cancel, map buttons, page arrows …): the factory key — thin
+     * white frame on black; pressed or selected (current tab), grey inside a brighter frame.
+     */
     public static Drawable box(Context c) {
         KeyBox s = new KeyBox();
-        // Pressed: the factory pressed key (grey inside the frame, soft shadow around it).
-        s.addState(new int[]{android.R.attr.state_pressed},
-                skin(c, com.thecarlauncher.R.drawable.ui_skin_frame_pressed, 16, 16));
+        s.addState(new int[]{android.R.attr.state_pressed}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_on, 8, 8));
+        s.addState(new int[]{android.R.attr.state_selected}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_on, 8, 8));
         s.addState(new int[]{}, framed(c));
+        return s;
+    }
+
+    /** The factory light key (on light rows and panels), a little darker while pressed. */
+    public static Drawable lightKey(Context c) {
+        StateListDrawable s = new StateListDrawable();
+        Drawable p = skin(c, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
+        p.setColorFilter(new android.graphics.LightingColorFilter(0xFFC4C4C4, 0));
+        s.addState(new int[]{android.R.attr.state_pressed}, p);
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8));
         return s;
     }
 

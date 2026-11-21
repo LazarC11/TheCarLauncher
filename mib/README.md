@@ -32,7 +32,7 @@ uses are copied from here into `app/src/main/res/drawable-nodpi/` as `ui_*.png`.
 | Media progress knob (drawn in `MibProgress` to its proportions) | 1398–1415 |
 | `ui_skin_tile` — menu tiles | 2426 |
 | `ui_skin_row` / `ui_skin_row_pressed` — settings and list rows | 1459 / 1458 |
-| `ui_skin_frame` — framed keys and popups | 1428 |
+| `ui_skin_key` / `ui_skin_key_on` — framed keys (normal / pressed or selected) and popups | 1804 / 1803 |
 | `ui_skin_notch` — popup pointer | 251 |
 | `ui_skin_dot_on` / `ui_skin_dot_off` — page dots | 67 / 65 |
 | `ui_skin_scroll` / `ui_skin_scroll_track` — scroll bar | 1439 / 28 |

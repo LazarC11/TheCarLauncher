@@ -151,8 +151,9 @@ public class UpdateScreen extends Screen implements Updater.Progress {
 
     private void render() {
         if (list == null) return;
-        versionsKey.setTextColor(updateTab ? Mib.GREY : Mib.WHITE);
-        updateKey.setTextColor(updateTab ? Mib.WHITE : Mib.GREY);
+        // The open tab shows as the selected factory key (grey inside the frame).
+        versionsKey.setSelected(!updateTab);
+        updateKey.setSelected(updateTab);
         list.removeAllViews();
         if (!updateTab) buildVersions();
         else if (Updater.started()) buildProgress();
