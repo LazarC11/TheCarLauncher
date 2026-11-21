@@ -34,6 +34,18 @@ import java.util.List;
 
 /** MIB "Mediji": now playing with cover box, Izvor source popup, Izbor library browser. */
 public class MediaScreen extends Screen implements MediaHub.Listener {
+    /**
+     * The media page is drawn a bit larger than the rest of the launcher, like the factory MIB
+     * media page; the status bar and soft keys keep the common size.
+     */
+    static final float ZOOM = 1.15f;
+
+    private int zpx(float v) { return Mib.px(act, v * ZOOM); }
+
+    private android.widget.TextView ztext(String s, float size, android.graphics.Typeface tf, int color) {
+        return Mib.text(act, s, size * ZOOM, tf, color);
+    }
+
     private final Handler main = new Handler(Looper.getMainLooper());
     private View root, nowPlaying, info, browser;
     private TextView title, artist, album, message, pos, remain, path, empty;
@@ -83,7 +95,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         nowPlaying = np;
         content.addView(np, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        int box = Mib.px(act, 264), boxRight = Mib.px(act, 74), progH = Mib.px(act, 84);
+        int box = zpx(264), boxRight = zpx(74), progH = zpx(84);
 
         FrameLayout upper = new FrameLayout(act);
         upper.setClipChildren(false);
@@ -109,13 +121,13 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         FrameLayout left = new FrameLayout(act);
         FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        ll.rightMargin = box + boxRight + Mib.px(act, 30);
+        ll.rightMargin = box + boxRight + zpx(30);
         upper.addView(left, ll);
 
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
         col.setGravity(Gravity.CENTER_VERTICAL);
-        col.setPadding(Mib.px(act, 60), 0, 0, 0);
+        col.setPadding(zpx(60), 0, 0, 0);
         info = col;
         left.addView(col, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, box, Gravity.CENTER_VERTICAL));
         View titleRow = metaRow(R.drawable.ui_ic_note, 36, Mib.semibold(act));
@@ -131,10 +143,10 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
 
         LinearLayout pr = new LinearLayout(act);
         pr.setGravity(Gravity.CENTER_VERTICAL);
-        pr.setPadding(Mib.px(act, 60), 0, boxRight, 0);
+        pr.setPadding(zpx(60), 0, boxRight, 0);
         progressRow = pr;
-        pos = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
-        remain = Mib.text(act, "0:00", 24, Mib.regular(act), Mib.WHITE);
+        pos = ztext("0:00", 24, Mib.regular(act), Mib.WHITE);
+        remain = ztext("0:00", 24, Mib.regular(act), Mib.WHITE);
         progress = new MibProgress(act);
         progress.setSeekListener(new MibProgress.SeekListener() {
             @Override
@@ -143,10 +155,10 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                 if (hub.canSeek()) hub.seekTo((long) (hub.duration() * f));
             }
         });
-        pr.addView(pos, new LinearLayout.LayoutParams(Mib.px(act, 76), ViewGroup.LayoutParams.WRAP_CONTENT));
-        pr.addView(progress, new LinearLayout.LayoutParams(0, Mib.px(act, 30), 1f));
+        pr.addView(pos, new LinearLayout.LayoutParams(zpx(76), ViewGroup.LayoutParams.WRAP_CONTENT));
+        pr.addView(progress, new LinearLayout.LayoutParams(0, zpx(30), 1f));
         remain.setGravity(Gravity.RIGHT);
-        pr.addView(remain, new LinearLayout.LayoutParams(Mib.px(act, 88), ViewGroup.LayoutParams.WRAP_CONTENT));
+        pr.addView(remain, new LinearLayout.LayoutParams(zpx(88), ViewGroup.LayoutParams.WRAP_CONTENT));
         FrameLayout.LayoutParams pl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 progH, Gravity.BOTTOM);
         np.addView(pr, pl);
@@ -192,31 +204,31 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         content.addView(videoFrame, videoParams(false));
 
         // "Uređaj nije povezan."-style centred message when there is nothing to show.
-        message = Mib.text(act, "", 38, Mib.regular(act), Mib.WHITE);
+        message = ztext("", 38, Mib.regular(act), Mib.WHITE);
         message.setGravity(Gravity.CENTER);
         message.setSingleLine(false);
-        message.setLineSpacing(Mib.px(act, 6), 1f);
+        message.setLineSpacing(zpx(6), 1f);
         FrameLayout.LayoutParams ml = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        ml.leftMargin = Mib.px(act, 30);
+        ml.leftMargin = zpx(30);
         left.addView(message, ml);
 
         // ---- Browser ----
         LinearLayout br = new LinearLayout(act);
         br.setOrientation(LinearLayout.VERTICAL);
         br.setVisibility(View.GONE);
-        br.setPadding(Mib.px(act, 40), Mib.px(act, 10), Mib.px(act, 40), 0);
+        br.setPadding(zpx(40), zpx(10), zpx(40), 0);
         browser = br;
-        path = Mib.text(act, "", 26, Mib.semibold(act), Mib.WHITE);
-        path.setPadding(Mib.px(act, 6), 0, 0, Mib.px(act, 8));
+        path = ztext("", 26, Mib.semibold(act), Mib.WHITE);
+        path.setPadding(zpx(6), 0, 0, zpx(8));
         br.addView(path);
         View rule = new View(act);
         rule.setBackgroundColor(Mib.BLUE);
-        br.addView(rule, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 2))));
+        br.addView(rule, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, zpx(2))));
         FrameLayout lf = new FrameLayout(act);
         list = new ListView(act);
         list.setDivider(new android.graphics.drawable.ColorDrawable(0xFF55565F));
-        list.setDividerHeight(Math.max(1, Mib.px(act, 1)));
+        list.setDividerHeight(Math.max(1, zpx(1)));
         list.setSelector(Mib.keyPressed());
         list.setFastScrollEnabled(true);
         list.setAdapter(adapter);
@@ -227,7 +239,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             }
         });
         lf.addView(list);
-        empty = Mib.text(act, "", 32, Mib.regular(act), Mib.WHITE);
+        empty = ztext("", 32, Mib.regular(act), Mib.WHITE);
         empty.setSingleLine(false);
         empty.setGravity(Gravity.CENTER);
         lf.addView(empty, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -315,12 +327,12 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
         ImageView iv = Mib.icon(act, icon, Mib.WHITE);
-        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 36), Mib.px(act, 36)));
-        TextView t = Mib.text(act, "", size, tf, Mib.WHITE);
+        row.addView(iv, new LinearLayout.LayoutParams(zpx(36), zpx(36)));
+        TextView t = ztext("", size, tf, Mib.WHITE);
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        tl.leftMargin = Mib.px(act, 18);
+        tl.leftMargin = zpx(18);
         row.addView(t, tl);
-        row.setPadding(0, Mib.px(act, 22), 0, 0);
+        row.setPadding(0, zpx(22), 0, 0);
         return row;
     }
 
@@ -672,22 +684,22 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
             if (v == null) {
                 LinearLayout row = new LinearLayout(act);
                 row.setGravity(Gravity.CENTER_VERTICAL);
-                row.setMinimumHeight(Mib.px(act, 82));
-                row.setPadding(Mib.px(act, 8), 0, Mib.px(act, 14), 0);
+                row.setMinimumHeight(zpx(82));
+                row.setPadding(zpx(8), 0, zpx(14), 0);
                 h = new Holder();
                 h.icon = new ImageView(act);
                 h.icon.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                row.addView(h.icon, new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 58)));
+                row.addView(h.icon, new LinearLayout.LayoutParams(zpx(58), zpx(58)));
                 LinearLayout texts = new LinearLayout(act);
                 texts.setOrientation(LinearLayout.VERTICAL);
-                h.title = Mib.text(act, "", 28, Mib.semibold(act), Mib.WHITE);
-                h.sub = Mib.text(act, "", 21, Mib.regular(act), Mib.GREY);
+                h.title = ztext("", 28, Mib.semibold(act), Mib.WHITE);
+                h.sub = ztext("", 21, Mib.regular(act), Mib.GREY);
                 texts.addView(h.title);
                 texts.addView(h.sub);
                 LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-                tl.leftMargin = Mib.px(act, 18);
+                tl.leftMargin = zpx(18);
                 row.addView(texts, tl);
-                h.meta = Mib.text(act, "", 23, Mib.regular(act), Mib.GREY);
+                h.meta = ztext("", 23, Mib.regular(act), Mib.GREY);
                 row.addView(h.meta);
                 row.setTag(h);
                 v = row;
@@ -716,7 +728,7 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
                     h.icon.setTag(null);
                     h.icon.setImageResource(fb);
                     h.icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    int pad = Mib.px(act, 8);
+                    int pad = zpx(8);
                     h.icon.setPadding(pad, pad, pad, pad);
                     h.icon.setImageTintList(android.content.res.ColorStateList.valueOf(Mib.GREY));
                 }
