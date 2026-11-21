@@ -710,9 +710,10 @@ public class SettingsScreen extends Screen {
             public void run() { setLanguage(com.thecarlauncher.util.Lang.AUTO); }
         });
         for (final String[] l : com.thecarlauncher.util.Lang.CHOICES) {
-            choice(l[1], !auto && l[0].equals(cur), new Runnable() {
+            LinearLayout row = choice(l[1], !auto && l[0].equals(cur), new Runnable() {
                 public void run() { setLanguage(l[0]); }
             });
+            addLeading(row, flag(l[0]));
         }
     }
 
@@ -2010,70 +2011,9 @@ public class SettingsScreen extends Screen {
     }
 
     /** The language's flag, as the factory language bar shows the country flag. */
-    private View flag() {
-        ImageView f = new ImageView(act);
-        String l = com.thecarlauncher.util.Lang.current(act);
-        if ("pl".equals(l) || "tr".equals(l)) f.setImageDrawable(new FlagDrawable(l));
-        else f.setImageResource("sr".equals(l) ? R.drawable.ui_ic_flag_rs : R.drawable.ui_ic_flag);
-        f.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        return f;
-    }
+    private View flag() { return flag(com.thecarlauncher.util.Lang.current(act)); }
 
-    /** Polish and Turkish flags drawn as shapes, in the same 3:2 box as the Serbian one. */
-    private static final class FlagDrawable extends android.graphics.drawable.Drawable {
-        private final String lang;
-        private final android.graphics.Paint p = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-
-        FlagDrawable(String lang) { this.lang = lang; }
-
-        @Override
-        public int getIntrinsicWidth() { return 52; }
-
-        @Override
-        public int getIntrinsicHeight() { return 52; }
-
-        @Override
-        public void draw(android.graphics.Canvas c) {
-            android.graphics.Rect b = getBounds();
-            float w = b.width(), h = w * 2 / 3f, top = b.top + (b.height() - h) / 2f, left = b.left;
-            if ("pl".equals(lang)) {
-                p.setColor(0xFFFFFFFF);
-                c.drawRect(left, top, left + w, top + h / 2, p);
-                p.setColor(0xFFDC143C);
-                c.drawRect(left, top + h / 2, left + w, top + h, p);
-                return;
-            }
-            p.setColor(0xFFE30A17);
-            c.drawRect(left, top, left + w, top + h, p);
-            float cy = top + h / 2, r = h * 0.25f, cx = left + w * 0.375f;
-            p.setColor(0xFFFFFFFF);
-            c.drawCircle(cx, cy, r, p);
-            p.setColor(0xFFE30A17);
-            c.drawCircle(cx + r * 0.25f, cy, r * 0.8f, p);
-            // Five-pointed star
-            p.setColor(0xFFFFFFFF);
-            android.graphics.Path star = new android.graphics.Path();
-            float sx = cx + r * 1.05f, sr = r * 0.5f;
-            for (int i = 0; i < 10; i++) {
-                double ang = Math.PI * i / 5 - Math.PI;
-                float rr = i % 2 == 0 ? sr : sr * 0.4f;
-                float x = sx + (float) (Math.cos(ang) * rr), y = cy + (float) (Math.sin(ang) * rr);
-                if (i == 0) star.moveTo(x, y);
-                else star.lineTo(x, y);
-            }
-            star.close();
-            c.drawPath(star, p);
-        }
-
-        @Override
-        public void setAlpha(int alpha) { p.setAlpha(alpha); }
-
-        @Override
-        public void setColorFilter(android.graphics.ColorFilter cf) { p.setColorFilter(cf); }
-
-        @Override
-        public int getOpacity() { return android.graphics.PixelFormat.TRANSLUCENT; }
-    }
+    private View flag(String l) { return com.thecarlauncher.mib.FlagDrawable.view(act, l); }
 
     private String appLabel(String pkg) {
         AppRepository.App a = AppRepository.get(act).findPackage(pkg);

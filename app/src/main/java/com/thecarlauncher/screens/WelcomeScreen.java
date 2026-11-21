@@ -502,9 +502,12 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             public void run() { setLanguage(com.thecarlauncher.util.Lang.AUTO); }
         });
         for (final String[] l : com.thecarlauncher.util.Lang.CHOICES) {
-            checkRow(l[1], !auto && l[0].equals(cur), new Runnable() {
+            LinearLayout row = checkRow(l[1], !auto && l[0].equals(cur), new Runnable() {
                 public void run() { setLanguage(l[0]); }
             });
+            LinearLayout.LayoutParams fl = new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 30));
+            fl.rightMargin = Mib.px(act, 18);
+            row.addView(com.thecarlauncher.mib.FlagDrawable.view(act, l[0]), 0, fl);
         }
         caption(s("Jedinice", "Units"));
         final boolean metric = Prefs.metric(act);
@@ -845,13 +848,14 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         return row;
     }
 
-    private void checkRow(String title, boolean on, final Runnable r) {
+    private LinearLayout checkRow(String title, boolean on, final Runnable r) {
         LinearLayout row = bar(title, null);
         row.addView(Mib.icon(act, on ? R.drawable.ui_ic_check_on : R.drawable.ui_ic_check_off, 0xFF1C1C22),
                 new LinearLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46)));
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { r.run(); }
         });
+        return row;
     }
 
     private void toggleRow(String title, final String key, final boolean def, final Runnable then) {
