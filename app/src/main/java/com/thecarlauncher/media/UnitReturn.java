@@ -26,6 +26,32 @@ public final class UnitReturn {
     }
 
     /**
+     * For units that cannot say which app is on top: if the launcher stops being in front within
+     * three seconds of switching the source (the factory app opened over it), it comes back on
+     * {@code screen}. Call on a worker thread right after switching the source.
+     */
+    public static void whenCovered(final Context app, final String screen) {
+        final Handler main = new Handler(Looper.getMainLooper());
+        for (int i = 0; i < 20; i++) {
+            try {
+                Thread.sleep(150);
+            } catch (InterruptedException e) {
+                return;
+            }
+            if (!com.thecarlauncher.LauncherActivity.inFront) {
+                main.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        com.thecarlauncher.util.BringBack.toScreen(app, screen);
+                        askOverlayOnce(app);
+                    }
+                });
+                return;
+            }
+        }
+    }
+
+    /**
      * Call on a worker thread right after switching the source; the launcher comes back on
      * {@code screen} ("radio" for the radio, "media" for Bluetooth music).
      */

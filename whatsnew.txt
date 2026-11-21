@@ -1,4 +1,4 @@
 [en]
-- Media: repeat and shuffle keys for USB / SD songs, small factory keys at the left under the song details. Repeat goes off, all songs, one song. Greyed out on Bluetooth and other apps.
+- hzbhd units: the radio no longer keeps opening and closing the factory radio app. The launcher leaves the radio sound to the unit and comes back over the factory radio app when the unit opens it.
 [sr]
-- Mediji: tasteri za ponavljanje i nasumično puštanje za pesme sa USB / SD, mali fabrički tasteri levo ispod podataka o pesmi. Ponavljanje: isključeno, sve pesme, jedna pesma. Na Bluetooth-u i drugim aplikacijama su posivljeni.
+- hzbhd uređaji: radio više ne otvara i zatvara fabričku radio aplikaciju u krug. Launcher prepušta zvuk radija uređaju i vraća se preko fabričke radio aplikacije kada je uređaj otvori.

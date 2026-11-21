@@ -108,8 +108,26 @@ public interface UnitBackend {
 
         /**
          * The unit's radio app plays the FM sound itself and holds the audio focus while it does
-         * (hcn): the launcher must not take the focus for the radio.
+         * (hcn; hzbhd opens its radio app when FM becomes the source): the launcher must not take
+         * the focus for the radio, or losing it to that app would switch the radio off again.
          */
-        public static boolean radioPlaysItself(Context c) { return of(c) instanceof HcnService; }
+        public static boolean radioPlaysItself(Context c) {
+            UnitBackend u = of(c);
+            return u instanceof HcnService || u instanceof HzbhdService;
+        }
+
+        /** Another source took over from the unit's radio (call on a worker thread). */
+        public static boolean radioLost(Context c) {
+            UnitBackend u = of(c);
+            if (u instanceof HcnService) return !HcnService.radioIsSource();
+            if (u instanceof HzbhdService) {
+                int s = ((HzbhdService) u).currentSource();
+                return s >= 0 && s != HzbhdService.SRC_FM;
+            }
+            return false;
+        }
+
+        /** The unit opens its own radio app over the launcher when FM becomes the source. */
+        public static boolean radioOpensApp(Context c) { return of(c) instanceof HzbhdService; }
     }
 }

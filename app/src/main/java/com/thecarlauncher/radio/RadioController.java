@@ -607,6 +607,8 @@ public final class RadioController implements K706Tuner.Listener {
             public void run() {
                 ub().enterRadio();
                 com.thecarlauncher.media.UnitReturn.watch(app, ub(), ub().radioPackage(), "radio");
+                // hzbhd: the firmware opens its radio app over the launcher; come back over it.
+                if (UnitBackend.Get.radioOpensApp(app)) com.thecarlauncher.media.UnitReturn.whenCovered(app, "radio");
             }
         });
         pollCarSoon();
@@ -655,7 +657,7 @@ public final class RadioController implements K706Tuner.Listener {
                     final String name = ub().radioName();
                     final String text = ub().radioText();
                     final boolean seek = ub().radioSeeking();
-                    final boolean lost = unitPlays && !com.thecarlauncher.media.HcnService.radioIsSource();
+                    final boolean lost = unitPlays && UnitBackend.Get.radioLost(app);
                     main.post(new Runnable() {
                         @Override
                         public void run() {
