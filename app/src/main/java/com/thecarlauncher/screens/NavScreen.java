@@ -2,13 +2,6 @@ package com.thecarlauncher.screens;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.view.Gravity;
 import android.view.View;
@@ -192,7 +185,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         infoBox.setBackground(Mib.panel(act));
         infoBox.setPadding(Mib.px(act, 16), Mib.px(act, 8), Mib.px(act, 18), Mib.px(act, 8));
         ImageView flag = new ImageView(act);
-        flag.setImageDrawable(new Flag());
+        flag.setImageResource(R.drawable.ui_ic_flag);
         infoBox.addView(flag, new LinearLayout.LayoutParams(Mib.px(act, 30), Mib.px(act, 30)));
         infoText = Mib.text(act, "", 26, Mib.semibold(act), Mib.WHITE);
         infoText.setPadding(Mib.px(act, 12), 0, 0, 0);
@@ -612,8 +605,7 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
         if (r != null) {
             OsmApi.Step st = guide.nextStep();
             turnBox.setVisibility(View.VISIBLE);
-            turnIcon.setImageDrawable(new TurnArrow(st == null ? "arrive" : st.type, st == null ? "" : st.modifier,
-                    st == null ? 0 : st.exit));
+            turnIcon.setImageResource(turnArrow(st == null ? "arrive" : st.type, st == null ? "" : st.modifier));
             turnDist.setText(Guidance.distance(st == null ? guide.remaining() : guide.toNext()));
             turnText.setText(st == null ? s("Odredište", "Destination") : guide.instruction(st));
             String street = st == null ? guide.destination() : st.name;
@@ -785,134 +777,43 @@ public class NavScreen extends Screen implements LocationTracker.Listener, Guida
 
     // ---- Glyphs -------------------------------------------------------------------------------
 
-    /** Manoeuvre arrow in the factory style: thick white stem bending into the turn direction. */
-    static final class TurnArrow extends Drawable {
-        private final String type, modifier;
-        private final int exit;
-        private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        TurnArrow(String type, String modifier, int exit) {
-            this.type = type;
-            this.modifier = modifier == null ? "" : modifier;
-            this.exit = exit;
-        }
-
-        private float angle() {
-            switch (modifier) {
-                case "sharp left": return -135;
-                case "left": return -90;
-                case "slight left": return -45;
-                case "slight right": return 45;
-                case "right": return 90;
-                case "sharp right": return 135;
-                case "uturn": return 180;
-                default: return 0;
+    /**
+     * The factory manoeuvre arrow (skin pictures ui_nav_*) for an OSRM step: turns by their
+     * modifier, forks and ramps as forks, merges as lane changes, roundabouts by exit direction.
+     */
+    static int turnArrow(String type, String modifier) {
+        String m = modifier == null ? "" : modifier;
+        if ("arrive".equals(type)) return R.drawable.ui_nav_arrive;
+        if (type.startsWith("roundabout") || "rotary".equals(type)) {
+            switch (m) {
+                case "sharp right": return R.drawable.ui_nav_round_sharp_right;
+                case "right": return R.drawable.ui_nav_round_right;
+                case "slight right": return R.drawable.ui_nav_round_slight_right;
+                case "slight left": return R.drawable.ui_nav_round_slight_left;
+                case "left": return R.drawable.ui_nav_round_left;
+                case "sharp left": return R.drawable.ui_nav_round_sharp_left;
+                case "uturn": return R.drawable.ui_nav_round_uturn;
+                default: return R.drawable.ui_nav_round_straight;
             }
         }
-
-        @Override
-        public void draw(Canvas c) {
-            float w = getBounds().width(), h = getBounds().height();
-            c.save();
-            c.translate(getBounds().left, getBounds().top);
-            p.setColor(Mib.WHITE);
-            p.setStrokeCap(Paint.Cap.BUTT);
-            p.setStrokeJoin(Paint.Join.ROUND);
-            float sw = w * 0.13f;
-            if ("arrive".equals(type)) {
-                new Flag().drawIn(c, w, h);
-                c.restore();
-                return;
-            }
-            boolean round = type.startsWith("roundabout") || "rotary".equals(type);
-            float cx = w / 2f, base = h * 0.92f, mid = h * 0.5f;
-            Path path = new Path();
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(sw);
-            if (round) {
-                float r = w * 0.17f;
-                p.setStrokeWidth(sw * 0.7f);
-                c.drawCircle(cx, mid, r, p);
-                p.setStrokeWidth(sw);
-                c.drawLine(cx, base, cx, mid + r, p);
-                double a = Math.toRadians(-90 + Math.max(-150, Math.min(150, (exit <= 0 ? 2 : exit) * 70 - 140)));
-                float ex = cx + (float) Math.cos(a) * r, ey = mid + (float) Math.sin(a) * r;
-                float tx = cx + (float) Math.cos(a) * w * 0.42f, ty = mid + (float) Math.sin(a) * h * 0.42f;
-                c.drawLine(ex, ey, tx, ty, p);
-                head(c, ex, ey, tx, ty, sw);
-            } else if ("uturn".equals(modifier)) {
-                float r = w * 0.18f;
-                path.moveTo(cx + r, base);
-                path.lineTo(cx + r, mid);
-                path.arcTo(new RectF(cx - r, mid - r, cx + r, mid + r), 0, -180);
-                path.lineTo(cx - r, mid + h * 0.12f);
-                c.drawPath(path, p);
-                head(c, cx - r, mid, cx - r, mid + h * 0.2f, sw);
-            } else {
-                double a = Math.toRadians(angle() - 90);
-                float len = h * 0.36f;
-                float tx = cx + (float) Math.cos(a) * len, ty = mid + (float) Math.sin(a) * len;
-                path.moveTo(cx, base);
-                path.lineTo(cx, mid);
-                path.lineTo(tx, ty);
-                c.drawPath(path, p);
-                head(c, cx + (tx - cx) * 0.4f, mid + (ty - mid) * 0.4f, tx, ty, sw);
-            }
-            c.restore();
+        if ("fork".equals(type) || "off ramp".equals(type) || "on ramp".equals(type)) {
+            if (m.contains("right")) return R.drawable.ui_nav_fork_right;
+            if (m.contains("left")) return R.drawable.ui_nav_fork_left;
+            return R.drawable.ui_nav_fork_straight;
         }
-
-        /** Filled arrowhead at (tx, ty) pointing away from (fx, fy). */
-        private void head(Canvas c, float fx, float fy, float tx, float ty, float sw) {
-            double a = Math.atan2(ty - fy, tx - fx);
-            float l = sw * 1.9f, wd = sw * 1.5f;
-            float bx = tx - (float) Math.cos(a) * l * 0.2f, by = ty - (float) Math.sin(a) * l * 0.2f;
-            Path h = new Path();
-            h.moveTo(bx + (float) Math.cos(a) * l, by + (float) Math.sin(a) * l);
-            h.lineTo(bx + (float) Math.cos(a + Math.PI / 2) * wd, by + (float) Math.sin(a + Math.PI / 2) * wd);
-            h.lineTo(bx + (float) Math.cos(a - Math.PI / 2) * wd, by + (float) Math.sin(a - Math.PI / 2) * wd);
-            h.close();
-            p.setStyle(Paint.Style.FILL);
-            c.drawPath(h, p);
-            p.setStyle(Paint.Style.STROKE);
+        if ("merge".equals(type)) {
+            if (m.contains("right")) return R.drawable.ui_nav_merge_right;
+            if (m.contains("left")) return R.drawable.ui_nav_merge_left;
         }
-
-        @Override public void setAlpha(int a) { p.setAlpha(a); }
-        @Override public void setColorFilter(ColorFilter f) { p.setColorFilter(f); }
-        @Override public int getOpacity() { return PixelFormat.TRANSLUCENT; }
-    }
-
-    /** Chequered destination flag. */
-    static final class Flag extends Drawable {
-        private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        void drawIn(Canvas c, float w, float h) {
-            p.setStyle(Paint.Style.FILL);
-            p.setColor(Mib.WHITE);
-            c.drawRect(w * 0.18f, h * 0.08f, w * 0.25f, h * 0.95f, p);
-            float fx = w * 0.25f, fy = h * 0.1f, fw = w * 0.6f, fh = h * 0.42f;
-            int cols = 4, rows = 3;
-            for (int r = 0; r < rows; r++) {
-                for (int k = 0; k < cols; k++) {
-                    p.setColor((r + k) % 2 == 0 ? Mib.WHITE : 0xFF000000);
-                    c.drawRect(fx + k * fw / cols, fy + r * fh / rows, fx + (k + 1) * fw / cols, fy + (r + 1) * fh / rows, p);
-                }
-            }
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(Math.max(1, w * 0.03f));
-            p.setColor(Mib.WHITE);
-            c.drawRect(fx, fy, fx + fw, fy + fh, p);
+        switch (m) {
+            case "sharp right": return R.drawable.ui_nav_sharp_right;
+            case "right": return R.drawable.ui_nav_right;
+            case "slight right": return R.drawable.ui_nav_slight_right;
+            case "slight left": return R.drawable.ui_nav_slight_left;
+            case "left": return R.drawable.ui_nav_left;
+            case "sharp left": return R.drawable.ui_nav_sharp_left;
+            case "uturn": return R.drawable.ui_nav_uturn;
+            default: return R.drawable.ui_nav_straight;
         }
-
-        @Override
-        public void draw(Canvas c) {
-            c.save();
-            c.translate(getBounds().left, getBounds().top);
-            drawIn(c, getBounds().width(), getBounds().height());
-            c.restore();
-        }
-
-        @Override public void setAlpha(int a) { p.setAlpha(a); }
-        @Override public void setColorFilter(ColorFilter f) { p.setColorFilter(f); }
-        @Override public int getOpacity() { return PixelFormat.TRANSLUCENT; }
     }
 }

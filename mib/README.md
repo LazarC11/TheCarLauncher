@@ -38,6 +38,12 @@ uses are copied from here into `app/src/main/res/drawable-nodpi/` as `ui_*.png`.
 | `ui_skin_scroll` / `ui_skin_scroll_track` — scroll bar | 1439 / 28 |
 | `ui_skin_eq`, `ui_skin_eq_knob`, `ui_skin_eq_knob_line` — sound sliders (knob turned 90°) | 2439, 2115, 2114 |
 
+| `ui_skin_key_pressed` — pressed soft keys, list rows and popup cells | 2174 |
+| `ui_skin_tile_glow` — glow under the menu tiles' line | 2415 |
+| `ui_skin_key_light` — sound page + / − keys | 1099 |
+| `ui_nav_*` — navigation manoeuvre arrows | 1573–1606 |
+| `ui_lamp_*` — vehicle status lights (tick, warning, oil, service, registration, tyres, fuel) | 271, 272, 337, 274, 325, 326, 1617, 868, 311 |
+
 `Mib.skin()` stretches these like nine-patches: the edges stay as drawn, only the middle grows.
 
 Irish and Maltese have no flag in this skin; `FlagDrawable` draws those.
