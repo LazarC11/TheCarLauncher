@@ -190,12 +190,11 @@ public class MediaScreen extends Screen implements MediaHub.Listener {
         skl.leftMargin = Mib.px(act, 12);
         modes.addView(shuffleKey, skl);
         FrameLayout.LayoutParams modesL = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL | Gravity.LEFT);
-        // Factory: small keys at the left edge, under the song details, their bottom a little
-        // above the cover's bottom edge.
+                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT);
+        // Factory: small keys at the left edge, sitting right above the progress line.
         modesL.leftMargin = Mib.px(act, 26);
+        modesL.bottomMargin = -Mib.px(act, 16);
         upper.addView(modes, modesL);
-        modes.setTranslationY(box / 2f - Mib.px(act, 27) - Mib.px(act, 44) / 2f);
         updateModes();
 
         // Music video: its picture where the cover is; tap for the whole screen.
