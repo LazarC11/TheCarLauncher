@@ -638,3 +638,12 @@ Continue installs the new version.	Dalej instaluje nową wersję.
 Continue installs the version made for this unit.	Dalej instaluje wersję przygotowaną dla tego urządzenia.
 The radio and Bluetooth music may not work through this unit's own services. The device report is sent, and when support arrives the launcher will offer the version for this unit.	Radio i muzyka Bluetooth mogą nie działać przez własne usługi tego urządzenia. Raport urządzenia zostaje wysłany, a gdy pojawi się obsługa, launcher zaproponuje wersję dla tego urządzenia.
 Until then, Continue installs the default version (QF).	Do tego czasu Dalej instaluje wersję domyślną (QF).
+ is available — tap i for what's new	 jest dostępna — dotknij i, aby zobaczyć nowości
+ — tap i to update	 — dotknij i, aby zaktualizować
+A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick.	Skin to zestaw oryginalnych obrazów MIB z jednej wersji oprogramowania. Więcej skinów: folder MibDroid/skins/<nazwa> w urządzeniu lub na pendrivie.
+Skin	Skin
+This unit is supported now: 	To urządzenie jest teraz obsługiwane: 
+Version 	Wersja 
+What's new	Co nowego
+built in	wbudowany
+in the app	w aplikacji

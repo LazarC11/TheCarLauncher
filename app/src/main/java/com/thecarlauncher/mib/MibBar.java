@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 /**
  * The soft-key strip along the bottom of every MIB screen:
- * label on top, line icon underneath, thin grey separators, a blue rule above.
+ * label on top, line icon underneath, thin grey separators, a blue rule above. Pressed keys
+ * get the factory highlight (a light line on top fading down).
  */
 public class MibBar extends LinearLayout {
     public static final int SLOTS = 7;
@@ -26,7 +27,11 @@ public class MibBar extends LinearLayout {
             super(c);
             setOrientation(VERTICAL);
             setGravity(Gravity.CENTER);
-            setBackground(Mib.keyPlain());
+            android.graphics.drawable.StateListDrawable bg = new android.graphics.drawable.StateListDrawable();
+            bg.addState(new int[]{android.R.attr.state_pressed},
+                    Mib.skin(c, com.thecarlauncher.R.drawable.ui_skin_key_pressed, 2, 1));
+            bg.addState(new int[]{}, Mib.keyPlain());
+            setBackground(bg);
             label = Mib.text(c, text, 25, Mib.semibold(c), Mib.WHITE);
             label.setGravity(Gravity.CENTER);
             addView(label, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -117,11 +122,12 @@ public class MibBar extends LinearLayout {
     private void divider() {
         FrameLayout wrap = new FrameLayout(getContext());
         View line = new View(getContext());
-        line.setBackgroundColor(0xFF9A9CA6);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(Math.max(1, Mib.px(getContext(), 1.4f)),
+        // Factory separator: 1 px grey (0x84), about two thirds of the bar's height.
+        line.setBackgroundColor(0xFF848484);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(Math.max(1, Mib.px(getContext(), 1)),
                 ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        lp.topMargin = Mib.px(getContext(), 12);
-        lp.bottomMargin = Mib.px(getContext(), 10);
+        lp.topMargin = Mib.px(getContext(), 18);
+        lp.bottomMargin = Mib.px(getContext(), 16);
         wrap.addView(line, lp);
         addView(wrap, new LayoutParams(Math.max(1, Mib.px(getContext(), 2)), ViewGroup.LayoutParams.MATCH_PARENT));
     }

@@ -121,23 +121,15 @@ public class MenuScreen extends Screen implements AppRepository.Listener {
         dots.removeAllViews();
         for (int i = 0; i < pager.getChildCount(); i++) {
             View d = new View(act);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(act, 13), Mib.px(act, 13));
-            lp.leftMargin = lp.rightMargin = Mib.px(act, 5);
+            // The factory dot picture (26×24) has its own spacing around the dot.
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(act, 26), Mib.px(act, 24));
             dots.addView(d, lp);
         }
         updateDots(pager.page());
     }
 
     private void updateDots(int page) {
-        for (int i = 0; i < dots.getChildCount(); i++) {
-            android.graphics.drawable.GradientDrawable g = new android.graphics.drawable.GradientDrawable();
-            g.setShape(android.graphics.drawable.GradientDrawable.OVAL);
-            g.setColor(i == page ? Mib.BLUE : 0xFFE6E6EA);
-            View d = dots.getChildAt(i);
-            d.setBackground(g);
-            d.setScaleX(i == page ? 1.2f : 0.85f);
-            d.setScaleY(i == page ? 1.2f : 0.85f);
-        }
+        for (int i = 0; i < dots.getChildCount(); i++) Mib.pageDot(dots.getChildAt(i), i == page);
     }
 
     @Override

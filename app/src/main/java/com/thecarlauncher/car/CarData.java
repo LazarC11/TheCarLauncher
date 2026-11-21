@@ -33,10 +33,14 @@ public final class CarData {
 
     /** A status line on the "Status vozila" page. */
     public static final class Notice {
+        /** What the notice is about (picks its warning light). */
+        public static final int OIL = 1, SERVICE = 2, REGISTRATION = 3, TYRES = 4, FUEL = 5;
+        public final int kind;
         public final String text;
         public final boolean urgent;
 
-        Notice(String text, boolean urgent) {
+        Notice(int kind, String text, boolean urgent) {
+            this.kind = kind;
             this.text = text;
             this.urgent = urgent;
         }
@@ -225,18 +229,18 @@ public final class CarData {
         List<Notice> out = new ArrayList<>();
         if (hasOdometer() && oilDueKm() > 0) {
             double left = oilDueKm() - odometer();
-            if (left <= 0) out.add(new Notice(s("Zamena ulja je dospela!", "Oil change due now!"), true));
-            else if (left <= 1000) out.add(new Notice(s("Zamena ulja za ", "Oil change in ") + Math.round(left) + " km", false));
+            if (left <= 0) out.add(new Notice(Notice.OIL, s("Zamena ulja je dospela!", "Oil change due now!"), true));
+            else if (left <= 1000) out.add(new Notice(Notice.OIL, s("Zamena ulja za ", "Oil change in ") + Math.round(left) + " km", false));
         }
         if (oilDueDate() > 0) {
             int days = daysUntil(oilDueDate());
-            if (days <= 0) out.add(new Notice(s("Godišnji servis je dospeo!", "Annual service due now!"), true));
-            else if (days <= 30) out.add(new Notice(s("Servis za ", "Service in ") + days + s(" dana", " days"), false));
+            if (days <= 0) out.add(new Notice(Notice.SERVICE, s("Godišnji servis je dospeo!", "Annual service due now!"), true));
+            else if (days <= 30) out.add(new Notice(Notice.SERVICE, s("Servis za ", "Service in ") + days + s(" dana", " days"), false));
         }
         if (registrationDate() > 0) {
             int days = daysUntil(registrationDate());
-            if (days <= 0) out.add(new Notice(s("Registracija je istekla!", "Registration has expired!"), true));
-            else if (days <= 30) out.add(new Notice(s("Registracija ističe za ", "Registration expires in ") + days
+            if (days <= 0) out.add(new Notice(Notice.REGISTRATION, s("Registracija je istekla!", "Registration has expired!"), true));
+            else if (days <= 30) out.add(new Notice(Notice.REGISTRATION, s("Registracija ističe za ", "Registration expires in ") + days
                     + s(" dana", " days"), days <= 7));
         }
         if (tyreReminder()) {
@@ -245,14 +249,14 @@ public final class CarData {
             boolean winter = m >= Calendar.NOVEMBER || m < Calendar.APRIL;
             boolean soon = m == Calendar.OCTOBER;
             if ((winter || soon) && !winterTyres()) {
-                out.add(new Notice(s("Vreme je za zimske gume", "Time for winter tyres"), winter));
+                out.add(new Notice(Notice.TYRES, s("Vreme je za zimske gume", "Time for winter tyres"), winter));
             } else if (!winter && !soon && winterTyres() && m >= Calendar.APRIL && m <= Calendar.MAY) {
-                out.add(new Notice(s("Možete vratiti letnje gume", "You can switch back to summer tyres"), false));
+                out.add(new Notice(Notice.TYRES, s("Možete vratiti letnje gume", "You can switch back to summer tyres"), false));
             }
         }
         double range = range();
         if (range >= 0 && range < 60) {
-            out.add(new Notice(s("Rezerva goriva: još oko ", "Low fuel: about ") + Math.round(range) + " km", range < 30));
+            out.add(new Notice(Notice.FUEL, s("Rezerva goriva: još oko ", "Low fuel: about ") + Math.round(range) + " km", range < 30));
         }
         List<Notice> sorted = new ArrayList<>();
         for (Notice n : out) if (n.urgent) sorted.add(n);

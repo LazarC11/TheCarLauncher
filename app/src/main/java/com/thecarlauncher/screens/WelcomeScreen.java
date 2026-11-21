@@ -114,8 +114,7 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         r.addView(head);
 
         View rule = new View(act);
-        rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{Mib.shade(Mib.BLUE, 0.8f, 0xFF), Mib.BLUE, Mib.BLUE, Mib.shade(Mib.BLUE, 0.8f, 0x80)}));
+        rule.setBackgroundColor(Mib.BLUE); // factory title rule: a plain line
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 2.4f)));
         rl.leftMargin = Mib.px(act, 12);
         rl.rightMargin = Mib.px(act, 12);
@@ -502,9 +501,12 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             public void run() { setLanguage(com.thecarlauncher.util.Lang.AUTO); }
         });
         for (final String[] l : com.thecarlauncher.util.Lang.CHOICES) {
-            checkRow(l[1], !auto && l[0].equals(cur), new Runnable() {
+            LinearLayout row = checkRow(l[1], !auto && l[0].equals(cur), new Runnable() {
                 public void run() { setLanguage(l[0]); }
             });
+            LinearLayout.LayoutParams fl = new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 30));
+            fl.rightMargin = Mib.px(act, 18);
+            row.addView(com.thecarlauncher.mib.FlagDrawable.view(act, l[0]), 0, fl);
         }
         caption(s("Jedinice", "Units"));
         final boolean metric = Prefs.metric(act);
@@ -845,13 +847,14 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
         return row;
     }
 
-    private void checkRow(String title, boolean on, final Runnable r) {
+    private LinearLayout checkRow(String title, boolean on, final Runnable r) {
         LinearLayout row = bar(title, null);
         row.addView(Mib.icon(act, on ? R.drawable.ui_ic_check_on : R.drawable.ui_ic_check_off, 0xFF1C1C22),
                 new LinearLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46)));
         row.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { r.run(); }
         });
+        return row;
     }
 
     private void toggleRow(String title, final String key, final boolean def, final Runnable then) {
@@ -871,11 +874,12 @@ public class WelcomeScreen extends Screen implements RadioController.Listener, M
             final Runnable r = i == 0 ? minus : plus;
             TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
             k.setGravity(Gravity.CENTER);
+            k.setBackground(Mib.lightKey(act));
             k.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { r.run(); }
             });
-            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 64), ViewGroup.LayoutParams.MATCH_PARENT);
-            kl.leftMargin = Mib.px(act, 8);
+            LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
+            kl.leftMargin = Mib.px(act, 12);
             row.addView(k, kl);
         }
     }

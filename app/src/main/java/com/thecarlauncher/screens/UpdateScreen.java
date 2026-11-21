@@ -79,8 +79,7 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         r.addView(head);
 
         View rule = new View(act);
-        rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{Mib.shade(Mib.BLUE, 0.8f, 0xFF), Mib.BLUE, Mib.BLUE, Mib.shade(Mib.BLUE, 0.8f, 0x80)}));
+        rule.setBackgroundColor(Mib.BLUE); // factory title rule: a plain line
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 2.4f)));
         rl.leftMargin = Mib.px(act, 12);
         rl.rightMargin = Mib.px(act, 12);
@@ -115,8 +114,9 @@ public class UpdateScreen extends Screen implements Updater.Progress {
     @Override
     public void onShow() {
         Updater.addWatcher(this);
-        // While an update runs, the progress page is what matters.
-        updateTab = Updater.started();
+        // While an update runs, the progress page is what matters; with a newer version waiting,
+        // the update page (with what's new) opens first.
+        updateTab = Updater.started() || (Updater.lastFound() != null && Updater.isNewer(act, Updater.lastFound()));
         if (Updater.lastFound() == null && !checking) check();
         render();
     }
@@ -151,8 +151,9 @@ public class UpdateScreen extends Screen implements Updater.Progress {
 
     private void render() {
         if (list == null) return;
-        versionsKey.setTextColor(updateTab ? Mib.GREY : Mib.WHITE);
-        updateKey.setTextColor(updateTab ? Mib.WHITE : Mib.GREY);
+        // The open tab shows as the selected factory key (grey inside the frame).
+        versionsKey.setSelected(!updateTab);
+        updateKey.setSelected(updateTab);
         list.removeAllViews();
         if (!updateTab) buildVersions();
         else if (Updater.started()) buildProgress();
@@ -225,13 +226,7 @@ public class UpdateScreen extends Screen implements Updater.Progress {
             row(Updater.switching(act) && r.versionCode <= Updater.installedCode(act)
                     ? s("Verzija za ovaj uređaj:", "Build for this unit:") : s("Dostupno ažuriranje:", "Update available:"), r.versionName + (r.test ? s("  (test)", "  (test)") : "")
                     + (r.date.isEmpty() ? "" : "  ·  " + r.date));
-            if (r.notes != null && !r.notes.isEmpty()) {
-                TextView n = Mib.text(act, r.notes.length() > 700 ? r.notes.substring(0, 700) + "…" : r.notes, 24, Mib.regular(act), Mib.GREY);
-                n.setSingleLine(false);
-                n.setMaxLines(8);
-                n.setPadding(Mib.px(act, 30), Mib.px(act, 10), Mib.px(act, 24), Mib.px(act, 10));
-                list.addView(n);
-            }
+            whatsNew(Updater.whatsNew(act, r));
             button(s("Pokreni ažuriranje", "Start update"), new Runnable() {
                 public void run() { Updater.install(act, r); }
             });
@@ -308,24 +303,12 @@ public class UpdateScreen extends Screen implements Updater.Progress {
             TextView pct = Mib.text(act, bad ? "NOK" : Updater.progress(i) < 0 ? "" : p + " %", 28, Mib.semibold(act), bad ? 0xFFE04545 : Mib.WHITE);
             labelRow.addView(pct);
             line.addView(labelRow);
-            // Thin track with a filled part, like the factory bars.
-            FrameLayout track = new FrameLayout(act);
-            track.setBackgroundColor(0xFF6A6B72);
-            View fill = new View(act);
-            fill.setBackgroundColor(bad ? 0xFFE04545 : Mib.BLUE);
-            track.addView(fill, new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-            final View ff = fill;
-            final FrameLayout tt = track;
-            final int pp = bad ? 100 : p;
-            track.post(new Runnable() {
-                public void run() {
-                    FrameLayout.LayoutParams l = (FrameLayout.LayoutParams) ff.getLayoutParams();
-                    l.width = tt.getWidth() * pp / 100;
-                    ff.setLayoutParams(l);
-                }
-            });
-            LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 3)));
-            tl.topMargin = Mib.px(act, 6);
+            // The factory progress line: done part solid, the rest dotted.
+            com.thecarlauncher.mib.MibProgress track = new com.thecarlauncher.mib.MibProgress(act).noKnob();
+            track.setFraction((bad ? 100 : p) / 100f);
+            if (bad) track.setFillColor(0xFFE04545);
+            LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Mib.px(act, 16));
+            tl.topMargin = Mib.px(act, 4);
             line.addView(track, tl);
             list.addView(line);
         }
@@ -350,6 +333,38 @@ public class UpdateScreen extends Screen implements Updater.Progress {
         });
         bottom.addView(key, new LinearLayout.LayoutParams(Mib.px(act, 260), Mib.px(act, 54)));
         list.addView(bottom);
+    }
+
+    /** "What's new" heading with the factory rule, then one line per point (bullets drawn as dots). */
+    private void whatsNew(String text) {
+        if (text == null || text.trim().isEmpty()) return;
+        TextView h = Mib.text(act, s("Šta je novo", "What's new"), 32, Mib.semibold(act), Mib.WHITE);
+        h.setPadding(Mib.px(act, 30), Mib.px(act, 18), Mib.px(act, 24), Mib.px(act, 8));
+        list.addView(h);
+        View rule = new View(act);
+        rule.setBackgroundColor(Mib.BLUE);
+        LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.max(2, Mib.px(act, 2)));
+        rl.leftMargin = Mib.px(act, 24);
+        list.addView(rule, rl);
+        int shown = 0;
+        for (String line : text.split("\n")) {
+            String t = line.trim();
+            if (t.isEmpty()) continue;
+            if (++shown > 14) break;
+            boolean bullet = t.startsWith("- ") || t.startsWith("* ");
+            if (bullet) t = t.substring(2).trim();
+            LinearLayout row = new LinearLayout(act);
+            row.setPadding(Mib.px(act, 30), Mib.px(act, 10), Mib.px(act, 24), Mib.px(act, 4));
+            if (bullet) {
+                TextView dot = Mib.text(act, "•", 26, Mib.regular(act), Mib.BLUE);
+                row.addView(dot, new LinearLayout.LayoutParams(Mib.px(act, 28), ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            TextView v = Mib.text(act, t, 25, Mib.regular(act), Mib.WHITE);
+            v.setSingleLine(false);
+            v.setMaxLines(4);
+            row.addView(v, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+            list.addView(row);
+        }
     }
 
     private void button(String text, final Runnable r) {

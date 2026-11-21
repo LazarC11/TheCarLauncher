@@ -95,8 +95,7 @@ public class BtDevicesScreen extends Screen implements BtDevices.Listener {
         r.addView(head);
 
         View rule = new View(act);
-        rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{Mib.shade(Mib.BLUE, 0.8f, 0xFF), Mib.BLUE, Mib.BLUE, Mib.shade(Mib.BLUE, 0.8f, 0x80)}));
+        rule.setBackgroundColor(Mib.BLUE); // factory title rule: a plain line
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(2, Mib.px(act, 2.4f)));
         rl.leftMargin = Mib.px(act, 12);

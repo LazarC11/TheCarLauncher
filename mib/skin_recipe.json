@@ -1,0 +1,763 @@
+{
+ "recipe": {
+  "ui_box_device": {
+   "op": "copy",
+   "src": 2385
+  },
+  "ui_cover_aux": {
+   "op": "copy",
+   "src": 2616
+  },
+  "ui_cover_bt": {
+   "op": "copy",
+   "src": 2614
+  },
+  "ui_cover_cd": {
+   "op": "copy",
+   "src": 2613
+  },
+  "ui_cover_music": {
+   "op": "copy",
+   "src": 2611
+  },
+  "ui_cover_radio": {
+   "op": "copy",
+   "src": 2507
+  },
+  "ui_cover_sd": {
+   "op": "copy",
+   "src": 2609
+  },
+  "ui_cover_usb": {
+   "op": "copy",
+   "src": 2606
+  },
+  "ui_cover_wlan": {
+   "op": "copy",
+   "src": 2601
+  },
+  "ui_flag_bg": {
+   "op": "bbox",
+   "src": 719
+  },
+  "ui_flag_cs": {
+   "op": "bbox",
+   "src": 717
+  },
+  "ui_flag_da": {
+   "op": "bbox",
+   "src": 716
+  },
+  "ui_flag_de": {
+   "op": "bbox",
+   "src": 715
+  },
+  "ui_flag_el": {
+   "op": "bbox",
+   "src": 714
+  },
+  "ui_flag_en": {
+   "op": "bbox",
+   "src": 713
+  },
+  "ui_flag_es": {
+   "op": "bbox",
+   "src": 711
+  },
+  "ui_flag_et": {
+   "op": "bbox",
+   "src": 709
+  },
+  "ui_flag_fi": {
+   "op": "bbox",
+   "src": 708
+  },
+  "ui_flag_fr": {
+   "op": "bbox",
+   "src": 706
+  },
+  "ui_flag_hr": {
+   "op": "bbox",
+   "src": 705
+  },
+  "ui_flag_hu": {
+   "op": "bbox",
+   "src": 704
+  },
+  "ui_flag_it": {
+   "op": "bbox",
+   "src": 703
+  },
+  "ui_flag_lt": {
+   "op": "bbox",
+   "src": 700
+  },
+  "ui_flag_lv": {
+   "op": "bbox",
+   "src": 699
+  },
+  "ui_flag_nl": {
+   "op": "bbox",
+   "src": 697
+  },
+  "ui_flag_pl": {
+   "op": "bbox",
+   "src": 695
+  },
+  "ui_flag_pt": {
+   "op": "bbox",
+   "src": 693
+  },
+  "ui_flag_ro": {
+   "op": "bbox",
+   "src": 692
+  },
+  "ui_flag_sk": {
+   "op": "bbox",
+   "src": 690
+  },
+  "ui_flag_sl": {
+   "op": "bbox",
+   "src": 689
+  },
+  "ui_flag_sr": {
+   "op": "bbox",
+   "src": 688
+  },
+  "ui_flag_sv": {
+   "op": "bbox",
+   "src": 687
+  },
+  "ui_flag_tr": {
+   "op": "bbox",
+   "src": 685
+  },
+  "ui_ic_2d": {
+   "op": "copy",
+   "src": 535
+  },
+  "ui_ic_3d": {
+   "op": "copy",
+   "src": 534
+  },
+  "ui_ic_apps": {
+   "op": "copy",
+   "src": 794
+  },
+  "ui_ic_aux": {
+   "op": "copy",
+   "src": 937
+  },
+  "ui_ic_back": {
+   "op": "copy",
+   "src": 778
+  },
+  "ui_ic_bt": {
+   "op": "copy",
+   "src": 941
+  },
+  "ui_ic_car_s": {
+   "op": "copy",
+   "src": 866
+  },
+  "ui_ic_cd": {
+   "op": "copy",
+   "src": 939
+  },
+  "ui_ic_check_off": {
+   "op": "copy",
+   "src": 772
+  },
+  "ui_ic_check_on": {
+   "op": "copy",
+   "src": 771
+  },
+  "ui_ic_clock": {
+   "op": "copy",
+   "src": 1617
+  },
+  "ui_ic_close": {
+   "op": "copy",
+   "src": 770
+  },
+  "ui_ic_compass": {
+   "op": "copy",
+   "src": 562
+  },
+  "ui_ic_download": {
+   "op": "copy",
+   "src": 651
+  },
+  "ui_ic_eq": {
+   "op": "copy",
+   "src": 964
+  },
+  "ui_ic_flag": {
+   "op": "copy",
+   "src": 921
+  },
+  "ui_ic_folder": {
+   "op": "copy",
+   "src": 995
+  },
+  "ui_ic_globe": {
+   "op": "copy",
+   "src": 607
+  },
+  "ui_ic_home": {
+   "op": "copy",
+   "src": 809
+  },
+  "ui_ic_info": {
+   "op": "copy",
+   "src": 675
+  },
+  "ui_ic_mountain": {
+   "op": "copy",
+   "src": 540
+  },
+  "ui_ic_person": {
+   "op": "copy",
+   "src": 852
+  },
+  "ui_ic_phone": {
+   "op": "copy",
+   "src": 920
+  },
+  "ui_ic_plus": {
+   "op": "copy",
+   "src": 676
+  },
+  "ui_ic_radio": {
+   "op": "copy",
+   "src": 617
+  },
+  "ui_ic_refresh": {
+   "op": "copy",
+   "src": 844
+  },
+  "ui_ic_route": {
+   "op": "copy",
+   "src": 1834
+  },
+  "ui_ic_sd": {
+   "op": "copy",
+   "src": 936
+  },
+  "ui_ic_search": {
+   "op": "copy",
+   "src": 981
+  },
+  "ui_ic_speedo": {
+   "op": "copy",
+   "src": 2065
+  },
+  "ui_ic_split": {
+   "op": "copy",
+   "src": 572
+  },
+  "ui_ic_usb": {
+   "op": "copy",
+   "src": 932
+  },
+  "ui_ic_wlan": {
+   "op": "copy",
+   "src": 927
+  },
+  "ui_ic_zoom_in": {
+   "op": "copy",
+   "src": 567
+  },
+  "ui_ic_zoom_out": {
+   "op": "copy",
+   "src": 566
+  },
+  "ui_key_aux": {
+   "op": "copy",
+   "src": 1340
+  },
+  "ui_key_browse": {
+   "op": "copy",
+   "src": 1362
+  },
+  "ui_key_bt": {
+   "op": "copy",
+   "src": 1348
+  },
+  "ui_key_cd": {
+   "op": "copy",
+   "src": 1344
+  },
+  "ui_key_close": {
+   "op": "copy",
+   "src": 1260
+  },
+  "ui_key_info": {
+   "op": "copy",
+   "src": 1258
+  },
+  "ui_key_list": {
+   "op": "copy",
+   "src": 1272
+  },
+  "ui_key_manual": {
+   "op": "copy",
+   "src": 1268
+  },
+  "ui_key_music": {
+   "op": "copy",
+   "src": 1330
+  },
+  "ui_key_mydest": {
+   "op": "copy",
+   "src": 1252
+  },
+  "ui_key_newdest": {
+   "op": "copy",
+   "src": 1250
+  },
+  "ui_key_next": {
+   "op": "copy",
+   "src": 1352
+  },
+  "ui_key_pause": {
+   "op": "copy",
+   "src": 1358
+  },
+  "ui_key_phone_list": {
+   "op": "copy",
+   "src": 1214
+  },
+  "ui_key_play": {
+   "op": "copy",
+   "src": 1356
+  },
+  "ui_key_prev": {
+   "op": "copy",
+   "src": 1354
+  },
+  "ui_key_radio": {
+   "op": "copy",
+   "src": 1282
+  },
+  "ui_key_sd": {
+   "op": "copy",
+   "src": 1336
+  },
+  "ui_key_setup": {
+   "op": "copy",
+   "src": 1266
+  },
+  "ui_key_tv": {
+   "op": "copy",
+   "src": 1270
+  },
+  "ui_key_usb": {
+   "op": "copy",
+   "src": 1328
+  },
+  "ui_key_view": {
+   "op": "copy",
+   "src": 1254
+  },
+  "ui_key_wlan": {
+   "op": "copy",
+   "src": 1318
+  },
+  "ui_lamp_alert": {
+   "op": "copy",
+   "src": 337
+  },
+  "ui_lamp_fuel": {
+   "op": "copy",
+   "src": 311
+  },
+  "ui_lamp_oil": {
+   "op": "copy",
+   "src": 325
+  },
+  "ui_lamp_oil_alert": {
+   "op": "copy",
+   "src": 326
+  },
+  "ui_lamp_ok": {
+   "op": "copy",
+   "src": 271
+  },
+  "ui_lamp_registration": {
+   "op": "copy",
+   "src": 1617
+  },
+  "ui_lamp_service": {
+   "op": "copy",
+   "src": 274
+  },
+  "ui_lamp_tyres": {
+   "op": "copy",
+   "src": 868
+  },
+  "ui_lamp_warn": {
+   "op": "copy",
+   "src": 272
+  },
+  "ui_logo_aauto": {
+   "op": "copy",
+   "src": 2171
+  },
+  "ui_logo_carplay": {
+   "op": "copy",
+   "src": 2169
+  },
+  "ui_logo_mirrorlink": {
+   "op": "copy",
+   "src": 2168
+  },
+  "ui_map_2d": {
+   "op": "copy",
+   "src": 1837
+  },
+  "ui_map_3d": {
+   "op": "copy",
+   "src": 1836
+  },
+  "ui_map_auto": {
+   "op": "copy",
+   "src": 1839
+  },
+  "ui_map_zoom_in": {
+   "op": "copy",
+   "src": 1838
+  },
+  "ui_map_zoom_out": {
+   "op": "copy",
+   "src": 1835
+  },
+  "ui_nav_arrive": {
+   "op": "copy",
+   "src": 1573
+  },
+  "ui_nav_fork_left": {
+   "op": "copy",
+   "src": 1599
+  },
+  "ui_nav_fork_right": {
+   "op": "copy",
+   "src": 1598
+  },
+  "ui_nav_fork_straight": {
+   "op": "copy",
+   "src": 1600
+  },
+  "ui_nav_left": {
+   "op": "copy",
+   "src": 1579
+  },
+  "ui_nav_merge_left": {
+   "op": "copy",
+   "src": 1606
+  },
+  "ui_nav_merge_right": {
+   "op": "copy",
+   "src": 1605
+  },
+  "ui_nav_right": {
+   "op": "copy",
+   "src": 1578
+  },
+  "ui_nav_round_left": {
+   "op": "copy",
+   "src": 1587
+  },
+  "ui_nav_round_right": {
+   "op": "copy",
+   "src": 1586
+  },
+  "ui_nav_round_sharp_left": {
+   "op": "copy",
+   "src": 1585
+  },
+  "ui_nav_round_sharp_right": {
+   "op": "copy",
+   "src": 1584
+  },
+  "ui_nav_round_slight_left": {
+   "op": "copy",
+   "src": 1589
+  },
+  "ui_nav_round_slight_right": {
+   "op": "copy",
+   "src": 1588
+  },
+  "ui_nav_round_straight": {
+   "op": "copy",
+   "src": 1590
+  },
+  "ui_nav_round_uturn": {
+   "op": "copy",
+   "src": 1583
+  },
+  "ui_nav_sharp_left": {
+   "op": "copy",
+   "src": 1577
+  },
+  "ui_nav_sharp_right": {
+   "op": "copy",
+   "src": 1576
+  },
+  "ui_nav_slight_left": {
+   "op": "copy",
+   "src": 1581
+  },
+  "ui_nav_slight_right": {
+   "op": "copy",
+   "src": 1580
+  },
+  "ui_nav_straight": {
+   "op": "copy",
+   "src": 1582
+  },
+  "ui_nav_uturn": {
+   "op": "copy",
+   "src": 1575
+  },
+  "ui_radio_scale_fm": {
+   "op": "copy",
+   "src": 2543
+  },
+  "ui_sb_batt_0": {
+   "op": "copy",
+   "src": 213
+  },
+  "ui_sb_batt_1": {
+   "op": "copy",
+   "src": 216
+  },
+  "ui_sb_batt_2": {
+   "op": "copy",
+   "src": 212
+  },
+  "ui_sb_batt_3": {
+   "op": "copy",
+   "src": 211
+  },
+  "ui_sb_batt_4": {
+   "op": "copy",
+   "src": 210
+  },
+  "ui_sb_bt": {
+   "op": "copy",
+   "src": 121
+  },
+  "ui_sb_compass": {
+   "op": "copy",
+   "src": 120
+  },
+  "ui_sb_globe": {
+   "op": "copy",
+   "src": 460
+  },
+  "ui_sb_msg": {
+   "op": "copy",
+   "src": 208
+  },
+  "ui_sb_sig_0": {
+   "op": "copy",
+   "src": 1031
+  },
+  "ui_sb_sig_1": {
+   "op": "copy",
+   "src": 1030
+  },
+  "ui_sb_sig_2": {
+   "op": "copy",
+   "src": 1029
+  },
+  "ui_sb_sig_3": {
+   "op": "copy",
+   "src": 1028
+  },
+  "ui_sb_sig_4": {
+   "op": "copy",
+   "src": 1027
+  },
+  "ui_sb_sig_5": {
+   "op": "copy",
+   "src": 1026
+  },
+  "ui_sb_sig_none": {
+   "op": "copy",
+   "src": 1016
+  },
+  "ui_skin_dot_off": {
+   "op": "copy",
+   "src": 65
+  },
+  "ui_skin_dot_on": {
+   "op": "copy",
+   "src": 67
+  },
+  "ui_skin_eq": {
+   "op": "copy",
+   "src": 2439
+  },
+  "ui_skin_eq_knob": {
+   "op": "bbox_rot90",
+   "src": 2115
+  },
+  "ui_skin_eq_knob_line": {
+   "box": [
+    2,
+    21,
+    114,
+    82
+   ],
+   "op": "crop_rot90",
+   "src": 2114
+  },
+  "ui_skin_key": {
+   "op": "bbox",
+   "src": 1804
+  },
+  "ui_skin_key_light": {
+   "op": "bbox",
+   "src": 1099
+  },
+  "ui_skin_key_on": {
+   "op": "bbox",
+   "src": 1803
+  },
+  "ui_skin_key_pressed": {
+   "op": "bbox",
+   "src": 2174
+  },
+  "ui_skin_notch": {
+   "op": "bbox",
+   "src": 251
+  },
+  "ui_skin_row": {
+   "op": "bbox",
+   "src": 1459
+  },
+  "ui_skin_row_pressed": {
+   "op": "bbox",
+   "src": 1458
+  },
+  "ui_skin_scroll": {
+   "op": "bbox",
+   "src": 1439
+  },
+  "ui_skin_scroll_track": {
+   "op": "bbox",
+   "src": 28
+  },
+  "ui_skin_tile": {
+   "op": "bbox",
+   "src": 2426
+  },
+  "ui_skin_tile_glow": {
+   "op": "bbox_skip1",
+   "src": 2415
+  },
+  "ui_skin_tile_pressed": {
+   "op": "bbox",
+   "src": 2418
+  },
+  "ui_spin_00": {
+   "op": "copy",
+   "src": 1652
+  },
+  "ui_spin_01": {
+   "op": "copy",
+   "src": 1653
+  },
+  "ui_spin_02": {
+   "op": "copy",
+   "src": 1654
+  },
+  "ui_spin_03": {
+   "op": "copy",
+   "src": 1655
+  },
+  "ui_spin_04": {
+   "op": "copy",
+   "src": 1656
+  },
+  "ui_spin_05": {
+   "op": "copy",
+   "src": 1657
+  },
+  "ui_spin_06": {
+   "op": "copy",
+   "src": 1658
+  },
+  "ui_spin_07": {
+   "op": "copy",
+   "src": 1659
+  },
+  "ui_spin_08": {
+   "op": "copy",
+   "src": 1660
+  },
+  "ui_spin_09": {
+   "op": "copy",
+   "src": 1661
+  },
+  "ui_spin_10": {
+   "op": "copy",
+   "src": 1662
+  },
+  "ui_spin_11": {
+   "op": "copy",
+   "src": 1663
+  },
+  "ui_tile_androidauto": {
+   "op": "copy",
+   "src": 2371
+  },
+  "ui_tile_appconnect": {
+   "op": "copy",
+   "src": 2370
+  },
+  "ui_tile_apps": {
+   "op": "copy",
+   "src": 2354
+  },
+  "ui_tile_car": {
+   "op": "copy",
+   "src": 2368
+  },
+  "ui_tile_carplay": {
+   "op": "copy",
+   "src": 2367
+  },
+  "ui_tile_media": {
+   "op": "copy",
+   "src": 2363
+  },
+  "ui_tile_nav": {
+   "op": "copy",
+   "src": 2359
+  },
+  "ui_tile_phone": {
+   "op": "copy",
+   "src": 2358
+  },
+  "ui_tile_radio": {
+   "op": "copy",
+   "src": 2352
+  },
+  "ui_tile_settings": {
+   "op": "copy",
+   "src": 2356
+  },
+  "ui_tile_sound": {
+   "op": "copy",
+   "src": 2355
+  },
+  "ui_tile_traffic": {
+   "op": "copy",
+   "src": 2373
+  }
+ },
+ "skin": "mhi2_jp_p1101"
+}

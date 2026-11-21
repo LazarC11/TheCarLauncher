@@ -250,9 +250,9 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         col.setPadding(Mib.px(act, 44), Mib.px(act, 6), 0, 0);
         List<CarData.Notice> notices = CarData.get(act).notices();
         if (notices.isEmpty()) {
-            col.addView(statusLine(new Mark(Mark.OK), s("Ne postoje unosi.", "No entries.")));
+            col.addView(statusLine(R.drawable.ui_lamp_ok, s("Ne postoje unosi.", "No entries.")));
         } else {
-            for (CarData.Notice n : notices) col.addView(statusLine(new Mark(n.urgent ? Mark.ALERT : Mark.WARN), n.text));
+            for (CarData.Notice n : notices) col.addView(statusLine(lamp(n), n.text));
         }
         FrameLayout.LayoutParams ll = new FrameLayout.LayoutParams(Mib.px(act, 470),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -263,7 +263,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         btn.setGravity(Gravity.CENTER_VERTICAL);
         btn.setBackground(Mib.box(act));
         btn.setPadding(Mib.px(act, 14), 0, Mib.px(act, 30), 0);
-        btn.addView(Mib.icon(act, R.drawable.ui_ic_eq, Mib.WHITE), new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 44)));
+        btn.addView(Mib.icon(act, R.drawable.ui_lamp_service, Mib.WHITE), new LinearLayout.LayoutParams(Mib.px(act, 44), Mib.px(act, 44)));
         TextView bt = Mib.text(act, s("Servis", "Service"), 34, Mib.regular(act), Mib.WHITE);
         bt.setPadding(Mib.px(act, 14), 0, 0, 0);
         btn.addView(bt);
@@ -280,62 +280,30 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         body.addView(btn, bl);
     }
 
-    private View statusLine(Drawable mark, String text) {
+    /** The factory warning light for a notice (yellow when due soon, red when due now). */
+    public static int lamp(CarData.Notice n) {
+        switch (n.kind) {
+            case CarData.Notice.OIL: return n.urgent ? R.drawable.ui_lamp_oil_alert : R.drawable.ui_lamp_oil;
+            case CarData.Notice.SERVICE: return n.urgent ? R.drawable.ui_lamp_alert : R.drawable.ui_lamp_service;
+            case CarData.Notice.REGISTRATION: return n.urgent ? R.drawable.ui_lamp_alert : R.drawable.ui_lamp_registration;
+            case CarData.Notice.TYRES: return R.drawable.ui_lamp_tyres;
+            case CarData.Notice.FUEL: return R.drawable.ui_lamp_fuel;
+            default: return n.urgent ? R.drawable.ui_lamp_alert : R.drawable.ui_lamp_warn;
+        }
+    }
+
+    private View statusLine(int lamp, String text) {
         LinearLayout row = new LinearLayout(act);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(0, Mib.px(act, 6), 0, Mib.px(act, 6));
         ImageView iv = new ImageView(act);
-        iv.setImageDrawable(mark);
-        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 34), Mib.px(act, 34)));
+        iv.setImageResource(lamp);
+        row.addView(iv, new LinearLayout.LayoutParams(Mib.px(act, 46), Mib.px(act, 46)));
         TextView t = Mib.text(act, text, 31, Mib.regular(act), Mib.WHITE);
         t.setSingleLine(false);
         t.setPadding(Mib.px(act, 22), 0, 0, 0);
         row.addView(t);
         return row;
-    }
-
-    /** Green tick / amber or red warning triangle, drawn crisp at any size. */
-    private static final class Mark extends Drawable {
-        static final int OK = 0, WARN = 1, ALERT = 2;
-        private final int type;
-        private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        Mark(int type) { this.type = type; }
-
-        @Override
-        public void draw(Canvas c) {
-            float w = getBounds().width(), h = getBounds().height();
-            c.save();
-            c.translate(getBounds().left, getBounds().top);
-            Path path = new Path();
-            if (type == OK) {
-                p.setStyle(Paint.Style.STROKE);
-                p.setStrokeWidth(w * 0.14f);
-                p.setStrokeCap(Paint.Cap.ROUND);
-                p.setStrokeJoin(Paint.Join.ROUND);
-                p.setColor(0xFF3CC24A);
-                path.moveTo(w * 0.12f, h * 0.55f);
-                path.lineTo(w * 0.40f, h * 0.82f);
-                path.lineTo(w * 0.88f, h * 0.18f);
-                c.drawPath(path, p);
-            } else {
-                p.setStyle(Paint.Style.FILL);
-                p.setColor(type == ALERT ? 0xFFE23B2E : 0xFFF2B01E);
-                path.moveTo(w * 0.5f, h * 0.06f);
-                path.lineTo(w * 0.96f, h * 0.92f);
-                path.lineTo(w * 0.04f, h * 0.92f);
-                path.close();
-                c.drawPath(path, p);
-                p.setColor(0xFF000000);
-                c.drawRect(w * 0.45f, h * 0.34f, w * 0.55f, h * 0.66f, p);
-                c.drawCircle(w * 0.5f, h * 0.78f, w * 0.06f, p);
-            }
-            c.restore();
-        }
-
-        @Override public void setAlpha(int a) { p.setAlpha(a); }
-        @Override public void setColorFilter(ColorFilter f) { p.setColorFilter(f); }
-        @Override public int getOpacity() { return PixelFormat.TRANSLUCENT; }
     }
 
     // ---- Data cells (Od starta / Dugoročno / Od dopune) --------------------------------------
@@ -405,7 +373,7 @@ public class VehicleScreen extends Screen implements LocationTracker.Listener {
         row.setPadding(Mib.px(act, 10), 0, Mib.px(act, 10), 0);
         row.setMinimumHeight(Mib.px(act, 70));
         if (click != null) {
-            row.setBackground(Mib.keyPressed());
+            row.setBackground(Mib.keyPressed(act));
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

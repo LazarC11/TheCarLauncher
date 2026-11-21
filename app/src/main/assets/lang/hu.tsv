@@ -592,3 +592,12 @@ your choice below	az Ön választása lent
 — System services (BT / QF) —	— System services (BT / QF) —
 ✓ Use this folder	✓ Ez a mappa
 ✗ — tap to enable	✗ — koppintson a bekapcsoláshoz
+ is available — tap i for what's new	 elérhető — koppintson az i-re az újdonságokért
+ — tap i to update	 — koppintson az i-re a frissítéshez
+A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick.	A skin egy szoftververzió eredeti MIB-képeinek készlete. További skinek: MibDroid/skins/<név> mappa az egységen vagy USB-meghajtón.
+Skin	Skin
+This unit is supported now: 	Ez az egység most már támogatott: 
+Version 	Verzió: 
+What's new	Újdonságok
+built in	beépített
+in the app	az alkalmazásban

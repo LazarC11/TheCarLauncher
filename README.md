@@ -484,17 +484,41 @@ Requires Android 5.0 or newer.
 
 *Setup → Software update* opens a screen modelled on the factory *SW download* page: **Versions**
 lists the installed software (SW Train and MU version, part number, software version, the newest
-available release); **Update** shows the newest release with its notes and *Start update*, and while
+available release); **Update** shows the newest release with **What's new** and *Start update*, and while
 it runs, the factory-style *Software update in progress…* page with OK / N/A / NOK / Remaining and a
 bar per step (download, verify, install) and *Cancel*. The APK is downloaded from the project's GitHub releases with the loading banner
 showing progress, then handed to Android's installer: as an ordinary app Android shows its
 *Update this app?* dialog (allow *Install unknown apps* for MibDroid once); as a system app the
 update installs silently. The launcher checks once a day on its own (it can be switched off), and
-*Test builds* also offers builds from other branches.
+*Test builds* also offers builds from other branches. A newer version drops the top banner down
+with the factory download icon; tapping it opens this page, which then starts on **Update**.
+
+**What's new** comes from [`whatsnew.txt`](whatsnew.txt): edit it before merging a release. The
+build workflow copies it into the release text under `## What's new`, and the launcher shows the
+section for its language (`[en]`, `[de]`, `[sr]` … lines starting a section; English is the
+fallback).
 
 | Versions | Update in progress |
 | --- | --- |
 | ![Software update](docs/screenshots/settings-update.png) | ![Update in progress](docs/screenshots/settings-update-progress.png) |
+
+### Skins
+
+*Setup → Screen → Skin* switches between skins: sets of the factory MIB pictures (keys, tiles,
+icons, rows, frames, flags, arrows, warning lights …) from different software trains of the
+original infotainment. The built-in one is from MHI2 P1101. A skin is a folder of PNGs named like
+the launcher's pictures (`ui_*.png`) plus a `skin.json` with its name; any picture a skin leaves
+out stays the built-in one. Skins come with the app (`app/src/main/assets/skins/<id>/`) or are
+copied onto the unit or a USB stick as `MibDroid/skins/<id>/`.
+
+Making a skin from another train:
+
+1. Extract its skin pictures: `python3 mib/tools/extract_mcf.py <folder with images.mcf> <out>`.
+2. `python3 mib/tools/build_skin.py <out>/Unsorted <id> "<name>"` — for every launcher picture
+   listed in [`mib/skin_recipe.json`](mib/skin_recipe.json) it finds the train's matching picture
+   (by comparing with the built-in skin, `mib/skin1`), cuts it the same way and writes the skin.
+3. Check `mib/skins/<id>_report.txt`; weak matches are listed first and left out. Correct a wrong
+   match in `mib/skins/<id>.json` (`{"ui_key_play": 1356}`) and run step 2 again.
 
 ### As a system app (Magisk module)
 

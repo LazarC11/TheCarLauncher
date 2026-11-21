@@ -1,0 +1,16 @@
+[en]
+- Factory MIB look: tiles, list rows, framed keys, popups, scroll bar, page dots, sound sliders and the language flags now come from the original MIB skin.
+- Pressed keys glow like on the factory unit instead of changing colour.
+- Media: larger song details, cover and progress bar with the factory knob and dotted remaining part.
+- Navigation shows the factory turn arrows; Vehicle status shows the factory warning lights.
+- Vehicle events (oil change, service, registration, tyres, low fuel) drop down from the top when they come up.
+- Apps: a list like the radio station list, with search first.
+- Software update shows what's new before it updates.
+[sr]
+- Fabrički MIB izgled: pločice, redovi liste, uokvireni tasteri, prozori, traka za pomeranje, tačke strana, klizači zvuka i zastave jezika sada su iz originalnog MIB skina.
+- Pritisnuti tasteri svetle kao na fabričkom uređaju umesto da menjaju boju.
+- Mediji: veći podaci o pesmi, omot i traka napretka sa fabričkim klizačem i tačkastim preostalim delom.
+- Navigacija prikazuje fabričke strelice skretanja; stanje vozila prikazuje fabričke lampice upozorenja.
+- Događaji vozila (zamena ulja, servis, registracija, gume, malo goriva) spuštaju se sa vrha kada nastanu.
+- Aplikacije: lista kao lista radio stanica, sa pretragom na vrhu.
+- Ažuriranje softvera pokazuje šta je novo pre ažuriranja.

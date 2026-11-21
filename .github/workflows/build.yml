@@ -87,6 +87,15 @@ jobs:
       # main publishes the release the launcher updates to ("v4.5.1", marked latest).
       # Other branches publish test builds (pre-releases), offered only with "Test builds" on.
       # The launcher reads versionCode / versionName from the release text.
+      - name: What's new (whatsnew.txt into the release)
+        run: |
+          {
+            echo 'WHATSNEW<<WHATSNEW_EOF'
+            cat whatsnew.txt 2>/dev/null || true
+            echo
+            echo 'WHATSNEW_EOF'
+          } >> "$GITHUB_ENV"
+
       - name: Publish release (main)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
@@ -106,7 +115,8 @@ jobs:
           prerelease: false
           make_latest: true
           body: |
-            ${{ github.event.head_commit.message }}
+            ## What's new
+            ${{ env.WHATSNEW }}
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}
@@ -132,6 +142,9 @@ jobs:
           make_latest: false
           body: |
             Test build of `${{ github.ref_name }}` at ${{ github.sha }}.
+
+            ## What's new
+            ${{ env.WHATSNEW }}
 
             versionName: ${{ env.VNAME }}
             versionCode: ${{ env.VCODE }}

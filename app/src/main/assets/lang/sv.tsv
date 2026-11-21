@@ -592,3 +592,12 @@ your choice below	ditt val nedan
 — System services (BT / QF) —	— System services (BT / QF) —
 ✓ Use this folder	✓ Använd den här mappen
 ✗ — tap to enable	✗ — tryck för att slå på
+ is available — tap i for what's new	 är tillgänglig — tryck på i för nyheter
+ — tap i to update	 — tryck på i för att uppdatera
+A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick.	Ett skin är en uppsättning av originalbilderna i MIB från en programvaruversion. Fler skins: en mapp MibDroid/skins/<namn> på enheten eller ett USB-minne.
+Skin	Skin
+This unit is supported now: 	Den här enheten stöds nu: 
+Version 	Version 
+What's new	Nyheter
+built in	inbyggd
+in the app	i appen

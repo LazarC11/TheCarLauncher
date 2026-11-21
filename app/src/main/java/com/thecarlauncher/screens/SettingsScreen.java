@@ -55,7 +55,7 @@ public class SettingsScreen extends Screen {
 
     private final List<Entry> stack = new ArrayList<>();
     private TextView title;
-    private View back, thumb;
+    private View back, thumb, track;
     private LinearLayout content;
     private ScrollView scroll;
 
@@ -96,8 +96,7 @@ public class SettingsScreen extends Screen {
         r.addView(head);
 
         View rule = new View(act);
-        rule.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{Mib.shade(Mib.BLUE, 0.8f, 0xFF), Mib.BLUE, Mib.BLUE, Mib.shade(Mib.BLUE, 0.8f, 0x80)}));
+        rule.setBackgroundColor(Mib.BLUE); // factory title rule: a plain line
         LinearLayout.LayoutParams rl = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 Math.max(2, Mib.px(act, 2.4f)));
         rl.leftMargin = Mib.px(act, 12);
@@ -113,10 +112,17 @@ public class SettingsScreen extends Screen {
         content.setPadding(0, Mib.px(act, 12), 0, Mib.px(act, 12));
         scroll.addView(content);
         body.addView(scroll);
+        // Factory scroll bar: a thin grey line with the white rounded thumb on it.
+        track = new View(act);
+        track.setBackground(Mib.skin(act, R.drawable.ui_skin_scroll_track, 0, 4));
+        FrameLayout.LayoutParams kl = new FrameLayout.LayoutParams(Math.max(1, Mib.px(act, 1)),
+                ViewGroup.LayoutParams.MATCH_PARENT, Gravity.RIGHT);
         thumb = new View(act);
-        thumb.setBackgroundColor(Mib.BLUE);
-        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(Math.max(2, Mib.px(act, 5)), 0, Gravity.RIGHT);
-        tl.rightMargin = Mib.px(act, 30);
+        thumb.setBackground(Mib.skin(act, R.drawable.ui_skin_scroll, 5, 8));
+        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(Mib.px(act, 11), 0, Gravity.RIGHT);
+        tl.rightMargin = Mib.px(act, 27);
+        kl.rightMargin = Mib.px(act, 32);
+        body.addView(track, kl);
         body.addView(thumb, tl);
         scroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -240,9 +246,11 @@ public class SettingsScreen extends Screen {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) thumb.getLayoutParams();
         if (ch <= h || h == 0) {
             thumb.setVisibility(View.INVISIBLE);
+            track.setVisibility(View.INVISIBLE);
             return;
         }
         thumb.setVisibility(View.VISIBLE);
+        track.setVisibility(View.VISIBLE);
         int th = Math.max(Mib.px(act, 40), h * h / ch);
         int top = (int) ((h - th) * (scroll.getScrollY() / (float) (ch - h)));
         if (lp.height != th) {
@@ -293,8 +301,32 @@ public class SettingsScreen extends Screen {
         });
     }
 
+    /**
+     * The skins found (built in, in the app, on the unit or USB as MibDroid/skins/&lt;name&gt;);
+     * choosing one redraws the launcher with its pictures.
+     */
+    private void buildSkins() {
+        String cur = com.thecarlauncher.util.Prefs.str(act, com.thecarlauncher.mib.Skins.P_SKIN, com.thecarlauncher.mib.Skins.BUILT_IN);
+        for (final com.thecarlauncher.mib.Skins.Skin k : com.thecarlauncher.mib.Skins.all(act)) {
+            choice(k.name + "  ·  " + k.where, k.id.equals(cur), new Runnable() {
+                public void run() {
+                    com.thecarlauncher.mib.Skins.choose(act, k.id);
+                    stack.clear();
+                    act.restartUi();
+                }
+            });
+        }
+        note(s("Skin je skup fabričkih MIB slika iz jedne verzije softvera. Dodatni skinovi: fascikla MibDroid/skins/<ime> na uređaju ili USB-u.",
+                "A skin is a set of the factory MIB pictures from one software train. More skins: a folder MibDroid/skins/<name> on the unit or a USB stick."));
+    }
+
     private void buildDisplay() {
         final android.app.Activity a = act;
+        action(s("Skin", "Skin"), com.thecarlauncher.mib.Skins.activeName(act), new Runnable() {
+            public void run() {
+                push(s("Skin", "Skin"), new Page() { public void build() { buildSkins(); } });
+            }
+        });
         stepper(s("Osvetljenost", "Brightness"), DisplayControl.brightness(act) + " %", new Runnable() {
             public void run() { DisplayControl.setBrightness(a, DisplayControl.brightness(a) - 10); refreshKeep(); }
         }, new Runnable() {
@@ -417,12 +449,7 @@ public class SettingsScreen extends Screen {
             final Runnable r = i == 0 ? minus : plus;
             TextView k = Mib.text(act, i == 0 ? "−" : "+", 34, Mib.semibold(act), Mib.BAR_TEXT);
             k.setGravity(Gravity.CENTER);
-            GradientDrawable g = new GradientDrawable();
-            g.setColor(0x00000000);
-            g.setStroke(Math.max(1, Mib.px(act, 1.5f)), Mib.BAR_VALUE);
-            g.setCornerRadius(Mib.px(act, 4));
-            k.setBackground(g);
-            Mib.pressText(k);
+            k.setBackground(Mib.lightKey(act));
             LinearLayout.LayoutParams kl = new LinearLayout.LayoutParams(Mib.px(act, 58), Mib.px(act, 54));
             kl.leftMargin = Mib.px(act, 12);
             row.addView(k, kl);
@@ -710,9 +737,10 @@ public class SettingsScreen extends Screen {
             public void run() { setLanguage(com.thecarlauncher.util.Lang.AUTO); }
         });
         for (final String[] l : com.thecarlauncher.util.Lang.CHOICES) {
-            choice(l[1], !auto && l[0].equals(cur), new Runnable() {
+            LinearLayout row = choice(l[1], !auto && l[0].equals(cur), new Runnable() {
                 public void run() { setLanguage(l[0]); }
             });
+            addLeading(row, flag(l[0]));
         }
     }
 
@@ -2010,70 +2038,9 @@ public class SettingsScreen extends Screen {
     }
 
     /** The language's flag, as the factory language bar shows the country flag. */
-    private View flag() {
-        ImageView f = new ImageView(act);
-        String l = com.thecarlauncher.util.Lang.current(act);
-        if ("pl".equals(l) || "tr".equals(l)) f.setImageDrawable(new FlagDrawable(l));
-        else f.setImageResource("sr".equals(l) ? R.drawable.ui_ic_flag_rs : R.drawable.ui_ic_flag);
-        f.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        return f;
-    }
+    private View flag() { return flag(com.thecarlauncher.util.Lang.current(act)); }
 
-    /** Polish and Turkish flags drawn as shapes, in the same 3:2 box as the Serbian one. */
-    private static final class FlagDrawable extends android.graphics.drawable.Drawable {
-        private final String lang;
-        private final android.graphics.Paint p = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-
-        FlagDrawable(String lang) { this.lang = lang; }
-
-        @Override
-        public int getIntrinsicWidth() { return 52; }
-
-        @Override
-        public int getIntrinsicHeight() { return 52; }
-
-        @Override
-        public void draw(android.graphics.Canvas c) {
-            android.graphics.Rect b = getBounds();
-            float w = b.width(), h = w * 2 / 3f, top = b.top + (b.height() - h) / 2f, left = b.left;
-            if ("pl".equals(lang)) {
-                p.setColor(0xFFFFFFFF);
-                c.drawRect(left, top, left + w, top + h / 2, p);
-                p.setColor(0xFFDC143C);
-                c.drawRect(left, top + h / 2, left + w, top + h, p);
-                return;
-            }
-            p.setColor(0xFFE30A17);
-            c.drawRect(left, top, left + w, top + h, p);
-            float cy = top + h / 2, r = h * 0.25f, cx = left + w * 0.375f;
-            p.setColor(0xFFFFFFFF);
-            c.drawCircle(cx, cy, r, p);
-            p.setColor(0xFFE30A17);
-            c.drawCircle(cx + r * 0.25f, cy, r * 0.8f, p);
-            // Five-pointed star
-            p.setColor(0xFFFFFFFF);
-            android.graphics.Path star = new android.graphics.Path();
-            float sx = cx + r * 1.05f, sr = r * 0.5f;
-            for (int i = 0; i < 10; i++) {
-                double ang = Math.PI * i / 5 - Math.PI;
-                float rr = i % 2 == 0 ? sr : sr * 0.4f;
-                float x = sx + (float) (Math.cos(ang) * rr), y = cy + (float) (Math.sin(ang) * rr);
-                if (i == 0) star.moveTo(x, y);
-                else star.lineTo(x, y);
-            }
-            star.close();
-            c.drawPath(star, p);
-        }
-
-        @Override
-        public void setAlpha(int alpha) { p.setAlpha(alpha); }
-
-        @Override
-        public void setColorFilter(android.graphics.ColorFilter cf) { p.setColorFilter(cf); }
-
-        @Override
-        public int getOpacity() { return android.graphics.PixelFormat.TRANSLUCENT; }
-    }
+    private View flag(String l) { return com.thecarlauncher.mib.FlagDrawable.view(act, l); }
 
     private String appLabel(String pkg) {
         AppRepository.App a = AppRepository.get(act).findPackage(pkg);

@@ -164,11 +164,11 @@ public final class Mib {
     }
 
     /**
-     * Factory key feedback: a pressed key keeps its background and only its icon (or text) turns
-     * the ambient colour. Icons get the pressed state from their key automatically.
+     * Factory key feedback is a glow on the key's background (see the pressed states of the skin
+     * pictures), not a colour change: icons and captions keep their colour while pressed.
      */
     public static ColorStateList pressTint(int color) {
-        return new ColorStateList(new int[][]{{android.R.attr.state_pressed}, {}}, new int[]{BLUE, color});
+        return ColorStateList.valueOf(color);
     }
 
     /** Text keys (framed boxes without an icon): the caption turns the ambient colour. */
@@ -204,26 +204,74 @@ public final class Mib {
         return new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{top, bottom});
     }
 
-    /** Menu tile: black with a soft grey haze from the top so it lifts off the black screen. */
-    public static Drawable tile(Context c) {
-        // Nearly black like the factory tiles, with only a faint sheen at the top.
-        GradientDrawable base = grad(0xFF111114, 0xFF040405);
-        base.setStroke(Math.max(1, px(c, 1)), 0xFF1A1A1E);
-        GradientDrawable haze = new GradientDrawable();
-        haze.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-        haze.setGradientCenter(0.35f, 0.0f);
-        haze.setGradientRadius(px(c, 170));
-        haze.setColors(new int[]{0x14C8C8D2, 0x00000000});
-        LayerDrawable normal = new LayerDrawable(new Drawable[]{base, haze});
-        // Pressing a tile colours its icon (MibTile), the tile itself stays as it is.
-        return normal;
+    // ---- Factory skin pictures --------------------------------------------------------------
+
+    private static final java.util.Map<Integer, android.graphics.Bitmap> SKIN = new java.util.HashMap<>();
+
+    /**
+     * A picture from the factory MIB skin (ui_skin_*) stretched like a nine-patch: the outer
+     * {@code capX} / {@code capY} skin pixels (corners, frame, shading) stay as drawn, only the
+     * middle stretches. One skin pixel is one reference-layout unit, like {@link #px}.
+     */
+    public static Drawable skin(Context c, int res, int capX, int capY) {
+        android.graphics.Bitmap b = skinBitmap(c, res);
+        b.setDensity(Math.max(1, Math.round(DisplayMetrics.DENSITY_DEFAULT / scale(c))));
+        return new android.graphics.drawable.NinePatchDrawable(c.getResources(), b,
+                nineChunk(b.getWidth(), b.getHeight(), capX, capY), new android.graphics.Rect(), null);
     }
 
-    /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
+    /** Forgets the decoded skin pictures (after switching skin). */
+    public static void clearSkinCache() {
+        SKIN.clear();
+    }
+
+    /** A factory skin picture at its own pixel size (cached), for views that draw it themselves. */
+    public static android.graphics.Bitmap skinBitmap(Context c, int res) {
+        android.graphics.Bitmap b = SKIN.get(res);
+        if (b == null) {
+            android.graphics.BitmapFactory.Options o = new android.graphics.BitmapFactory.Options();
+            o.inScaled = false;
+            b = android.graphics.BitmapFactory.decodeResource(c.getResources(), res, o);
+            SKIN.put(res, b);
+        }
+        return b;
+    }
+
+    /** Page dot under pagers: the factory white dot for the current page, grey for the others. */
+    public static void pageDot(android.view.View d, boolean current) {
+        d.setBackgroundResource(current ? com.thecarlauncher.R.drawable.ui_skin_dot_on : com.thecarlauncher.R.drawable.ui_skin_dot_off);
+        d.setScaleX(1f);
+        d.setScaleY(1f);
+    }
+
+    /** Serialized nine-patch chunk: one stretchable column and row between the caps. */
+    private static byte[] nineChunk(int w, int h, int cx, int cy) {
+        java.nio.ByteBuffer buf = java.nio.ByteBuffer.allocate(32 + 16 + 9 * 4).order(java.nio.ByteOrder.nativeOrder());
+        buf.put((byte) 1).put((byte) 2).put((byte) 2).put((byte) 9);
+        buf.putInt(0).putInt(0);                         // div offsets (filled in by the framework)
+        buf.putInt(0).putInt(0).putInt(0).putInt(0);     // padding
+        buf.putInt(0);                                   // colour offset
+        buf.putInt(cx).putInt(w - cx).putInt(cy).putInt(h - cy);
+        for (int i = 0; i < 9; i++) buf.putInt(1);       // Res_png_9patch::NO_COLOR
+        return buf.array();
+    }
+
+    /** Menu tile: the factory tile (near black, a soft sheen from the top). Pressing colours the icon (MibTile). */
+    public static Drawable tile(Context c) {
+        StateListDrawable s = new StateListDrawable();
+        // Pressed: the factory tile highlight laid over the tile at partial strength (a glow).
+        Drawable lit = skin(c, com.thecarlauncher.R.drawable.ui_skin_tile_pressed, 12, 12);
+        lit.setAlpha(0x48);
+        s.addState(new int[]{android.R.attr.state_pressed}, new LayerDrawable(new Drawable[]{
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12), lit}));
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12));
+        return s;
+    }
+
+    /** Soft-key bar: blue (ambient) rule on top, plain black body as in the factory skin. */
     public static Drawable bar(Context c) {
-        GradientDrawable body = grad(0xFF0E0E10, 0xFF040405);
-        GradientDrawable rule = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{shade(BLUE, 0.8f, 0xFF), BLUE, BLUE, shade(BLUE, 0.8f, 0xFF)});
+        GradientDrawable body = grad(0xFF000000, 0xFF000000); // factory bar body: plain black
+        GradientDrawable rule = grad(BLUE, BLUE);
         LayerDrawable l = new LayerDrawable(new Drawable[]{body, rule});
         l.setLayerInset(1, 0, 0, 0, 0);
         // The rule is drawn as a 2px band at the top.
@@ -231,10 +279,10 @@ public final class Mib {
         return new TopBand(l, Math.max(2, px(c, 2)));
     }
 
-    /** List rows and popup cells: a blue highlight while pressed. */
-    public static Drawable keyPressed() {
+    /** List rows and popup cells: the factory pressed highlight (a light line on top fading down). */
+    public static Drawable keyPressed(Context c) {
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed}, grad(shade(BLUE, 1f, 0xAA), shade(BLUE, 0.6f, 0x66)));
+        s.addState(new int[]{android.R.attr.state_pressed}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_pressed, 2, 1));
         s.addState(new int[]{}, new GradientDrawable());
         return s;
     }
@@ -244,63 +292,50 @@ public final class Mib {
         return new GradientDrawable();
     }
 
-    /** Popup panel: near-black with a crisp white frame. */
-    public static GradientDrawable panel(Context c) {
-        GradientDrawable d = new GradientDrawable();
-        d.setColor(0xFF000000);
-        d.setStroke(Math.max(1, px(c, 1.6f)), 0xFFE8E8EC);
-        return d;
+    /** The factory key / popup frame: a thin white rounded frame, filled black. */
+    private static Drawable framed(Context c) {
+        return skin(c, com.thecarlauncher.R.drawable.ui_skin_key, 8, 8);
     }
 
-    /** Square map/utility button: black box, light frame. */
+    /** Popup panel: the factory frame. */
+    public static Drawable panel(Context c) {
+        return framed(c);
+    }
+
+    /**
+     * Framed key (back, tabs, Reset, Cancel, map buttons, page arrows …): the factory key — thin
+     * white frame on black; pressed or selected (current tab), grey inside a brighter frame.
+     */
     public static Drawable box(Context c) {
-        GradientDrawable n = new GradientDrawable();
-        n.setColor(0xFF000000);
-        n.setStroke(Math.max(1, px(c, 1.6f)), 0xFFD6D6DC);
-        // Pressed looks the same: the icon / caption inside turns the ambient colour.
         KeyBox s = new KeyBox();
-        s.addState(new int[]{}, n);
+        s.addState(new int[]{android.R.attr.state_pressed}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_on, 8, 8));
+        s.addState(new int[]{android.R.attr.state_selected}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_on, 8, 8));
+        s.addState(new int[]{}, framed(c));
+        return s;
+    }
+
+    /** The factory light key (on light rows and panels), a little darker while pressed. */
+    public static Drawable lightKey(Context c) {
+        StateListDrawable s = new StateListDrawable();
+        Drawable p = skin(c, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8);
+        p.setColorFilter(new android.graphics.LightingColorFilter(0xFFC4C4C4, 0));
+        s.addState(new int[]{android.R.attr.state_pressed}, p);
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_key_light, 8, 8));
         return s;
     }
 
     /**
-     * Light settings bar (Podešavanje sistema list rows). Shaded inward, like the original: the
-     * shadow sits inside along the top edge and both ends, the bar is lightest low in the middle,
-     * with a darker rim (a pressed-in strip, not a raised one).
+     * Light settings bar (system settings list rows): the factory row, shaded inward (shadow
+     * along the top, lighter towards the bottom). Pressed, it lights up with the key glow.
      */
     public static Drawable settingsBar(Context c) {
         StateListDrawable s = new StateListDrawable();
-        s.addState(new int[]{android.R.attr.state_pressed},
-                inset(c, shade(BLUE, 0.6f, 0xFF), shade(BLUE, 1.1f, 0xFF), shade(BLUE, 0.5f, 0xFF)));
-        s.addState(new int[]{}, inset(c, 0xFFA8A9AF, 0xFFD5D6DA, 0xFF7F8087));
+        // Pressed: the row lit by the factory key glow.
+        s.addState(new int[]{android.R.attr.state_pressed}, new LayerDrawable(new Drawable[]{
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12),
+                skin(c, com.thecarlauncher.R.drawable.ui_skin_key_pressed, 2, 1)}));
+        s.addState(new int[]{}, skin(c, com.thecarlauncher.R.drawable.ui_skin_row, 10, 12));
         return s;
-    }
-
-    /** Colour between a and b (f = 0 → a, 1 → b). */
-    private static int mix(int a, int b, float f) {
-        int r = 0;
-        for (int sh = 0; sh <= 24; sh += 8) {
-            int x = (a >>> sh) & 0xFF, y = (b >>> sh) & 0xFF;
-            r |= (Math.round(x + (y - x) * f) & 0xFF) << sh;
-        }
-        return r;
-    }
-
-    /** A bar shaded inward: darker top fading to a light middle / bottom, darker ends and rim. */
-    private static Drawable inset(Context c, int top, int body, int rim) {
-        float r = px(c, 3);
-        // The top shadow fades softly down to the middle of the bar.
-        GradientDrawable base = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{top, mix(top, body, 0.55f), mix(top, body, 0.85f), body});
-        base.setCornerRadius(r);
-        GradientDrawable ends = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{0x22000000, 0x0C000000, 0x00000000, 0x00000000, 0x00000000, 0x0C000000, 0x1C000000});
-        ends.setCornerRadius(r);
-        GradientDrawable edge = new GradientDrawable();
-        edge.setColor(0x00000000);
-        edge.setCornerRadius(r);
-        edge.setStroke(Math.max(1, px(c, 1)), rim);
-        return new android.graphics.drawable.LayerDrawable(new Drawable[]{base, ends, edge});
     }
 
     /** Square checkbox used on settings bars. */
