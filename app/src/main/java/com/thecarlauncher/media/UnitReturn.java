@@ -26,27 +26,38 @@ public final class UnitReturn {
     }
 
     /**
-     * For units that cannot say which app is on top: if the launcher stops being in front within
-     * three seconds of switching the source (the factory app opened over it), it comes back on
-     * {@code screen}. Call on a worker thread right after switching the source.
+     * For units that cannot say which app is on top: for ten seconds after switching the source,
+     * whenever the launcher stops being in front (the factory app opened over it, which some
+     * firmware does more than once or a few seconds late), it comes back on {@code screen}.
+     * Call on a worker thread right after switching the source.
      */
     public static void whenCovered(final Context app, final String screen) {
         final Handler main = new Handler(Looper.getMainLooper());
-        for (int i = 0; i < 20; i++) {
+        int back = 0;
+        long end = android.os.SystemClock.elapsedRealtime() + 10000;
+        while (android.os.SystemClock.elapsedRealtime() < end && back < 4) {
             try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
                 return;
             }
             if (!com.thecarlauncher.LauncherActivity.inFront) {
+                back++;
                 main.post(new Runnable() {
                     @Override
                     public void run() {
                         com.thecarlauncher.util.BringBack.toScreen(app, screen);
-                        askOverlayOnce(app);
+                        // Android 10+ only lets an app come back to the front with "Display over
+                        // other apps"; older systems need nothing.
+                        if (android.os.Build.VERSION.SDK_INT >= 29) askOverlayOnce(app);
                     }
                 });
-                return;
+                // Give the launcher time to come back before looking again.
+                try {
+                    Thread.sleep(1200);
+                } catch (InterruptedException e) {
+                    return;
+                }
             }
         }
     }

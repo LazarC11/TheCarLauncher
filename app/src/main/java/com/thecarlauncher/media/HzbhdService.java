@@ -366,8 +366,28 @@ public final class HzbhdService implements UnitBackend {
     public String[] btSong() {
         if (bt() == null) return null;
         askSong();
-        String t = title;
-        return t == null || t.length() == 0 ? null : new String[]{t, artist, album};
+        String t = title, a = artist, al = album;
+        // Some modules leave the title empty and send the song name in another field: show what
+        // there is (title first, then artist, then album) rather than nothing.
+        if (empty(t)) {
+            if (!empty(a)) {
+                t = a;
+                a = al;
+                al = null;
+            } else if (!empty(al)) {
+                t = al;
+                al = null;
+            }
+        }
+        return empty(t) ? null : new String[]{t, a, al};
+    }
+
+    private static boolean empty(String s) { return s == null || s.trim().length() == 0; }
+
+    /** The module's last raw song answers, for the device report. */
+    private volatile String rawElements, rawSongStatus;
+
+    private static String q(String s) { return s == null ? "null" : "\"" + s + "\"";
     }
 
     @Override
@@ -550,6 +570,9 @@ public final class HzbhdService implements UnitBackend {
                         int[] ids = data.createIntArray();
                         String[] vals = data.createStringArray();
                         if (ids != null && vals != null) {
+                            StringBuilder raw = new StringBuilder();
+                            for (int i = 0; i < ids.length && i < vals.length; i++) raw.append(ids[i]).append('=').append(q(vals[i])).append(' ');
+                            rawElements = raw.toString().trim();
                             for (int i = 0; i < ids.length && i < vals.length; i++) {
                                 String v = vals[i];
                                 if (ids[i] == 1) title = v;
@@ -587,6 +610,7 @@ public final class HzbhdService implements UnitBackend {
                     case C_SONG_STATUS: {
                         // hzbhd extension: artist, album, title.
                         String a = data.readString(), al = data.readString(), t = data.readString();
+                        rawSongStatus = q(a) + ", " + q(al) + ", " + q(t);
                         if (t != null && t.length() > 0) title = t;
                         if (a != null) artist = a;
                         if (al != null) album = al;
@@ -626,7 +650,9 @@ public final class HzbhdService implements UnitBackend {
         r.append("  bluetooth: ").append(bt() != null ? "ok" : error).append('\n');
         if (bt != null) {
             r.append("    a2dp addr=").append(btAddr()).append(" playing=").append(btPlaying())
-                    .append(" song=").append(title).append(" / ").append(artist).append('\n');
+                    .append(" song=").append(title).append(" / ").append(artist).append(" / ").append(album).append('\n');
+            r.append("    raw elements: ").append(rawElements).append('\n');
+            r.append("    raw song status: ").append(rawSongStatus).append('\n');
         }
         return r.toString();
     }

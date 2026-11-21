@@ -1,4 +1,6 @@
 [en]
-- hzbhd units: pairing a new phone from the launcher's Bluetooth screen now waits until the phone is paired (confirm the code on the phone) before connecting calls and music; before, connecting straight away could cancel the pairing.
+- hzbhd units: Bluetooth music shows the song when the phone sends it in another field than the title.
+- hzbhd units: the launcher keeps coming back over the factory radio app for ten seconds after switching to radio (the firmware may open it late or more than once).
 [sr]
-- hzbhd uređaji: uparivanje novog telefona sa Bluetooth ekrana launchera sada čeka da telefon bude uparen (potvrdite kod na telefonu) pre povezivanja poziva i muzike; ranije je odmah povezivanje moglo da prekine uparivanje.
+- hzbhd uređaji: Bluetooth muzika prikazuje pesmu i kada je telefon pošalje u drugom polju umesto u nazivu.
+- hzbhd uređaji: launcher se deset sekundi posle uključivanja radija vraća preko fabričke radio aplikacije (uređaj je može otvoriti kasnije ili više puta).
