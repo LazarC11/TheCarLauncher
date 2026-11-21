@@ -127,12 +127,12 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
         dots.setGravity(Gravity.CENTER);
         for (int i = 0; i < pager.getChildCount(); i++) {
             View d = new View(act);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(act, 13), Mib.px(act, 13));
-            lp.leftMargin = lp.rightMargin = Mib.px(act, 5);
+            // The factory dot picture (26×24) has its own spacing around the dot.
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Mib.px(act, 26), Mib.px(act, 24));
             dots.addView(d, lp);
         }
         FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                Mib.px(act, 20), Gravity.BOTTOM);
+                Mib.px(act, 24), Gravity.BOTTOM);
         pa.addView(dots, dl);
         pager.setListener(new MibPager.Listener() {
             @Override
@@ -271,15 +271,7 @@ public class RadioScreen extends Screen implements RadioController.Listener, com
     }
 
     private void updateDots(int page) {
-        for (int i = 0; i < dots.getChildCount(); i++) {
-            GradientDrawable g = new GradientDrawable();
-            g.setShape(GradientDrawable.OVAL);
-            g.setColor(i == page ? Mib.BLUE : 0xFFE6E6EA);
-            View d = dots.getChildAt(i);
-            d.setBackground(g);
-            d.setScaleX(i == page ? 1.2f : 0.85f);
-            d.setScaleY(i == page ? 1.2f : 0.85f);
-        }
+        for (int i = 0; i < dots.getChildCount(); i++) Mib.pageDot(dots.getChildAt(i), i == page);
     }
 
     private void setManual(boolean on) {

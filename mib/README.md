@@ -30,5 +30,14 @@ uses are copied from here into `app/src/main/res/drawable-nodpi/` as `ui_*.png`.
 | --- | --- |
 | `ui_flag_<language>.png` (24 languages) | 685–719 (flags with a dark frame; 721–761 are the same with a light frame) |
 | Media progress knob (drawn in `MibProgress` to its proportions) | 1398–1415 |
+| `ui_skin_tile` — menu tiles | 2426 |
+| `ui_skin_row` / `ui_skin_row_pressed` — settings and list rows | 1459 / 1458 |
+| `ui_skin_frame` — framed keys and popups | 1428 |
+| `ui_skin_notch` — popup pointer | 251 |
+| `ui_skin_dot_on` / `ui_skin_dot_off` — page dots | 67 / 65 |
+| `ui_skin_scroll` / `ui_skin_scroll_track` — scroll bar | 1439 / 28 |
+| `ui_skin_eq`, `ui_skin_eq_knob`, `ui_skin_eq_knob_line` — sound sliders (knob turned 90°) | 2439, 2115, 2114 |
+
+`Mib.skin()` stretches these like nine-patches: the edges stay as drawn, only the middle grows.
 
 Irish and Maltese have no flag in this skin; `FlagDrawable` draws those.

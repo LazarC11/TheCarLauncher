@@ -65,7 +65,7 @@ public class MibPopup {
     public void show(View root, View key) {
         int rowH = Mib.px(c, 80);
         int rows = (items.size() + columns - 1) / columns;
-        int notch = Mib.px(c, 18);
+        int notch = Mib.px(c, 22);
         int width = Math.min(root.getWidth() - Mib.px(c, 24), Mib.px(c, columns == 1 ? 480 : 760));
         int maxRows = Math.max(1, (root.getHeight() - MibBar.height(c) - notch - Mib.px(c, 60)) / rowH);
 
@@ -127,7 +127,8 @@ public class MibPopup {
         pl.bottomMargin = notch;
         wrap.addView(panel, pl);
         Notch n = new Notch(c, keyCenter - left);
-        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(width, notch + pad, Gravity.BOTTOM);
+        // The pointer overlaps the panel's frame so its black top hides that piece of the frame.
+        FrameLayout.LayoutParams nl = new FrameLayout.LayoutParams(width, notch + Mib.px(c, 4), Gravity.BOTTOM);
         wrap.addView(n, nl);
         wrap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,34 +174,27 @@ public class MibPopup {
         return cell;
     }
 
-    /** The small downward pointer joining the panel to its soft key. */
+    /**
+     * The small downward pointer joining the panel to its soft key: the factory pointer (black,
+     * white edges, soft shadow), whose black top covers the panel's frame where they meet.
+     */
     private static class Notch extends View {
-        private final Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        private final Paint stroke = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
+        private final android.graphics.Bitmap bmp;
+        private final android.graphics.RectF dst = new android.graphics.RectF();
         private final int x;
 
         Notch(Context c, int x) {
             super(c);
             this.x = x;
-            fill.setColor(0xFF000000);
-            stroke.setColor(0xFFE8E8EC);
-            stroke.setStyle(Paint.Style.STROKE);
-            stroke.setStrokeWidth(Math.max(1, Mib.px(c, 1.6f)));
+            bmp = Mib.skinBitmap(c, com.thecarlauncher.R.drawable.ui_skin_notch);
         }
 
         @Override
         protected void onDraw(Canvas cv) {
-            float h = getHeight(), s = stroke.getStrokeWidth();
-            float half = h * 0.9f;
-            Path p = new Path();
-            p.moveTo(x - half, s);
-            p.lineTo(x, h - 1);
-            p.lineTo(x + half, s);
-            cv.drawRect(x - half + s, 0, x + half - s, s * 1.5f, fill);
-            Path f = new Path(p);
-            f.close();
-            cv.drawPath(f, fill);
-            cv.drawPath(p, stroke);
+            float h = getHeight(), w = h * bmp.getWidth() / (float) bmp.getHeight();
+            dst.set(x - w / 2f, 0, x + w / 2f, h);
+            cv.drawBitmap(bmp, null, dst, paint);
         }
     }
 }

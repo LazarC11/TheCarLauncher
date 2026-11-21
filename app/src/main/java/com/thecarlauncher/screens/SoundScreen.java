@@ -2,10 +2,8 @@ package com.thecarlauncher.screens;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
@@ -169,16 +167,30 @@ public class SoundScreen extends Screen {
 
     // ---- Slider ------------------------------------------------------------------------------
 
-    /** Black slider frame: tick scales either side, a dark groove and the light MIB fader knob. */
+    /**
+     * The factory tone slider: the skin's slider picture (frame, tick scale with +9 / 0 / -9 and
+     * the slot) with the factory knob on it, its centre stripe in the ambient colour.
+     */
     static final class ToneSlider extends View {
         interface Listener { void onValue(int v); }
 
-        private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // Positions in the factory slider picture (158×349): +9 tick at y 47, then 14 px a step;
+        // the slot's centre at x 98.
+        private static final float PIC_TOP = 47, PIC_STEP = 14, PIC_SLOT_X = 98;
+
+        private final Paint p = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
+        private final Paint line = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.ANTI_ALIAS_FLAG);
         private final RectF r = new RectF();
+        private final android.graphics.Bitmap pic, knob, stripe;
         private int value;
         private Listener listener;
 
-        ToneSlider(Context c) { super(c); }
+        ToneSlider(Context c) {
+            super(c);
+            pic = Mib.skinBitmap(c, com.thecarlauncher.R.drawable.ui_skin_eq);
+            knob = Mib.skinBitmap(c, com.thecarlauncher.R.drawable.ui_skin_eq_knob);
+            stripe = Mib.skinBitmap(c, com.thecarlauncher.R.drawable.ui_skin_eq_knob_line);
+        }
 
         void setListener(Listener l) { listener = l; }
 
@@ -189,87 +201,34 @@ public class SoundScreen extends Screen {
             invalidate();
         }
 
-        private float px(float v) { return Mib.px(getContext(), v); }
+        /** The picture's scale: as tall as the view, but never wider than it. */
+        private float scale() {
+            return Math.min(getHeight() / (float) pic.getHeight(), getWidth() / (float) pic.getWidth());
+        }
 
-        private float top() { return px(34); }
+        private float left() { return (getWidth() - pic.getWidth() * scale()) / 2f; }
 
-        private float bottom() { return getHeight() - px(34); }
+        private float picTop() { return (getHeight() - pic.getHeight() * scale()) / 2f; }
+
+        private float top() { return yOf(Tone.MAX); }
+
+        private float bottom() { return yOf(Tone.MIN); }
 
         private float yOf(int v) {
-            return top() + (Tone.MAX - v) / (float) (Tone.MAX - Tone.MIN) * (bottom() - top());
+            return picTop() + (PIC_TOP + (Tone.MAX - v) * PIC_STEP) * scale();
         }
 
         @Override
         protected void onDraw(Canvas c) {
-            float w = getWidth(), h = getHeight();
-            // Frame
-            p.setShader(null);
-            p.setStyle(Paint.Style.FILL);
-            p.setColor(0xFF08080A);
-            r.set(0, 0, w, h);
-            c.drawRoundRect(r, px(4), px(4), p);
-
-            float trackL = w * 0.40f, trackR = w * 0.78f, cx = (trackL + trackR) / 2f;
-            // Groove body
-            p.setShader(new LinearGradient(trackL, 0, trackR, 0, new int[]{0xFF2A2B33, 0xFF3C3D46, 0xFF24252C}, null,
-                    Shader.TileMode.CLAMP));
-            r.set(trackL, px(10), trackR, h - px(10));
-            c.drawRoundRect(r, px(3), px(3), p);
-            p.setShader(null);
-            p.setColor(0xFF0B0B0D);
-            float slot = Math.max(3, w * 0.05f);
-            r.set(cx - slot / 2, px(26), cx + slot / 2, h - px(26));
-            c.drawRoundRect(r, slot / 2, slot / 2, p);
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(Math.max(1, px(1.2f)));
-            p.setColor(0xFF6A6B74);
-            c.drawRoundRect(r, slot / 2, slot / 2, p);
-
-            // Tick scales: long on the left, short on the right; ±9 white, 0 in the ambient colour.
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeCap(Paint.Cap.ROUND);
-            float lx0 = w * 0.10f, lx1 = w * 0.34f, rx0 = w * 0.84f, rx1 = w * 0.92f;
-            for (int v = Tone.MAX; v >= Tone.MIN; v--) {
-                float y = yOf(v);
-                boolean end = v == Tone.MAX || v == Tone.MIN, zero = v == 0;
-                p.setStrokeWidth(end || zero ? px(3) : px(1.6f));
-                p.setColor(zero ? Mib.BLUE : end ? 0xFFF2F2F4 : 0xFFB4B5BC);
-                c.drawLine(zero ? w * 0.18f : lx0, y, lx1, y, p);
-                c.drawLine(rx0, y, rx1, y, p);
-            }
-            p.setStyle(Paint.Style.FILL);
-            p.setTextSize(px(24));
-            p.setTypeface(Mib.regular(getContext()));
-            p.setColor(0xFFF2F2F4);
-            c.drawText("+9", w * 0.10f, yOf(Tone.MAX) - px(8), p);
-            c.drawText("-9", w * 0.10f, yOf(Tone.MIN) + px(26), p);
-            p.setColor(0xFFF2F2F4);
-            c.drawText("0", w * 0.04f, yOf(0) + px(9), p);
-
-            // Knob
-            float ky = yOf(value), kw = w * 0.30f, kh = px(48);
-            r.set(cx - kw, ky - kh, cx + kw, ky + kh);
-            p.setShader(new LinearGradient(0, r.top, 0, r.bottom, new int[]{0xFFF7F7F8, 0xFFD9DADD, 0xFFF0F0F2, 0xFFCACBCF},
-                    null, Shader.TileMode.CLAMP));
-            c.drawRoundRect(r, px(4), px(4), p);
-            p.setShader(null);
-            p.setColor(0xFF9A9BA2);
-            p.setStyle(Paint.Style.STROKE);
-            p.setStrokeWidth(Math.max(1, px(1)));
-            c.drawRoundRect(r, px(4), px(4), p);
-            // Grip dots, upper and lower rows
-            p.setStyle(Paint.Style.FILL);
-            p.setColor(0xFFA8A9B0);
-            float dot = Math.max(2, px(3.4f)), gap = dot * 1.9f;
-            int n = (int) ((kw * 2 - px(16)) / gap);
-            float start = cx - (n - 1) * gap / 2f;
-            for (int row = 0; row < 2; row++) {
-                float yy = row == 0 ? ky - kh * 0.62f : ky + kh * 0.55f;
-                for (int k = 0; k < n; k++) c.drawRect(start + k * gap - dot / 2, yy - dot / 2, start + k * gap + dot / 2, yy + dot / 2, p);
-            }
-            // Ambient line through the middle of the knob
-            p.setColor(Mib.BLUE);
-            c.drawRect(r.left + px(2), ky - px(2), r.right - px(2), ky + px(2), p);
+            float sc = scale(), l = left();
+            r.set(l, picTop(), l + pic.getWidth() * sc, picTop() + pic.getHeight() * sc);
+            c.drawBitmap(pic, null, r, p);
+            float cx = l + PIC_SLOT_X * sc, ky = yOf(value);
+            float kw = knob.getWidth() * sc, kh = knob.getHeight() * sc;
+            r.set(cx - kw / 2f, ky - kh / 2f, cx + kw / 2f, ky + kh / 2f);
+            c.drawBitmap(knob, null, r, p);
+            line.setColorFilter(new android.graphics.PorterDuffColorFilter(Mib.BLUE, android.graphics.PorterDuff.Mode.SRC_IN));
+            c.drawBitmap(stripe, null, r, line);
         }
 
         @Override

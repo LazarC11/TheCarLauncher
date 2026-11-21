@@ -55,7 +55,7 @@ public class SettingsScreen extends Screen {
 
     private final List<Entry> stack = new ArrayList<>();
     private TextView title;
-    private View back, thumb;
+    private View back, thumb, track;
     private LinearLayout content;
     private ScrollView scroll;
 
@@ -113,10 +113,17 @@ public class SettingsScreen extends Screen {
         content.setPadding(0, Mib.px(act, 12), 0, Mib.px(act, 12));
         scroll.addView(content);
         body.addView(scroll);
+        // Factory scroll bar: a thin grey line with the white rounded thumb on it.
+        track = new View(act);
+        track.setBackground(Mib.skin(act, R.drawable.ui_skin_scroll_track, 0, 4));
+        FrameLayout.LayoutParams kl = new FrameLayout.LayoutParams(Math.max(1, Mib.px(act, 1)),
+                ViewGroup.LayoutParams.MATCH_PARENT, Gravity.RIGHT);
         thumb = new View(act);
-        thumb.setBackgroundColor(Mib.BLUE);
-        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(Math.max(2, Mib.px(act, 5)), 0, Gravity.RIGHT);
-        tl.rightMargin = Mib.px(act, 30);
+        thumb.setBackground(Mib.skin(act, R.drawable.ui_skin_scroll, 5, 8));
+        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(Mib.px(act, 11), 0, Gravity.RIGHT);
+        tl.rightMargin = Mib.px(act, 27);
+        kl.rightMargin = Mib.px(act, 32);
+        body.addView(track, kl);
         body.addView(thumb, tl);
         scroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -240,9 +247,11 @@ public class SettingsScreen extends Screen {
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) thumb.getLayoutParams();
         if (ch <= h || h == 0) {
             thumb.setVisibility(View.INVISIBLE);
+            track.setVisibility(View.INVISIBLE);
             return;
         }
         thumb.setVisibility(View.VISIBLE);
+        track.setVisibility(View.VISIBLE);
         int th = Math.max(Mib.px(act, 40), h * h / ch);
         int top = (int) ((h - th) * (scroll.getScrollY() / (float) (ch - h)));
         if (lp.height != th) {

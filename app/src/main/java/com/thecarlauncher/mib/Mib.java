@@ -214,6 +214,14 @@ public final class Mib {
      * middle stretches. One skin pixel is one reference-layout unit, like {@link #px}.
      */
     public static Drawable skin(Context c, int res, int capX, int capY) {
+        android.graphics.Bitmap b = skinBitmap(c, res);
+        b.setDensity(Math.max(1, Math.round(DisplayMetrics.DENSITY_DEFAULT / scale(c))));
+        return new android.graphics.drawable.NinePatchDrawable(c.getResources(), b,
+                nineChunk(b.getWidth(), b.getHeight(), capX, capY), new android.graphics.Rect(), null);
+    }
+
+    /** A factory skin picture at its own pixel size (cached), for views that draw it themselves. */
+    public static android.graphics.Bitmap skinBitmap(Context c, int res) {
         android.graphics.Bitmap b = SKIN.get(res);
         if (b == null) {
             android.graphics.BitmapFactory.Options o = new android.graphics.BitmapFactory.Options();
@@ -221,9 +229,14 @@ public final class Mib {
             b = android.graphics.BitmapFactory.decodeResource(c.getResources(), res, o);
             SKIN.put(res, b);
         }
-        b.setDensity(Math.max(1, Math.round(DisplayMetrics.DENSITY_DEFAULT / scale(c))));
-        return new android.graphics.drawable.NinePatchDrawable(c.getResources(), b,
-                nineChunk(b.getWidth(), b.getHeight(), capX, capY), new android.graphics.Rect(), null);
+        return b;
+    }
+
+    /** Page dot under pagers: the factory white dot for the current page, grey for the others. */
+    public static void pageDot(android.view.View d, boolean current) {
+        d.setBackgroundResource(current ? com.thecarlauncher.R.drawable.ui_skin_dot_on : com.thecarlauncher.R.drawable.ui_skin_dot_off);
+        d.setScaleX(1f);
+        d.setScaleY(1f);
     }
 
     /** Serialized nine-patch chunk: one stretchable column and row between the caps. */
@@ -238,9 +251,9 @@ public final class Mib {
         return buf.array();
     }
 
-    /** Menu tile: the factory tile (dark, soft shadow). Pressing colours the icon (MibTile). */
+    /** Menu tile: the factory tile (near black, a soft sheen from the top). Pressing colours the icon (MibTile). */
     public static Drawable tile(Context c) {
-        return skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 14, 14);
+        return skin(c, com.thecarlauncher.R.drawable.ui_skin_tile, 12, 12);
     }
 
     /** Soft-key bar: blue rule on top, dark body deepening to blue at the bottom edge. */
